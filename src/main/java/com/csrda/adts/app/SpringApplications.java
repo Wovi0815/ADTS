@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author: wangwei
  * @date: 2020年3月14日 下午2:31:28 
  */
-
+           
 
 @SpringBootApplication(scanBasePackages="com.csrda.adts.*")
 @MapperScan("com.csrda.adts.dao")
