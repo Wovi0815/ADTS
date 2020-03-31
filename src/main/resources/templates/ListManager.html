@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.thymeleaf.org">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- Font Awesome -->
+		<link rel="stylesheet" th:href="@{/plugins/fontawesome-free/css/all.min.css}">
+		<!-- Ionicons -->
+		<link rel="stylesheet" th:href="@{/dist/css/ionicons.css}">
+		<!-- Tempusdominus Bbootstrap 4 -->
+		<link rel="stylesheet" th:href="@{/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css}">
+		<!-- iCheck -->
+		<link rel="stylesheet" th:href="@{/plugins/icheck-bootstrap/icheck-bootstrap.min.css}">
+		<!-- JQVMap -->
+		<link rel="stylesheet" th:href="@{/plugins/jqvmap/jqvmap.min.css}">
+		<link rel="stylesheet" th:href="@{/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css}">
+		<link rel="stylesheet" th:href="@{/plugins/select2/css/select2.min.css}">
+		<link rel="stylesheet" th:href="@{/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css}">
+		<link rel="stylesheet" href="@{/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css}">
+		<!-- Theme style -->
+		<link rel="stylesheet" th:href="@{/dist/css/adminlte.min.css}">
+		<!-- overlayScrollbars -->
+		<link rel="stylesheet" th:href="@{/plugins/overlayScrollbars/css/OverlayScrollbars.min.css}">
+		<!-- Daterange picker -->
+		<link rel="stylesheet" th:href="@{/plugins/daterangepicker/daterangepicker.css}">
+		<!-- summernote -->
+		<link rel="stylesheet" th:href="@{/plugins/summernote/summernote-bs4.css}">
+		<!-- Google Font: Source Sans Pro -->
+		<link th:href="@{/dist/css/google.css}" rel="stylesheet">
+		<script th:src="@{/webjars/jquery/3.4.1/jquery.js}" ></script>
+		<script th:src="@{/webjars/bootstrap/4.4.1-1/js/bootstrap.min.js}"></script>
+		<script th:src="@{/webjars/popper.js/1.14.3/popper.js}"></script>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<nav class="navbar navbar-expand navbar-primary navbar-light">
+		 
+			<ul class="navbar-nav ml-auto" style="float: right;" >
+				<li class="nav-item">
+				  <button type="button" onclick="add();" class="btn btn-primary" data-toggle="modal" data-target="#modal-default">新增</button>
+				</li>
+			</ul>
+		  
+		  
+		  
+		</nav>
+		
+		<div class="spinner-border text-warning" role="status">
+		  <span class="sr-only">Loading...</span>
+		</div>
+		
+		<div class="card">
+		              <div class="card-header" style="margin: auto;">
+		                <h3 class="card-title">Condensed Full Width Table</h3>
+		              </div>
+		              <!-- /.card-header -->
+		              <div class="card-body p-0">
+		                <table class="table table-sm">
+		                  <thead>
+		                    <tr>
+		                      <th>id</th>
+		                      <th>title</th>
+		                    </tr>
+		                  </thead>
+		                  <tbody>
+		                    <tr>
+		                      <td>1.</td>
+		                      <td>Update software</td>
+		                    </tr>
+		                   
+		                  </tbody>
+		                </table>
+		              </div>
+		            </div>
+					
+					
+	</body>
+	<!-- jQuery -->
+	<script th:src="@{/plugins/jquery/jquery.min.js}"></script>
+	<!-- jQuery UI 1.11.4 -->
+	<script th:src="@{/plugins/jquery-ui/jquery-ui.min.js}"></script>
+	<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+	<!-- <script>
+	  $.widget.bridge('uibutton', $.ui.button)
+	</script> -->
+	<!-- Bootstrap 4 -->
+	<script th:src="@{/plugins/select2/js/select2.full.min.js}"></script>
+	<script th:src="@{/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js}"></script>
+	<script th:src="@{/plugins/bootstrap-switch/js/bootstrap-switch.min.js}"></script>
+	<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+	<!-- ChartJS -->
+	<script th:src="@{/plugins/chart.js/Chart.min.js}"></script>
+	<!-- Sparkline -->
+	<script th:src="@{/plugins/sparklines/sparkline.js}"></script>
+	<!-- JQVMap -->
+	<script th:src="@{/plugins/jqvmap/jquery.vmap.min.js}"></script>
+	<script th:src="@{/plugins/jqvmap/maps/jquery.vmap.usa.js}"></script>
+	<!-- jQuery Knob Chart -->
+	<script th:src="@{/plugins/jquery-knob/jquery.knob.min.js}"></script>
+	<!-- daterangepicker -->
+	<script th:src="@{/plugins/moment/moment.min.js}"></script>
+	<script th:src="@{/plugins/daterangepicker/daterangepicker.js}"></script>
+	<!-- Tempusdominus Bootstrap 4 -->
+	<script th:src="@{/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js}"></script>
+	<!-- Summernote -->
+	<script th:src="@{/plugins/summernote/summernote-bs4.min.js}"></script>
+	<!-- overlayScrollbars -->
+	<script th:src="@{/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js}"></script>
+	<!-- AdminLTE App -->
+	<script th:src="@{/dist/js/adminlte.js}"></script>
+	<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+	<script th:src="@{/dist/js/pages/dashboard.js}"></script>
+	<!-- AdminLTE for demo purposes -->
+	<script th:src="@{/dist/js/demo.js}"></script>
+</html>
