@@ -35,6 +35,8 @@ public class ShiroConfig {
 		Map<String,String> filterMap = new LinkedHashMap<String,String>();
 		
 		filterMap.put("/login", "anon");
+		filterMap.put("/druid", "anon");
+		filterMap.put("/druid/**", "anon");
 		//资源拦截
 		//filterMap.put("/add", "perms[add]");
 		//filterMap.put("/update", "perms[update]");
