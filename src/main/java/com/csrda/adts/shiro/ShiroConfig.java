@@ -41,6 +41,9 @@ public class ShiroConfig {
 		//filterMap.put("/add", "perms[add]");
 		//filterMap.put("/update", "perms[update]");
 		
+		
+		
+		filterMap.put("/QueryMidware.do", "anon");
 		filterMap.put("/*", "authc");
 		
 	

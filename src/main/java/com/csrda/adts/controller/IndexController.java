@@ -17,10 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 
 public class IndexController {
- 
 
-	//业务开始
-	
 	//登录逻辑
 	
 	@RequestMapping("/login")
@@ -62,13 +59,7 @@ public class IndexController {
 		return "unAuth";
 	}
 	
-	//接口管理
-	@RequestMapping("/functionManager")
-	public String functionManager(Model model) {
-		model.addAttribute("className", "voice");
-		return "functionManager";
-	}
-		
+	
 
 
 }
