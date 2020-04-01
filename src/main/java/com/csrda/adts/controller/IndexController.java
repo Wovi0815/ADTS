@@ -51,7 +51,7 @@ public class IndexController {
 	//返回登录页
 	@RequestMapping("/tologin")
 	public String toLogin(){
-		return "/login";
+		return "login";
 	}
 	//未授权页
 	@RequestMapping("/unAuth")
