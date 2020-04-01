@@ -21,17 +21,16 @@ private InterfaceService interfaceService;
 	@ResponseBody
 	public List<Map<String,Object>> QueryMidware() {
 		List<Map<String, Object>> result = interfaceService.qryMidware();
-		System.out.println("result"+result);
 		return result;
 	}
 	
 	
 	
-	//传递值
-		@RequestMapping("/functionManager")
+	//接口详情
+		@RequestMapping("/interfaceMain")
 		public String functionManager(Model model) {
-			model.addAttribute("className", "voice");
-			return "functionManager";
+			model.addAttribute("midwire", "voice");
+			return "interfaceMain";
 		}
 			
 	
