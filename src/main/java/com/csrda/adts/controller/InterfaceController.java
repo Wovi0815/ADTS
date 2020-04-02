@@ -6,7 +6,10 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.csrda.adts.service.InterfaceService;
@@ -25,11 +28,15 @@ private InterfaceService interfaceService;
 	}
 	
 	
-	
-	//接口详情
+	//跳转到中间件所属类页面
+		@RequestMapping("/classMain")
+			public String toClassMain() {
+				return "classMain";
+			}
+
+	//跳转到类下属接口页面
 		@RequestMapping("/interfaceMain")
-		public String functionManager(Model model) {
-			model.addAttribute("midwire", "voice");
+		public String toInterfaceMain() {
 			return "interfaceMain";
 		}
 			
