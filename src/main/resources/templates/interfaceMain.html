@@ -11,263 +11,163 @@
 		<link rel="stylesheet" th:href="@{/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css}">
 		<!-- iCheck -->
 		<link rel="stylesheet" th:href="@{/plugins/icheck-bootstrap/icheck-bootstrap.min.css}">
-		<!-- JQVMap -->
-		<link rel="stylesheet" th:href="@{/plugins/jqvmap/jqvmap.min.css}">
-		<link rel="stylesheet" th:href="@{/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css}">
-		<link rel="stylesheet" th:href="@{/plugins/select2/css/select2.min.css}">
-		<link rel="stylesheet" th:href="@{/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css}">
-		<link rel="stylesheet" href="@{/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css}">
+		<!-- DataTables -->
+  		<link rel="stylesheet" th:href="@{/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css}">
+  		<link rel="stylesheet" th:href="@{/plugins/datatables-responsive/css/responsive.bootstrap4.min.css}">
 		<!-- Theme style -->
 		<link rel="stylesheet" th:href="@{/dist/css/adminlte.min.css}">
 		<!-- overlayScrollbars -->
 		<link rel="stylesheet" th:href="@{/plugins/overlayScrollbars/css/OverlayScrollbars.min.css}">
-		<!-- Daterange picker -->
-		<link rel="stylesheet" th:href="@{/plugins/daterangepicker/daterangepicker.css}">
-		<!-- summernote -->
-		<link rel="stylesheet" th:href="@{/plugins/summernote/summernote-bs4.css}">
+		
 		<!-- Google Font: Source Sans Pro -->
 		<link th:href="@{/dist/css/google.css}" rel="stylesheet">
-		<script th:src="@{/plugins/jquery/jquery.js}" ></script>
-		<script th:src="@{/plugins/bootstrap/js/bootstrap.min.js}"></script>
-		<script th:src="@{/plugins/popper/popper.js}"></script>
+		
 		<title></title>
-		<style>
-			.SearchUl{
-				border: 1px solid #ddd;
-				border-top: 0;
-				position: absolute;
-				    width: 90%;
-				    height: 31px;
-				    padding-left: 0px;
-				    top: 40px;
-				    
-			}
-			.SearchUl li{
-				list-style: none;
-				background-color: white;border:1px solid #000;
-				
-			}
-			
-			#add .input-group{
-				width: 40%;
-				margin-right: 10%;
-				margin-bottom: 20px;
-				float: left;
-				}
-			
-			.result{
-				margin-top: 1%;
-				width: 90%;
-				margin-left:5% ;
-				
-			}
-				
-			.result table{
-				position: absolute;
-				top: 20%;
-				width: 90%;
-			}
-			
-		</style>
+		
 	</head>
 	<body>
-	
-		<nav class="navbar navbar-expand navbar-primary navbar-light">
-		  <!-- Left navbar links -->
-		 
-		 <div class="form-group" style="position: relative;top: 8px;width:20%">
+	<div>
+		<!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <div class="col-12">
+
+          <!-- /.card -->
+
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">DataTable with default features</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+        <!-- 下拉搜索框开始 -->   
+         
 		    
-		      <select id="selectFunction" class="form-control select2bs4"   style="width:100%;">
+		      <select id="selectFunction1" class="form-control select2bs5"   style="width:20%;float:right">
 		        
 		      </select>
 			  
-		  </div>
-		  <button class="btn btn-navbar" type="submit" style="margin-right: 10px;">
-			   <i class="fas fa-search"></i>
-		  </button>
-		  
-		  <div class="form-group" style="position: relative;top: 8px;width:20%">
-		    
-		      <select id="selectFunction1" class="form-control select2bs5"   style="width:100%;">
-		        
-		      </select>
-			  
-		  </div>
-		  <button class="btn btn-navbar" type="submit" style="">
-			    <i class="fas fa-search"></i>
-		  </button>
-			<ul class="navbar-nav ml-auto" style="float: right;" >
-				<li class="nav-item">
-				  <button type="button" onclick="add();" class="btn btn-primary" data-toggle="modal" data-target="#modal-default">新增类</button>
-				</li>
-				<li class="nav-item">
-				  <button type="button" onclick="add();" class="btn btn-primary" data-toggle="modal" data-target="#modal-default">新增接口</button>
-				</li>
-			</ul>
-		  
-		  
-		  
-		</nav>
 	
-	  <!-- 新增类 -->
-	  <div class="modal fade" id="modal-default">
-	    <div class="modal-dialog">
-	      <div class="modal-content">
-	        <div class="modal-header">
-	          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	            <span aria-hidden="true">&times;</span></button>
-	          <h4 id="title" class="modal-title"></h4>
-	        </div>
-	       
-	  	 <div id="addClass">
-			<!-- 内容 -->
-	  	 </div>
-	  	 </div>
-	  	 
-	        <div class="modal-footer">
-	          <button type="button" class="btn btn-default" data-dismiss="modal" style="float: right;margin-left: 2%;">取消</button>
-	          <button type="button" onclick="save();" class="btn btn-primary">保存</button>
-	        </div>
-	      </div>
-	      <!-- /.modal-content -->
-	    </div>
-	    <!-- /.modal-dialog -->
-	  
-	  <!-- 接口 -->
-	  <div class="modal fade" id="modal-default">
-	    <div class="modal-dialog">
-	      <div class="modal-content">
-	        <div class="modal-header">
-	          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	            <span aria-hidden="true">&times;</span></button>
-	          <h4 id="title" class="modal-title"></h4>
-	        </div>
-	       
-	  	 <div id="addMethod">
-	  			<!-- 内容 -->
-	  	 </div>
-	  	 </div>
-	  	 
-	        <div class="modal-footer">
-	          <button type="button" class="btn btn-default" data-dismiss="modal" style="float: right;margin-left: 2%;">取消</button>
-	          <button type="button" onclick="save();" class="btn btn-primary">保存</button>
-	        </div>
-	      </div>
-	      <!-- /.modal-content -->
-	    </div>
-	    <!-- /.modal-dialog -->
-	  
-	  
-	  
-	  
-	  <div class="result">
-	  <table id="carInfo" class="table table-bordered table-hover">
-	    <thead>
-	    <tr>
-	      <th>class</th>
-	      <th>function</th>
-	      <th>pram</th>
-	  	<th>pram</th>
-	      <th>pram</th>
-	      <th>return</th>
-	  	<th></th>
-	    </tr>
-	    </thead>
-	    <tbody>
-	   
-	    </tbody>
-	    
-	  </table>
-	  
-	  </div>
-	  
-	  
-	  <span style="display: none;" th:text=${className}></span>
-	</body>
-	<script>
-		
-	</script>
+        <!-- 下拉搜索框结束 -->      
+            
+            
+              <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <th>Rendering engine</th>
+                  <th>Browser</th>
+                  <th>Platform(s)</th>
+                  <th>Engine version</th>
+                  <th>CSS grade</th>
+                </tr>
+                </thead>
+                
+                
+                <tbody>
+             
+      
+                
+                <tr>
+                  <td>Misc</td>
+                  <td>IE Mobile</td>
+                  <td>Windows Mobile 6</td>
+                  <td>-</td>
+                  <td>C</td>
+                </tr>
+                
+                <tr>
+                  <td>Other browsers</td>
+                  <td>All others</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>U</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  	</div>
+	<span style="display: none;" id="midwareName" th:text="${midwareName}"></span>
 	
 	
+	<script th:src="@{/plugins/jquery/jquery.js}" ></script>
+	<script th:src="@{/plugins/bootstrap/js/bootstrap.min.js}"></script>
+	<script type="module" th:src="@{/plugins/popper/popper.js}"></script>
 	<!-- jQuery -->
 	<script th:src="@{/plugins/jquery/jquery.min.js}"></script>
 	<!-- jQuery UI 1.11.4 -->
 	<script th:src="@{/plugins/jquery-ui/jquery-ui.min.js}"></script>
 	<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-	<!-- <script>
+	 <script>
 	  $.widget.bridge('uibutton', $.ui.button)
-	</script> -->
+	</script> 
 	<!-- Bootstrap 4 -->
 	<script th:src="@{/plugins/select2/js/select2.full.min.js}"></script>
 	<script th:src="@{/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js}"></script>
 	<script th:src="@{/plugins/bootstrap-switch/js/bootstrap-switch.min.js}"></script>
 	<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+	<!-- DataTables -->
+	<script th:src="@{/plugins/datatables/jquery.dataTables.min.js}"></script>
+	<script th:src="@{/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js}"></script>
+	<script th:src="@{/plugins/datatables-responsive/js/dataTables.responsive.min.js}"></script>
+	<script th:src="@{/plugins/datatables-responsive/js/responsive.bootstrap4.min.js}"></script>
+	
 	<!-- ChartJS -->
 	<script th:src="@{/plugins/chart.js/Chart.min.js}"></script>
 	<!-- Sparkline -->
 	<script th:src="@{/plugins/sparklines/sparkline.js}"></script>
-	<!-- JQVMap -->
-	<script th:src="@{/plugins/jqvmap/jquery.vmap.min.js}"></script>
-	<script th:src="@{/plugins/jqvmap/maps/jquery.vmap.usa.js}"></script>
+	
 	<!-- jQuery Knob Chart -->
 	<script th:src="@{/plugins/jquery-knob/jquery.knob.min.js}"></script>
-	<!-- daterangepicker -->
-	<script th:src="@{/plugins/moment/moment.min.js}"></script>
-	<script th:src="@{/plugins/daterangepicker/daterangepicker.js}"></script>
-	<!-- Tempusdominus Bootstrap 4 -->
-	<script th:src="@{/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js}"></script>
-	<!-- Summernote -->
-	<script th:src="@{/plugins/summernote/summernote-bs4.min.js}"></script>
 	<!-- overlayScrollbars -->
 	<script th:src="@{/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js}"></script>
 	<!-- AdminLTE App -->
 	<script th:src="@{/dist/js/adminlte.js}"></script>
-	<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-	<script th:src="@{/dist/js/pages/dashboard.js}"></script>
-	<!-- AdminLTE for demo purposes -->
-	<script th:src="@{/dist/js/demo.js}"></script>
-	
-	<script>
-		// var module=$("#module").text();
-		var module=${className};
-		console.log(module);
-		$(function(){
-			$('.select2bs4').select2({
-			  theme: 'bootstrap4'
-			})
-			$('.select2bs5').select2({
-			  theme: 'bootstrap4'
-			})
-		});
-		
-		$(function(){
-			
-			
-			
-			$.ajax({
-				url:"/qryFunction.do",
-				type:"post",
-				async:true,
-				success:function(result){
-					console.log(result);
-					for(var i=0;i<result.length;i++){
-						$("#selectFunction").append(
-						"<option value="+result[i].interface+">"+result[i].method+"</option>"
-						);
-					}
-				},
-				error:function(result){
-					alert("未知错误联系管理员！");
+
+	<!-- page script -->
+<script>
+  $(function () {
+    $("#example1").DataTable({
+      "responsive": true,
+      "autoWidth": false,
+      "paging": true,
+      "lengthChange": true,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+    });
+ 
+  });
+  
+
+  $(function(){
+		$.ajax({
+			url:"/qryFunction.do",
+			type:"post",
+			async:true,
+			success:function(result){
+				console.log(result);
+				for(var i=0;i<result.length;i++){
+					$("#selectFunction").append(
+					"<option value="+result[i].interface+">"+result[i].method+"</option>"
+					);
 				}
-			});
-			
+			},
+			error:function(result){
+				alert("未知错误联系管理员！");
+			}
 		});
 		
-		$("#selectFunction").change(function(){
-			
-			console.log($("#selectFunction").val());
-			
-		});
-		
-	</script>
+	});
+</script>
+	
+</body>
 </html>

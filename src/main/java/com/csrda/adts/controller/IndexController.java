@@ -34,7 +34,7 @@ public class IndexController {
 		try {
 			subject.login(token);
 			//登录成功
-			return "index";
+			return "redirect:/index";
 		} catch (UnknownAccountException e) {
 			//e.printStackTrace();
 			//登录失败:用户名不存在
@@ -46,6 +46,12 @@ public class IndexController {
 			model.addAttribute("msg", "密码错误");
 			return "login";
 		}
+	}
+	
+	//跳转到主页
+	@RequestMapping("/index")
+	public String toindex(){
+		return "index";
 	}
 	
 	//返回登录页

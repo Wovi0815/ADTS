@@ -1,7 +1,4 @@
 package com.csrda.adts.shiro;
-
-
-
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -17,8 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.csrda.adts.pojo.User;
 import com.csrda.adts.service.LoginService;
-
-
 
  /** 
  * @ClassName: UserRealm 
@@ -68,9 +63,6 @@ public class UserRealm extends AuthorizingRealm{
 		//编写shiro判断逻辑，判断用户名和密码  
 				//1.判断用户名
 				UsernamePasswordToken token = (UsernamePasswordToken) arg0;
-				System.out.println("token.getUsername();"+token.getUsername());
-				System.out.println("token.getPassword();"+token.getPassword());
-				
 				String username = (String) token.getPrincipal();
 				User user=loginService.getUser(username);
 				if( user == null)
