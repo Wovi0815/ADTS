@@ -1,21 +1,20 @@
 package com.csrda.adts.pojo;
+
 /**
- * 
- * @author
  * @description:中间件类
- */
+ * */
 public class MidWare {
-	/**中间件标识*/
-	public String midId;
+	/**中间件ID*/
+	public String midID ;
 	/**中间件名称*/
 	public String midName;
 	/**中间件描述*/
 	public String midDesc;
-	public String getMidId() {
-		return midId;
+	public String getMidID() {
+		return midID;
 	}
-	public void setMidId(String midId) {
-		this.midId = midId;
+	public void setMidID(String midID) {
+		this.midID = midID;
 	}
 	public String getMidName() {
 		return midName;
@@ -29,5 +28,4 @@ public class MidWare {
 	public void setMidDesc(String midDesc) {
 		this.midDesc = midDesc;
 	}
-	
 }
