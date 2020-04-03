@@ -2,23 +2,20 @@ package com.csrda.adts.controller;
 
 import java.util.List;
 import java.util.Map;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.csrda.adts.service.InterfaceService;
+
 
 @Controller
 public class InterfaceController {
 @Autowired
 private InterfaceService interfaceService;
-	
+Logger logger= LoggerFactory.getLogger(this.getClass());
 	//查询中间件
 	@RequestMapping("/QueryMidware.do")
 	@ResponseBody
@@ -31,7 +28,9 @@ private InterfaceService interfaceService;
 	//跳转到中间件所属类页面
 		@RequestMapping("/classMain")
 			public String toClassMain() {
-				return "classMain";
+			System.out.println("~~~");
+			logger.info("!!!!!!!")	;			
+			return "classMain";
 			}
 
 	//跳转到类下属接口页面
