@@ -20,4 +20,11 @@ public class InterfaceServiceImpl implements InterfaceService{
 		return interfaceDao.qryMidware();
 	}
 
+
+
+	@Override
+	public List<Map<String, Object>> qryMidwareClass(String midwareName) {
+		return interfaceDao.qryMidwareClass(midwareName);
+	}
+
 }

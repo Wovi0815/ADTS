@@ -188,7 +188,7 @@ $(function(){
 			for(var i=0;i<result.length;i++){
 				$("#qryMidware").append(
 				"<li class='nav-item'>"+
-				    "<a href='/classMain?midwareId="+result[i].mid_name+"' target='zhu' class='nav-link avtive'>"+
+				    "<a href='/classMain?midwareName="+result[i].mid_name+"' target='zhu' class='nav-link avtive'>"+
 				     "<i class='far fa-dot-circle nav-icon'></i>"+
 				      "<p>"+result[i].mid_name+
 				      "</p>"+"</a>"+"</li>"
@@ -200,11 +200,7 @@ $(function(){
 		}
 	});
 	
-	$("#qryMidware").change(function(){
-		
-		console.log("!"+$("#selectFunction").val());
-		
-	});
+	
 	
 });
 </script>

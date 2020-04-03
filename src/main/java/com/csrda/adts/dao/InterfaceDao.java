@@ -11,4 +11,11 @@ public interface InterfaceDao {
 	@Select("SELECT * FROM t_midware")
 	List<Map<String,Object>> qryMidware();
 	
+	
+	
+	@Select("SELECT * FROM t_class c "
+			+ "RIGHT JOIN t_midware m "
+			+ "ON c.c_midware = m.mid_id AND m.mid_name = #{midwareName}" )
+	List<Map<String,Object>> qryMidwareClass(String midwareName);
+	
 }

@@ -27,12 +27,20 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 	
 	//跳转到中间件所属类页面
 		@RequestMapping("/classMain")
-			public String toClassMain() {
-			System.out.println("~~~");
-			logger.info("!!!!!!!")	;			
+			public String toClassMain() {		
 			return "classMain";
 			}
 
+		@RequestMapping("/QueryMidwareClass.do")
+		@ResponseBody
+		public List<Map<String,Object>> QueryMidwareClass(String midwareName) {
+			List<Map<String, Object>> result = interfaceService.qryMidwareClass(midwareName);
+			System.out.println("result:~~"+result);
+			return result;
+		}
+		
+		
+		
 	//跳转到类下属接口页面
 		@RequestMapping("/interfaceMain")
 		public String toInterfaceMain() {
