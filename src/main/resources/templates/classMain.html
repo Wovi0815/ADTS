@@ -43,9 +43,9 @@
             <div class="card-body">
         <!-- 下拉搜索框开始 -->   
          
-		    
+		     
 		      <select class="form-control select2bs5"   style="width:20%;float:right" id="selectClass">
-				<option>请选择</option>
+				<option>选择父类</option>
 		      </select>
 			  
 	
@@ -178,7 +178,7 @@ $(function(){
 $("#selectClass").change(function(){
 	var cfather =$("#selectClass").val();
 	var a=GetRequest();
-	if(cfather=="请选择"){
+	if(cfather=="选择父类"){
 		 $("#example1 tbody" ).empty();
 		$.ajax({
 			url:"/QueryMidwareClass.do",
