@@ -40,6 +40,19 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 		}
 		
 		
+	//根据下拉框所选择父类进行筛选
+		@RequestMapping("/QryMidClsByFather.do")
+		@ResponseBody
+		public List<Map<String,Object>> QueryMidClsByFather(String cfather,String midwareName) {
+			List<Map<String, Object>> result = interfaceService.qryMidClsByFather(cfather, midwareName);
+			System.out.println("result:!!"+result);
+			return result;
+		}
+		
+		
+		
+		
+		
 		
 	//跳转到类下属接口页面
 		@RequestMapping("/interfaceMain")
