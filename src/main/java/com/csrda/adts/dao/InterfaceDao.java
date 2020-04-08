@@ -52,11 +52,11 @@ public interface InterfaceDao {
 	
 	
 	/**
-	 * 根据中间件和类标识查下属所有类
+	 * 根据中间件和类标识查类信息
 	 */
 	@Select("SELECT c.c_id,c.c_name,c.c_desc,c.c_father,c.c_midware FROM t_class c "
 			+ "LEFT JOIN t_midware m "
-			+ "ON c.c_midware = m.mid_id AND m.mid_name = #{midwareName} AND c.c_id= #{cId}" )
+			+ "ON c.c_midware = m.mid_id AND m.mid_name = #{midwareName} WHERE c.c_id= #{cId}" )
 	Map<String,Object> qryMidClsByCId(String cId,String midwareName);
 	
 }

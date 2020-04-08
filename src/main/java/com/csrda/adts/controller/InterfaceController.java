@@ -55,7 +55,6 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 		public List<Map<String,Object>> QueryMidClsByFather(String cfather,String midwareName) {
 			System.out.println("cfather:"+cfather);
 			List<Map<String, Object>> result = interfaceService.qryMidClsByFather(cfather, midwareName);
-			System.out.println("result!!@@@@!!!"+result);
 			return result;
 		}
 		
@@ -64,7 +63,9 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 		@RequestMapping("/QryMidClsByCId.do")
 		@ResponseBody
 		public Map<String,Object> QueryMidClsByCId(String cId,String midwareName) {
+			System.out.println("cId"+cId);
 			Map<String, Object>result = interfaceService.qryMidClsByCId(cId, midwareName);
+			System.out.println("QQQQQQQQQQQ"+result);
 			return result;
 		};
 

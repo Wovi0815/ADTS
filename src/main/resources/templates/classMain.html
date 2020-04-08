@@ -54,11 +54,15 @@
 			</div>
 			<div class="form-group">
 			 <label for="iclsFather">父类</label>
-			 <input class="form-control" placeholder="父类" id="iclsFather">
+			 <!--  <input class="form-control" placeholder="父类" id="iclsFather"> -->
+			 <select class="form-control select2bs5"    id="iclsFather">
+		     </select>
 			</div>
 			<div class="form-group">
 			 <label for="iclsMidware">所属中间件</label>
-			 <input class="form-control" placeholder="所属中间件" id="iclsMidware">
+			 <!--  <input class="form-control" placeholder="所属中间件" id="iclsMidware"> -->
+			<select class="form-control select2bs5"    id="iclsMidware">
+		    </select>
 			</div>
 
             </div>
@@ -70,7 +74,6 @@
           </div>
         </div>
       </div>
-	
 	
 	
 		<!-- 表格相关 -->   
@@ -276,7 +279,13 @@ function qryClsFatherAndMid(){
 		type:"POST",
 		async:true,
 		success:function(result){
-			console.log(result);	
+			
+			
+			
+			
+			
+			
+			
 		},
 		error:function(result){
 			alert("未知错误联系管理员！");
@@ -300,18 +309,15 @@ function qryClsFatherAndMid(){
 }
 
 
-//编辑与新增模态框开关
+//编辑与新增模态框
 function addClick(){
 	 $("#clickKey").empty();
 	    $("#clickKey").val("add"); 
-	    qryClsFatherAndMid();
 }
 function editClick(e){	
 	    $("#clickKey").empty();
 	    $("#clickKey").val("edit"); 
-	    qryClsFatherAndMid();
 	    var cId=$(e).parent().parent().find("td").eq(0).text();
-	    var a=GetRequest();
 	    $.ajax({
 			url:"/QryMidClsByCId.do",
 			type:"POST",
@@ -321,11 +327,13 @@ function editClick(e){
 				"midwareName":a['midwareName']
 			},
 			success:function(result){
+				qryClsFatherAndMid();
 				$("#iclsId").val(result.c_id);
 				$("#iclsName").val(result.c_name);
 				$("#iclsDesc").val(result.c_desc);
-				$("#iclsFather").val(result.c_father);
-				$("#iclsMidware").val(result.c_midware);
+				
+				//$("#iclsFather").append("<option>"+result.c_father+"</option>");
+				//$("#iclsMidware").append("<option>"+result.c_midware+"</option>");
 				
 			},
 			error:function(result){
