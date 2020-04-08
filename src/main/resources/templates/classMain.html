@@ -154,16 +154,23 @@ var theRequest = new Object();
    return theRequest;
 }
 
+//------全局变量-------
+var a=GetRequest();//中间件菜单传值
+var inintKey=true;//初始化table 开关
+//------全局变量-------
+
+
 function QryMidCls(){//查中间件下属类
-	var a=GetRequest();//中间件菜单传值
+	$("#example1 tbody" ).empty();
 	$.ajax({
 		url:"/QueryMidwareClass.do",
-		type:"GET",
+		type:"POST",
 		async:true,
 		data:{"midwareName":a['midwareName']},
 		success:function(result){
+			var body="";
 			for(var i=0;i<result.length;i++){
-				var body = "<tr>";
+				body = "<tr>";
 		        body    += "<td id='tclsId'>" + result[i].c_id + "</td>";
 		        body    += "<td id='tclsName'>" + result[i].c_name + "</td>";
 		        body    += "<td id='tclsDesc'>" + result[i].c_desc + "</td>";  
@@ -175,11 +182,8 @@ function QryMidCls(){//查中间件下属类
 		        "</td>";
 		        body    += "</tr>";
 			    $("#example1 tbody" ).append(body); 
-				var obody="";
-		        	obody	+= "<option id='opitem'>"+result[i].c_father +"</option>";
-		        	$("#selectClass" ).append(obody);
 			}
-		
+		if(inintKey){
 			$("#example1").DataTable({
 			      "responsive": true,
 			      "autoWidth": false,
@@ -189,6 +193,9 @@ function QryMidCls(){//查中间件下属类
 			      "ordering": true,
 			      "info": true,
 			    });
+			inintKey = false;
+		}
+			
 		},
 		error:function(result){
 			alert("未知错误联系管理员！");
@@ -196,42 +203,62 @@ function QryMidCls(){//查中间件下属类
 	});
 
 }
+//查询中间件下所有父类，下拉框
+function QryMidClsFather(){
+
+	$.ajax({
+		url:"/QryMidClsFather.do",
+		type:"POST",
+		async:true,
+		data:{"midwareName":a['midwareName']},
+		success:function(result){
+			for(var i=0;i<result.length;i++){
+				var obody="";
+	        	obody	+= "<option id='opitem'>"+result[i].c_father +"</option>";
+	        	$("#selectClass" ).append(obody);
+				}
+		}
+	});
+}
+
 
 //根据下拉框重新刷新表格
 $("#selectClass").change(function(){
 	var cfather =$("#selectClass").val();
-	var a=GetRequest();//中间件菜单传值
+
 	if(cfather=="筛选条件/父类"){
 		 $("#example1 tbody" ).empty();
 		 $("#selectClass" ).empty();
-			QryMidCls();
+		 $("#selectClass" ).append("<option>筛选条件/父类</option>");
+		 QryMidCls();
+		 QryMidClsFather();
 	}else{
-		$("#example1 tbody" ).empty();
+		$("#example1 tbody" ).empty(); 
 		$.ajax({
 			url:"/QryMidClsByFather.do",
-			type:"GET",
+			type:"POST",
 			async:true,
 			data:{
 				"cfather":cfather,
 			"midwareName":a['midwareName']
 			},
 			success:function(result){
+				var body ="";
 				for(var i=0;i<result.length;i++){
-					var body = "<tr id='tr'>";
+					body = "<tr>";
 			        body    += "<td id='tclsId'>" + result[i].c_id + "</td>";
 			        body    += "<td id='tclsName'>" + result[i].c_name + "</td>";
 			        body    += "<td id='tclsDesc'>" + result[i].c_desc + "</td>";  
 			        body    += "<td id='tclsFather'>" + result[i].c_father + "</td>";
 			        body    += "<td>"+
-			        "<button id='editBtn' type='button' style='width: 30%;float: left;' class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default' onclick='editClick(this);'>修改</button> "+
+			        "<button id='editBtn' type='button' style='width: 30%;float: left;'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick='editClick(this);'>修改</button> "+
 			        "<button id='deleteBtn' type='button' style='margin-left: 10px; width: 30%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-danger btn-sm'>删除</button> "+
 			        "<button id='infBtn'type='button' style='margin-left: 10px; width: 30%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-success btn-sm'>接口详情</button> "+
 			        "</td>";
-			        body    += "</tr>";
-
-			            $("#example1 tbody" ).append(body); 
+			        body    += "</tr>";  
+			        $("#example1 tbody" ).append(body); 
 				}
-				
+
 			},
 			error:function(result){
 				alert("未知错误联系管理员！");
@@ -335,10 +362,14 @@ function save(){
 </script>
 
 
+
+
+
+
 <script type="text/javascript">
 $(function(){
-
 	QryMidCls();
+	QryMidClsFather();
 
 });
 

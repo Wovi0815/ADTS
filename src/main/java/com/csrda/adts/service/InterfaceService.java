@@ -23,6 +23,13 @@ public interface InterfaceService {
 	List<Map<String,Object>> qryMidwareClass(String midwareName);
 	
 	/**
+	 * 查询中间件下属所有父类
+	 */
+	List<Map<String,Object>> qryMidClsFather(String midwareName);
+	
+	
+	
+	/**
 	 * 根据下拉框所选择的父类查询类
 	 */
 	List<Map<String,Object>> qryMidClsByFather(String cfather,String midwareName);

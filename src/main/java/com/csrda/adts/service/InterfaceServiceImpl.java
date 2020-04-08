@@ -32,6 +32,10 @@ public class InterfaceServiceImpl implements InterfaceService{
 		return interfaceDao.qryMidwareClass(midwareName);
 	}
 
+	@Override
+	public List<Map<String, Object>> qryMidClsFather(String midwareName) {
+		return interfaceDao.QryMidClsFather(midwareName);
+	}
 
 
 	@Override
@@ -48,6 +52,7 @@ public class InterfaceServiceImpl implements InterfaceService{
 		return interfaceDao.qryMidClsByCId(cId, midwareName);
 	}
 
+	
 
 
 

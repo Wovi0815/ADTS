@@ -31,13 +31,22 @@ public interface InterfaceDao {
 			+ "ON c.c_midware = m.mid_id AND m.mid_name = #{midwareName}" )
 	List<Map<String,Object>> qryMidwareClass(String midwareName);
 	
+	/**
+	 * 查询中间件下所有父类，构建下拉框
+	 */
+	@Select("SELECT c.c_father FROM t_class c " + 
+			"LEFT JOIN t_midware m ON c.c_midware = m.mid_id AND m.mid_name = #{midwareName}" + 
+			"GROUP BY c.c_father")
+	List<Map<String,Object>> QryMidClsFather(String midwareName);
+	
+
 	
 	/**
 	 * 根据中间件和父类查下属所有类
 	 */
-	@Select("SELECT c.* FROM t_class c "
-			+ "RIGHT JOIN t_midware m "
-			+ "ON c.c_midware = m.mid_id AND m.mid_name = #{midwareName} AND c.c_father= #{cfather}" )
+	@Select("SELECT c.* FROM t_class c " + 
+			"LEFT JOIN t_midware m ON c.c_midware = m.mid_id AND m.mid_name = #{midwareName}" + 
+			"WHERE c.c_father=#{cfather}" )
 	List<Map<String,Object>> qryMidClsByFather(String cfather,String midwareName);
 	
 	
