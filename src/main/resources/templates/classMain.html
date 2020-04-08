@@ -206,7 +206,7 @@ function QryMidCls(){//查中间件下属类
 	});
 
 }
-//查询中间件下所有父类，下拉框
+//查询中间件下所有父类，####类页面：下拉框#####
 function QryMidClsFather(){
 
 	$.ajax({
@@ -271,21 +271,24 @@ $("#selectClass").change(function(){
 	}
 	
 });
-//查询所有父类、中间件 供新增、编辑 使用
-function qryClsFatherAndMid(){
-	
+//查询所有父类、中间件 供新增、编辑 使用 #####模态框：下拉#####
+function qryClsFatherAndMid(thisFather,thisMidware){
+	$("#iclsFather" ).empty();
+	$("#iclsMidware" ).empty();
 	$.ajax({
 		url:"/QryClsFather.do",
 		type:"POST",
 		async:true,
 		success:function(result){
-			
-			
-			
-			
-			
-			
-			
+			for(var i=0;i<result.length;i++){
+				var obody="";
+				if(result[i].c_father == thisFather){
+					obody	+= "<option selected='selected'>"+result[i].c_father +"</option>";
+				}else{
+					obody	+= "<option>"+result[i].c_father +"</option>";
+				}
+	        	$("#iclsFather" ).append(obody);
+			}
 		},
 		error:function(result){
 			alert("未知错误联系管理员！");
@@ -297,6 +300,16 @@ function qryClsFatherAndMid(){
 		type:"POST",
 		async:true,
 		success:function(result){	
+			for(var i=0;i<result.length;i++){
+				var obody="";
+				if(result[i].mid_id == thisMidware){
+					obody	+= "<option selected='selected'>"+result[i].mid_id +"</option>";
+				}else{
+					obody	+= "<option>"+result[i].mid_id +"</option>";
+				}
+	        	$("#iclsMidware" ).append(obody);
+			}
+			
 		},
 		error:function(result){
 			alert("未知错误联系管理员！");
@@ -327,14 +340,12 @@ function editClick(e){
 				"midwareName":a['midwareName']
 			},
 			success:function(result){
-				qryClsFatherAndMid();
 				$("#iclsId").val(result.c_id);
 				$("#iclsName").val(result.c_name);
 				$("#iclsDesc").val(result.c_desc);
-				
-				//$("#iclsFather").append("<option>"+result.c_father+"</option>");
-				//$("#iclsMidware").append("<option>"+result.c_midware+"</option>");
-				
+				var thisFather =result.c_father;
+				var thisMidware =result.c_midware;
+				qryClsFatherAndMid(thisFather,thisMidware);
 			},
 			error:function(result){
 				alert("未知错误联系管理员！");

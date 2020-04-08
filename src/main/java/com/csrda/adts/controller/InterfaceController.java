@@ -63,9 +63,7 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 		@RequestMapping("/QryMidClsByCId.do")
 		@ResponseBody
 		public Map<String,Object> QueryMidClsByCId(String cId,String midwareName) {
-			System.out.println("cId"+cId);
 			Map<String, Object>result = interfaceService.qryMidClsByCId(cId, midwareName);
-			System.out.println("QQQQQQQQQQQ"+result);
 			return result;
 		};
 
