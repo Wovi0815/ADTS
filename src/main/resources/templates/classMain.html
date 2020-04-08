@@ -103,9 +103,6 @@
               </table>
          </div>
 
-	<input  id="clickKey"></input>
-	
-	
 	<script th:src="@{/plugins/jquery/jquery.js}" ></script>
 	<script th:src="@{/plugins/bootstrap/js/bootstrap.min.js}"></script>
 	<script type="module" th:src="@{/plugins/popper/popper.js}"></script>
@@ -208,7 +205,6 @@ function QryMidCls(){//查中间件下属类
 }
 //查询中间件下所有父类，####类页面：下拉框#####
 function QryMidClsFather(){
-
 	$.ajax({
 		url:"/QryMidClsFather.do",
 		type:"POST",
@@ -324,12 +320,13 @@ function qryClsFatherAndMid(thisFather,thisMidware){
 
 //编辑与新增模态框
 function addClick(){
-	 $("#clickKey").empty();
-	    $("#clickKey").val("add"); 
+	$("#iclsId").val();
+	$("#iclsName").val();
+	$("#iclsDesc").val();
+	qryClsFatherAndMid();
+	    
 }
-function editClick(e){	
-	    $("#clickKey").empty();
-	    $("#clickKey").val("edit"); 
+function editClick(e){	 
 	    var cId=$(e).parent().parent().find("td").eq(0).text();
 	    $.ajax({
 			url:"/QryMidClsByCId.do",
