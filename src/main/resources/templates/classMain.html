@@ -4,7 +4,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<!-- Font Awesome -->
-		<link rel="stylesheet" th:href="@{/plugins/fontawesome-free/css/all.min.css}">
+	 	<link rel="stylesheet" th:href="@{/plugins/fontawesome-free/css/all.min.css}"> 
 		<!-- Ionicons -->
 		<link rel="stylesheet" th:href="@{/dist/css/ionicons.css}">
 		<!-- Tempusdominus Bbootstrap 4 -->
@@ -26,31 +26,64 @@
 		
 	</head>
 	<body>
-	
-	
 
-	<div>
-		<!-- Main content -->
-    <section class="content">
-      <div class="row">
-        <div class="col-12">
+	<div class="modal fade" id="modal-default">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="modalTitle"></h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              
+              	<!-- 模态框内容 -->
+			<div class="form-group" >
+			 <label for="iclsId">类标识</label>
+			 <input class="form-control" placeholder="类标识" id="iclsId" >
+			</div>
+			
+			<div class="form-group">
+			 <label for="iclsName">类名称</label>
+			 <input class="form-control" placeholder="类名称" id="iclsName">
+			</div>
+			<div class="form-group">
+			 <label for="iclsDesc">类描述</label>
+			 <input class="form-control" placeholder="类描述" id="iclsDesc">
+			</div>
+			<div class="form-group">
+			 <label for="iclsFather">父类</label>
+			 <input class="form-control" placeholder="父类" id="iclsFather">
+			</div>
+			<div class="form-group">
+			 <label for="iclsMidware">所属中间件</label>
+			 <input class="form-control" placeholder="所属中间件" id="iclsMidware">
+			</div>
 
-          <!-- /.card -->
-
-          <div class="card">
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" onclick="save();">Save changes</button>
+            </div>
             
-            <!-- /.card-header -->
-            <div class="card-body">
+          </div>
+        </div>
+      </div>
+	
+	
+	
+		<!-- 表格相关 -->   
+            <div class="card-body">     
+      <button id='addBtn'type='button' style="margin-right:2% ;width: 5%;float: right;"class='btn btn-block btn-outline-info btn-sm' data-toggle="modal" data-target="#modal-default" onclick="addClick();">新增类</button> 
+        
         <!-- 下拉搜索框开始 -->   
- 
-		      <select class="form-control select2bs5"   style="width:20%;float:right" id="selectClass">
-				<option>选择父类</option>
+ 		      <select class="form-control select2bs5"   style="margin-right:30%;width:15%;float:right;" id="selectClass">
+				<option>筛选条件/父类</option>
 		      </select>
-			  
-	
-        <!-- 下拉搜索框结束 -->      
-            
-            
+        <!-- 下拉搜索框结束 -->     
+        
+       
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>
@@ -62,20 +95,12 @@
                 </tr>
                 </thead>
                 <tbody >
+                
                 </tbody>
               </table>
-            </div>
-            <!-- /.card-body -->
-          </div>
-          <!-- /.card -->
-        </div>
-        <!-- /.col -->
-      </div>
-      <!-- /.row -->
-    </section>
-    <!-- /.content -->
-  	</div>
-	<span style="display: none;" id="midwareName" th:text="${midwareName}"></span>
+         </div>
+
+	<input  id="clickKey"></input>
 	
 	
 	<script th:src="@{/plugins/jquery/jquery.js}" ></script>
@@ -112,9 +137,8 @@
 	<!-- AdminLTE App -->
 	<script th:src="@{/dist/js/adminlte.js}"></script>
 
+	 
 	<!-- page script -->
-
-
 <script type="text/javascript">
 
 function GetRequest() {
@@ -130,9 +154,8 @@ var theRequest = new Object();
    return theRequest;
 }
 
-$(function(){
-	var a=GetRequest();
-	console.log("id!!!:"+a['midwareName']) //打印出传过来的id
+function QryMidCls(){//查中间件下属类
+	var a=GetRequest();//中间件菜单传值
 	$.ajax({
 		url:"/QueryMidwareClass.do",
 		type:"GET",
@@ -141,18 +164,18 @@ $(function(){
 		success:function(result){
 			for(var i=0;i<result.length;i++){
 				var body = "<tr>";
-		            body    += "<td>" + result[i].c_id + "</td>";
-		            body    += "<td>" + result[i].c_name + "</td>";
-		            body    += "<td>" + result[i].c_desc + "</td>";
-		            body    += "<td>" + result[i].c_father + "</td>";
-		            body    += "<td>"+
-		            "<button type='button' style='width: 30%;float: left;'class='btn btn-block btn-outline-primary btn-sm'>修改</button> "+
-		            "<button type='button' style='margin-left: 10px; width: 30%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-danger btn-sm'>删除</button> "+
-		            "<button type='button' style='margin-left: 10px; width: 30%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-success btn-sm'>接口详情</button> "+
-		            "</td>";
-		            body    += "</tr>";
-		            $("#example1 tbody" ).append(body); 
-		        var obody="";
+		        body    += "<td id='tclsId'>" + result[i].c_id + "</td>";
+		        body    += "<td id='tclsName'>" + result[i].c_name + "</td>";
+		        body    += "<td id='tclsDesc'>" + result[i].c_desc + "</td>";  
+		        body    += "<td id='tclsFather'>" + result[i].c_father + "</td>";
+		        body    += "<td>"+
+		        "<button id='editBtn' type='button' style='width: 30%;float: left;'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick='editClick(this);'>修改</button> "+
+		        "<button id='deleteBtn' type='button' style='margin-left: 10px; width: 30%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-danger btn-sm'>删除</button> "+
+		        "<button id='infBtn'type='button' style='margin-left: 10px; width: 30%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-success btn-sm'>接口详情</button> "+
+		        "</td>";
+		        body    += "</tr>";
+			    $("#example1 tbody" ).append(body); 
+				var obody="";
 		        	obody	+= "<option id='opitem'>"+result[i].c_father +"</option>";
 		        	$("#selectClass" ).append(obody);
 			}
@@ -166,48 +189,24 @@ $(function(){
 			      "ordering": true,
 			      "info": true,
 			    });
-	
-			
 		},
 		error:function(result){
 			alert("未知错误联系管理员！");
 		}
 	});
 
-	
-});
+}
 
-</script>
-<script>
 //根据下拉框重新刷新表格
 $("#selectClass").change(function(){
 	var cfather =$("#selectClass").val();
-	var a=GetRequest();
-	if(cfather=="选择父类"){
+	var a=GetRequest();//中间件菜单传值
+	if(cfather=="筛选条件/父类"){
 		 $("#example1 tbody" ).empty();
-		$.ajax({
-			url:"/QueryMidwareClass.do",
-			type:"GET",
-			async:true,
-			data:{"midwareName":a['midwareName']},
-			success:function(result){
-				for(var i=0;i<result.length;i++){
-					var body = "<tr>";
-			            body    += "<td>" + result[i].c_id + "</td>";
-			            body    += "<td>" + result[i].c_name + "</td>";
-			            body    += "<td>" + result[i].c_desc + "</td>";
-			            body    += "<td>" + result[i].c_father + "</td>";
-			            body    += "</tr>";
-			            $("#example1 tbody" ).append(body); 
-				}
-	
-			},
-			error:function(result){
-				alert("未知错误联系管理员！");
-			}
-		});
-
+		 $("#selectClass" ).empty();
+			QryMidCls();
 	}else{
+		$("#example1 tbody" ).empty();
 		$.ajax({
 			url:"/QryMidClsByFather.do",
 			type:"GET",
@@ -218,16 +217,21 @@ $("#selectClass").change(function(){
 			},
 			success:function(result){
 				for(var i=0;i<result.length;i++){
-					var body = "<tr>";
-			            body    += "<td>" + result[i].c_id + "</td>";
-			            body    += "<td>" + result[i].c_name + "</td>";
-			            body    += "<td>" + result[i].c_desc + "</td>";
-			            body    += "<td>" + result[i].c_father + "</td>";
-			            body    += "</tr>";
-			            $("#example1 tbody" ).empty();
+					var body = "<tr id='tr'>";
+			        body    += "<td id='tclsId'>" + result[i].c_id + "</td>";
+			        body    += "<td id='tclsName'>" + result[i].c_name + "</td>";
+			        body    += "<td id='tclsDesc'>" + result[i].c_desc + "</td>";  
+			        body    += "<td id='tclsFather'>" + result[i].c_father + "</td>";
+			        body    += "<td>"+
+			        "<button id='editBtn' type='button' style='width: 30%;float: left;' class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default' onclick='editClick(this);'>修改</button> "+
+			        "<button id='deleteBtn' type='button' style='margin-left: 10px; width: 30%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-danger btn-sm'>删除</button> "+
+			        "<button id='infBtn'type='button' style='margin-left: 10px; width: 30%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-success btn-sm'>接口详情</button> "+
+			        "</td>";
+			        body    += "</tr>";
+
 			            $("#example1 tbody" ).append(body); 
 				}
-
+				
 			},
 			error:function(result){
 				alert("未知错误联系管理员！");
@@ -237,9 +241,108 @@ $("#selectClass").change(function(){
 	}
 	
 });
+//查询所有父类、中间件 供新增、编辑 使用
+function qryClsFatherAndMid(){
+	
+	$.ajax({
+		url:"/QryClsFather.do",
+		type:"POST",
+		async:true,
+		success:function(result){
+			console.log(result);	
+		},
+		error:function(result){
+			alert("未知错误联系管理员！");
+		}
+	});
+	
+	$.ajax({
+		url:"/QueryMidware.do",
+		type:"POST",
+		async:true,
+		success:function(result){	
+		},
+		error:function(result){
+			alert("未知错误联系管理员！");
+		}
+	});	
+	
+	
+
+	
+}
+
+
+//编辑与新增模态框开关
+function addClick(){
+	 $("#clickKey").empty();
+	    $("#clickKey").val("add"); 
+	    qryClsFatherAndMid();
+}
+function editClick(e){	
+	    $("#clickKey").empty();
+	    $("#clickKey").val("edit"); 
+	    qryClsFatherAndMid();
+	    var cId=$(e).parent().parent().find("td").eq(0).text();
+	    var a=GetRequest();
+	    $.ajax({
+			url:"/QryMidClsByCId.do",
+			type:"POST",
+			async:true,
+			data:{
+				"cId":cId,
+				"midwareName":a['midwareName']
+			},
+			success:function(result){
+				$("#iclsId").val(result.c_id);
+				$("#iclsName").val(result.c_name);
+				$("#iclsDesc").val(result.c_desc);
+				$("#iclsFather").val(result.c_father);
+				$("#iclsMidware").val(result.c_midware);
+				
+			},
+			error:function(result){
+				alert("未知错误联系管理员！");
+			}
+		}); 	 
+}
+
+
+function save(){
+	
+	$.ajax({
+		url:"/UpdateMidClsByCId.do",
+		type:"POST",
+		async:true,
+		data:{
+			"cId":cId,
+			"midwareName":a['midwareName']
+		},
+		success:function(result){
+			
+			
+		},
+		error:function(result){
+			alert("未知错误联系管理员！");
+		}
+	});
+	
+
+}
+
 
 
 </script>
-    
+
+
+<script type="text/javascript">
+$(function(){
+
+	QryMidCls();
+
+});
+
+
+</script>    
 </body>
 </html>

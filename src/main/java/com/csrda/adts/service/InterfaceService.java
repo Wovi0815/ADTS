@@ -11,6 +11,13 @@ public interface InterfaceService {
 	List<Map<String,Object>> qryMidware();
 	
 	/**
+	 * 查询所有父类
+	 */
+	List<Map<String,Object>> qryClsFather();
+	
+	
+	
+	/**
 	 * 查询中间件下属类
 	 */
 	List<Map<String,Object>> qryMidwareClass(String midwareName);
@@ -21,5 +28,8 @@ public interface InterfaceService {
 	List<Map<String,Object>> qryMidClsByFather(String cfather,String midwareName);
 	
 	
-	
+	/**
+	 * 模态框根据类标识，中间件回填数据
+	 */
+	Map<String,Object> qryMidClsByCId(String cId,String midwareName);
 }

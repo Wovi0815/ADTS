@@ -30,12 +30,14 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 			public String toClassMain() {		
 			return "classMain";
 			}
-
+		
+	//根据中间件查询下属类
 		@RequestMapping("/QueryMidwareClass.do")
 		@ResponseBody
 		public List<Map<String,Object>> QueryMidwareClass(String midwareName) {
+			System.out.println("!!!!@#"+midwareName);
+			
 			List<Map<String, Object>> result = interfaceService.qryMidwareClass(midwareName);
-			System.out.println("result:~~"+result);
 			return result;
 		}
 		
@@ -44,14 +46,30 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 		@RequestMapping("/QryMidClsByFather.do")
 		@ResponseBody
 		public List<Map<String,Object>> QueryMidClsByFather(String cfather,String midwareName) {
+			System.out.println("cfather:"+cfather);
 			List<Map<String, Object>> result = interfaceService.qryMidClsByFather(cfather, midwareName);
-			System.out.println("result:!!"+result);
+			System.out.println("result!!!!!"+result);
 			return result;
 		}
 		
 		
-		
-		
+	//根据中间件、类标识查询类信息
+		@RequestMapping("/QryMidClsByCId.do")
+		@ResponseBody
+		public Map<String,Object> QueryMidClsByCId(String cId,String midwareName) {
+			Map<String, Object>result = interfaceService.qryMidClsByCId(cId, midwareName);
+			System.out.println("result");
+			return result;
+		};
+
+	//查询所有父类、
+		@RequestMapping("/QryClsFather.do")
+		@ResponseBody
+		public List<Map<String,Object>> QueryClsFather() {
+			List<Map<String, Object>> result = interfaceService.qryClsFather();
+			return result;
+		};
+
 		
 		
 	//跳转到类下属接口页面
