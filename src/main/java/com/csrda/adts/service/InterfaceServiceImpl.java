@@ -66,6 +66,11 @@ public class InterfaceServiceImpl implements InterfaceService{
 		return interfaceDao.UpdateCls(modalCId, modalCName, modalCDesc, modalCFather, modalCMidware);
 	}
 
+	@Override
+	public int deleteCls(String cId) {
+		return interfaceDao.deleteCls(cId);
+	}
+
 	
 	
 

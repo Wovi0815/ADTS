@@ -62,7 +62,6 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 		@ResponseBody
 		public Map<String,Object> QueryMidClsByCId(String cId) {
 			Map<String, Object>result = interfaceService.qryMidClsByCId(cId);
-			System.out.println("QQQQQQQQQQQQQQQQQQQQQQQQQ"+result);
 			return result;
 		};
 
@@ -80,7 +79,6 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 		public int InsertCls(String modalCId,String modalCName,
 				String modalCDesc,String modalCFather,String modalCMidware) {
 			int result = interfaceService.InsertCls(modalCId,modalCName,modalCDesc,modalCFather, modalCMidware);
-			System.out.println("!!!!!!!!!!!!!!!!!!"+result);
 			return result;
 		};
 		
@@ -91,11 +89,16 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 		public int UpdateCls(String modalCId,String modalCName,
 				String modalCDesc,String modalCFather,String modalCMidware) {
 			int result = interfaceService.UpdateCls(modalCId, modalCName, modalCDesc, modalCFather, modalCMidware);
-			System.out.println("@@@@@@@@@@@"+result);
 			return result;
 		};
-		
-		
+	
+	// 删除类
+		@RequestMapping("/deleteCls.do")
+		@ResponseBody
+		public int deleteCls(String cId) {
+			int result = interfaceService.deleteCls(cId);
+			return result;
+		};
 		
 	//跳转到类下属接口页面
 		@RequestMapping("/interfaceMain")

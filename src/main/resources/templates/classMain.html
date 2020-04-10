@@ -54,21 +54,19 @@
 			</div>
 			<div class="form-group">
 			 <label for="iclsFather">父类</label>
-			 <!--  <input class="form-control" placeholder="父类" id="iclsFather"> -->
 			 <select class="form-control select2bs5"    id="iclsFather">
 		     </select>
 			</div>
 			<div class="form-group">
 			 <label for="iclsMidware">所属中间件</label>
-			 <!--  <input class="form-control" placeholder="所属中间件" id="iclsMidware"> -->
 			<select class="form-control select2bs5"    id="iclsMidware">
 		    </select>
 			</div>
 
             </div>
             <div class="modal-footer justify-content-between">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" onclick="save();">Save changes</button>
+              <button id='closeModal' type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button id='saveModal' type="button" class="btn btn-primary" onclick="save();">Save changes</button>
             </div>
             
           </div>
@@ -178,7 +176,7 @@ function QryMidCls(){//查中间件下属类
 		        body    += "<td id='tclsFather'>" + result[i].c_father + "</td>";
 		        body    += "<td>"+
 		        "<button id='editBtn' type='button' style='width: 30%;float: left;'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick='editClick(this);'>修改</button> "+
-		        "<button id='deleteBtn' type='button' style='margin-left: 10px; width: 30%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-danger btn-sm'>删除</button> "+
+		        "<button id='deleteBtn' type='button' style='margin-left: 10px; width: 30%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
 		        "<button id='infBtn'type='button' style='margin-left: 10px; width: 30%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-success btn-sm'>接口详情</button> "+
 		        "</td>";
 		        body    += "</tr>";
@@ -225,7 +223,6 @@ function QryMidClsFather(){
 //根据下拉框重新刷新表格
 $("#selectClass").change(function(){
 	var cfather =$("#selectClass").val();
-
 	if(cfather=="筛选条件/父类"){
 		 $("#example1 tbody" ).empty();
 		 $("#selectClass" ).empty();
@@ -373,11 +370,17 @@ function InsertData(modalCId,modalCName,modalCDesc,modalCFather,modalCMidware){
 				"modalCMidware":modalCMidware
 			},
 			success:function(result){
-				
+				if(result=1){
+					alert("插入失败");
+					$('#modal-default').modal("hide");
+				}else{
+					alert("插入失败");
+				}
 				
 			},
 			error:function(result){
 				alert("未知错误联系管理员！");
+				
 			}
 		});
 	
@@ -396,16 +399,17 @@ function UpdateData(modalCId,modalCName,modalCDesc,modalCFather,modalCMidware){
 			"modalCMidware":modalCMidware
 		},
 		success:function(result){
-			
+			if(result=1){
+				$('#modal-default').modal("hide");
+			}else{
+				alert("更新失败");
+			}
 			
 		},
 		error:function(result){
-			alert("未知错误联系管理员！");
+			alert("发生未知错误联系管理员！");
 		}
 	});
-	
-	
-	
 
 }	
 function changeDataByKey(modalCId,modalCName,modalCDesc,modalCFather,modalCMidware) {
@@ -433,9 +437,7 @@ function changeDataByKey(modalCId,modalCName,modalCDesc,modalCFather,modalCMidwa
 	}else if($("#clickKey").val()=="edit"){
 		UpdateData(modalCId,modalCName,modalCDesc,modalCFather,modalCMidware);
 	}
-	
-	
-	
+
 }	
 function save(){
 	var modalCId=$("#iclsId").val();
@@ -448,12 +450,32 @@ function save(){
 	}else{
 		changeDataByKey(modalCId,modalCName,modalCDesc,modalCFather,modalCMidware);
 	}
-	
-	
-	
 }
 
-
+// 删除
+function deleteClick(e){
+	var cId=$(e).parent().parent().find("td").eq(0).text();
+	$.ajax({
+		url:"/deleteCls.do",
+		type:"POST",
+		async:true,
+		data:{
+			"cId":cId	
+		},
+		success:function(result){
+			if(result=1){
+				QryMidCls();
+			}else{
+				alert("删除失败");
+			}
+			
+		},
+		error:function(result){
+			alert("发生未知错误联系管理员！");
+		}
+	});
+	
+}
 
 
 

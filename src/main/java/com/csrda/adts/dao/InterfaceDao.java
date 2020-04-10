@@ -14,7 +14,7 @@ public interface InterfaceDao {
 	/**
 	 * 查所有中间件
 	 */
-	@Select("SELECT * FROM t_midware")
+	@Select("SELECT * FROM t_midware ")
 	List<Map<String,Object>> qryMidware();
 	
 	
@@ -28,7 +28,7 @@ public interface InterfaceDao {
 	/**
 	 * 根据中间件查下属所有类
 	 */
-	@Select("SELECT c.* FROM t_class c WHERE c.c_midware=#{midwareId}" )
+	@Select("SELECT c.* FROM t_class c WHERE c.c_midware=#{midwareId} AND c.is_delete='1'" )
 	List<Map<String,Object>> qryMidwareClass(String midwareId);
 	
 	/**
@@ -70,5 +70,12 @@ public interface InterfaceDao {
 			+ "c_desc=#{modalCDesc},c_father=#{modalCFather},c_midware= #{modalCMidware}"
 			+ "WHERE t_class.c_id =#{modalCId}")
 	int UpdateCls(String modalCId, String modalCName, String modalCDesc, String modalCFather, String modalCMidware);
-		
+	
+	
+	/**
+	 * 	删除类
+	 */
+	
+	@Update("UPDATE t_class c SET c.is_delete ='0' WHERE c.c_id=#{cId}")
+	int deleteCls(String cId);
 }

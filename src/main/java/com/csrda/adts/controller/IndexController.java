@@ -4,6 +4,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 
 
@@ -23,16 +24,21 @@ public class IndexController {
 	@RequestMapping("/login")
 	public String login(String userName ,String passWord,Model model) {
 		
-		
+		SecurityUtils.getSubject().getSession().setTimeout(-1000l);
 		//shiro 认证操作
 		//1.获取subject
 		Subject subject = SecurityUtils.getSubject();
+
 		//2.封装用户数据
 		UsernamePasswordToken token = new UsernamePasswordToken(userName,passWord);
 		
 		//3.执行登录方法
 		try {
 			subject.login(token);
+			
+			Session session = subject.getSession();
+            session.setAttribute("username", userName);
+			
 			//登录成功
 			return "redirect:/index";
 		} catch (UnknownAccountException e) {

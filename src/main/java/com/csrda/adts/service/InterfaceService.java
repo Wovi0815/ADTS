@@ -50,4 +50,11 @@ public interface InterfaceService {
 	 */
 	int UpdateCls(String modalCId,String modalCName,String modalCDesc,
 			String modalCFather, String modalCMidware);
+	
+	
+	/**
+	 * 删除类
+	 */
+	int deleteCls(String cId);
+	
 }
