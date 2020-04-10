@@ -65,8 +65,8 @@
 
             </div>
             <div class="modal-footer justify-content-between">
-              <button id='closeModal' type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button id='saveModal' type="button" class="btn btn-primary" onclick="save();">Save changes</button>
+              <button id='closeModal' type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+              <button id='saveModal' type="button" class="btn btn-primary" onclick="save();">保存</button>
             </div>
             
           </div>
@@ -135,7 +135,7 @@
 	<!-- AdminLTE App -->
 	<script th:src="@{/dist/js/adminlte.js}"></script>
 
-	 	<input  id="clickKey"></input>
+	 	
 	<!-- page script -->
 <script type="text/javascript">
 
@@ -156,6 +156,7 @@ var theRequest = new Object();
 var a=GetRequest();//中间件菜单传值
 var midwareId=a['midwareId'];
 var inintKey=true;//初始化table 开关
+var clickKey;
 //------全局变量-------
 
 
@@ -177,7 +178,7 @@ function QryMidCls(){//查中间件下属类
 		        body    += "<td>"+
 		        "<button id='editBtn' type='button' style='width: 30%;float: left;'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick='editClick(this);'>修改</button> "+
 		        "<button id='deleteBtn' type='button' style='margin-left: 10px; width: 30%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
-		        "<button id='infBtn'type='button' style='margin-left: 10px; width: 30%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-success btn-sm'>接口详情</button> "+
+		        "<button id='infBtn'type='button' style='margin-left: 10px; width: 30%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-success btn-sm' onclick='toInterface(this);''>下属接口</button> "+
 		        "</td>";
 		        body    += "</tr>";
 			    $("#example1 tbody" ).append(body); 
@@ -249,8 +250,8 @@ $("#selectClass").change(function(){
 			        body    += "<td id='tclsFather'>" + result[i].c_father + "</td>";
 			        body    += "<td>"+
 			        "<button id='editBtn' type='button' style='width: 30%;float: left;'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick='editClick(this);'>修改</button> "+
-			        "<button id='deleteBtn' type='button' style='margin-left: 10px; width: 30%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-danger btn-sm'>删除</button> "+
-			        "<button id='infBtn'type='button' style='margin-left: 10px; width: 30%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-success btn-sm'>接口详情</button> "+
+			        "<button id='deleteBtn' type='button' style='margin-left: 10px; width: 30%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
+			        "<button id='infBtn'type='button' style='margin-left: 10px; width: 30%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-success btn-sm' onclick='toInterface(this);''>下属接口</button> "+
 			        "</td>";
 			        body    += "</tr>";  
 			        $("#example1 tbody" ).append(body); 
@@ -317,11 +318,11 @@ function qryClsMid(iclsmid){
 
 //新增     ###模态框内容####
 function addClick(){
+	clickKey="add";
 	var body ="<option selected='selected'>"+midwareId+"</option>";
 	qryClsFather();
 	$("#iclsMidware").empty();
 	$("#iclsMidware").append(body);
-	$("#clickKey").val("add");
 	$("#iclsId").val("");
 	$("#iclsId").removeAttr("readonly");
 	$("#iclsName").val("");
@@ -330,7 +331,7 @@ function addClick(){
 }
 //编辑     ###模态框内容####
 function editClick(e){	
-	$("#clickKey").val("edit");
+	clickKey="edit";
 	    var cId=$(e).parent().parent().find("td").eq(0).text();
 	    $.ajax({
 			url:"/QryMidClsByCId.do",
@@ -413,7 +414,7 @@ function UpdateData(modalCId,modalCName,modalCDesc,modalCFather,modalCMidware){
 
 }	
 function changeDataByKey(modalCId,modalCName,modalCDesc,modalCFather,modalCMidware) {
-	if($("#clickKey").val()=="add"){
+	if(clickKey=="add"){
 		//新增之前先进行查询类标识是否唯一   
 		 $.ajax({
 				url:"/QryMidClsByCId.do",
@@ -434,7 +435,7 @@ function changeDataByKey(modalCId,modalCName,modalCDesc,modalCFather,modalCMidwa
 				}
 			}); 
 					
-	}else if($("#clickKey").val()=="edit"){
+	}else if(clickKey=="edit"){
 		UpdateData(modalCId,modalCName,modalCDesc,modalCFather,modalCMidware);
 	}
 
@@ -477,14 +478,13 @@ function deleteClick(e){
 	
 }
 
-
+function toInterface(e){
+	var cId=$(e).parent().parent().find("td").eq(0).text();
+	window.parent.zhu.location.href="/interfaceMain?classId="+cId;	
+}
 
 
 </script>
-
-
-
-
 
 
 <script type="text/javascript">

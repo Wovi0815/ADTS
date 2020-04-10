@@ -4,7 +4,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<!-- Font Awesome -->
-		<link rel="stylesheet" th:href="@{/plugins/fontawesome-free/css/all.min.css}">
+	 	<link rel="stylesheet" th:href="@{/plugins/fontawesome-free/css/all.min.css}"> 
 		<!-- Ionicons -->
 		<link rel="stylesheet" th:href="@{/dist/css/ionicons.css}">
 		<!-- Tempusdominus Bbootstrap 4 -->
@@ -26,78 +26,78 @@
 		
 	</head>
 	<body>
-	<div>
-		<!-- Main content -->
-    <section class="content">
-      <div class="row">
-        <div class="col-12">
 
-          <!-- /.card -->
-
-          <div class="card">
-            <div class="card-header">
-              <h3 class="card-title">DataTable with default features</h3>
+	<div class="modal fade" id="modal-default">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="modalTitle"></h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
-            <!-- /.card-header -->
-            <div class="card-body">
-        <!-- 下拉搜索框开始 -->   
-         
-		    
-		      <select id="selectFunction1" class="form-control select2bs5"   style="width:20%;float:right">
-		        
-		      </select>
-			  
+            <div class="modal-body">
+              
+              	<!-- 模态框内容 -->
+			<div class="form-group" >
+			 <label for="iclsId">类标识</label>
+			 <input class="form-control" placeholder="类标识" id="iclsId" >
+			</div>
+			
+			<div class="form-group">
+			 <label for="iclsName">类名称</label>
+			 <input class="form-control" placeholder="类名称" id="iclsName" >
+			</div>
+			<div class="form-group">
+			 <label for="iclsDesc">类描述</label>
+			 <input class="form-control" placeholder="类描述" id="iclsDesc">
+			</div>
+			<div class="form-group">
+			 <label for="iclsFather">父类</label>
+			 <select class="form-control select2bs5"    id="iclsFather">
+		     </select>
+			</div>
+			<div class="form-group">
+			 <label for="iclsMidware">所属中间件</label>
+			<select class="form-control select2bs5"    id="iclsMidware">
+		    </select>
+			</div>
+
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button id='closeModal' type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button id='saveModal' type="button" class="btn btn-primary" onclick="save();">Save changes</button>
+            </div>
+            
+          </div>
+        </div>
+      </div>
 	
-        <!-- 下拉搜索框结束 -->      
-            
-            
+	
+		<!-- 表格相关 -->   
+            <div class="card-body">     
+      <button id='addBtn'type='button' style="margin-right:2% ;width: 5%;float: right;"class='btn btn-block btn-outline-info btn-sm' data-toggle="modal" data-target="#modal-default" onclick="addClick();">新增类</button> 
+        
+        <!-- 下拉搜索框开始 -->   
+ 		      <select class="form-control select2bs5"   style="margin-right:30%;width:15%;float:right;" id="selectClass">
+				<option>筛选条件/父类</option>
+		      </select>
+        <!-- 下拉搜索框结束 -->     
+        
+       
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                  <th>Rendering engine</th>
-                  <th>Browser</th>
-                  <th>Platform(s)</th>
-                  <th>Engine version</th>
-                  <th>CSS grade</th>
+                  <th>jiekou标识</th>
+               
                 </tr>
                 </thead>
+                <tbody >
                 
-                
-                <tbody>
-             
-      
-                
-                <tr>
-                  <td>Misc</td>
-                  <td>IE Mobile</td>
-                  <td>Windows Mobile 6</td>
-                  <td>-</td>
-                  <td>C</td>
-                </tr>
-                
-                <tr>
-                  <td>Other browsers</td>
-                  <td>All others</td>
-                  <td>-</td>
-                  <td>-</td>
-                  <td>U</td>
-                </tr>
                 </tbody>
               </table>
-            </div>
-            <!-- /.card-body -->
-          </div>
-          <!-- /.card -->
-        </div>
-        <!-- /.col -->
-      </div>
-      <!-- /.row -->
-    </section>
-    <!-- /.content -->
-  	</div>
-	<span style="display: none;" id="midwareName" th:text="${midwareName}"></span>
-	
-	
+         </div>
+
 	<script th:src="@{/plugins/jquery/jquery.js}" ></script>
 	<script th:src="@{/plugins/bootstrap/js/bootstrap.min.js}"></script>
 	<script type="module" th:src="@{/plugins/popper/popper.js}"></script>
@@ -132,42 +132,35 @@
 	<!-- AdminLTE App -->
 	<script th:src="@{/dist/js/adminlte.js}"></script>
 
+	 	<input  id="clickKey"></input>
 	<!-- page script -->
-<script>
-  $(function () {
-    $("#example1").DataTable({
-      "responsive": true,
-      "autoWidth": false,
-      "paging": true,
-      "lengthChange": true,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-    });
- 
-  });
-  
+<script type="text/javascript">
 
-  $(function(){
-		$.ajax({
-			url:"/qryFunction.do",
-			type:"post",
-			async:true,
-			success:function(result){
-				console.log(result);
-				for(var i=0;i<result.length;i++){
-					$("#selectFunction").append(
-					"<option value="+result[i].interface+">"+result[i].method+"</option>"
-					);
-				}
-			},
-			error:function(result){
-				alert("未知错误联系管理员！");
-			}
-		});
-		
-	});
-</script>
-	
+function GetRequest() {
+var url = location.search; //获取url中"?"符后的字串
+var theRequest = new Object();
+ if (url.indexOf("?") != -1) {
+       var str = url.substr(1);
+       strs = str.split("&");
+       for (var i = 0; i < strs.length; i++) {
+           theRequest[strs[i].split("=")[0]] = decodeURIComponent(strs[i].split("=")[1]);
+       }
+   }
+   return theRequest;
+}
+
+//------全局变量-------
+var a=GetRequest();//中间件菜单传值
+var classId=a['classId'];
+console.log(classId);
+var inintKey=true;//初始化table 开关
+//------全局变量-------
+
+
+
+
+
+
+</script>    
 </body>
 </html>
