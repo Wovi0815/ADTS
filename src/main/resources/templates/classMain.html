@@ -46,7 +46,7 @@
 			
 			<div class="form-group">
 			 <label for="iclsName">类名称</label>
-			 <input class="form-control" placeholder="类名称" id="iclsName">
+			 <input class="form-control" placeholder="类名称" id="iclsName" >
 			</div>
 			<div class="form-group">
 			 <label for="iclsDesc">类描述</label>
@@ -137,7 +137,7 @@
 	<!-- AdminLTE App -->
 	<script th:src="@{/dist/js/adminlte.js}"></script>
 
-	 
+	 	<input  id="clickKey"></input>
 	<!-- page script -->
 <script type="text/javascript">
 
@@ -156,6 +156,7 @@ var theRequest = new Object();
 
 //------全局变量-------
 var a=GetRequest();//中间件菜单传值
+var midwareId=a['midwareId'];
 var inintKey=true;//初始化table 开关
 //------全局变量-------
 
@@ -166,7 +167,7 @@ function QryMidCls(){//查中间件下属类
 		url:"/QueryMidwareClass.do",
 		type:"POST",
 		async:true,
-		data:{"midwareName":a['midwareName']},
+		data:{"midwareId":midwareId},
 		success:function(result){
 			var body="";
 			for(var i=0;i<result.length;i++){
@@ -209,7 +210,7 @@ function QryMidClsFather(){
 		url:"/QryMidClsFather.do",
 		type:"POST",
 		async:true,
-		data:{"midwareName":a['midwareName']},
+		data:{"midwareId":midwareId},
 		success:function(result){
 			for(var i=0;i<result.length;i++){
 				var obody="";
@@ -239,7 +240,7 @@ $("#selectClass").change(function(){
 			async:true,
 			data:{
 				"cfather":cfather,
-			"midwareName":a['midwareName']
+			"midwareId":midwareId
 			},
 			success:function(result){
 				var body ="";
@@ -268,9 +269,8 @@ $("#selectClass").change(function(){
 	
 });
 //查询所有父类、中间件 供新增、编辑 使用 #####模态框：下拉#####
-function qryClsFatherAndMid(thisFather,thisMidware){
+function qryClsFather(iclsFather){
 	$("#iclsFather" ).empty();
-	$("#iclsMidware" ).empty();
 	$.ajax({
 		url:"/QryClsFather.do",
 		type:"POST",
@@ -278,7 +278,7 @@ function qryClsFatherAndMid(thisFather,thisMidware){
 		success:function(result){
 			for(var i=0;i<result.length;i++){
 				var obody="";
-				if(result[i].c_father == thisFather){
+				if(result[i].c_father == iclsFather){
 					obody	+= "<option selected='selected'>"+result[i].c_father +"</option>";
 				}else{
 					obody	+= "<option>"+result[i].c_father +"</option>";
@@ -290,7 +290,10 @@ function qryClsFatherAndMid(thisFather,thisMidware){
 			alert("未知错误联系管理员！");
 		}
 	});
-	
+}
+
+function qryClsMid(iclsmid){
+	$("#iclsMidware").empty();
 	$.ajax({
 		url:"/QueryMidware.do",
 		type:"POST",
@@ -298,7 +301,7 @@ function qryClsFatherAndMid(thisFather,thisMidware){
 		success:function(result){	
 			for(var i=0;i<result.length;i++){
 				var obody="";
-				if(result[i].mid_id == thisMidware){
+				if(result[i].mid_id == iclsMidware){
 					obody	+= "<option selected='selected'>"+result[i].mid_id +"</option>";
 				}else{
 					obody	+= "<option>"+result[i].mid_id +"</option>";
@@ -312,54 +315,85 @@ function qryClsFatherAndMid(thisFather,thisMidware){
 		}
 	});	
 	
-	
-
-	
 }
 
 
-//编辑与新增模态框
+//新增     ###模态框内容####
 function addClick(){
-	$("#iclsId").val();
-	$("#iclsName").val();
-	$("#iclsDesc").val();
-	qryClsFatherAndMid();
-	    
+	var body ="<option selected='selected'>"+midwareId+"</option>";
+	qryClsFather();
+	$("#iclsMidware").empty();
+	$("#iclsMidware").append(body);
+	$("#clickKey").val("add");
+	$("#iclsId").val("");
+	$("#iclsId").removeAttr("readonly");
+	$("#iclsName").val("");
+	$("#iclsDesc").val("");
+    
 }
-function editClick(e){	 
+//编辑     ###模态框内容####
+function editClick(e){	
+	$("#clickKey").val("edit");
 	    var cId=$(e).parent().parent().find("td").eq(0).text();
 	    $.ajax({
 			url:"/QryMidClsByCId.do",
 			type:"POST",
 			async:true,
 			data:{
-				"cId":cId,
-				"midwareName":a['midwareName']
+				"cId":cId
 			},
 			success:function(result){
+				
 				$("#iclsId").val(result.c_id);
+				$("#iclsId").attr("readOnly","true");
 				$("#iclsName").val(result.c_name);
 				$("#iclsDesc").val(result.c_desc);
-				var thisFather =result.c_father;
-				var thisMidware =result.c_midware;
-				qryClsFatherAndMid(thisFather,thisMidware);
+				var iclsFather =result.c_father;
+				var iclsMidware =result.c_midware;
+				qryClsFather(iclsFather);
+				qryClsMid(iclsMidware);
 			},
 			error:function(result){
 				alert("未知错误联系管理员！");
 			}
 		}); 	 
 }
+//插入数据
+function InsertData(modalCId,modalCName,modalCDesc,modalCFather,modalCMidware){
 
-
-function save(){
+		$.ajax({
+			url:"/InsertCls.do",
+			type:"POST",
+			async:true,
+			data:{
+				"modalCId":modalCId,
+				"modalCName":modalCName,
+				"modalCDesc":modalCDesc,
+				"modalCFather":modalCFather,
+				"modalCMidware":modalCMidware
+			},
+			success:function(result){
+				
+				
+			},
+			error:function(result){
+				alert("未知错误联系管理员！");
+			}
+		});
 	
+}
+//更新数据
+function UpdateData(modalCId,modalCName,modalCDesc,modalCFather,modalCMidware){
 	$.ajax({
-		url:"/UpdateMidClsByCId.do",
+		url:"/UpdateCls.do",
 		type:"POST",
 		async:true,
 		data:{
-			"cId":cId,
-			"midwareName":a['midwareName']
+			"modalCId":modalCId,
+			"modalCName":modalCName,
+			"modalCDesc":modalCDesc,
+			"modalCFather":modalCFather,
+			"modalCMidware":modalCMidware
 		},
 		success:function(result){
 			
@@ -370,8 +404,57 @@ function save(){
 		}
 	});
 	
+	
+	
 
+}	
+function changeDataByKey(modalCId,modalCName,modalCDesc,modalCFather,modalCMidware) {
+	if($("#clickKey").val()=="add"){
+		//新增之前先进行查询类标识是否唯一   
+		 $.ajax({
+				url:"/QryMidClsByCId.do",
+				type:"POST",
+				async:true,
+				data:{
+					"cId":modalCId
+				},
+				success:function(result){
+					if(result.c_id == modalCId){	
+						alert("ERROR类标识为唯一项");
+					}else{
+						InsertData(modalCId,modalCName,modalCDesc,modalCFather,modalCMidware);//插入
+					}
+				},
+				error:function(result){
+					alert("未知错误联系管理员！");
+				}
+			}); 
+					
+	}else if($("#clickKey").val()=="edit"){
+		UpdateData(modalCId,modalCName,modalCDesc,modalCFather,modalCMidware);
+	}
+	
+	
+	
+}	
+function save(){
+	var modalCId=$("#iclsId").val();
+	var modalCName=$("#iclsName").val();
+	var modalCDesc=$("#iclsDesc").val();
+	var modalCFather=$("#iclsFather").val();
+	var modalCMidware=$("#iclsMidware").val();
+	if(modalCId==""||modalCName==""||modalCDesc==""||modalCFather==""||modalCMidware==""){
+		alert("ERROR!存在未填项");
+	}else{
+		changeDataByKey(modalCId,modalCName,modalCDesc,modalCFather,modalCMidware);
+	}
+	
+	
+	
 }
+
+
+
 
 
 

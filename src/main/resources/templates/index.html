@@ -39,12 +39,7 @@
 		</ul>
 		
 		<ul class="navbar-nav ml-auto" style="float: right;" >
-			<!-- <li class="nav-item">
-			  <button type="button" onclick="add();" class="btn btn-primary" data-toggle="modal" data-target="#modal-default">新增类</button>
-			</li>
-			<li class="nav-item">
-			  <button type="button" onclick="add();" class="btn btn-primary" data-toggle="modal" data-target="#modal-default">新增接口</button>
-			</li> -->
+			
 			<li class="nav-item">
 			<div class="image" style="margin: auto;">
 			  <img src="dist/img/csic-logo.png" class="img-circle elevation-2" alt="User Image" style="height: 35px;">
@@ -65,12 +60,7 @@
 	 </a>
     <!-- Sidebar -->
     <div class="sidebar">
-      <!-- Sidebar user panel (optional) -->
-      <!-- <div class="user-panel mt-3 pb-3 mb-3 d-flex" >
-        <div class="image" style="margin: auto;">
-          <img src="dist/img/csic-logo.png" class="img-circle elevation-2" alt="User Image">
-        </div>
-      </div> -->
+     
 				
 				<!-- Sidebar Menu -->
       <nav class="mt-2">
@@ -188,7 +178,7 @@ $(function(){
 			for(var i=0;i<result.length;i++){
 				$("#qryMidware").append(
 				"<li class='nav-item'>"+
-				    "<a href='/classMain?midwareName="+result[i].mid_name+"' target='zhu' class='nav-link avtive'>"+
+				    "<a href='/classMain?midwareId="+result[i].mid_id+"' target='zhu' class='nav-link avtive'>"+
 				     "<i class='far fa-dot-circle nav-icon'></i>"+
 				      "<p>"+result[i].mid_name+
 				      "</p>"+"</a>"+"</li>"

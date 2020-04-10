@@ -18,7 +18,7 @@ public class InterfaceController {
 @Autowired
 private InterfaceService interfaceService;
 Logger logger= LoggerFactory.getLogger(this.getClass());
-	//查询中间件
+	//查询中间件,构建菜单
 	@RequestMapping("/QueryMidware.do")
 	@ResponseBody
 	public List<Map<String,Object>> QueryMidware() {
@@ -35,35 +35,34 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 	//根据中间件查询下属类
 		@RequestMapping("/QueryMidwareClass.do")
 		@ResponseBody
-		public List<Map<String,Object>> QueryMidwareClass(String midwareName) {		
-			List<Map<String, Object>> result = interfaceService.qryMidwareClass(midwareName);
+		public List<Map<String,Object>> QueryMidwareClass(String midwareId) {		
+			List<Map<String, Object>> result = interfaceService.qryMidwareClass(midwareId);
 			return result;
 		}
 
-		
-	//查询中间件下所有父类，下拉框
+	//查询中间件下所有父类，构建下拉框
 		@RequestMapping("/QryMidClsFather.do")
 		@ResponseBody
-		public List<Map<String,Object>> QueryMidClsFather(String midwareName) {
-			List<Map<String, Object>> result = interfaceService.qryMidClsFather(midwareName);
+		public List<Map<String,Object>> QueryMidClsFather(String midwareId) {
+			List<Map<String, Object>> result = interfaceService.qryMidClsFather(midwareId);
 			return result;
 		} 
 
 	//根据下拉框所选择父类进行筛选
 		@RequestMapping("/QryMidClsByFather.do")
 		@ResponseBody
-		public List<Map<String,Object>> QueryMidClsByFather(String cfather,String midwareName) {
-			System.out.println("cfather:"+cfather);
-			List<Map<String, Object>> result = interfaceService.qryMidClsByFather(cfather, midwareName);
+		public List<Map<String,Object>> QueryMidClsByFather(String cfather,String midwareId) {
+			List<Map<String, Object>> result = interfaceService.qryMidClsByFather(cfather, midwareId);
 			return result;
 		}
 		
 		
-	//根据中间件、类标识查询类信息
+	//根据类标识查询类信息
 		@RequestMapping("/QryMidClsByCId.do")
 		@ResponseBody
-		public Map<String,Object> QueryMidClsByCId(String cId,String midwareName) {
-			Map<String, Object>result = interfaceService.qryMidClsByCId(cId, midwareName);
+		public Map<String,Object> QueryMidClsByCId(String cId) {
+			Map<String, Object>result = interfaceService.qryMidClsByCId(cId);
+			System.out.println("QQQQQQQQQQQQQQQQQQQQQQQQQ"+result);
 			return result;
 		};
 
@@ -75,6 +74,27 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 			return result;
 		};
 
+	// 新增类	
+		@RequestMapping("/InsertCls.do")
+		@ResponseBody
+		public int InsertCls(String modalCId,String modalCName,
+				String modalCDesc,String modalCFather,String modalCMidware) {
+			int result = interfaceService.InsertCls(modalCId,modalCName,modalCDesc,modalCFather, modalCMidware);
+			System.out.println("!!!!!!!!!!!!!!!!!!"+result);
+			return result;
+		};
+		
+		
+	// 编辑类
+		@RequestMapping("/UpdateCls.do")
+		@ResponseBody
+		public int UpdateCls(String modalCId,String modalCName,
+				String modalCDesc,String modalCFather,String modalCMidware) {
+			int result = interfaceService.UpdateCls(modalCId, modalCName, modalCDesc, modalCFather, modalCMidware);
+			System.out.println("@@@@@@@@@@@"+result);
+			return result;
+		};
+		
 		
 		
 	//跳转到类下属接口页面

@@ -28,30 +28,45 @@ public class InterfaceServiceImpl implements InterfaceService{
 
 
 	@Override
-	public List<Map<String, Object>> qryMidwareClass(String midwareName) {
-		return interfaceDao.qryMidwareClass(midwareName);
+	public List<Map<String, Object>> qryMidwareClass(String midwareId) {
+		return interfaceDao.qryMidwareClass(midwareId);
 	}
 
 	@Override
-	public List<Map<String, Object>> qryMidClsFather(String midwareName) {
-		return interfaceDao.QryMidClsFather(midwareName);
+	public List<Map<String, Object>> qryMidClsFather(String midwareId) {
+		return interfaceDao.QryMidClsFather(midwareId);
 	}
 
 
 	@Override
-	public List<Map<String, Object>> qryMidClsByFather(String cfather, String midwareName) {
+	public List<Map<String, Object>> qryMidClsByFather(String cfather, String midwareId) {
 		
-		return interfaceDao.qryMidClsByFather(cfather, midwareName);
+		return interfaceDao.qryMidClsByFather(cfather, midwareId);
 	}
 
 
 
 	@Override
-	public Map<String, Object> qryMidClsByCId(String cId, String midwareName) {
+	public Map<String, Object> qryMidClsByCId(String cId) {
 		
-		return interfaceDao.qryMidClsByCId(cId, midwareName);
+		return interfaceDao.qryMidClsByCId(cId);
 	}
 
+	@Override
+	public int InsertCls(String modalCId,String modalCName,String modalCDesc,
+			String modalCFather, String modalCMidware) {
+		
+		return interfaceDao.InsertCls(modalCId,modalCName,modalCDesc,modalCFather, modalCMidware);
+	}
+
+	@Override
+	public int UpdateCls(String modalCId, String modalCName, String modalCDesc, String modalCFather,
+			String modalCMidware) {
+		
+		return interfaceDao.UpdateCls(modalCId, modalCName, modalCDesc, modalCFather, modalCMidware);
+	}
+
+	
 	
 
 
