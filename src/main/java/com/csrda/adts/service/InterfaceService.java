@@ -15,8 +15,6 @@ public interface InterfaceService {
 	 */
 	List<Map<String,Object>> qryClsFather();
 	
-	
-	
 	/**
 	 * 查询中间件下属类
 	 */
@@ -38,7 +36,6 @@ public interface InterfaceService {
 	Map<String,Object> qryMidClsByCId(String cId);
 	
 
-	
 	/**
 	 * 新增类
 	 */
@@ -51,10 +48,25 @@ public interface InterfaceService {
 	int UpdateCls(String modalCId,String modalCName,String modalCDesc,
 			String modalCFather, String modalCMidware);
 	
-	
 	/**
 	 * 删除类
 	 */
 	int deleteCls(String cId);
+
+	/**
+	 * 查询类下面的接口
+	 */
+	List<Map<String,Object>> qryClsInterface(String classId);
+	
+	/**
+	 * 查询接口的所有的参数个数构建下拉框
+	 */
+	List<Map<String,Object>> qryClsParaCount(String classId);
+	
+	/**
+	 * 查询接口的所有返回值类型构建下拉框
+	 */
+	List<Map<String,Object>> qryClsReturnType(String classId);
+	
 	
 }

@@ -78,4 +78,27 @@ public interface InterfaceDao {
 	
 	@Update("UPDATE t_class c SET c.is_delete ='0' WHERE c.c_id=#{cId}")
 	int deleteCls(String cId);
+	
+	
+	
+	/**
+	 * 查询类下属接口
+	 */
+	@Select("SELECT i.* FROM t_interface i WHERE i.i_class=#{classId} AND i.is_delete='1'" )
+	List<Map<String,Object>> qryClsInterface(String classId);
+	
+	/**
+	 * 查询接口的所有的参数个数构建下拉框
+	 */
+	@Select("SELECT i.i_para_count FROM t_interface i WHERE i.i_class=#{classId} AND i.is_delete='1'GROUP BY i.i_para_count" )
+	List<Map<String,Object>> qryClsParaCount(String classId);
+	
+	/**
+	 * 查询接口的所有的返回值类型构建下拉框
+	 */
+	@Select("SELECT i.i_return FROM t_interface i WHERE i.i_class=#{classId} AND i.is_delete='1'GROUP BY i.i_return" )
+	List<Map<String,Object>> qryClsReturnType(String classId);
+	
+	
+	
 }

@@ -27,7 +27,7 @@
 	</head>
 	<body>
 
-	<div class="modal fade" id="modal-default">
+	<div class="modal fade" id="modal-detail">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -40,28 +40,11 @@
               
               	<!-- 模态框内容 -->
 			<div class="form-group" >
-			 <label for="iclsId">类标识</label>
-			 <input class="form-control" placeholder="类标识" id="iclsId" >
+			 <label>输入参数</label>
+			 <input class="form-control" placeholder="输入参数"  >
 			</div>
 			
-			<div class="form-group">
-			 <label for="iclsName">类名称</label>
-			 <input class="form-control" placeholder="类名称" id="iclsName" >
-			</div>
-			<div class="form-group">
-			 <label for="iclsDesc">类描述</label>
-			 <input class="form-control" placeholder="类描述" id="iclsDesc">
-			</div>
-			<div class="form-group">
-			 <label for="iclsFather">父类</label>
-			 <select class="form-control select2bs5"    id="iclsFather">
-		     </select>
-			</div>
-			<div class="form-group">
-			 <label for="iclsMidware">所属中间件</label>
-			<select class="form-control select2bs5"    id="iclsMidware">
-		    </select>
-			</div>
+			
 
             </div>
             <div class="modal-footer justify-content-between">
@@ -76,14 +59,13 @@
 	
 		<!-- 表格相关 -->   
             <div class="card-body">     
-      <button id='addBtn'type='button' style="margin-right:2% ;width: 8%;float: right;"class='btn btn-block btn-outline-info btn-sm' data-toggle="modal" data-target="#modal-default" onclick="addClick();">新增接口</button> 
-        
+
         <!-- 下拉搜索框开始 -->   
- 		      <select class="form-control select2bs5"   style="margin-right:30%;width:15%;float:right;" id="selectClass1">
+ 		      <select class="form-control select2bs5"   style="margin-right:10%;width:15%;float:right;" id="selectReturn">
 				<option>筛选条件/返回值类型</option>
 		      </select>
 		      
-		      <select class="form-control select2bs5"   style="width:15%;float:right;" id="selectClass2">
+		      <select class="form-control select2bs5"   style="margin-right:5%;width:15%;float:right;" id="selectCount">
 				<option>筛选条件/参数个数</option>
 		      </select>
 		      
@@ -97,6 +79,7 @@
                   <th>接口名称</th>
                   <th>返回值类型</th>
                   <th>参数个数</th>
+                  <th>接口详情</th>
                   <th>操作</th>
                
                 </tr>
@@ -180,10 +163,13 @@ function QryClsInterface(){//查类下属接口
 		        body    += "<td id='tinterfaceName'>" + result[i].i_name + "</td>";
 		        body    += "<td id='tinterfaceReturn'>" + result[i].i_return + "</td>";  
 		        body    += "<td id='tinterfaceParaCount'>" + result[i].i_para_count + "</td>";
-			    body    += "<td>"+
-		        "<button id='editBtn' type='button' style='width: 30%;float: left;'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick='editClick(this);'>修改</button> "+
-		        "<button id='deleteBtn' type='button' style='margin-left: 10px; width: 30%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
-		        "<button id='interfaceDesc' type='button' style='width: 30%;'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick='DescClick(this);'>接口详情</button> "+
+		        body	+= "<td>"+
+		        "<button id='detailBtn' type='button' style='width:70%;float: right;margin-right:15%;margin-left: 15%;'class='btn btn-block btn-outline-success btn-sm' data-toggle='modal' data-target='#modal-detail'>接口详情</button> "+
+			    "</td>";
+		        body    += "<td>"+
+		        "<button id='addBtn'type='button' style='margin-left: 6px;width: 30%;float: left;'class='btn btn-block btn-outline-info btn-sm' data-toggle='modal' data-target='#modal-default' onclick='addClick();'>新增</button> "+
+		        "<button id='editBtn' type='button' style='margin-top:0px;margin-left: 6px;width: 30%;float: left;'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick='editClick();'>修改</button> "+
+		        "<button id='deleteBtn' type='button' style='margin-left: 6px; width: 30%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick();'>删除</button> "+
 		        "</td>";
 		        body    += "</tr>";
 			    $("#example1 tbody" ).append(body); 
@@ -209,9 +195,45 @@ function QryClsInterface(){//查类下属接口
 
 }
 
-
+function QryClsParaCount(){
+	$.ajax({
+		url:"/QryClsParaCount.do",
+		type:"POST",
+		async:true,
+		data:{"classId":classId},
+		success:function(result){
+			for(var i=0;i<result.length;i++){
+				var obody="";
+	        	obody	+= "<option id='opitem'>"+result[i].i_para_count +"</option>";
+	        	$("#selectCount" ).append(obody);
+				}
+		}
+	});	
+}
+function QryClsReturnType(){
+	$.ajax({
+		url:"/QryClsReturnType.do",
+		type:"POST",
+		async:true,
+		data:{"classId":classId},
+		success:function(result){
+			for(var i=0;i<result.length;i++){
+				console.log("!");
+				var obody="";
+	        	obody	+= "<option id='opitem'>"+result[i].i_return +"</option>";
+	        	$("#selectReturn" ).append(obody);
+				}
+		}
+	});	
+}
 
 
 </script>    
+
+<script type="text/javascript">
+	QryClsInterface();
+	QryClsParaCount();
+	QryClsReturnType();
+</script>
 </body>
 </html>

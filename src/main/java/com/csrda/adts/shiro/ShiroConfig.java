@@ -41,6 +41,13 @@ public class ShiroConfig {
 		//filterMap.put("/add", "perms[add]");
 		//filterMap.put("/update", "perms[update]");
 		
+		
+		
+
+		filterMap.put("/QryClsReturnType.do", "anon");
+		filterMap.put("/QryClsParaCount.do", "anon");
+		filterMap.put("/QryClsInterface.do", "anon");
+		
 		filterMap.put("/deleteCls.do", "anon");
 		filterMap.put("/InsertCls.do", "anon");
 		filterMap.put("/QryClsFather.do", "anon");

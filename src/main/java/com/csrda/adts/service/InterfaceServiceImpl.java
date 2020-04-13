@@ -15,17 +15,14 @@ public class InterfaceServiceImpl implements InterfaceService{
 	
 	
 	@Override
-	public List<Map<String, Object>> qryMidware() {
-		
+	public List<Map<String, Object>> qryMidware() {	
 		return interfaceDao.qryMidware();
 	}
 
 	@Override
 	public List<Map<String, Object>> qryClsFather() {
-		
 		return interfaceDao.qryClsFather();
 	}
-
 
 	@Override
 	public List<Map<String, Object>> qryMidwareClass(String midwareId) {
@@ -44,8 +41,6 @@ public class InterfaceServiceImpl implements InterfaceService{
 		return interfaceDao.qryMidClsByFather(cfather, midwareId);
 	}
 
-
-
 	@Override
 	public Map<String, Object> qryMidClsByCId(String cId) {
 		
@@ -55,20 +50,33 @@ public class InterfaceServiceImpl implements InterfaceService{
 	@Override
 	public int InsertCls(String modalCId,String modalCName,String modalCDesc,
 			String modalCFather, String modalCMidware) {
-		
 		return interfaceDao.InsertCls(modalCId,modalCName,modalCDesc,modalCFather, modalCMidware);
 	}
 
 	@Override
 	public int UpdateCls(String modalCId, String modalCName, String modalCDesc, String modalCFather,
 			String modalCMidware) {
-		
 		return interfaceDao.UpdateCls(modalCId, modalCName, modalCDesc, modalCFather, modalCMidware);
 	}
 
 	@Override
 	public int deleteCls(String cId) {
 		return interfaceDao.deleteCls(cId);
+	}
+
+	@Override
+	public List<Map<String, Object>> qryClsInterface(String classId) {
+		return interfaceDao.qryClsInterface(classId);
+	}
+
+	@Override
+	public List<Map<String, Object>> qryClsParaCount(String classId) {
+		return interfaceDao.qryClsParaCount(classId);
+	}
+
+	@Override
+	public List<Map<String, Object>> qryClsReturnType(String classId) {
+		return interfaceDao.qryClsReturnType(classId);
 	}
 
 	

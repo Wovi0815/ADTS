@@ -106,7 +106,31 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 			return "interfaceMain";
 		}
 			
+	//查询类下属接口
+	@RequestMapping("/QryClsInterface.do")
+	@ResponseBody
+	public List<Map<String,Object>> QryClsInterface(String classId) {		
+		List<Map<String, Object>> result = interfaceService.qryClsInterface(classId);
+		return result;
+	}
 	
+	//查询类下所有参数个数以构建下拉框
+	@RequestMapping("/QryClsParaCount.do")
+	@ResponseBody
+	public List<Map<String,Object>> QryClsParaCount(String classId) {
+		List<Map<String, Object>> result = interfaceService.qryClsParaCount(classId);
+		return result;
+	}	
+	//查询类下所有返回值类型以构建下拉框
+	@RequestMapping("/QryClsReturnType.do")		
+	@ResponseBody
+	List<Map<String,Object>> qryClsReturnType(String classId){
+		List<Map<String, Object>> result = interfaceService.qryClsReturnType(classId);
+		System.out.println("@!!!!!"+result);
+		return result;
+		
+	}
+		
 		
 		
 		
