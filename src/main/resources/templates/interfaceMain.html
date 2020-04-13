@@ -76,19 +76,28 @@
 	
 		<!-- 表格相关 -->   
             <div class="card-body">     
-      <button id='addBtn'type='button' style="margin-right:2% ;width: 5%;float: right;"class='btn btn-block btn-outline-info btn-sm' data-toggle="modal" data-target="#modal-default" onclick="addClick();">新增类</button> 
+      <button id='addBtn'type='button' style="margin-right:2% ;width: 8%;float: right;"class='btn btn-block btn-outline-info btn-sm' data-toggle="modal" data-target="#modal-default" onclick="addClick();">新增接口</button> 
         
         <!-- 下拉搜索框开始 -->   
- 		      <select class="form-control select2bs5"   style="margin-right:30%;width:15%;float:right;" id="selectClass">
-				<option>筛选条件/父类</option>
+ 		      <select class="form-control select2bs5"   style="margin-right:30%;width:15%;float:right;" id="selectClass1">
+				<option>筛选条件/返回值类型</option>
 		      </select>
+		      
+		      <select class="form-control select2bs5"   style="width:15%;float:right;" id="selectClass2">
+				<option>筛选条件/参数个数</option>
+		      </select>
+		      
         <!-- 下拉搜索框结束 -->     
         
        
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                  <th>jiekou标识</th>
+                  <th>接口标识</th>
+                  <th>接口名称</th>
+                  <th>返回值类型</th>
+                  <th>参数个数</th>
+                  <th>操作</th>
                
                 </tr>
                 </thead>
@@ -132,7 +141,7 @@
 	<!-- AdminLTE App -->
 	<script th:src="@{/dist/js/adminlte.js}"></script>
 
-	 	<input  id="clickKey"></input>
+	 
 	<!-- page script -->
 <script type="text/javascript">
 
@@ -156,7 +165,49 @@ console.log(classId);
 var inintKey=true;//初始化table 开关
 //------全局变量-------
 
+function QryClsInterface(){//查类下属接口
+	$("#example1 tbody" ).empty();
+	$.ajax({
+		url:"/QryClsInterface.do",
+		type:"POST",
+		async:true,
+		data:{"classId":classId},
+		success:function(result){
+			var body="";
+			for(var i=0;i<result.length;i++){
+				body = "<tr>";
+		        body    += "<td id='tinterfaceId'>" + result[i].i_id + "</td>";
+		        body    += "<td id='tinterfaceName'>" + result[i].i_name + "</td>";
+		        body    += "<td id='tinterfaceReturn'>" + result[i].i_return + "</td>";  
+		        body    += "<td id='tinterfaceParaCount'>" + result[i].i_para_count + "</td>";
+			    body    += "<td>"+
+		        "<button id='editBtn' type='button' style='width: 30%;float: left;'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick='editClick(this);'>修改</button> "+
+		        "<button id='deleteBtn' type='button' style='margin-left: 10px; width: 30%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
+		        "<button id='interfaceDesc' type='button' style='width: 30%;'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick='DescClick(this);'>接口详情</button> "+
+		        "</td>";
+		        body    += "</tr>";
+			    $("#example1 tbody" ).append(body); 
+			}
+		if(inintKey){
+			$("#example1").DataTable({
+			      "responsive": true,
+			      "autoWidth": false,
+			      "paging": true,
+			      "lengthChange": true,
+			      "searching": false,
+			      "ordering": true,
+			      "info": true,
+			    });
+			inintKey = false;
+		}
+			
+		},
+		error:function(result){
+			alert("未知错误联系管理员！");
+		}
+	});
 
+}
 
 
 
