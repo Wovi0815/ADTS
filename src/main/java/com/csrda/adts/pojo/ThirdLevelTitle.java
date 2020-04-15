@@ -5,8 +5,15 @@ import java.util.List;
 public class ThirdLevelTitle extends Title {
 	public Message message;
 	public Method method;
-	public ObjectDatas objectDatas;
+	public ObjectData objectData;
 	public List<FourthLevelTitle> titles;
+	public List<DataType> dataTypes;
+	public List<DataType> getDataTypes() {
+		return dataTypes;
+	}
+	public void setDataTypes(List<DataType> dataTypes) {
+		this.dataTypes = dataTypes;
+	}
 	public Message getMessage() {
 		return message;
 	}
@@ -19,11 +26,11 @@ public class ThirdLevelTitle extends Title {
 	public void setMethod(Method method) {
 		this.method = method;
 	}
-	public ObjectDatas getObjectDatas() {
-		return objectDatas;
+	public ObjectData getObjectDatas() {
+		return objectData;
 	}
-	public void setObjectDatas(ObjectDatas objectDatas) {
-		this.objectDatas = objectDatas;
+	public void setObjectDatas(ObjectData objectDatas) {
+		this.objectData = objectData;
 	}
 	public List<FourthLevelTitle> getTitles() {
 		return titles;

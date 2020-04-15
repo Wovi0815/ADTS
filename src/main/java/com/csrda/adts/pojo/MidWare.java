@@ -1,5 +1,7 @@
 package com.csrda.adts.pojo;
 
+import java.util.List;
+
 /**
  * @description:中间件类
  * */
@@ -10,6 +12,20 @@ public class MidWare {
 	public String midName;
 	/**中间件描述*/
 	public String midDesc;
+	public List<ObjectData> ObjectDatas;
+	public List<ObjectData> classs;
+	public List<ObjectData> getClasss() {
+		return classs;
+	}
+	public void setClasss(List<ObjectData> classs) {
+		this.classs = classs;
+	}
+	public List<ObjectData> getObjectDatas() {
+		return ObjectDatas;
+	}
+	public void setObjectDatas(List<ObjectData> objectDatas) {
+		ObjectDatas = objectDatas;
+	}
 	public String getMidID() {
 		return midID;
 	}

@@ -20,9 +20,29 @@ public class Param {
 	/**物理量杠*/
 	public String paraPhyDim;
 	/**最大值*/
-	public double paraMax;
+	public String paraMax;
 	/**最小值*/
-	public double paraMin;
+	public String paraMin;
+	public String getParaMax() {
+		return paraMax;
+	}
+	public void setParaMax(String paraMax) {
+		this.paraMax = paraMax;
+	}
+	public String getParaMin() {
+		return paraMin;
+	}
+	public void setParaMin(String paraMin) {
+		this.paraMin = paraMin;
+	}
+	public String getParaDefault() {
+		return paraDefault;
+	}
+	public void setParaDefault(String paraDefault) {
+		this.paraDefault = paraDefault;
+	}
+	/**默认值*/
+	public String paraDefault;
 	public String getParaId() {
 		return paraId;
 	}
@@ -59,24 +79,6 @@ public class Param {
 	public void setParaPhyDim(String paraPhyDim) {
 		this.paraPhyDim = paraPhyDim;
 	}
-	public double getParaMax() {
-		return paraMax;
-	}
-	public void setParaMax(double paraMax) {
-		this.paraMax = paraMax;
-	}
-	public double getParaMin() {
-		return paraMin;
-	}
-	public void setParaMin(double paraMin) {
-		this.paraMin = paraMin;
-	}
-	public double getParaDefault() {
-		return paraDefault;
-	}
-	public void setParaDefault(double paraDefault) {
-		this.paraDefault = paraDefault;
-	}
-	/**默认值*/
-	public double paraDefault;
+
+	
 }

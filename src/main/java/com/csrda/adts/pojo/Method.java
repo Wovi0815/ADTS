@@ -17,6 +17,29 @@ public class Method {
 	public String interfaceReturn;
 	/**返回值描述*/
 	public String interfaceReturnDesc;
+	/**接口原型*/
+	public String interfaceCode;
+	
+	public List<Param> outputParams;
+	public List<Param> inputParams;
+	public List<Param> getOutputParams() {
+		return outputParams;
+	}
+	public void setOutputParams(List<Param> outputParams) {
+		this.outputParams = outputParams;
+	}
+	public List<Param> getInputParams() {
+		return inputParams;
+	}
+	public void setInputParams(List<Param> inputParams) {
+		this.inputParams = inputParams;
+	}
+	public String getInterfaceCode() {
+		return interfaceCode;
+	}
+	public void setInterfaceCode(String interfaceCode) {
+		this.interfaceCode = interfaceCode;
+	}
 	/**参数列表*/
 	public List<Param> params;
 	public String getInterfaceId() {

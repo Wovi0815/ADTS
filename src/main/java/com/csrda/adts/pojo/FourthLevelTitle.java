@@ -3,7 +3,7 @@ package com.csrda.adts.pojo;
 public class FourthLevelTitle extends Title {
 	public Message message;
 	public Method method;
-	public ObjectDatas objectDatas;
+	public ObjectData objectData;
 	public Message getMessage() {
 		return message;
 	}
@@ -16,10 +16,10 @@ public class FourthLevelTitle extends Title {
 	public void setMethod(Method method) {
 		this.method = method;
 	}
-	public ObjectDatas getObjectDatas() {
-		return objectDatas;
+	public ObjectData getObjectDatas() {
+		return objectData;
 	}
-	public void setObjectDatas(ObjectDatas objectDatas) {
-		this.objectDatas = objectDatas;
+	public void setObjectDatas(ObjectData objectDatas) {
+		this.objectData = objectDatas;
 	}
 }
