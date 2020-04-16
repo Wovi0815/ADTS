@@ -8,7 +8,13 @@ import java.util.List;
  */
 public class Method {
 	public String id;
-	
+	public int eq;
+	public int getEq() {
+		return eq;
+	}
+	public void setEq(int eq) {
+		this.eq = eq;
+	}
 	/**接口标识*/
 	public String interfaceId;
 	/**接口名*/

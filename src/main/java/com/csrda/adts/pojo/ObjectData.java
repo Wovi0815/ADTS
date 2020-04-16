@@ -8,6 +8,13 @@ import java.util.List;
  * @description:类对象
  */
 public class ObjectData {
+	public int eq;
+	public int getEq() {
+		return eq;
+	}
+	public void setEq(int eq) {
+		this.eq = eq;
+	}
 	public String ClassId;
 	public String ClassName;
 	public String ClassDesc;

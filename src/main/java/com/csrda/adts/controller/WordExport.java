@@ -28,6 +28,8 @@ import com.csrda.adts.pojo.ThirdLevelTitle;
 import com.deepoove.poi.XWPFTemplate;
 import com.deepoove.poi.config.Configure;
 import com.deepoove.poi.policy.HackLoopTableRenderPolicy;
+import com.sun.org.slf4j.internal.Logger;
+import com.sun.org.slf4j.internal.LoggerFactory;
 
 @Controller
 public class WordExport {
@@ -35,14 +37,16 @@ public class WordExport {
 	@Autowired
 	WordExportDao wordExportDao;
 	
+	Logger logger=LoggerFactory.getLogger(getClass());
+	
 	@RequestMapping("/wordExport")
 	@ResponseBody
-	public String wordExport() throws IOException {
-		
-		//ThirdLevelTitle datatypes=null;
+	public Boolean wordExport(){
+		try {
+			//ThirdLevelTitle datatypes=null;
 		//datatypes=qryDataType();
-		SecondLevelTitle secondLevelTitle=null;
-		secondLevelTitle=qryStruct();
+		SecondLevelTitle secondLevelTitle=new SecondLevelTitle();
+		secondLevelTitle.setStructs(qryStruct());
 		secondLevelTitle.setDataTypes(qryDataType());
 		//secondLevelTitle.setDataType(datatypes.getDataType());
 		secondLevelTitle.setMidWares(qryMidWare());
@@ -58,17 +62,102 @@ public class WordExport {
 				.build();
 				
 		
-		XWPFTemplate template = XWPFTemplate.compile("src/main/resources/temp.docx",config).render(secondLevelTitle);
-		FileOutputStream out = new FileOutputStream("src/main/resources/public/output.docx");
+		XWPFTemplate template = XWPFTemplate.compile("src/main/resources/public/temp/temp.docx",config).render(secondLevelTitle);
+		FileOutputStream out = new FileOutputStream("src/main/resources/public/output/output.docx");
 		template.write(out); 
 		out.flush();
 		out.close();
 		template.close();
+		return true;
+		} catch (Exception e) {
+			//System.out.println(e.getStackTrace());
+			logger.debug(e.getStackTrace().toString());
+			return false;
+		}
 		
 		
-		return "success";
 	}
 	
+	@RequestMapping("/exportDataType")
+	@ResponseBody
+	public Boolean exportDataType() throws IOException {
+		try {
+		SecondLevelTitle secondLevelTitle=new SecondLevelTitle();
+		secondLevelTitle.setStructs(qryStruct());
+		secondLevelTitle.setDataTypes(qryDataType());
+		HackLoopTableRenderPolicy policy = new HackLoopTableRenderPolicy();
+		Configure config = Configure.newBuilder()
+				.bind("dataTypes",policy)
+				.bind("structMembers", policy)
+				.build();
+				
+		XWPFTemplate template = XWPFTemplate.compile("src/main/resources/public/temp/typeDataTemp.docx",config).render(secondLevelTitle);
+		FileOutputStream out = new FileOutputStream("src/main/resources/public/output/typeData.docx");
+		template.write(out); 
+		out.flush();
+		out.close();
+		template.close();
+		return true;
+		} catch (Exception e) {
+			logger.debug(e.getStackTrace().toString());
+			return false;
+		}
+	}
+	
+	@RequestMapping("/exportMidware")
+	@ResponseBody
+	public Boolean exportMidware() {
+		try {
+			SecondLevelTitle secondLevelTitle=new SecondLevelTitle();
+			
+			secondLevelTitle.setMidWares(qryMidWare());
+			HackLoopTableRenderPolicy policy = new HackLoopTableRenderPolicy();
+			Configure config = Configure.newBuilder()
+					.bind("objectDatas", policy)
+					.bind("interfaces", policy)
+					.bind("inputParams", policy)
+					.bind("outputParams", policy)
+					.build();
+					
+			XWPFTemplate template = XWPFTemplate.compile("src/main/resources/public/temp/midWareTemp.docx",config).render(secondLevelTitle);
+			FileOutputStream out = new FileOutputStream("src/main/resources/public/output/midWare.docx");
+			template.write(out); 
+			out.flush();
+			out.close();
+			template.close();
+			return true;
+		} catch (Exception e) {
+			//System.out.println(e.getStackTrace());
+			logger.debug(e.getStackTrace().toString());
+			return false;
+		}
+	}
+	
+	@RequestMapping("/exportMessage")
+	@ResponseBody
+	public Boolean exportMessage() {
+		try {
+			SecondLevelTitle secondLevelTitle=new SecondLevelTitle();
+			secondLevelTitle.setMessages(qryMessage());
+			HackLoopTableRenderPolicy policy = new HackLoopTableRenderPolicy();
+			Configure config = Configure.newBuilder()
+					.bind("mesDatas", policy)
+					.build();
+					
+			XWPFTemplate template = XWPFTemplate.compile("src/main/resources/public/temp/messageTemp.docx",config).render(secondLevelTitle);
+			FileOutputStream out = new FileOutputStream("src/main/resources/public/output/message.docx");
+			template.write(out); 
+			out.flush();
+			out.close();
+			template.close();
+			
+			return true;
+		} catch (Exception e) {
+			//System.out.println(e.getStackTrace());
+			logger.debug(e.getStackTrace().toString());
+			return false;
+		}
+	}
 	
 	public List<DataType> qryDataType() {
 		ThirdLevelTitle thirdLevelTitle=new ThirdLevelTitle();
@@ -86,7 +175,7 @@ public class WordExport {
 		return dataTypes;
 	}
 	
-	public SecondLevelTitle qryStruct() {
+	public List<DataType> qryStruct() {
 		SecondLevelTitle secondLevelTitle=new SecondLevelTitle();
 		List<Map<String, Object>> typeDatas=wordExportDao.qryStruct();
 		List<DataType> structs=new ArrayList<DataType>();
@@ -120,12 +209,12 @@ public class WordExport {
 			}
 			definition=definition+"}"+dataType.getTypeId()+";";
 			dataType.setStructMembers(structMems);
-			structs.add(dataType);
 			dataType.setDefinition(definition);
+			structs.add(dataType);
 		}
-		secondLevelTitle.setStructs(structs);
+		//secondLevelTitle.setStructs(structs);
 		
-		return secondLevelTitle;
+		return structs;
 	}
 	
 	
@@ -142,6 +231,7 @@ public class WordExport {
 			List<ObjectData> objectDatas=new ArrayList<ObjectData>();
 			for (int j = 0; j < qryObject.size(); j++) {
 				ObjectData objectData=new ObjectData();
+				objectData.setEq(j+1);
 				objectData.setClassId(qryObject.get(j).get("c_id").toString());
 				objectData.setClassName(qryObject.get(j).get("c_name").toString());
 				objectData.setClassDesc(qryObject.get(j).get("c_desc").toString());
@@ -151,6 +241,7 @@ public class WordExport {
 				List<Method> methods=new ArrayList<Method>();
 				for (int k = 0; k < qryMethod.size(); k++) {
 					Method method=new Method();
+					method.setEq(k+1);
 					method.setId(qryMethod.get(k).get("id").toString());
 					method.setInterfaceId(qryMethod.get(k).get("i_id").toString());
 					method.setInterfaceName(qryMethod.get(k).get("i_name").toString());

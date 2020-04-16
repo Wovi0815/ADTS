@@ -36,6 +36,9 @@
 					<i class="fas fa-bars"></i>
 				</a>
 			</li>
+			<li class="nav-item">
+			<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-sm">Small modal</button>
+			</li>
 		</ul>
 		
 		<ul class="navbar-nav ml-auto" style="float: right;" >
@@ -110,11 +113,38 @@
               </li>
               
               
-              <li class="nav-item">
-                <a href="/ReportGenerate" target="zhu" class="nav-link">
+              <li class="nav-item has-treeview menu-close">
+                <a href="/ReportGenerate" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>文档生成</p>
+                  <i class="right fas fa-angle-left"></i>
                 </a>
+				<ul class="nav nav-treeview">
+					<li class="nav-item">
+					  <a href="#" class="nav-link" >
+						<i class="far fa-circle nav-icon"></i>
+						<p id="exportAll">生成全部</p>
+					  </a>
+					</li>
+					<li class="nav-item">
+					  <a href="#" class="nav-link" >
+						<i class="far fa-circle nav-icon"></i>
+						<p id="exportDataType">生成数据类型部分</p>
+					  </a>
+					</li>
+					<li class="nav-item">
+					  <a href="#" class="nav-link" >
+						<i class="far fa-circle nav-icon"></i>
+						<p id="exportInterface">生成接口部分</p> 
+					  </a>
+					</li>
+					<li class="nav-item">
+					  <a href="#" class="nav-link" >
+						<i class="far fa-circle nav-icon"></i>
+						<p id="exportMessage">生成报文部分</p>
+					  </a>
+					</li>
+				</ul>
               </li>
          
             
@@ -145,7 +175,35 @@
     <!-- Control sidebar content goes here -->
   </aside>
   <!-- /.control-sidebar -->
-</div>
+  
+  <!-- Small modal -->
+
+
+		<div id="myModal" class="modal fade bd-example-modal-sm" tabindex="-1"
+			role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-sm" role="document">
+				<div class="modal-content">
+
+					<div class="card card-info">
+						<div class="card-header">
+							<h3 class="card-title">ADTS</h3>
+						</div>
+						<label id="item" for="inputEmail3" class="col-form-label"
+							style="margin: auto;">正在生成请稍后。。</label>
+						<div id="loading" class="spinner-border text-warning" role="status"
+							style="margin: auto;">
+							<span class="sr-only">Loading...</span>
+						</div>
+
+					</div>
+					<div id="success" class="modal-footer">
+					    <button type="button" class="btn btn-secondary" data-dismiss="modal">确认</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
 <!-- ./wrapper -->
 
 <!-- jQuery -->
@@ -212,5 +270,105 @@ ifr.onload = function() {
     var height = calcPageHeight(iDoc)
     ifr.style.height = $(".content-wrapper").height()+"px";
 }
+$("#exportAll").click(function(){
+	console.log("exportAll");
+	$("#loading").show();
+	$('#myModal').modal('show');
+	$("#success").hide();
+	$.ajax({
+		url:"/wordExport",
+		type:"post",
+		async:true,
+		success:function(result){
+			if(result==true){
+				$("#item").text("生成成功！！！");
+				$("#loading").hide();
+				$("#success").show();
+			}else{
+				$("#item").text("生成失败！！！");
+				$("#loading").hide();
+				$("#success").show();
+			}
+		},
+		error:function(result){
+			alert("未知错误联系管理员！");
+		}
+	});
+});
+$("#exportDataType").click(function(){
+	console.log("exportDataType");
+	$("#loading").show();
+	$('#myModal').modal('show');
+	$("#success").hide();
+	$.ajax({
+		url:"/exportDataType",
+		type:"post",
+		async:true,
+		success:function(result){
+			if(result==true){
+				$("#item").text("生成成功！！！");
+				$("#loading").hide();
+				$("#success").show();
+			}else{
+				$("#item").text("生成失败！！！");
+				$("#loading").hide();
+				$("#success").show();
+			}
+		},
+		error:function(result){
+			alert("未知错误联系管理员！");
+		}
+	});
+});
+$("#exportInterface").click(function(){
+	console.log("exportInterface");
+	$("#loading").show();
+	$('#myModal').modal('show');
+	$("#success").hide();
+	$.ajax({
+		url:"/exportMidware",
+		type:"post",
+		async:true,
+		success:function(result){
+			if(result==true){
+				$("#item").text("生成成功！！！");
+				$("#loading").hide();
+				$("#success").show();
+			}else{
+				$("#item").text("生成失败！！！");
+				$("#loading").hide();
+				$("#success").show();
+			}
+		},
+		error:function(result){
+			alert("未知错误联系管理员！");
+		}
+	});
+});
+$("#exportMessage").click(function(){
+	console.log("exportMessage");
+	$("#loading").show();
+	$('#myModal').modal('show');
+	$("#success").hide();
+	$.ajax({
+		url:"/exportMessage",
+		type:"post",
+		async:true,
+		success:function(result){
+			if(result==true){
+				$("#item").text("生成成功！！！");
+				$("#loading").hide();
+				$("#success").show();
+			}else{
+				$("#item").text("生成失败！！！");
+				$("#loading").hide();
+				$("#success").show();
+			}
+		},
+		error:function(result){
+			alert("未知错误联系管理员！");
+		}
+	});
+});
 </script>
 </html>
