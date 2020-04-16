@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.druid.sql.visitor.functions.Char;
 import com.csrda.adts.dao.WordExportDao;
 import com.csrda.adts.pojo.DataType;
+import com.csrda.adts.pojo.Message;
+import com.csrda.adts.pojo.MessageData;
 import com.csrda.adts.pojo.Method;
 import com.csrda.adts.pojo.MidWare;
 import com.csrda.adts.pojo.ObjectData;
@@ -44,6 +46,7 @@ public class WordExport {
 		secondLevelTitle.setDataTypes(qryDataType());
 		//secondLevelTitle.setDataType(datatypes.getDataType());
 		secondLevelTitle.setMidWares(qryMidWare());
+		secondLevelTitle.setMessages(qryMessage());
 		HackLoopTableRenderPolicy policy = new HackLoopTableRenderPolicy();
 		Configure config = Configure.newBuilder().bind("dataTypes",policy)
 				.bind("structMembers", policy)
@@ -51,6 +54,7 @@ public class WordExport {
 				.bind("interfaces", policy)
 				.bind("inputParams", policy)
 				.bind("outputParams", policy)
+				.bind("mesDatas", policy)
 				.build();
 				
 		
@@ -147,6 +151,7 @@ public class WordExport {
 				List<Method> methods=new ArrayList<Method>();
 				for (int k = 0; k < qryMethod.size(); k++) {
 					Method method=new Method();
+					method.setId(qryMethod.get(k).get("id").toString());
 					method.setInterfaceId(qryMethod.get(k).get("i_id").toString());
 					method.setInterfaceName(qryMethod.get(k).get("i_name").toString());
 					method.setInterfaceDesc(qryMethod.get(k).get("i_desc").toString());
@@ -155,7 +160,7 @@ public class WordExport {
 					method.setInterfaceCode(method.getInterfaceReturn()+" "+
 							objectData.getClassId()+"::"+
 							method.getInterfaceId()+"(");
-					List<Map<String, Object>> qryInputParam=wordExportDao.qryInputParam(method.interfaceId);
+					List<Map<String, Object>> qryInputParam=wordExportDao.qryInputParam(method.getId());
 					List<Param> inputParams=new ArrayList<Param>();
 					List<Param> outputParams=new ArrayList<Param>();
 					for (int l = 0; l < qryInputParam.size(); l++) {
@@ -178,7 +183,7 @@ public class WordExport {
 						}
 						inputParams.add(param);
 					}
-					List<Map<String, Object>> qryOutputParam=wordExportDao.qryOutputParam(method.interfaceId);
+					List<Map<String, Object>> qryOutputParam=wordExportDao.qryOutputParam(method.getId());
 					for (int l = 0; l < qryOutputParam.size(); l++) {
 						Param param=new Param();
 						param.setParaId(qryInputParam.get(l).get("para_id").toString());
@@ -226,6 +231,37 @@ public class WordExport {
 		
 		return midWares;
 		
+	}
+	
+	
+	public List<Message> qryMessage(){
+		List<Message> messages=new ArrayList<Message>();
+		List<Map<String, Object>> qryMessage=wordExportDao.qryMessage();
+		for (int i = 0; i < qryMessage.size(); i++) {
+			Message message=new Message();
+			message.setMesId(qryMessage.get(i).get("mes_id").toString());
+			message.setMesName(qryMessage.get(i).get("mes_name").toString());
+			message.setMesDesc(qryMessage.get(i).get("mes_desc").toString());
+			message.setMesDestination(qryMessage.get(i).get("mes_destination").toString());
+			message.setMesFunId(qryMessage.get(i).get("mes_fun_id").toString());
+			message.setMesSource(qryMessage.get(i).get("mes_source").toString());
+			message.setMesIdNum(qryMessage.get(i).get("mes_id_num").toString());
+			List<MessageData> mesDatas=new ArrayList<MessageData>();
+			List<Map<String, Object>> qryMesMem=wordExportDao.qryMesMem(message.getMesId());
+			for (int j = 0; j < qryMesMem.size(); j++) {
+				MessageData messageData=new MessageData();
+				messageData.setMesDataRange(qryMesMem.get(j).get("mes_data_range").toString());
+				messageData.setMesDataName(qryMesMem.get(j).get("mes_data_name").toString());
+				messageData.setMesDataDesc(qryMesMem.get(j).get("mes_data_desc").toString());
+				messageData.setMesDataType(qryMesMem.get(j).get("mes_data_type").toString());
+				messageData.setMesDataLong(qryMesMem.get(j).get("mes_data_long").toString());
+				mesDatas.add(messageData);
+			}
+			System.out.println(mesDatas.toString());
+			message.setMesDatas(mesDatas);
+			messages.add(message);
+		}
+		return messages;
 	}
 	
 	

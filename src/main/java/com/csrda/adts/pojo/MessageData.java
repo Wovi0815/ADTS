@@ -13,6 +13,13 @@ public class MessageData {
 	public String mesDataDesc;
 	/**数据类型*/
 	public String mesDataType;
+	public String mesDataLong;
+	public String getMesDataLong() {
+		return mesDataLong;
+	}
+	public void setMesDataLong(String mesDataLong) {
+		this.mesDataLong = mesDataLong;
+	}
 	public String getMesDataRange() {
 		return mesDataRange;
 	}

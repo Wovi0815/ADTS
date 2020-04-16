@@ -93,4 +93,25 @@ public interface WordExportDao {
 			"ORDER BY\r\n" + 
 			"	t.para_eq;")
 	public List<Map<String,Object>> qryOutputParam(String interfaceId);
+	
+	@Select("SELECT * FROM t_message")
+	public List<Map<String,Object>> qryMessage();
+	
+	@Select("select * from(\r\n" + 
+			"SELECT\r\n" + 
+			"	mes_id,\r\n" + 
+			"	mes_data_range,\r\n" + 
+			"	mes_data_name,\r\n" + 
+			"	mes_data_desc,\r\n" + 
+			"	mes_data_type,\r\n" + 
+			"	mes_data_long,\r\n" + 
+			"	CONVERT(SUBSTRING_INDEX(mes_data_range,\"~\",1),UNSIGNED INTEGER) as num\r\n" + 
+			"FROM\r\n" + 
+			"	`t_mes_data` \r\n" + 
+			"WHERE\r\n" + 
+			"	mes_id = #{mesId}\r\n" + 
+			"	) a \r\n" + 
+			"	ORDER BY a.num;")
+	public List<Map<String,Object>> qryMesMem(String mesId);
+	
 }

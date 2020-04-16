@@ -7,6 +7,8 @@ import java.util.List;
  * @description:接口类
  */
 public class Method {
+	public String id;
+	
 	/**接口标识*/
 	public String interfaceId;
 	/**接口名*/
@@ -21,7 +23,15 @@ public class Method {
 	public String interfaceCode;
 	
 	public List<Param> outputParams;
+	
 	public List<Param> inputParams;
+	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	public List<Param> getOutputParams() {
 		return outputParams;
 	}

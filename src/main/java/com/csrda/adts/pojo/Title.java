@@ -12,6 +12,13 @@ public class Title {
 	public DataType dataType;
 	public List<DataType> dataTypes;
 	public List<MidWare> midWares;
+	public List<Message> messages;
+	public List<Message> getMessages() {
+		return messages;
+	}
+	public void setMessages(List<Message> messages) {
+		this.messages = messages;
+	}
 	public List<MidWare> getMidWares() {
 		return midWares;
 	}
