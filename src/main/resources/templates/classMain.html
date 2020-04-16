@@ -79,7 +79,7 @@
       <button id='addBtn'type='button' style="margin-right:2% ;width: 5%;float: right;"class='btn btn-block btn-outline-info btn-sm' data-toggle="modal" data-target="#modal-default" onclick="addClick();">新增类</button> 
         
         <!-- 下拉搜索框开始 -->   
- 		      <select class="form-control select2bs5"   style="margin-right:30%;width:15%;float:right;" id="selectClass1">
+ 		      <select class="form-control select2bs5"   style="margin-right:30%;width:15%;float:right;" id="selectClass">
 				<option>筛选条件/父类</option>
 		      </select>
 
@@ -232,7 +232,11 @@ $("#selectClass").change(function(){
 		 QryMidCls();
 		 QryMidClsFather();
 	}else{
-		$("#example1 tbody" ).empty(); 
+		
+		 var oldTable = $('#example1').dataTable();
+		    oldTable.fnClearTable(); //清空一下table
+		    oldTable.fnDestroy();
+		    $("#example1 tbody" ).empty(); 
 		$.ajax({
 			url:"/QryMidClsByFather.do",
 			type:"POST",
@@ -257,7 +261,17 @@ $("#selectClass").change(function(){
 			        body    += "</tr>";  
 			        $("#example1 tbody" ).append(body); 
 				}
-
+				$("#example1").DataTable({
+				      "responsive": true,
+				      "autoWidth": false,
+				      "paging": true,
+				      "lengthChange": true,
+				      "searching": false,
+				      "ordering": true,
+				      "info": true,
+				    });
+				
+		
 			},
 			error:function(result){
 				alert("未知错误联系管理员！");
