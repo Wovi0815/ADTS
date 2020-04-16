@@ -40,7 +40,7 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 			return result;
 		}
 
-	//查询中间件下所有父类，构建下拉框
+	//查询中间件下所有父类，构建筛选下拉框
 		@RequestMapping("/QryMidClsFather.do")
 		@ResponseBody
 		public List<Map<String,Object>> QueryMidClsFather(String midwareId) {
@@ -52,8 +52,13 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 		@RequestMapping("/QryMidClsByFather.do")
 		@ResponseBody
 		public List<Map<String,Object>> QueryMidClsByFather(String cfather,String midwareId) {
-			List<Map<String, Object>> result = interfaceService.qryMidClsByFather(cfather, midwareId);
-			return result;
+			List<Map<String, Object>> result = null;
+			if(cfather==""){
+				result = interfaceService.qryMidwareClass(midwareId);	
+			}else {
+				result = interfaceService.qryMidClsByFather(cfather, midwareId);
+			}
+		return result;
 		}
 		
 		
@@ -66,10 +71,10 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 		};
 
 	//查询所有父类、
-		@RequestMapping("/QryClsFather.do")
+		@RequestMapping("/QryClsBeFather.do")
 		@ResponseBody
-		public List<Map<String,Object>> QueryClsFather() {
-			List<Map<String, Object>> result = interfaceService.qryClsFather();
+		public List<Map<String,Object>> QueryClsFather(String midwareId) {
+			List<Map<String, Object>> result = interfaceService.qryClsBeFather(midwareId);
 			return result;
 		};
 

@@ -20,8 +20,8 @@ public class InterfaceServiceImpl implements InterfaceService{
 	}
 
 	@Override
-	public List<Map<String, Object>> qryClsFather() {
-		return interfaceDao.qryClsFather();
+	public List<Map<String, Object>> qryClsBeFather(String midwareId) {
+		return interfaceDao.qryClsBeFather(midwareId);
 	}
 
 	@Override

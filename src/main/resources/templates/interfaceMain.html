@@ -207,6 +207,9 @@ function QryClsParaCount(){
 	        	obody	+= "<option id='opitem'>"+result[i].i_para_count +"</option>";
 	        	$("#selectCount" ).append(obody);
 				}
+		},
+		error:function(result){
+			alert("未知错误联系管理员！");
 		}
 	});	
 }
@@ -222,6 +225,9 @@ function QryClsReturnType(){
 	        	obody	+= "<option id='opitem'>"+result[i].i_return +"</option>";
 	        	$("#selectReturn" ).append(obody);
 				}
+		},
+		error:function(result){
+			alert("未知错误联系管理员！");
 		}
 	});	
 }
@@ -237,7 +243,10 @@ $("#select").change(function(){
 	if(selectCount=="筛选条件/参数个数"){
 		selectCount=null;
 	}
-	$("#example1 tbody" ).empty(); 
+	var oldTable = $('#example1').dataTable();
+    oldTable.fnClearTable(); 
+    oldTable.fnDestroy();
+	
 	
 	$.ajax({
 		url:"/QryInterfaceBySelect.do",
@@ -268,36 +277,24 @@ $("#select").change(function(){
 			    $("#example1 tbody" ).append(body); 
 				
 			}
+			$("#example1").DataTable({
+			      "responsive": true,
+			      "autoWidth": false,
+			      "paging": true,
+			      "lengthChange": true,
+			      "searching": false,
+			      "ordering": true,
+			      "info": true,
+			    });
+		},	
+			error:function(result){
+			alert("未知错误联系管理员！");
 		}
 	});	
-	
-	
-	
+
 })
 
 	
-		
-	
-	
-		
-	
-
-		
-		
-		
-		
-	
-
-
-
-
-
-
-
-
-
-
-
 function showDetail(e){
 	$("#inputPara").empty();
 	 var interfaceId=$(e).parent().parent().find("td").eq(0).text();
@@ -348,6 +345,9 @@ function showDetail(e){
 						$("#inputPara").append(body);
 						paraDesc="";
 				 }
+				},	
+				error:function(result){
+					alert("未知错误联系管理员！");
 				}
 			});	
 		

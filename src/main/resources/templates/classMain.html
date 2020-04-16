@@ -59,7 +59,7 @@
 			</div>
 			<div class="form-group">
 			 <label for="iclsMidware">所属中间件</label>
-			<select class="form-control select2bs5"    id="iclsMidware">
+			 <input class="form-control" placeholder="所属中间件" id="iclsMidware" readonly="readonly">
 		    </select>
 			</div>
 
@@ -79,8 +79,8 @@
       <button id='addBtn'type='button' style="margin-right:2% ;width: 5%;float: right;"class='btn btn-block btn-outline-info btn-sm' data-toggle="modal" data-target="#modal-default" onclick="addClick();">新增类</button> 
         
         <!-- 下拉搜索框开始 -->   
- 		      <select class="form-control select2bs5"   style="margin-right:30%;width:15%;float:right;" id="selectClass">
-				<option>筛选条件/父类</option>
+ 		      <select class="form-control select2bs5"   style="margin-right:5%;width:15%;float:right;" id="selectClass">
+				
 		      </select>
 
         <!-- 下拉搜索框结束 -->     
@@ -184,7 +184,6 @@ function QryMidCls(){//查中间件下属类
 		        body    += "</tr>";
 			    $("#example1 tbody" ).append(body); 
 			}
-		if(inintKey){
 			$("#example1").DataTable({
 			      "responsive": true,
 			      "autoWidth": false,
@@ -194,9 +193,7 @@ function QryMidCls(){//查中间件下属类
 			      "ordering": true,
 			      "info": true,
 			    });
-			inintKey = false;
-		}
-			
+
 		},
 		error:function(result){
 			alert("未知错误联系管理员！");
@@ -204,19 +201,23 @@ function QryMidCls(){//查中间件下属类
 	});
 
 }
-//查询中间件下所有父类，####类页面：下拉框#####
+//查询中间件的当前类页面的所有父类
 function QryMidClsFather(){
+	$("#selectClass" ).empty();
 	$.ajax({
 		url:"/QryMidClsFather.do",
 		type:"POST",
 		async:true,
 		data:{"midwareId":midwareId},
 		success:function(result){
+			var obody="<option>筛选条件/父类</option>";
 			for(var i=0;i<result.length;i++){
-				var obody="";
 	        	obody	+= "<option id='opitem'>"+result[i].c_father +"</option>";
-	        	$("#selectClass" ).append(obody);
 				}
+			$("#selectClass" ).append(obody);
+		},	
+		error:function(result){
+			alert("未知错误联系管理员！");
 		}
 	});
 }
@@ -226,17 +227,11 @@ function QryMidClsFather(){
 $("#selectClass").change(function(){
 	var cfather =$("#selectClass").val();
 	if(cfather=="筛选条件/父类"){
-		 $("#example1 tbody" ).empty();
-		 $("#selectClass" ).empty();
-		 $("#selectClass" ).append("<option>筛选条件/父类</option>");
-		 QryMidCls();
-		 QryMidClsFather();
-	}else{
-		
+		cfather=null;	
+	}
 		 var oldTable = $('#example1').dataTable();
-		    oldTable.fnClearTable(); //清空一下table
+		    oldTable.fnClearTable(); 
 		    oldTable.fnDestroy();
-		    $("#example1 tbody" ).empty(); 
 		$.ajax({
 			url:"/QryMidClsByFather.do",
 			type:"POST",
@@ -270,31 +265,33 @@ $("#selectClass").change(function(){
 				      "ordering": true,
 				      "info": true,
 				    });
-				
-		
+
 			},
 			error:function(result){
 				alert("未知错误联系管理员！");
 			}
 		});
 
-	}
+	
 	
 });
-//查询所有父类、中间件 供新增、编辑 使用 #####模态框：下拉#####
-function qryClsFather(iclsFather){
+//查询所有类、供新增、编辑 使用 #####模态框：下拉#####
+function qryClsBeFather(iclsFather){
 	$("#iclsFather" ).empty();
 	$.ajax({
-		url:"/QryClsFather.do",
+		url:"/QryClsBeFather.do",
 		type:"POST",
 		async:true,
+		data:{
+			"midwareId":midwareId
+		},
 		success:function(result){
 			for(var i=0;i<result.length;i++){
 				var obody="";
-				if(result[i].c_father == iclsFather){
-					obody	+= "<option selected='selected'>"+result[i].c_father +"</option>";
+				if(result[i].c_id == iclsFather){
+					obody	+= "<option selected='selected'>"+result[i].c_id +"</option>";
 				}else{
-					obody	+= "<option>"+result[i].c_father +"</option>";
+					obody	+= "<option>"+result[i].c_id +"</option>";
 				}
 	        	$("#iclsFather" ).append(obody);
 			}
@@ -305,39 +302,14 @@ function qryClsFather(iclsFather){
 	});
 }
 
-function qryClsMid(iclsmid){
-	$("#iclsMidware").empty();
-	$.ajax({
-		url:"/QueryMidware.do",
-		type:"POST",
-		async:true,
-		success:function(result){	
-			for(var i=0;i<result.length;i++){
-				var obody="";
-				if(result[i].mid_id == iclsMidware){
-					obody	+= "<option selected='selected'>"+result[i].mid_id +"</option>";
-				}else{
-					obody	+= "<option>"+result[i].mid_id +"</option>";
-				}
-	        	$("#iclsMidware" ).append(obody);
-			}
-			
-		},
-		error:function(result){
-			alert("未知错误联系管理员！");
-		}
-	});	
-	
-}
+
 
 
 //新增     ###模态框内容####
 function addClick(){
 	clickKey="add";
-	var body ="<option selected='selected'>"+midwareId+"</option>";
-	qryClsFather();
-	$("#iclsMidware").empty();
-	$("#iclsMidware").append(body);
+	qryClsBeFather();
+	$("#iclsMidware").val(midwareId);
 	$("#iclsId").val("");
 	$("#iclsId").removeAttr("readonly");
 	$("#iclsName").val("");
@@ -363,8 +335,8 @@ function editClick(e){
 				$("#iclsDesc").val(result.c_desc);
 				var iclsFather =result.c_father;
 				var iclsMidware =result.c_midware;
-				qryClsFather(iclsFather);
-				qryClsMid(iclsMidware);
+				$("#iclsMidware").val(result.c_midware);
+				qryClsBeFather(iclsFather);
 			},
 			error:function(result){
 				alert("未知错误联系管理员！");
@@ -387,8 +359,11 @@ function InsertData(modalCId,modalCName,modalCDesc,modalCFather,modalCMidware){
 			},
 			success:function(result){
 				if(result=1){
-					alert("插入失败");
 					$('#modal-default').modal("hide");
+					var oldTable = $('#example1').dataTable();
+				    oldTable.fnClearTable(); 
+				    oldTable.fnDestroy();
+					QryMidCls();
 				}else{
 					alert("插入失败");
 				}
@@ -417,6 +392,10 @@ function UpdateData(modalCId,modalCName,modalCDesc,modalCFather,modalCMidware){
 		success:function(result){
 			if(result=1){
 				$('#modal-default').modal("hide");
+				var oldTable = $('#example1').dataTable();
+			    oldTable.fnClearTable(); 
+			    oldTable.fnDestroy();
+				QryMidCls();
 			}else{
 				alert("更新失败");
 			}
@@ -456,6 +435,7 @@ function changeDataByKey(modalCId,modalCName,modalCDesc,modalCFather,modalCMidwa
 
 }	
 function save(){
+	debugger;
 	var modalCId=$("#iclsId").val();
 	var modalCName=$("#iclsName").val();
 	var modalCDesc=$("#iclsDesc").val();
@@ -480,7 +460,11 @@ function deleteClick(e){
 		},
 		success:function(result){
 			if(result=1){
+				var oldTable = $('#example1').dataTable();
+			    oldTable.fnClearTable(); 
+			    oldTable.fnDestroy();
 				QryMidCls();
+				QryMidClsFather();
 			}else{
 				alert("删除失败");
 			}

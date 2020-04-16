@@ -14,15 +14,15 @@ public interface InterfaceDao {
 	/**
 	 * 查所有中间件
 	 */
-	@Select("SELECT * FROM t_midware ")
+	@Select("SELECT * FROM t_midware  WHERE t_midware.is_delete='1'")
 	List<Map<String,Object>> qryMidware();
 	
 	
 	/**
-	 * 查所有父类
+	 * 查中间件所有类构建父类
 	 */
-	@Select("SELECT c_father FROM t_class GROUP BY c_father")
-	List<Map<String,Object>> qryClsFather();
+	@Select("SELECT c.c_id FROM t_class c WHERE c.is_delete='1' AND c.c_midware=#{midwareId} GROUP BY c.c_id")
+	List<Map<String,Object>> qryClsBeFather(String midwareId);
 	
 	
 	/**
@@ -35,8 +35,8 @@ public interface InterfaceDao {
 	 * 查询中间件下所有父类，构建下拉框
 	 */
 	@Select("SELECT c.c_father FROM t_class c " + 
-			"WHERE c.c_midware=#{midwareId}" + 
-			"GROUP BY c.c_father")
+			"WHERE c.c_midware=#{midwareId} AND c.is_delete='1'  " + 
+			" GROUP BY c.c_father")
 	List<Map<String,Object>> QryMidClsFather(String midwareId);
 	
 
@@ -45,14 +45,14 @@ public interface InterfaceDao {
 	 * 根据中间件和父类查下属所有类
 	 */
 	@Select("SELECT c.* FROM t_class c " + 
-			"WHERE c.c_midware =#{midwareId} AND c.c_father=#{cfather}" )
+			"WHERE c.c_midware =#{midwareId} AND c.c_father=#{cfather} AND c.is_delete='1' " )
 	List<Map<String,Object>> qryMidClsByFather(String cfather,String midwareId);
 
 	/**
 	 * 根据类标识查类信息
 	 */
 	@Select("SELECT c.c_id,c.c_name,c.c_desc,c.c_father,c.c_midware FROM t_class c "+
-			"WHERE c.c_id= #{cId}" )
+			"WHERE c.c_id= #{cId}  AND c.is_delete='1'" )
 	Map<String,Object> qryMidClsByCId(String cId);
 
 	/**

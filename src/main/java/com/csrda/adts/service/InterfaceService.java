@@ -11,9 +11,9 @@ public interface InterfaceService {
 	List<Map<String,Object>> qryMidware();
 	
 	/**
-	 * 查询所有父类
+	 * 查询中间件所有类构建父类
 	 */
-	List<Map<String,Object>> qryClsFather();
+	List<Map<String,Object>> qryClsBeFather(String midwareId);
 	
 	/**
 	 * 查询中间件下属类
