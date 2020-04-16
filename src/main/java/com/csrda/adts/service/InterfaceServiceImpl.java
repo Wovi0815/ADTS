@@ -79,6 +79,32 @@ public class InterfaceServiceImpl implements InterfaceService{
 		return interfaceDao.qryClsReturnType(classId);
 	}
 
+	@Override
+	public Map<String, Object> qryFindUniqueInterface(String interfaceId, String interfaceParaCount,
+			String interfaceParaList) {
+			return interfaceDao.qryFindUniqueInterface(interfaceId, interfaceParaCount, interfaceParaList);
+	}
+
+	@Override
+	public List<Map<String, Object>> qryInterfacePara(String id) {
+		return interfaceDao.qryInterfacePara(id);
+	}
+
+	@Override
+	public List<Map<String, Object>> qryInterfaceByParaCount(String selectCount, String classId) {
+		return interfaceDao.qryInterfaceByParaCount(selectCount, classId);
+	}
+
+	@Override
+	public List<Map<String, Object>> qryInterfaceByParaReturnType(String selectReturn, String classId) {
+		return interfaceDao.qryInterfaceByParaReturnType(selectReturn, classId);
+	}
+
+	@Override
+	public List<Map<String, Object>> qryInterfaceBySelect(String selectReturn, String selectCount, String classId) {
+		return interfaceDao.qryInterfaceBySelect(selectReturn, selectCount, classId);
+	}
+
 	
 	
 

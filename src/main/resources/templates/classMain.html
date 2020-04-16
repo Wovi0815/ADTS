@@ -458,7 +458,7 @@ function save(){
 function deleteClick(e){
 	var cId=$(e).parent().parent().find("td").eq(0).text();
 	$.ajax({
-		url:"/deleteCls.do",
+		url:"/DeleteCls.do",
 		type:"POST",
 		async:true,
 		data:{
