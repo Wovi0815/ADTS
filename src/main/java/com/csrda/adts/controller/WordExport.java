@@ -1,18 +1,29 @@
 package com.csrda.adts.controller;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.alibaba.druid.sql.visitor.functions.Char;
 import com.csrda.adts.dao.WordExportDao;
 import com.csrda.adts.pojo.DataType;
@@ -36,6 +47,7 @@ public class WordExport {
 	
 	@Autowired
 	WordExportDao wordExportDao;
+	
 	
 	Logger logger=LoggerFactory.getLogger(getClass());
 	
@@ -158,6 +170,7 @@ public class WordExport {
 			return false;
 		}
 	}
+	
 	
 	public List<DataType> qryDataType() {
 		ThirdLevelTitle thirdLevelTitle=new ThirdLevelTitle();
