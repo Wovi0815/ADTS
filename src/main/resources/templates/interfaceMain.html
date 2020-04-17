@@ -23,12 +23,12 @@
 		<link th:href="@{/dist/css/google.css}" rel="stylesheet">
 		
 		<title></title>
-		
+	
 	</head>
 	<body>
 
 	<div class="modal fade" id="modal-detail">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
           <div class="modal-content">
             <div class="modal-header">
               <h4 class="modal-title" id="modalTitle"></h4>
@@ -37,21 +37,16 @@
               </button>
             </div>
             <div class="modal-body">
-              
               	<!-- 模态框内容 -->
-			<div class="form-group" >
-			 <label>输入参数</label>
-			 <input class="form-control" placeholder="输入参数"  >
+			<div class="form-group" id="inputPara">
+
 			</div>
 			
+			<div class="form-group" id="outputPara">
 			
-
+			</div>
+			
             </div>
-            <div class="modal-footer justify-content-between">
-              <button id='closeModal' type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button id='saveModal' type="button" class="btn btn-primary" onclick="save();">Save changes</button>
-            </div>
-            
           </div>
         </div>
       </div>
@@ -59,8 +54,8 @@
 	
 		<!-- 表格相关 -->   
             <div class="card-body">     
-
-        <!-- 下拉搜索框开始 -->   
+			<div id="select">        
+	 
  		      <select class="form-control select2bs5"   style="margin-right:10%;width:15%;float:right;" id="selectReturn">
 				<option>筛选条件/返回值类型</option>
 		      </select>
@@ -69,7 +64,7 @@
 				<option>筛选条件/参数个数</option>
 		      </select>
 		      
-        <!-- 下拉搜索框结束 -->     
+       		</div>
         
        
               <table id="example1" class="table table-bordered table-striped">
@@ -79,16 +74,16 @@
                   <th>接口名称</th>
                   <th>返回值类型</th>
                   <th>参数个数</th>
+                  <th>参数类型</th>
                   <th>接口详情</th>
                   <th>操作</th>
-               
                 </tr>
                 </thead>
                 <tbody >
-                
                 </tbody>
               </table>
          </div>
+         
 
 	<script th:src="@{/plugins/jquery/jquery.js}" ></script>
 	<script th:src="@{/plugins/bootstrap/js/bootstrap.min.js}"></script>
@@ -113,9 +108,9 @@
 	<script th:src="@{/plugins/datatables-responsive/js/responsive.bootstrap4.min.js}"></script>
 	
 	<!-- ChartJS -->
-	<script th:src="@{/plugins/chart.js/Chart.min.js}"></script>
+	
 	<!-- Sparkline -->
-	<script th:src="@{/plugins/sparklines/sparkline.js}"></script>
+	<script th:src="@{/plugins/chart.js/Chart.min.js}"></script><script th:src="@{/plugins/sparklines/sparkline.js}"></script>
 	
 	<!-- jQuery Knob Chart -->
 	<script th:src="@{/plugins/jquery-knob/jquery.knob.min.js}"></script>
@@ -144,8 +139,10 @@ var theRequest = new Object();
 //------全局变量-------
 var a=GetRequest();//中间件菜单传值
 var classId=a['classId'];
-console.log(classId);
 var inintKey=true;//初始化table 开关
+var selectCount ;
+var selectReturn ;
+
 //------全局变量-------
 
 function QryClsInterface(){//查类下属接口
@@ -159,12 +156,13 @@ function QryClsInterface(){//查类下属接口
 			var body="";
 			for(var i=0;i<result.length;i++){
 				body = "<tr>";
-		        body    += "<td id='tinterfaceId'>" + result[i].i_id + "</td>";
+				body    += "<td id='tinterfaceId'>" + result[i].i_id + "</td>";
 		        body    += "<td id='tinterfaceName'>" + result[i].i_name + "</td>";
 		        body    += "<td id='tinterfaceReturn'>" + result[i].i_return + "</td>";  
 		        body    += "<td id='tinterfaceParaCount'>" + result[i].i_para_count + "</td>";
+		        body    += "<td id='tinterfaceParaType'>" + result[i].i_para_list + "</td>";
 		        body	+= "<td>"+
-		        "<button id='detailBtn' type='button' style='width:70%;float: right;margin-right:15%;margin-left: 15%;'class='btn btn-block btn-outline-success btn-sm' data-toggle='modal' data-target='#modal-detail'>接口详情</button> "+
+		        "<button id='detailBtn' type='button' style='width:70%;float: right;margin-right:15%;margin-left: 15%;'class='btn btn-block btn-outline-success btn-sm' data-toggle='modal' data-target='#modal-detail'onclick='showDetail(this)'>接口详情</button> "+
 			    "</td>";
 		        body    += "<td>"+
 		        "<button id='addBtn'type='button' style='margin-left: 6px;width: 30%;float: left;'class='btn btn-block btn-outline-info btn-sm' data-toggle='modal' data-target='#modal-default' onclick='addClick();'>新增</button> "+
@@ -173,7 +171,9 @@ function QryClsInterface(){//查类下属接口
 		        "</td>";
 		        body    += "</tr>";
 			    $("#example1 tbody" ).append(body); 
+				
 			}
+			
 		if(inintKey){
 			$("#example1").DataTable({
 			      "responsive": true,
@@ -207,6 +207,9 @@ function QryClsParaCount(){
 	        	obody	+= "<option id='opitem'>"+result[i].i_para_count +"</option>";
 	        	$("#selectCount" ).append(obody);
 				}
+		},
+		error:function(result){
+			alert("未知错误联系管理员！");
 		}
 	});	
 }
@@ -218,16 +221,137 @@ function QryClsReturnType(){
 		data:{"classId":classId},
 		success:function(result){
 			for(var i=0;i<result.length;i++){
-				console.log("!");
 				var obody="";
 	        	obody	+= "<option id='opitem'>"+result[i].i_return +"</option>";
 	        	$("#selectReturn" ).append(obody);
 				}
+		},
+		error:function(result){
+			alert("未知错误联系管理员！");
 		}
 	});	
 }
 
 
+//根据下拉框重新刷新表格
+$("#select").change(function(){
+	selectReturn =$("#selectReturn").val();	
+	selectCount =$("#selectCount").val();	
+	if(selectReturn=="筛选条件/返回值类型"){
+		selectReturn=null;
+	}
+	if(selectCount=="筛选条件/参数个数"){
+		selectCount=null;
+	}
+	var oldTable = $('#example1').dataTable();
+    oldTable.fnClearTable(); 
+    oldTable.fnDestroy();
+	
+	
+	$.ajax({
+		url:"/QryInterfaceBySelect.do",
+		type:"POST",
+		async:true,
+		data:{
+			"selectReturn":selectReturn,
+			"selectCount":selectCount,
+			"classId":classId
+			},
+		success:function(result){
+			for(var i=0;i<result.length;i++){
+				body = "<tr>";
+				body    += "<td id='tinterfaceId'>" + result[i].i_id + "</td>";
+		        body    += "<td id='tinterfaceName'>" + result[i].i_name + "</td>";
+		        body    += "<td id='tinterfaceReturn'>" + result[i].i_return + "</td>";  
+		        body    += "<td id='tinterfaceParaCount'>" + result[i].i_para_count + "</td>";
+		        body    += "<td id='tinterfaceParaType'>" + result[i].i_para_list + "</td>";
+		        body	+= "<td>"+
+		        "<button id='detailBtn' type='button' style='width:70%;float: right;margin-right:15%;margin-left: 15%;'class='btn btn-block btn-outline-success btn-sm' data-toggle='modal' data-target='#modal-detail'onclick='showDetail(this)'>接口详情</button> "+
+			    "</td>";
+		        body    += "<td>"+
+		        "<button id='addBtn'type='button' style='margin-left: 6px;width: 30%;float: left;'class='btn btn-block btn-outline-info btn-sm' data-toggle='modal' data-target='#modal-default' onclick='addClick();'>新增</button> "+
+		        "<button id='editBtn' type='button' style='margin-top:0px;margin-left: 6px;width: 30%;float: left;'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick='editClick();'>修改</button> "+
+		        "<button id='deleteBtn' type='button' style='margin-left: 6px; width: 30%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick();'>删除</button> "+
+		        "</td>";
+		        body    += "</tr>";
+			    $("#example1 tbody" ).append(body); 
+				
+			}
+			$("#example1").DataTable({
+			      "responsive": true,
+			      "autoWidth": false,
+			      "paging": true,
+			      "lengthChange": true,
+			      "searching": false,
+			      "ordering": true,
+			      "info": true,
+			    });
+		},	
+			error:function(result){
+			alert("未知错误联系管理员！");
+		}
+	});	
+
+})
+
+	
+function showDetail(e){
+	$("#inputPara").empty();
+	 var interfaceId=$(e).parent().parent().find("td").eq(0).text();
+	 var interfaceParaCount=$(e).parent().parent().find("td").eq(3).text();
+	 var interfaceParaList=$(e).parent().parent().find("td").eq(4).text();
+			$.ajax({
+				url:"/QryInterfaceDetail.do",
+				type:"POST",
+				async:true,
+				data:{
+					"interfaceId":interfaceId,
+					"interfaceParaCount":interfaceParaCount,
+					"interfaceParaList":interfaceParaList
+				},
+				success:function(result){
+				for(var i=0;i<result.length;i++){
+					var paraAttr = result[i].para_attr;
+					var paraType = result[i].para_type;
+					var paraId = result[i].para_id;
+					var paraDesc = result[i].para_desc;
+					var paraPhy =result[i].para_phy_dim;
+					var paraDefault =result[i].para_default;
+					var paraMax = result[i].para_max;
+					var paraMin = result[i].para_min;
+					var body="";
+					   	body +="<div class='input-group'>";
+						body += 	"<div class='input-group-prepend'>";
+						body +=		 "<span class='input-group-text' >"+paraAttr+"</span>";
+						body +=	 "</div>" ;
+						body +=	 "<div class='input-group-prepend'>";
+						body +=	 	"<span class='input-group-text'  style='width:55px;'>"+paraType+"</span>";
+						body +=	 "</div>";
+						body +=	 "<div class='input-group-prepend'>";
+						body +=	 	"<span class='input-group-text' style='margin-left:15px;width:100px;'>"+paraId+"</span>";
+						body +=	 "</div>" ;
+						body +=    "<div class='input-group-prepend'>";
+						body +=        "<span class='input-group-text'style='margin-left:5px;'>描述</span>";
+						body +=    "</div>" ;
+						
+						if(paraPhy!=null){
+							paraDesc +="【物理量纲:"+paraPhy+"】";}
+						if(paraMax!=null && paraMin!=null){
+							paraDesc +="【取值范围:("+paraMin+","+paraMax+")】";}
+						if(paraDefault!=null){
+							paraDesc +="【默认值:"+paraDefault+"】";}	
+						body +=	"<input type='text' class='form-control' value='"+paraDesc+"'/>";
+						body +="</div>";
+						$("#inputPara").append(body);
+						paraDesc="";
+				 }
+				},	
+				error:function(result){
+					alert("未知错误联系管理员！");
+				}
+			});	
+		
+}
 </script>    
 
 <script type="text/javascript">

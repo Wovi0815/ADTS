@@ -40,7 +40,7 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 			return result;
 		}
 
-	//查询中间件下所有父类，构建下拉框
+	//查询中间件下所有父类，构建筛选下拉框
 		@RequestMapping("/QryMidClsFather.do")
 		@ResponseBody
 		public List<Map<String,Object>> QueryMidClsFather(String midwareId) {
@@ -52,8 +52,13 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 		@RequestMapping("/QryMidClsByFather.do")
 		@ResponseBody
 		public List<Map<String,Object>> QueryMidClsByFather(String cfather,String midwareId) {
-			List<Map<String, Object>> result = interfaceService.qryMidClsByFather(cfather, midwareId);
-			return result;
+			List<Map<String, Object>> result = null;
+			if(cfather==""){
+				result = interfaceService.qryMidwareClass(midwareId);	
+			}else {
+				result = interfaceService.qryMidClsByFather(cfather, midwareId);
+			}
+		return result;
 		}
 		
 		
@@ -66,10 +71,10 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 		};
 
 	//查询所有父类、
-		@RequestMapping("/QryClsFather.do")
+		@RequestMapping("/QryClsBeFather.do")
 		@ResponseBody
-		public List<Map<String,Object>> QueryClsFather() {
-			List<Map<String, Object>> result = interfaceService.qryClsFather();
+		public List<Map<String,Object>> QueryClsFather(String midwareId) {
+			List<Map<String, Object>> result = interfaceService.qryClsBeFather(midwareId);
 			return result;
 		};
 
@@ -93,7 +98,7 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 		};
 	
 	// 删除类
-		@RequestMapping("/deleteCls.do")
+		@RequestMapping("/DeleteCls.do")
 		@ResponseBody
 		public int deleteCls(String cId) {
 			int result = interfaceService.deleteCls(cId);
@@ -126,16 +131,41 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 	@ResponseBody
 	List<Map<String,Object>> qryClsReturnType(String classId){
 		List<Map<String, Object>> result = interfaceService.qryClsReturnType(classId);
-		System.out.println("@!!!!!"+result);
 		return result;
 		
 	}
 		
 		
-		
-		
-		
-		
+	//查询接口详情
+	@RequestMapping("/QryInterfaceDetail.do")		
+	@ResponseBody
+	List<Map<String, Object>> qryInterfaceDetail(String interfaceId,String interfaceParaCount,
+			 String interfaceParaList){
+		Map<String, Object> map = interfaceService.qryFindUniqueInterface(interfaceId,
+				interfaceParaCount,interfaceParaList);
+		String id = map.get("id").toString();
+		List<Map<String, Object>> result = interfaceService.qryInterfacePara(id);
+		return result;
+	
+	}
 	
 	
+	//根据下拉框查询接口
+		@RequestMapping("/QryInterfaceBySelect.do")		
+		@ResponseBody
+		List<Map<String, Object>> qryInterfaceBySelect(String selectReturn,String selectCount,String classId){
+			List<Map<String, Object>> result = null;
+			if((selectReturn=="")&& (selectCount!="")) {
+				 result = interfaceService.qryInterfaceByParaCount(selectCount, classId);
+			}else if((selectCount=="")&&(selectReturn!="")){
+				 result = interfaceService.qryInterfaceByParaReturnType(selectReturn, classId);
+			}else if((selectCount=="")&&(selectReturn=="")){
+				 result = interfaceService.qryClsInterface(classId);
+			}else if((selectCount!="")&&(selectReturn!="")) {
+				result =interfaceService.qryInterfaceBySelect(selectReturn, selectCount, classId);
+			}
+			return result;
+		
+		}
+
 }

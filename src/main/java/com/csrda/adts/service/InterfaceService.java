@@ -11,9 +11,9 @@ public interface InterfaceService {
 	List<Map<String,Object>> qryMidware();
 	
 	/**
-	 * 查询所有父类
+	 * 查询中间件所有类构建父类
 	 */
-	List<Map<String,Object>> qryClsFather();
+	List<Map<String,Object>> qryClsBeFather(String midwareId);
 	
 	/**
 	 * 查询中间件下属类
@@ -68,5 +68,29 @@ public interface InterfaceService {
 	 */
 	List<Map<String,Object>> qryClsReturnType(String classId);
 	
+	/**
+	 * 根据接口标识、参数个数、参数返回值正序列表 找到唯一的接口
+	 */
+	Map<String,Object>  qryFindUniqueInterface(String interfaceId,String interfaceParaCount,
+			 String interfaceParaList);
 	
+	/**
+	 * 根据接口的唯一数据id序号，找参数
+	 */
+	List<Map<String,Object>> qryInterfacePara(String id);
+	
+	/**
+	 * 根据下拉框【参数个数】查找接口
+	 */
+	List<Map<String,Object>> qryInterfaceByParaCount(String selectCount,String classId);
+	
+	/**
+	 * 根据下拉框【参数返回值类型】查找接口
+	 */
+	List<Map<String,Object>> qryInterfaceByParaReturnType(String selectReturn,String classId);
+	
+	/**
+	 * 根据下拉框【参数返回值类型】、【参数个数】查找接口
+	 */
+	List<Map<String,Object>> qryInterfaceBySelect(String selectReturn,String selectCount,String classId);
 }

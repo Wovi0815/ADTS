@@ -43,14 +43,15 @@ public class ShiroConfig {
 		
 		
 		
-
+		filterMap.put("/QryInterfaceBySelect.do", "anon");
+		filterMap.put("/QryInterfaceDetail.do", "anon");
 		filterMap.put("/QryClsReturnType.do", "anon");
 		filterMap.put("/QryClsParaCount.do", "anon");
 		filterMap.put("/QryClsInterface.do", "anon");
 		
-		filterMap.put("/deleteCls.do", "anon");
+		filterMap.put("/DeleteCls.do", "anon");
 		filterMap.put("/InsertCls.do", "anon");
-		filterMap.put("/QryClsFather.do", "anon");
+		filterMap.put("/QryClsBeFather.do", "anon");
 		filterMap.put("/QryMidClsByCId.do", "anon");
 		filterMap.put("/QryMidClsByFather.do", "anon");
 		filterMap.put("/QueryMidwareClass.do", "anon");
