@@ -137,9 +137,9 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 		
 		
 	//查询接口详情
-	@RequestMapping("/QryInterfaceDetail.do")		
+	@RequestMapping("/QryInterfaceParaDetail.do")		
 	@ResponseBody
-	List<Map<String, Object>> qryInterfaceDetail(String interfaceId,String interfaceParaCount,
+	List<Map<String, Object>> qryInterfaceParaDetail(String interfaceId,String interfaceParaCount,
 			 String interfaceParaList){
 		Map<String, Object> map = interfaceService.qryFindUniqueInterface(interfaceId,
 				interfaceParaCount,interfaceParaList);
@@ -148,6 +148,17 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 		return result;
 	
 	}
+	
+	//查询接口详情(接口描述、备注)
+		@RequestMapping("/QryInterfaceDetail.do")		
+		@ResponseBody
+		Map<String, Object> qryInterfaceDetail(String interfaceId,String interfaceParaCount,
+				 String interfaceParaList){
+			Map<String, Object> map = interfaceService.qryFindUniqueInterface(interfaceId,
+					interfaceParaCount,interfaceParaList);
+			return map;
+		
+		}
 	
 	
 	//根据下拉框查询接口

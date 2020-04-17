@@ -84,7 +84,7 @@ public interface InterfaceDao {
 	/**
 	 * 查询类下属接口
 	 */
-	@Select("SELECT i.i_id,i_name,i_return,i.i_para_count,i.i_para_list FROM t_interface i " + 
+	@Select("SELECT i.i_id,i_name,i.i_desc,i_return,i.i_para_count,i.i_para_list FROM t_interface i " + 
 			"WHERE i.i_class=#{classId} AND i.is_delete='1'" )
 	List<Map<String,Object>> qryClsInterface(String classId);
 	
@@ -137,7 +137,7 @@ public interface InterfaceDao {
 	/**
 	 * 根据下拉框【参数返回值类型】、【参数个数】查找接口
 	 */
-	@Select("SELECT i.i_id,i_name,i_return,i.i_para_count,i.i_para_list FROM t_interface i " + 
+	@Select("SELECT i.i_id,i_name,i.i_desc,i_return,i.i_para_count,i.i_para_list FROM t_interface i " + 
 			"WHERE i.i_class=#{classId} AND i.is_delete='1' AND i.i_return=#{selectReturn} "
 			+ "AND i.i_para_count=#{selectCount}")
 	List<Map<String,Object>> qryInterfaceBySelect(String selectReturn,String selectCount,String classId);

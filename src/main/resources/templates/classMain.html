@@ -60,7 +60,6 @@
 			<div class="form-group">
 			 <label for="iclsMidware">所属中间件</label>
 			 <input class="form-control" placeholder="所属中间件" id="iclsMidware" readonly="readonly">
-		    </select>
 			</div>
 
             </div>
@@ -177,9 +176,9 @@ function QryMidCls(){//查中间件下属类
 		        body    += "<td id='tclsDesc'>" + result[i].c_desc + "</td>";  
 		        body    += "<td id='tclsFather'>" + result[i].c_father + "</td>";
 		        body    += "<td>"+
-		        "<button id='editBtn' type='button' style='width: 30%;float: left;'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick='editClick(this);'>修改</button> "+
-		        "<button id='deleteBtn' type='button' style='margin-left: 10px; width: 30%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
-		        "<button id='infBtn'type='button' style='margin-left: 10px; width: 30%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-success btn-sm' onclick='toInterface(this);''>下属接口</button> "+
+		        "<button id='editBtn' type='button' style='width: 25%;float: left;'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick='editClick(this);'>修改</button> "+
+		        "<button id='deleteBtn' type='button' style='margin-left: 3%; width: 25%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
+		        "<button id='infBtn'type='button' style='margin-left: 3%; width: 30%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-success btn-sm' onclick='toInterface(this);''>下属接口</button> "+
 		        "</td>";
 		        body    += "</tr>";
 			    $("#example1 tbody" ).append(body); 
@@ -249,9 +248,9 @@ $("#selectClass").change(function(){
 			        body    += "<td id='tclsDesc'>" + result[i].c_desc + "</td>";  
 			        body    += "<td id='tclsFather'>" + result[i].c_father + "</td>";
 			        body    += "<td>"+
-			        "<button id='editBtn' type='button' style='width: 30%;float: left;'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick='editClick(this);'>修改</button> "+
-			        "<button id='deleteBtn' type='button' style='margin-left: 10px; width: 30%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
-			        "<button id='infBtn'type='button' style='margin-left: 10px; width: 30%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-success btn-sm' onclick='toInterface(this);''>下属接口</button> "+
+			        "<button id='editBtn' type='button' style='width: 25%;float: left;'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick='editClick(this);'>修改</button> "+
+			        "<button id='deleteBtn' type='button' style='margin-left: 3%; width: 25%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
+			        "<button id='infBtn'type='button' style='margin-left: 3%; width: 30%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-success btn-sm' onclick='toInterface(this);''>下属接口</button> "+
 			        "</td>";
 			        body    += "</tr>";  
 			        $("#example1 tbody" ).append(body); 
