@@ -24,7 +24,7 @@ public class IndexController {
 	@RequestMapping("/login")
 	public String login(String userName ,String passWord,Model model) {
 		
-		SecurityUtils.getSubject().getSession().setTimeout(-1000l);
+		//SecurityUtils.getSubject().getSession().setTimeout(-1000l);
 		//shiro 认证操作
 		//1.获取subject
 		Subject subject = SecurityUtils.getSubject();
@@ -36,8 +36,8 @@ public class IndexController {
 		try {
 			subject.login(token);
 			
-			Session session = subject.getSession();
-            session.setAttribute("username", userName);
+		//	Session session = subject.getSession();
+         //   session.setAttribute("username", userName);
 			
 			//登录成功
 			return "redirect:/index";

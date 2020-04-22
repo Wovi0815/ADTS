@@ -70,12 +70,12 @@ public class InterfaceServiceImpl implements InterfaceService{
 	}
 
 	@Override
-	public List<Map<String, Object>> qryClsParaCount(String classId) {
+	public List<Map<String, Object>> qryInterParaCount(String classId) {
 		return interfaceDao.qryClsParaCount(classId);
 	}
 
 	@Override
-	public List<Map<String, Object>> qryClsReturnType(String classId) {
+	public List<Map<String, Object>> qryInterReturnType(String classId) {
 		return interfaceDao.qryClsReturnType(classId);
 	}
 
@@ -103,6 +103,32 @@ public class InterfaceServiceImpl implements InterfaceService{
 	@Override
 	public List<Map<String, Object>> qryInterfaceBySelect(String selectReturn, String selectCount, String classId) {
 		return interfaceDao.qryInterfaceBySelect(selectReturn, selectCount, classId);
+	}
+
+	@Override
+	public int InsertInterface(String interfaceId, String interfaceName, String interfaceDesc, String interfaceRemark,
+			String interfaceRetnTyp, String interfaceRetnDesc, String interfaceCls, String interfaceParaList,
+			String interfaceParaCount) {
+		
+		return interfaceDao.InsertInterface(interfaceId, interfaceName, 
+				interfaceDesc, interfaceRemark, interfaceRetnTyp, interfaceRetnDesc, 
+				interfaceCls, interfaceParaList, interfaceParaCount);
+	}
+
+	@Override
+	public int InsertInterfacePara(String paraId, String paraName, String paraDesc, String paraType, String paraAttr,
+			String paraNo, String id, String paraPhy, String paraMax, String paraMin, String paraDefault) {
+		return interfaceDao.InsertInterfacePara(paraId, paraName, paraDesc, paraType, paraAttr, paraNo, id, paraPhy, paraMax, paraMin, paraDefault);
+	}
+
+	@Override
+	public int deleteInterface(String id) {
+		return interfaceDao.deleteInterface(id);
+	}
+
+	@Override
+	public int deleteInterfacePara(String id) {
+		return interfaceDao.deleteInterfacePara(id);
 	}
 
 	

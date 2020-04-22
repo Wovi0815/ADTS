@@ -59,14 +59,14 @@ public interface InterfaceService {
 	List<Map<String,Object>> qryClsInterface(String classId);
 	
 	/**
-	 * 查询接口的所有的参数个数构建下拉框
+	 * 查询类下属接口的所有的参数个数构建下拉框
 	 */
-	List<Map<String,Object>> qryClsParaCount(String classId);
+	List<Map<String,Object>> qryInterParaCount(String classId);
 	
 	/**
-	 * 查询接口的所有返回值类型构建下拉框
+	 * 查询类下属接口的所有返回值类型构建下拉框
 	 */
-	List<Map<String,Object>> qryClsReturnType(String classId);
+	List<Map<String,Object>> qryInterReturnType(String classId);
 	
 	/**
 	 * 根据接口标识、参数个数、参数返回值正序列表 找到唯一的接口
@@ -93,4 +93,30 @@ public interface InterfaceService {
 	 * 根据下拉框【参数返回值类型】、【参数个数】查找接口
 	 */
 	List<Map<String,Object>> qryInterfaceBySelect(String selectReturn,String selectCount,String classId);
+	
+	/**
+	 * 新增接口
+	 */
+	int InsertInterface(String interfaceId,String interfaceName,String interfaceDesc,
+			String interfaceRemark,String interfaceRetnTyp,String interfaceRetnDesc,
+			String interfaceCls,String interfaceParaList,String interfaceParaCount);
+	
+	
+	/**
+	 * 新增接口参数
+	 */
+	int InsertInterfacePara(String paraId,String paraName,String paraDesc,
+			String paraType,String paraAttr,String paraNo,
+			String id,String paraPhy,String paraMax,String paraMin,String paraDefault);
+	
+	
+	/**
+	 * 删除接口
+	 */
+	int deleteInterface(String id);
+	
+	/**
+	 * 删除接口参数
+	 */
+	int deleteInterfacePara(String id);
 }

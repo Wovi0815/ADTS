@@ -14,28 +14,28 @@ public interface InterfaceDao {
 	/**
 	 * 查所有中间件
 	 */
-	@Select("SELECT * FROM t_midware  WHERE t_midware.is_delete='1'")
+	@Select("SELECT * FROM t_midware  WHERE t_midware.is_delete='0'")
 	List<Map<String,Object>> qryMidware();
 	
 	
 	/**
 	 * 查中间件所有类构建父类
 	 */
-	@Select("SELECT c.c_id FROM t_class c WHERE c.is_delete='1' AND c.c_midware=#{midwareId} GROUP BY c.c_id")
+	@Select("SELECT c.c_id FROM t_class c WHERE c.is_delete='0' AND c.c_midware=#{midwareId} GROUP BY c.c_id")
 	List<Map<String,Object>> qryClsBeFather(String midwareId);
 	
 	
 	/**
 	 * 根据中间件查下属所有类
 	 */
-	@Select("SELECT c.* FROM t_class c WHERE c.c_midware=#{midwareId} AND c.is_delete='1'" )
+	@Select("SELECT c.* FROM t_class c WHERE c.c_midware=#{midwareId} AND c.is_delete='0'" )
 	List<Map<String,Object>> qryMidwareClass(String midwareId);
 	
 	/**
 	 * 查询中间件下所有父类，构建下拉框
 	 */
 	@Select("SELECT c.c_father FROM t_class c " + 
-			"WHERE c.c_midware=#{midwareId} AND c.is_delete='1'  " + 
+			"WHERE c.c_midware=#{midwareId} AND c.is_delete='0'  " + 
 			" GROUP BY c.c_father")
 	List<Map<String,Object>> QryMidClsFather(String midwareId);
 	
@@ -45,14 +45,14 @@ public interface InterfaceDao {
 	 * 根据中间件和父类查下属所有类
 	 */
 	@Select("SELECT c.* FROM t_class c " + 
-			"WHERE c.c_midware =#{midwareId} AND c.c_father=#{cfather} AND c.is_delete='1' " )
+			"WHERE c.c_midware =#{midwareId} AND c.c_father=#{cfather} AND c.is_delete='0' " )
 	List<Map<String,Object>> qryMidClsByFather(String cfather,String midwareId);
 
 	/**
 	 * 根据类标识查类信息
 	 */
 	@Select("SELECT c.c_id,c.c_name,c.c_desc,c.c_father,c.c_midware FROM t_class c "+
-			"WHERE c.c_id= #{cId}  AND c.is_delete='1'" )
+			"WHERE c.c_id= #{cId}  AND c.is_delete='0'" )
 	Map<String,Object> qryMidClsByCId(String cId);
 
 	/**
@@ -76,7 +76,7 @@ public interface InterfaceDao {
 	 * 	删除类
 	 */
 	
-	@Update("UPDATE t_class c SET c.is_delete ='0' WHERE c.c_id=#{cId}")
+	@Update("UPDATE t_class c SET c.is_delete ='1' WHERE c.c_id=#{cId}")
 	int deleteCls(String cId);
 	
 	
@@ -85,19 +85,19 @@ public interface InterfaceDao {
 	 * 查询类下属接口
 	 */
 	@Select("SELECT i.i_id,i_name,i.i_desc,i_return,i.i_para_count,i.i_para_list FROM t_interface i " + 
-			"WHERE i.i_class=#{classId} AND i.is_delete='1'" )
+			"WHERE i.i_class=#{classId} AND i.is_delete='0'" )
 	List<Map<String,Object>> qryClsInterface(String classId);
 	
 	/**
-	 * 查询接口的所有的参数个数构建下拉框
+	 * 查询类下属接口的所有的参数个数构建下拉框
 	 */
-	@Select("SELECT i.i_para_count FROM t_interface i WHERE i.i_class=#{classId} AND i.is_delete='1'GROUP BY i.i_para_count" )
+	@Select("SELECT i.i_para_count FROM t_interface i WHERE i.i_class=#{classId} AND i.is_delete='0'GROUP BY i.i_para_count" )
 	List<Map<String,Object>> qryClsParaCount(String classId);
 	
 	/**
-	 * 查询接口的所有的返回值类型构建下拉框
+	 * 查询类下属接口的所有的返回值类型构建下拉框
 	 */
-	@Select("SELECT i.i_return FROM t_interface i WHERE i.i_class=#{classId} AND i.is_delete='1'GROUP BY i.i_return" )
+	@Select("SELECT i.i_return FROM t_interface i WHERE i.i_class=#{classId} AND i.is_delete='0'GROUP BY i.i_return" )
 	List<Map<String,Object>> qryClsReturnType(String classId);
 	
 	/**
@@ -105,7 +105,7 @@ public interface InterfaceDao {
 	 */
 	@Select("SELECT * FROM `t_interface` i " + 
 			"WHERE i.i_id =#{interfaceId} AND i.i_para_count=#{interfaceParaCount} AND  i.i_para_list= #{interfaceParaList} "
-			+ "AND i.is_delete='1'")
+			+ "AND i.is_delete='0'")
 	Map<String,Object>  qryFindUniqueInterface(String interfaceId,String interfaceParaCount,
 			 String interfaceParaList);
 	
@@ -115,7 +115,7 @@ public interface InterfaceDao {
 	@Select("SELECT p.para_attr,p.para_id,p.para_name,p.para_type,"
 			+ "p.para_desc,p.para_phy_dim,p.para_min,p.para_max,p.para_default "
 			+ "FROM t_parameter p " + 
-			"WHERE p.para_interface= #{id}  AND  p.is_delete='1'")
+			"WHERE p.para_interface= #{id}  AND  p.is_delete='0'")
 	
 	List<Map<String,Object>> qryInterfacePara(String id);
 	
@@ -124,21 +124,57 @@ public interface InterfaceDao {
 	 * 根据下拉框【参数个数】查找接口
 	 */
 	@Select("SELECT i.i_id,i_name,i_return,i.i_para_count,i.i_para_list FROM t_interface i " + 
-			"WHERE i.i_class=#{classId} AND i.is_delete='1' AND i.i_para_count=#{selectCount}")
+			"WHERE i.i_class=#{classId} AND i.is_delete='0' AND i.i_para_count=#{selectCount}")
 	List<Map<String,Object>> qryInterfaceByParaCount(String selectCount,String classId);
 	
 	/**
 	 * 根据下拉框【参数返回值类型】查找接口
 	 */
 	@Select("SELECT i.i_id,i_name,i_return,i.i_para_count,i.i_para_list FROM t_interface i " + 
-			"WHERE i.i_class=#{classId} AND i.is_delete='1' AND i.i_return=#{selectReturn}")
+			"WHERE i.i_class=#{classId} AND i.is_delete='0' AND i.i_return=#{selectReturn}")
 	List<Map<String,Object>> qryInterfaceByParaReturnType(String selectReturn,String classId);
 	
 	/**
 	 * 根据下拉框【参数返回值类型】、【参数个数】查找接口
 	 */
 	@Select("SELECT i.i_id,i_name,i.i_desc,i_return,i.i_para_count,i.i_para_list FROM t_interface i " + 
-			"WHERE i.i_class=#{classId} AND i.is_delete='1' AND i.i_return=#{selectReturn} "
+			"WHERE i.i_class=#{classId} AND i.is_delete='0' AND i.i_return=#{selectReturn} "
 			+ "AND i.i_para_count=#{selectCount}")
-	List<Map<String,Object>> qryInterfaceBySelect(String selectReturn,String selectCount,String classId);
+	List<Map<String,Object>> qryInterfaceBySelect(String selectReturn,String selectCount,String classId); 
+	
+	/**
+	 * 新增接口
+	 */
+	@Insert("INSERT INTO t_interface (i_id,i_name,i_desc,i_class,i_return,i_return_desc,i_remark,i_para_list,i_para_count) "
+			+ "VALUE(#{interfaceId},#{interfaceName},#{interfaceDesc},#{interfaceCls},#{interfaceRetnTyp},#{interfaceRetnDesc}, "
+			+ "#{interfaceRemark},#{interfaceParaList},#{interfaceParaCount} )"  
+			)
+	int InsertInterface(String interfaceId,String interfaceName,String interfaceDesc,
+			String interfaceRemark,String interfaceRetnTyp,String interfaceRetnDesc,
+			String interfaceCls,String interfaceParaList,String interfaceParaCount);
+	
+	/**
+	 * 新增接口参数
+	 */
+	@Insert("INSERT INTO t_parameter "
+			+ "(para_id,para_name,para_desc,para_type,para_attr,para_eq,para_interface,para_phy_dim,para_max,para_min,para_default) "
+			+ "VALUE(#{paraId},#{paraName},#{paraDesc},#{paraType},#{paraAttr},#{paraNo}, "
+			+ "#{id},#{paraPhy},#{paraMax},#{paraMin},#{paraDefault} )"  
+			)
+	int InsertInterfacePara(String paraId,String paraName,String paraDesc,
+			String paraType,String paraAttr,String paraNo,
+			String id,String paraPhy,String paraMax,String paraMin,String paraDefault);
+	
+	
+	/**
+	 * 删除接口
+	 */
+	@Update("UPDATE t_interface i SET i.is_delete ='1' WHERE i.id=#{id}")
+	int deleteInterface(String id);
+	
+	/**
+	 * 删除接口参数
+	 */
+	@Update("UPDATE t_parameter p SET p.is_delete ='1' WHERE p.para_interface=#{id}")
+	int deleteInterfacePara(String id);
 }

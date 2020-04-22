@@ -65,7 +65,7 @@
             </div>
             <div class="modal-footer justify-content-between">
               <button id='closeModal' type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-              <button id='saveModal' type="button" class="btn btn-primary" onclick="save();">保存</button>
+              <button id='saveModal' type="button" data-dismiss="modal" class="btn btn-primary" onclick="save();">保存</button>
             </div>
             
           </div>
@@ -358,7 +358,7 @@ function InsertData(modalCId,modalCName,modalCDesc,modalCFather,modalCMidware){
 			},
 			success:function(result){
 				if(result=1){
-					$('#modal-default').modal("hide");
+					
 					var oldTable = $('#example1').dataTable();
 				    oldTable.fnClearTable(); 
 				    oldTable.fnDestroy();
@@ -390,7 +390,7 @@ function UpdateData(modalCId,modalCName,modalCDesc,modalCFather,modalCMidware){
 		},
 		success:function(result){
 			if(result=1){
-				$('#modal-default').modal("hide");
+				
 				var oldTable = $('#example1').dataTable();
 			    oldTable.fnClearTable(); 
 			    oldTable.fnDestroy();
@@ -434,7 +434,6 @@ function changeDataByKey(modalCId,modalCName,modalCDesc,modalCFather,modalCMidwa
 
 }	
 function save(){
-	debugger;
 	var modalCId=$("#iclsId").val();
 	var modalCName=$("#iclsName").val();
 	var modalCDesc=$("#iclsDesc").val();
