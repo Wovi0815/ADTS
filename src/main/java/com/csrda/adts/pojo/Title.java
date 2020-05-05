@@ -2,7 +2,6 @@ package com.csrda.adts.pojo;
 
 import java.util.List;
 
-import javafx.scene.chart.PieChart.Data;
 
 public class Title {
 	public String titleName;
