@@ -26,6 +26,7 @@ public class test {
 //		System.out.println(wordExportDao.qryStruct().toString());
 //		
 //		System.out.println("111"+(char)13+1111);
-		System.out.println(wordExportDao.qryStructMem("student"));
+		//System.out.println(wordExportDao.qryStructMem("student"));
+		System.out.println(wordExportDao.qryMesMem("openCom1"));
 	}
 }

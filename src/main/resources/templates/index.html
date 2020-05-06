@@ -1,183 +1,197 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.thymeleaf.org">
+
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>主页</title>
-  <!-- Font Awesome -->
-  <link rel="stylesheet" th:href="@{/plugins/fontawesome-free/css/all.min.css}">
-  <!-- Ionicons -->
-  <link rel="stylesheet" th:href="@{/dist/css/ionicons.css}">
-  <!-- Tempusdominus Bbootstrap 4 -->
-  <link rel="stylesheet" th:href="@{/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css}">
-  <!-- iCheck -->
-  <link rel="stylesheet" th:href="@{/plugins/icheck-bootstrap/icheck-bootstrap.min.css}">
-  <!-- JQVMap -->
-  <link rel="stylesheet" th:href="@{/plugins/jqvmap/jqvmap.min.css}">
-  <!-- Theme style -->
-  <link rel="stylesheet" th:href="@{/dist/css/adminlte.min.css}">
-  <!-- overlayScrollbars -->
-  <link rel="stylesheet" th:href="@{/plugins/overlayScrollbars/css/OverlayScrollbars.min.css}">
-  <!-- Daterange picker -->
-  <link rel="stylesheet" th:href="@{/plugins/daterangepicker/daterangepicker.css}">
-  <!-- summernote -->
-  <link rel="stylesheet" th:href="@{/plugins/summernote/summernote-bs4.css}">
-  <!-- Google Font: Source Sans Pro -->
-  <link th:href="@{/dist/css/google.css}" rel="stylesheet">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>主页</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+		integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" th:href="@{/plugins/fontawesome-free/css/all.min.css}">
+	<!-- Ionicons -->
+	<link rel="stylesheet" th:href="@{/dist/css/ionicons.css}">
+	<!-- Tempusdominus Bbootstrap 4 -->
+	<link rel="stylesheet" th:href="@{/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css}">
+	<!-- iCheck -->
+	<link rel="stylesheet" th:href="@{/plugins/icheck-bootstrap/icheck-bootstrap.min.css}">
+	<!-- JQVMap -->
+	<link rel="stylesheet" th:href="@{/plugins/jqvmap/jqvmap.min.css}">
+	<!-- Theme style -->
+	<link rel="stylesheet" th:href="@{/dist/css/adminlte.min.css}">
+	<!-- overlayScrollbars -->
+	<link rel="stylesheet" th:href="@{/plugins/overlayScrollbars/css/OverlayScrollbars.min.css}">
+	<!-- Daterange picker -->
+	<link rel="stylesheet" th:href="@{/plugins/daterangepicker/daterangepicker.css}">
+	<!-- summernote -->
+	<link rel="stylesheet" th:href="@{/plugins/summernote/summernote-bs4.css}">
+	<!-- Google Font: Source Sans Pro -->
+	<link th:href="@{/dist/css/google.css}" rel="stylesheet">
+
 </head>
+
 <body class="hold-transition sidebar-mini layout-fixed">
-<div class="wrapper">
+	<div class="wrapper">
 
-<nav class="main-header navbar navbar-expand navbar-white navbar-light" style="height: 40px;">
-					<!-- Left navbar links -->
-		<ul class="navbar-nav">
-			<li class="nav-item">
-				<a class="nav-link" data-widget="pushmenu" href="#" role="button">
-					<i class="fas fa-bars"></i>
-				</a>
-			</li>
-		</ul>
-		
-		<ul class="navbar-nav ml-auto" style="float: right;" >
-			
-			<li class="nav-item">
-			<div class="image" style="margin: auto;">
-			  <img src="dist/img/csic-logo.png" class="img-circle elevation-2" alt="User Image" style="height: 35px;">
-			</div></li>
-		</ul>
-</nav>
+		<nav class="main-header navbar navbar-expand navbar-white navbar-light" style="height: 40px;">
+			<!-- Left navbar links -->
+			<ul class="navbar-nav">
+				<li class="nav-item">
+					<a class="nav-link" data-widget="pushmenu" href="#" role="button">
+						<i class="fas fa-bars"></i>
+					</a>
+				</li>
+			</ul>
+
+			<ul class="navbar-nav ml-auto" style="float: right;">
+
+				<li class="nav-item">
+					<div class="image" style="margin: auto;">
+						<img src="dist/img/csic-logo.png" class="img-circle elevation-2" alt="User Image"
+							style="height: 35px;">
+					</div>
+				</li>
+			</ul>
+		</nav>
 
 
-  <!-- Navbar -->
-  
+		<!-- Navbar -->
 
-  <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-dark-primary elevation-4">
-	  
-	 <a class="brand-link">
-	       <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-	       <span class="brand-text font-weight-light" style="color:white">ADTS</span>
-	 </a>
-    <!-- Sidebar -->
-    <div class="sidebar">
-     
-				
+
+		<!-- Main Sidebar Container -->
+		<aside class="main-sidebar sidebar-dark-primary elevation-4">
+
+			<a class="brand-link">
+				<img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+					style="opacity: .8">
+				<span class="brand-text font-weight-light" style="color:white">ADTS</span>
+			</a>
+			<!-- Sidebar -->
+			<div class="sidebar">
+
+
 				<!-- Sidebar Menu -->
-      <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
+				<nav class="mt-2">
+					<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+						data-accordion="false">
+						<!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-item has-treeview menu-open">
-            <a href="#" class="nav-link active">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-                 	文档管理
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-             <li class="nav-item has-treeview menu-open">
-                <a href="" class="nav-link active">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>接口管理
-				  <i class="right fas fa-angle-left"></i>
-				  </p>
-                </a>
-				
-				<ul class="nav nav-treeview" style="display: block;" id ="qryMidware">
-				<!-- 中间件菜单动态查询 -->
-				</ul>
-             </li>
-              
-              <li class="nav-item">
-                <a href="" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>报文管理
-                  <i class="right fas fa-angle-left"></i>
-                  </p>
-                </a>
-                <ul class="nav nav-treeview" style="display: block;" id ="qryMessage">
-				<!-- 报文菜单动态查询 -->
-				</ul>
-                
-              </li>
-              
-              <li class="nav-item">
-                <a href="/ListManager" target="zhu" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>目录结构管理</p>
-                </a>
-              </li>
-              
-              
-              <li class="nav-item has-treeview menu-close">
-                <a href="/ReportGenerate" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>文档生成</p>
-                  <i class="right fas fa-angle-left"></i>
-                </a>
-				<ul class="nav nav-treeview">
-					<li class="nav-item">
-					  <a href="#" class="nav-link" >
-						<i class="far fa-circle nav-icon"></i>
-						<p id="exportAll">生成全部</p>
-					  </a>
-					</li>
-					<li class="nav-item">
-					  <a href="#" class="nav-link" >
-						<i class="far fa-circle nav-icon"></i>
-						<p id="exportDataType">生成数据类型部分</p>
-					  </a>
-					</li>
-					<li class="nav-item">
-					  <a href="#" class="nav-link" >
-						<i class="far fa-circle nav-icon"></i>
-						<p id="exportInterface">生成接口部分</p> 
-					  </a>
-					</li>
-					<li class="nav-item">
-					  <a href="#" class="nav-link" >
-						<i class="far fa-circle nav-icon"></i>
-						<p id="exportMessage">生成报文部分</p>
-					  </a>
-					</li>
-				</ul>
-              </li>
-         
-            
-            </ul>
-            
-          </li>
-        </ul>
-      </nav>
-      <!-- /.sidebar-menu -->
-    </div>
-    <!-- /.sidebar -->
-  </aside>
+						<li class="nav-item has-treeview menu-open">
+							<a href="#" class="nav-link active">
+								<i class="nav-icon fas fa-tachometer-alt"></i>
+								<p>
+									文档管理
+									<i class="right fas fa-angle-left"></i>
+								</p>
+							</a>
+							<ul class="nav nav-treeview">
+								<li class="nav-item has-treeview menu-open">
+									<a href="" class="nav-link active">
+										<i class="far fa-circle nav-icon"></i>
+										<p>接口管理
+											<i class="right fas fa-angle-left"></i>
+										</p>
+									</a>
 
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-   
-    <iframe scrolling="" id="main" name="zhu" frameborder="0"  src="" 
-    style="width:100%;height:100%;"></iframe>
-     
-     
- 
-  </div>
-  <!-- /.content-wrapper -->
-  
+									<ul class="nav nav-treeview" style="display: block;" id="qryMidware">
+										<!-- 中间件菜单动态查询 -->
+									</ul>
+								</li>
 
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-  </aside>
-  <!-- /.control-sidebar -->
-  
-  <!-- Small modal -->
+								<li class="nav-item">
+									<a href="" class="nav-link">
+										<i class="far fa-circle nav-icon"></i>
+										<p>报文管理
+											<i class="right fas fa-angle-left"></i>
+										</p>
+									</a>
+									<ul class="nav nav-treeview" style="display: block;" id="qryMessage">
+										<!-- 报文菜单动态查询 -->
+									</ul>
+
+								</li>
+
+								<li class="nav-item">
+									<a href="/ListManager" target="zhu" class="nav-link">
+										<i class="far fa-circle nav-icon"></i>
+										<p>目录结构管理</p>
+									</a>
+								</li>
 
 
-		<div id="myModal" class="modal fade bd-example-modal-sm" tabindex="-1"
-			role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+								<li class="nav-item has-treeview menu-close">
+									<a href="/ReportGenerate" class="nav-link">
+										<i class="far fa-circle nav-icon"></i>
+										<p>文档生成</p>
+										<i class="right fas fa-angle-left"></i>
+									</a>
+									<ul class="nav nav-treeview">
+										<li class="nav-item">
+											<a href="#" class="nav-link">
+												<i class="far fa-circle nav-icon"></i>
+												<p id="exportAll">生成全部</p>
+											</a>
+										</li>
+										<li class="nav-item">
+											<a href="#" class="nav-link">
+												<i class="far fa-circle nav-icon"></i>
+												<p id="exportDataType">生成数据类型部分</p>
+											</a>
+										</li>
+										<li class="nav-item">
+											<a href="#" class="nav-link">
+												<i class="far fa-circle nav-icon"></i>
+												<p id="exportInterface">生成接口部分</p>
+											</a>
+										</li>
+										<li class="nav-item">
+											<a href="#" class="nav-link">
+												<i class="far fa-circle nav-icon"></i>
+												<p id="exportMessage">生成报文部分</p>
+											</a>
+										</li>
+										<li class="nav-item">
+											<a href="#" class="nav-link">
+												<i class="far fa-circle nav-icon"></i>
+												<p id="uploadTemp">模板上传</p>
+											</a>
+										</li>
+									</ul>
+								</li>
+
+
+							</ul>
+
+						</li>
+					</ul>
+				</nav>
+				<!-- /.sidebar-menu -->
+			</div>
+			<!-- /.sidebar -->
+		</aside>
+
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+
+			<iframe scrolling="" id="main" name="zhu" frameborder="0" src="" style="width:100%;height:100%;"></iframe>
+
+
+
+		</div>
+		<!-- /.content-wrapper -->
+
+
+		<!-- Control Sidebar -->
+		<aside class="control-sidebar control-sidebar-dark">
+			<!-- Control sidebar content goes here -->
+		</aside>
+		<!-- /.control-sidebar -->
+
+		<!-- Small modal -->
+
+
+		<div id="myModal" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog"
+			aria-labelledby="mySmallModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-sm" role="document">
 				<div class="modal-content">
 
@@ -187,185 +201,241 @@
 						</div>
 						<label id="item" for="inputEmail3" class="col-form-label"
 							style="margin: auto;">正在生成请稍后。。</label>
-						<div id="loading" class="spinner-border text-warning" role="status"
-							style="margin: auto;">
+						<div id="loading" class="spinner-border text-warning" role="status" style="margin: auto;">
 							<span class="sr-only">Loading...</span>
 						</div>
 
 					</div>
 					<div id="success" class="modal-footer">
-					    <button type="button" class="btn btn-secondary" data-dismiss="modal">确认</button>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">确认</button>
 					</div>
 				</div>
 			</div>
 		</div>
 
+		<div id="fileModal" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog"
+			aria-labelledby="mySmallModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-sm" role="document">
+				<div class="modal-content">
+					<div style="margin: 10px;">
+						<select id="temp" class="custom-select">
+							<option value="0" selected>选择上传模板</option>
+							<option value="temp">全文模板</option>
+							<option value="typeData">数据类型部分</option>
+							<option value="midWare">接口部分</option>
+							<option value="message">报文部分</option>
+						</select>
+						<input style="margin-top: 10px;" type="file" id="inputFile" name="mFile">
+					</div>
+					<div id="success" class="modal-footer">
+						<button onclick="upload();" type="button" class="btn btn-secondary"
+							data-dismiss="modal">提交</button>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
-<!-- ./wrapper -->
+	<!-- ./wrapper -->
 
-<!-- jQuery -->
-<script th:src="@{/plugins/jquery/jquery.min.js}"></script>
-<!-- jQuery UI 1.11.4 -->
-<script th:src="@{/plugins/jquery-ui/jquery-ui.min.js}"></script>
-<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-<script>
-  $.widget.bridge('uibutton', $.ui.button)
-</script>
-<!-- Bootstrap 4 -->
-<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
-<!-- ChartJS -->
-<script th:src="@{/plugins/chart.js/Chart.min.js}"></script>
-<!-- Sparkline -->
-<script th:src="@{/plugins/sparklines/sparkline.js}"></script>
-<!-- jQuery Knob Chart -->
-<script th:src="@{/plugins/jquery-knob/jquery.knob.min.js}"></script>
-<!-- overlayScrollbars -->
-<script th:src="@{/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js}"></script>
-<!-- AdminLTE App -->
-<script th:src="@{/dist/js/adminlte.js}"></script>
-<script>
-$(function(){
-	$.ajax({
-		url:"/QueryMidware.do",
-		type:"post",
-		async:true,
-		success:function(result){
-			for(var i=0;i<result.length;i++){
-				$("#qryMidware").append(
-				"<li class='nav-item'>"+
-				    "<a href='/classMain?midwareId="+result[i].mid_id+"' target='zhu' class='nav-link avtive'>"+
-				     "<i class='far fa-dot-circle nav-icon'></i>"+
-				      "<p>"+result[i].mid_name+
-				      "</p>"+"</a>"+"</li>"
-				);
-			}
-		},
-		error:function(result){
-			alert("未知错误联系管理员！");
-		}
-	});
-	
-	
-	
-});
-</script>
+	<!-- jQuery -->
+	<script th:src="@{/plugins/jquery/jquery.min.js}"></script>
+	<!-- jQuery UI 1.11.4 -->
+	<script th:src="@{/plugins/jquery-ui/jquery-ui.min.js}"></script>
+	<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+	<script>
+		$.widget.bridge('uibutton', $.ui.button)
+	</script>
+	<!-- Bootstrap 4 -->
+	<script th:src="@{/plugins/bootstrap/js/bootstrap.min.js}"></script>
+	<!-- ChartJS -->
+	<script th:src="@{/plugins/chart.js/Chart.min.js}"></script>
+	<!-- Sparkline -->
+	<script th:src="@{/plugins/sparklines/sparkline.js}"></script>
+	<!-- jQuery Knob Chart -->
+	<script th:src="@{/plugins/jquery-knob/jquery.knob.min.js}"></script>
+	<!-- overlayScrollbars -->
+	<script th:src="@{/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js}"></script>
+	<!-- AdminLTE App -->
+	<script th:src="@{/dist/js/adminlte.js}"></script>
+	<script>
+		$(function () {
+			$.ajax({
+				url: "/QueryMidware.do",
+				type: "post",
+				async: true,
+				success: function (result) {
+					for (var i = 0; i < result.length; i++) {
+						$("#qryMidware").append(
+							"<li class='nav-item'>" +
+							"<a href='/classMain?midwareId=" + result[i].mid_id + "' target='zhu' class='nav-link avtive'>" +
+							"<i class='far fa-dot-circle nav-icon'></i>" +
+							"<p>" + result[i].mid_name +
+							"</p>" + "</a>" + "</li>"
+						);
+					}
+				},
+				error: function (result) {
+					alert("未知错误联系管理员！");
+				}
+			});
+
+
+
+		});
+	</script>
 
 </body>
 <script type="text/javascript">
-function calcPageHeight(doc) {
-    var cHeight = Math.max(document.body.clientHeight, document.documentElement.clientHeight)
-    var sHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight)
-    var height  = Math.max(cHeight, sHeight)
-    return height;
-}
-//����ID��ȡiframe����
-var ifr = document.getElementById('main')
-ifr.onload = function() {
-	  
-	  ifr.style.height='0px';
-    var iDoc = ifr.contentDocument || ifr.document
-    var height = calcPageHeight(iDoc)
-    ifr.style.height = $(".content-wrapper").height()+"px";
-}
-$("#exportAll").click(function(){
-	console.log("exportAll");
-	$("#loading").show();
-	$('#myModal').modal('show');
-	$("#success").hide();
-	$.ajax({
-		url:"/wordExport",
-		type:"post",
-		async:true,
-		success:function(result){
-			if(result==true){
-				$("#item").text("生成成功！！！");
-				$("#loading").hide();
-				$("#success").show();
-			}else{
-				$("#item").text("生成失败！！！");
-				$("#loading").hide();
-				$("#success").show();
+	function calcPageHeight(doc) {
+		var cHeight = Math.max(document.body.clientHeight, document.documentElement.clientHeight)
+		var sHeight = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight)
+		var height = Math.max(cHeight, sHeight)
+		return height;
+	}
+	//����ID��ȡiframe����
+	var ifr = document.getElementById('main')
+	ifr.onload = function () {
+
+		ifr.style.height = '0px';
+		var iDoc = ifr.contentDocument || ifr.document
+		var height = calcPageHeight(iDoc)
+		ifr.style.height = $(".content-wrapper").height() + "px";
+	}
+	$("#exportAll").click(function () {
+		console.log("exportAll");
+		$("#loading").show();
+		$('#myModal').modal('show');
+		$("#success").hide();
+		$.ajax({
+			url: "/wordExport",
+			type: "post",
+			async: true,
+			success: function (result) {
+				if (result == true) {
+					$("#item").text("生成成功！！！");
+					$("#loading").hide();
+					$("#success").show();
+					window.parent.zhu.location.href="/downloadA";
+
+				} else {
+					$("#item").text("生成失败！！！");
+					$("#loading").hide();
+					$("#success").show();
+				}
+			},
+			error: function (result) {
+				alert("未知错误联系管理员！");
 			}
-		},
-		error:function(result){
-			alert("未知错误联系管理员！");
-		}
+		});
 	});
-});
-$("#exportDataType").click(function(){
-	console.log("exportDataType");
-	$("#loading").show();
-	$('#myModal').modal('show');
-	$("#success").hide();
-	$.ajax({
-		url:"/exportDataType",
-		type:"post",
-		async:true,
-		success:function(result){
-			if(result==true){
-				$("#item").text("生成成功！！！");
-				$("#loading").hide();
-				$("#success").show();
-			}else{
-				$("#item").text("生成失败！！！");
-				$("#loading").hide();
-				$("#success").show();
+	$("#exportDataType").click(function () {
+		console.log("exportDataType");
+		$("#loading").show();
+		$('#myModal').modal('show');
+		$("#success").hide();
+		$.ajax({
+			url: "/exportDataType",
+			type: "post",
+			async: true,
+			success: function (result) {
+				if (result == true) {
+					$("#item").text("生成成功！！！");
+					$("#loading").hide();
+					$("#success").show();
+					window.parent.zhu.location.href="/downloadT";
+				} else {
+					$("#item").text("生成失败！！！");
+					$("#loading").hide();
+					$("#success").show();
+				}
+			},
+			error: function (result) {
+				alert("未知错误联系管理员！");
 			}
-		},
-		error:function(result){
-			alert("未知错误联系管理员！");
-		}
+		});
 	});
-});
-$("#exportInterface").click(function(){
-	console.log("exportInterface");
-	$("#loading").show();
-	$('#myModal').modal('show');
-	$("#success").hide();
-	$.ajax({
-		url:"/exportMidware",
-		type:"post",
-		async:true,
-		success:function(result){
-			if(result==true){
-				$("#item").text("生成成功！！！");
-				$("#loading").hide();
-				$("#success").show();
-			}else{
-				$("#item").text("生成失败！！！");
-				$("#loading").hide();
-				$("#success").show();
+	$("#exportInterface").click(function () {
+		console.log("exportInterface");
+		$("#loading").show();
+		$('#myModal').modal('show');
+		$("#success").hide();
+		$.ajax({
+			url: "/exportMidware",
+			type: "post",
+			async: true,
+			success: function (result) {
+				if (result == true) {
+					$("#item").text("生成成功！！！");
+					$("#loading").hide();
+					$("#success").show();
+					window.parent.zhu.location.href="/downloadM";
+				} else {
+					$("#item").text("生成失败！！！");
+					$("#loading").hide();
+					$("#success").show();
+				}
+			},
+			error: function (result) {
+				alert("未知错误联系管理员！");
 			}
-		},
-		error:function(result){
-			alert("未知错误联系管理员！");
-		}
+		});
 	});
-});
-$("#exportMessage").click(function(){
-	console.log("exportMessage");
-	$("#loading").show();
-	$('#myModal').modal('show');
-	$("#success").hide();
-	$.ajax({
-		url:"/exportMessage",
-		type:"post",
-		async:true,
-		success:function(result){
-			if(result==true){
-				$("#item").text("生成成功！！！");
-				$("#loading").hide();
-				$("#success").show();
-			}else{
-				$("#item").text("生成失败！！！");
-				$("#loading").hide();
-				$("#success").show();
+	$("#exportMessage").click(function () {
+		console.log("exportMessage");
+		$("#loading").show();
+		$('#myModal').modal('show');
+		$("#success").hide();
+		$.ajax({
+			url: "/exportMessage",
+			type: "post",
+			async: true,
+			success: function (result) {
+				if (result == true) {
+					$("#item").text("生成成功！！！");
+					$("#loading").hide();
+					$("#success").show();
+					window.parent.zhu.location.href="/downloadS";
+				} else {
+					$("#item").text("生成失败！！！");
+					$("#loading").hide();
+					$("#success").show();
+				}
+			},
+			error: function (result) {
+				alert("未知错误联系管理员！");
 			}
-		},
-		error:function(result){
-			alert("未知错误联系管理员！");
-		}
+		});
 	});
-});
+
+	$("#uploadTemp").click(function () {
+		$('#fileModal').modal('show');
+	});
+
+	function upload() {
+		var formData = new FormData();
+		formData.append("file", $("#inputFile")[0].files[0]);
+		formData.append("temp",$("#temp").val());
+		console.log(formData);
+		console.log($("#inputFile")[0].files[0]);
+		console.log($("#temp").val());
+		if($("#temp").val()=="0"){
+			alert("未选择上传模板类型");return;
+		}
+		if($("#inputFile")[0].files[0]==undefined || $("#inputFile")[0].files[0]==null){
+			alert("未选择文件");
+			return;
+		}
+		$.ajax({
+			url: "/upload",
+			type: 'POST',
+			data: formData,
+			processData: false,
+			contentType: false,
+			success: function (data) {
+				console.log(data);
+			}
+		});
+	}
 </script>
+
 </html>
