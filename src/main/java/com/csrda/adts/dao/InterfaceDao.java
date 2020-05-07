@@ -67,9 +67,9 @@ public interface InterfaceDao {
 	 *  编辑更新类
 	 */
 	@Update("UPDATE  t_class SET c_name=#{modalCName},"
-			+ "c_desc=#{modalCDesc},c_father=#{modalCFather},c_midware= #{modalCMidware}"
+			+ "c_desc=#{modalCDesc},c_father=#{modalCFather}"
 			+ "WHERE t_class.c_id =#{modalCId}")
-	int UpdateCls(String modalCId, String modalCName, String modalCDesc, String modalCFather, String modalCMidware);
+	int UpdateCls(String modalCId, String modalCName, String modalCDesc, String modalCFather);
 	
 	
 	/**
@@ -112,10 +112,12 @@ public interface InterfaceDao {
 	/**
 	 * 根据接口的唯一数据id序号，找参数
 	 */
-	@Select("SELECT p.para_attr,p.para_id,p.para_name,p.para_type,"
-			+ "p.para_desc,p.para_phy_dim,p.para_min,p.para_max,p.para_default "
-			+ "FROM t_parameter p " + 
-			"WHERE p.para_interface= #{id}  AND  p.is_delete='0'")
+	@Select("SELECT i.i_id,p.para_attr,p.para_id,p.para_name,p.para_type,p.para_eq," + 
+			"p.para_desc,p.para_phy_dim,p.para_min,p.para_max,p.para_default " + 
+			"FROM t_parameter p " + 
+			"LEFT JOIN t_interface i ON p.para_interface = i.id " + 
+			"WHERE p.para_interface= #{id}  AND  p.is_delete='0' " + 
+			"ORDER BY p.para_eq")
 	
 	List<Map<String,Object>> qryInterfacePara(String id);
 	
@@ -173,8 +175,66 @@ public interface InterfaceDao {
 	int deleteInterface(String id);
 	
 	/**
-	 * 删除接口参数
+	 * 删除接口所有参数
 	 */
 	@Update("UPDATE t_parameter p SET p.is_delete ='1' WHERE p.para_interface=#{id}")
 	int deleteInterfacePara(String id);
+	
+	
+	
+	/**
+	 *  编辑更新接口
+	 */
+	@Update("UPDATE  t_interface  i SET i.i_name=#{interfaceName},"
+			+ "i.i_desc=#{interfaceDesc},i.i_remark=#{interfaceRemark},i.i_return= #{interfaceRetnTyp},"
+			+ "i.i_return_desc =#{interfaceRetnDesc}"
+			+ "WHERE i.i_id =#{interfaceId} AND i.i_para_count =#{interfaceParaCount} AND i.i_para_list= #{interfaceParaList}")
+	int updateInterface(String interfaceName,String interfaceDesc,String interfaceRemark,
+			String interfaceRetnTyp,String interfaceRetnDesc,
+			String interfaceId,String interfaceParaCount,String interfaceParaList);
+	
+	/**
+	 * 编辑参数之前根据所属接口和参数次序进行回填
+	 */
+	@Select("SELECT * FROM t_parameter p " + 
+			"WHERE p.para_interface=#{uniqueInterid} AND p.is_delete='0' AND p.para_eq=#{paraNo}")
+	Map<String,Object> qryParaFillback(String uniqueInterid,String paraNo);
+
+	
+	/**
+	 * 新增参数之前判断是否唯一
+	 */
+	@Select("SELECT * FROM( " + 
+			"SELECT * FROM t_parameter p " + 
+			"WHERE p.para_interface=#{uniqueInterid} AND p.is_delete='0' ) a " + 
+			"WHERE a.para_eq=#{paraNo} OR a.para_id=#{paraId} ")
+	Map<String, Object> qryParaIsExit(String paraNo,String paraId,String uniqueInterid);
+	
+	/**
+	 *  修改参数后对接口进行修改
+	 */
+	@Update("UPDATE  t_interface  i SET i.i_para_count =#{pCount},"
+			+ "i.i_para_list= #{paraList}"
+			+ "WHERE i.id =#{uniqueInterid} ")
+	int UpdateIinfo(String pCount,String paraList,String uniqueInterid);
+	
+	
+	/**
+	 * 修改接口参数
+	 */
+	@Update("UPDATE  t_parameter p  SET "
+			+ "p.para_name=#{paraName},p.para_desc=#{paraDesc},p.para_type= #{paraType},"
+			+ "p.para_attr =#{paraAttr},p.para_eq=#{paraNo},"
+			+"p.para_phy_dim=#{paraPhy},p.para_max=#{paraMax},p.para_min=#{paraMin},p.para_default=#{paraDefault}"
+			+ "WHERE p.para_interface=#{id} AND p.para_id=#{paraId}")
+
+	int UpdateParaData(String paraId, String paraName, String paraDesc, 
+			String paraType, String paraAttr, String paraNo, String id, 
+			String paraPhy, String paraMax, String paraMin, String paraDefault);
+	
+	/**
+	 * 单个删除参数
+	 */
+	@Update("UPDATE t_parameter p SET p.is_delete ='1' WHERE p.para_interface=#{uniqueInterid} AND p.para_eq =#{paraNo}")
+	int deleteOnePara(String uniqueInterid,String paraNo);
 }

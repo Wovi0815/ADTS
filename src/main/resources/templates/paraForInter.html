@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.thymeleaf.org">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- Font Awesome -->
+	 	<link rel="stylesheet" th:href="@{/plugins/fontawesome-free/css/all.min.css}"> 
+		<!-- Ionicons -->
+		<link rel="stylesheet" th:href="@{/dist/css/ionicons.css}">
+		<!-- Tempusdominus Bbootstrap 4 -->
+		<link rel="stylesheet" th:href="@{/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css}">
+		<!-- iCheck -->
+		<link rel="stylesheet" th:href="@{/plugins/icheck-bootstrap/icheck-bootstrap.min.css}">
+		<!-- DataTables -->
+  		<link rel="stylesheet" th:href="@{/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css}">
+  		<link rel="stylesheet" th:href="@{/plugins/datatables-responsive/css/responsive.bootstrap4.min.css}">
+		<!-- Theme style -->
+		<link rel="stylesheet" th:href="@{/dist/css/adminlte.min.css}">
+		<!-- overlayScrollbars -->
+		<link rel="stylesheet" th:href="@{/plugins/overlayScrollbars/css/OverlayScrollbars.min.css}">
+		
+		<title></title>
+		
+	</head>
+	<body>
+<div class="modal fade" id="modal-default">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="modalTitle"></h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              
+              	<!-- 模态框内容 -->
+			<div class="form-group" >
+			 <label for="iparaId">参数标识</label>
+			 <input class="form-control" placeholder="参数标识" id="iparaId" >
+			</div>
+			
+			<div class="form-group">
+			 <label for="iparaName">参数名称</label>
+			 <input class="form-control" placeholder="参数名称" id="iparaName" >
+			</div>
+			<div class="form-group">
+			 <label for="iparaDesc">参数描述</label>
+			 <input class="form-control" placeholder="参数描述" id="iparaDesc">
+			</div>
+			<div class="form-group">
+			 <label for="iparaReturn">返回值类型</label>
+			 <input class="form-control" placeholder="返回值类型" id="iparaReturn">
+			</div>
+			<div class="form-group">
+			 <label for="iparaNo">参数次序</label>
+			 <input class="form-control" oninput='value=value.replace(/[^\d]/g,"")'placeholder="参数次序" id="iparaNo">
+			</div>
+			<div class="form-group">
+			 <label for="iparaAttr">参数属性</label>
+			 <select class="form-control select2bs5" id="iparaAttr" >
+			<option value='' disabled selected style='display:none;'>请选择参数属性</option>
+			 	<option id="attr1">输入参数</option>
+			 	<option id="attr2">输出参数</option>
+		     </select>
+			</div>
+			<div class="form-group">
+			 <label for="iparaPhy">物理量纲</label>
+			 <input class="form-control"  placeholder="物理量纲" id="iparaPhy">
+			</div>
+			<div class="form-group">
+			 <label for="iparaMax">最大值</label>
+			 <input class="form-control" type="number" placeholder="最大值" id="iparaMax">
+			</div>
+			<div class="form-group">
+			 <label for="iparaMin">最小值</label>
+			 <input class="form-control" type='number' placeholder="最小值" id="iparaMin">
+			</div>
+			<div class="form-group">
+			 <label for="iparaDef">默认值</label>
+			 <input class="form-control" type='number' placeholder="默认值" id="iparaDef">
+			</div>
+			
+			<div class="form-group">
+			 <label for="iinterface">所属接口</label>
+			 <input class="form-control" placeholder="所属接口" id="iinterface" readonly="readonly">
+			</div>
+
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button id='closeModal' type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+              <button id='saveModal' type="button" data-dismiss="modal" class="btn btn-primary" onclick="save();">保存</button>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+
+
+
+	<!-- 表格相关 -->   
+            <div class="card-body">     
+      <button id='addBtn'type='button' style="margin-right:2% ;width: 8%;float: right;"class='btn btn-block btn-outline-info btn-sm' data-toggle="modal" data-target="#modal-default" onclick="addClick();">新增参数</button> 
+      
+
+              <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <th>参数标识</th>
+                  <th>参数名称</th>
+                  <th>参数描述</th>
+                  <th>参数次序</th>
+                  <th>返回值类型</th>
+                  <th>操作</th>
+                </tr>
+                </thead>
+                <tbody >
+                
+                </tbody>
+              </table>
+         </div>
+
+	<script th:src="@{/plugins/jquery/jquery.js}" ></script>
+	<script th:src="@{/plugins/bootstrap/js/bootstrap.min.js}"></script>
+	<script type="module" th:src="@{/plugins/popper/popper.js}"></script>
+	<!-- jQuery -->
+	<script th:src="@{/plugins/jquery/jquery.min.js}"></script>
+	<!-- jQuery UI 1.11.4 -->
+	<script th:src="@{/plugins/jquery-ui/jquery-ui.min.js}"></script>
+	<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+	 <script>
+	  $.widget.bridge('uibutton', $.ui.button)
+	</script> 
+	<!-- Bootstrap 4 -->
+	<script th:src="@{/plugins/select2/js/select2.full.min.js}"></script>
+	<script th:src="@{/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js}"></script>
+	<script th:src="@{/plugins/bootstrap-switch/js/bootstrap-switch.min.js}"></script>
+	<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+	<!-- DataTables -->
+	<script th:src="@{/plugins/datatables/jquery.dataTables.min.js}"></script>
+	<script th:src="@{/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js}"></script>
+	<script th:src="@{/plugins/datatables-responsive/js/dataTables.responsive.min.js}"></script>
+	<script th:src="@{/plugins/datatables-responsive/js/responsive.bootstrap4.min.js}"></script>
+	
+	<!-- ChartJS -->
+	<script th:src="@{/plugins/chart.js/Chart.min.js}"></script>
+	<!-- Sparkline -->
+	<script th:src="@{/plugins/sparklines/sparkline.js}"></script>
+	
+	<!-- jQuery Knob Chart -->
+	<script th:src="@{/plugins/jquery-knob/jquery.knob.min.js}"></script>
+	<!-- overlayScrollbars -->
+	<script th:src="@{/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js}"></script>
+	<!-- AdminLTE App -->
+	<script th:src="@{/dist/js/adminlte.js}"></script>
+
+	 	
+	<!-- page script -->
+<script type="text/javascript">
+
+function GetRequest() {
+var url = location.search; //获取url中"?"符后的字串
+var theRequest = new Object();
+ if (url.indexOf("?") != -1) {
+       var str = url.substr(1);
+       strs = str.split("&");
+       for (var i = 0; i < strs.length; i++) {
+           theRequest[strs[i].split("=")[0]] = decodeURIComponent(strs[i].split("=")[1]);
+       }
+   }
+   return theRequest;
+}
+
+//------全局变量-------
+var a=GetRequest();//中间件菜单传值
+var uniqueInterid=a['uniqueInterid'];
+var clickKey;
+var interfaceId;
+var oldParaNo;//编辑时，获取初始参数次序用于比对
+//------全局变量-------
+
+function QryParaInterface(){//查接口下属参数
+	$("#example1 tbody" ).empty();
+	$.ajax({
+		url:"/QryParaInterface.do",
+		type:"POST",
+		async:true,
+		data:{"uniqueInterid":uniqueInterid},
+		success:function(result){
+			interfaceId=result[0].i_id;
+			var body="";
+			for(var i=0;i<result.length;i++){
+				body = "<tr>";
+				body    += "<td id='tparaId'>" + result[i].para_id + "</td>";
+		        body    += "<td id='tparaName'>" + result[i].para_name + "</td>";
+		        body    += "<td id='tparaDesc'>" + result[i].para_desc + "</td>";  
+		        body    += "<td id='tparaNo'>" + result[i].para_eq  + "</td>";
+		        body    += "<td id='tparaReturn'>" + result[i].para_type + "</td>";
+		        body    += "<td>"+		        
+		        "<button id='editBtn' type='button' style='margin-left:4%;margin-top:6px;width:45%;float: left;'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick='editClick(this);'>修改</button> "+
+		        "<button id='deleteBtn' type='button' style='margin-left:4%;width:45%;float:left'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
+		        "</td>";
+		        body    += "</tr>";
+			    $("#example1 tbody" ).append(body); 
+				
+			}
+			
+	
+			$("#example1").DataTable({
+			      "responsive": true,
+			      "autoWidth": false,
+			      "paging": true,
+			      "lengthChange": true,
+			      "searching": false,
+			      "ordering": true,
+			      "info": true,
+			    });
+
+		},
+		error:function(result){
+			alert("未知错误联系管理员！");
+		}
+	});
+
+}
+
+//新增     ###模态框内容####
+function addClick(){
+	clickKey="add";
+	$("#iparaId").removeAttr("readonly");
+	$("#iparaId").val("");
+	$("#iparaName").val("");
+	$("#iparaDesc").val("");
+	$("#iparaAttr").val("");
+	$("#iparaReturn").val("");
+	$("#iparaNo").val("");
+	$("#iparaPhy").val("");
+	$("#iparaMax").val("");
+	$("#iparaMin").val("");
+	$("#iparaDef").val("");
+	$("#iinterface").val(interfaceId);
+	
+	
+}
+
+//编辑     ###模态框内容####
+function editClick(e){	
+	clickKey="edit";
+	    var paraNo=$(e).parent().parent().find("td").eq(3).text();
+	    oldParaNo =$(e).parent().parent().find("td").eq(3).text();
+	    $.ajax({
+			url:"/QryParaFillback.do",
+			type:"POST",
+			async:true,
+			data:{
+				"uniqueInterid":uniqueInterid,
+				"paraNo":paraNo
+			},
+			success:function(result){
+				$("#iparaId").val(result.para_id);
+				$("#iparaId").attr("readonly","readonly");
+				$("#iparaName").val(result.para_name);
+				$("#iparaDesc").val(result.para_desc);
+				$("#iparaReturn").val(result.para_type);
+				$("#iparaNo").val(result.para_eq);
+				$("#iparaPhy").val(result.para_phy_dim);
+				$("#iparaMax").val(result.para_max);
+				$("#iparaMin").val(result.para_min);
+				$("#iparaDef").val(result.para_default);
+				$("#iinterface").val(interfaceId);
+				if(result.para_attr == "输入参数"){
+					$("#attr1").attr("selected","selected");
+				}else if(result.para_attr == "输出参数"){
+					$("#attr1").removeAttr("selected");
+					$("#attr2").attr("selected","selected");
+				}
+				
+			},
+			error:function(result){
+				alert("未知错误联系管理员！");
+			}
+		}); 	 
+}
+
+function save(){
+	var modalParaId=$("#iparaId").val();
+	var modalParaName=$("#iparaName").val();
+	var modalParaDesc=$("#iparaDesc").val();
+	var modalParaNo=$("#iparaNo").val();
+	var modalParaType=$("#iparaReturn").val();
+	var modalParaPhy=$("#iparaPhy").val();
+	var modalParaMax=$("#iparaMax").val();
+	var modalParaMin=$("#iparaMin").val();
+	var modalParaDef=$("#iparaDef").val();
+	var modalParaAttr=$("#iparaAttr").val();
+	var modalInterface= uniqueInterid;
+	var paraMap = new Array();
+	paraMap.push({
+		modalParaId :modalParaId,
+		modalParaName :modalParaName,
+		modalParaDesc :modalParaDesc,
+		modalParaNo :modalParaNo,
+		modalParaType :modalParaType,
+		modalParaPhy :modalParaPhy,
+		modalParaMax :modalParaMax,
+		modalParaMin :modalParaMin,
+		modalParaDef :modalParaDef,
+		modalParaAttr :modalParaAttr,
+		modalInterface:modalInterface});
+	if(modalParaId==""||modalParaName==""||modalParaDesc==""||modalParaNo==""||modalParaAttr==null||modalInterface==""){
+		alert("ERROR!存在未填项");
+	}else{
+		changeDataByKey(paraMap);
+	}
+}
+
+function changeDataByKey(paraMap) {
+	if(clickKey=="add"){
+		//新增之前先进行查询类标识和参数次序是否唯一   
+		var paraNo =paraMap[0].modalParaNo;
+		var paraId =paraMap[0].modalParaId;
+		 $.ajax({
+				url:"/QryParaIsExit.do",
+				type:"POST",
+				async:true,
+				data:{
+					"paraNo":paraNo,
+					"paraId":paraId,
+					"uniqueInterid":uniqueInterid
+				},
+				success:function(result){
+					if(result.para_id){	
+						alert("参数标识或次序已存在!请检查!");
+					}else{
+						InsertData(paraMap);//插入
+					}
+				},
+				error:function(result){
+					alert("未知错误联系管理员！");
+				}
+			}); 
+	}else if(clickKey=="edit"){
+		//修改之前检查是否唯一
+		var nowparaNo =paraMap[0].modalParaNo;
+		 $.ajax({
+				url:"/QryParaIsExit.do",
+				type:"POST",
+				async:true,
+				data:{
+					"paraNo":nowparaNo,
+					"paraId":paraId,
+					"uniqueInterid":uniqueInterid
+				},
+				success:function(result){
+					if((result.para_eq)&&(nowparaNo!=oldParaNo)){	
+						alert("参数次序已存在!请检查!");
+					}else{
+						UpdateData(paraMap);
+					}
+				},
+				error:function(result){
+					alert("未知错误联系管理员！");
+				}
+			}); 
+		
+	}
+
+}	
+//新增参数
+function InsertData(paraMap){
+	$.ajax({
+		url:"/InsertParaData.do",
+		type:"POST",
+		async:true,
+		data:{
+			"paraMap":JSON.stringify(paraMap)
+		},
+		success:function(result){
+		if(result>0){
+			var oldTable = $('#example1').dataTable();
+   		    oldTable.fnClearTable(); 
+  		    oldTable.fnDestroy();
+  			QryParaInterface();
+  		  	//修改接口表中的参数列表以及参数个数
+  		  	updateinfo();
+		}else{
+			alert("新增参数失败!");
+		} 
+	},
+		error:function(result){
+			alert("未知错误联系管理员！");
+		}
+	}); 
+	
+	
+}
+//新增后进行接口表更新 1.先获取信息
+function updateinfo(){
+	$.ajax({
+		url:"/QryParaInterface.do",
+		type:"POST",
+		async:true,
+		data:{"uniqueInterid":uniqueInterid},
+		success:function(result){
+			var paraList="";
+			if(result.length==1){
+				paraList += result[i].para_type;
+			}else{
+				for(var i=0;i<result.length;i++){	
+					if(i==result.length-1){
+						paraList +=result[i].para_type;
+						continue;
+					}
+					paraList += result[i].para_type + ",";
+				}
+			}
+			var pCount =result.length;
+			//更新
+			updateIinfo(pCount,paraList);
+		},
+		error:function(result){
+			alert("未知错误联系管理员！");
+		}
+	});
+}
+//新增后进行接口表更新 2.更新信息
+function updateIinfo(pCount,paraList){
+	$.ajax({
+		url:"/UpdateIinfo.do",
+		type:"POST",
+		async:true,
+		data:{
+			"pCount":pCount,
+			"paraList":paraList,
+			"uniqueInterid":uniqueInterid
+	},
+		success:function(result){
+			
+		},
+		error:function(result){
+			alert("未知错误联系管理员！");
+		}
+	});
+}
+
+//编辑参数
+function UpdateData(paraMap){
+	$.ajax({
+		url:"/UpdateParaData.do",
+		type:"POST",
+		async:true,
+		data:{
+			"paraMap":JSON.stringify(paraMap)
+		},
+		success:function(result){
+			if(result>0){
+				var oldTable = $('#example1').dataTable();
+	   		    oldTable.fnClearTable(); 
+	  		    oldTable.fnDestroy();
+	  		  	QryParaInterface();
+	  			updateinfo();
+			}
+	
+		},
+		error:function(result){
+			alert("未知错误联系管理员！");
+		}
+	}); 
+	
+}
+
+//单个删除参数
+function deleteClick(e){
+	var paraNo=$(e).parent().parent().find("td").eq(3).text();
+	$.ajax({
+		url:"/deleteOnePara.do",
+		type:"POST",
+		async:true,
+		data:{
+			"uniqueInterid":uniqueInterid,
+			"paraNo":paraNo
+		},
+		success:function(result){
+			if(result>0){
+				var oldTable = $('#example1').dataTable();
+	   		    oldTable.fnClearTable(); 
+	  		    oldTable.fnDestroy();
+	  		  	QryParaInterface();
+	  			updateinfo();
+			}else{
+				alert("参数删除失败!")
+			}
+		},	
+		error:function(result){
+			alert("未知错误联系管理员！");
+		}
+	});	
+
+}
+
+
+
+
+
+
+
+
+</script>    
+<script type="text/javascript">
+	QryParaInterface();
+	
+</script>
+</body>
+</html>

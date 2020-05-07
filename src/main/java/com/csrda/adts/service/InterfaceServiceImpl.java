@@ -3,6 +3,7 @@ package com.csrda.adts.service;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,8 +12,6 @@ import com.csrda.adts.dao.InterfaceDao;
 public class InterfaceServiceImpl implements InterfaceService{
 	@Autowired
 	private InterfaceDao interfaceDao;
-	
-	
 	
 	@Override
 	public List<Map<String, Object>> qryMidware() {	
@@ -54,9 +53,8 @@ public class InterfaceServiceImpl implements InterfaceService{
 	}
 
 	@Override
-	public int UpdateCls(String modalCId, String modalCName, String modalCDesc, String modalCFather,
-			String modalCMidware) {
-		return interfaceDao.UpdateCls(modalCId, modalCName, modalCDesc, modalCFather, modalCMidware);
+	public int UpdateCls(String modalCId, String modalCName, String modalCDesc, String modalCFather) {
+		return interfaceDao.UpdateCls(modalCId, modalCName, modalCDesc, modalCFather);
 	}
 
 	@Override
@@ -130,6 +128,46 @@ public class InterfaceServiceImpl implements InterfaceService{
 	public int deleteInterfacePara(String id) {
 		return interfaceDao.deleteInterfacePara(id);
 	}
+
+	@Override
+	public int updateInterface(String interfaceName, String interfaceDesc, String interfaceRemark,
+			String interfaceRetnTyp, String interfaceRetnDesc, String interfaceId, String interfaceParaCount,
+			String interfaceParaList) {
+		
+		return interfaceDao.updateInterface(interfaceName, interfaceDesc, interfaceRemark, interfaceRetnTyp,
+				interfaceRetnDesc, interfaceId, interfaceParaCount, interfaceParaList);
+	}
+
+	@Override
+	public Map<String, Object> qryParaFillback(String uniqueInterid, String paraNo) {
+		return interfaceDao.qryParaFillback(uniqueInterid, paraNo);
+	}
+
+	@Override
+	public Map<String, Object> qryParaIsExit(String paraNo, String paraId, String uniqueInterid) {
+		return interfaceDao.qryParaIsExit(paraNo, paraId, uniqueInterid);
+	}
+
+	@Override
+	public int UpdateIinfo(String pCount, String paraList, String uniqueInterid) {
+		return interfaceDao.UpdateIinfo(pCount, paraList, uniqueInterid);
+	}
+
+	@Override
+	public int UpdateParaData(String paraId, String paraName, String paraDesc, 
+			String paraType, String paraAttr,String paraNo, String id, String paraPhy, 
+			String paraMax, String paraMin, String paraDefault) {
+		return interfaceDao.UpdateParaData(paraId, paraName, paraDesc, paraType, paraAttr, 
+				paraNo, id, paraPhy, paraMax, paraMin, paraDefault);
+	}
+
+	@Override
+	public int deleteOnePara(String uniqueInterid, String paraNo) {
+		return interfaceDao.deleteOnePara(uniqueInterid, paraNo);
+	}
+
+
+	
 
 	
 	

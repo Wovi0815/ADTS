@@ -3,6 +3,8 @@ package com.csrda.adts.service;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Select;
+
 public interface InterfaceService {
 
 	/**
@@ -46,7 +48,7 @@ public interface InterfaceService {
 	 * 编辑更新类
 	 */
 	int UpdateCls(String modalCId,String modalCName,String modalCDesc,
-			String modalCFather, String modalCMidware);
+			String modalCFather);
 	
 	/**
 	 * 删除类
@@ -116,7 +118,40 @@ public interface InterfaceService {
 	int deleteInterface(String id);
 	
 	/**
-	 * 删除接口参数
+	 * 删除接口所有参数
 	 */
 	int deleteInterfacePara(String id);
+	
+	/**
+	 * 修改接口
+	 */
+	int updateInterface(String interfaceName,String interfaceDesc,String interfaceRemark,
+			String interfaceRetnTyp,String interfaceRetnDesc,
+			String interfaceId,String interfaceParaCount,String interfaceParaList);
+	
+	/**
+	 * 编辑参数之前根据所属接口和参数次序进行回填
+	 */
+	Map<String,Object> qryParaFillback(String uniqueInterid,String paraNo);
+	
+	/**
+	 * 新增参数之前判断是否唯一
+	 */
+	Map<String, Object> qryParaIsExit(String paraNo,String paraId,String uniqueInterid);
+	
+	/**
+	 *  编辑更新接口
+	 */
+	int UpdateIinfo(String pCount,String paraList,String uniqueInterid);
+	
+	/**
+	 * 修改接口参数
+	 */
+	int UpdateParaData(String paraId, String paraName, String paraDesc, 
+			String paraType, String paraAttr, String paraNo, String id, 
+			String paraPhy, String paraMax, String paraMin, String paraDefault);
+	/**
+	 * 单个删除接口参数
+	 */
+	int deleteOnePara(String uniqueInterid,String paraNo);
 }

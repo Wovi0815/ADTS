@@ -19,9 +19,7 @@
 		<!-- overlayScrollbars -->
 		<link rel="stylesheet" th:href="@{/plugins/overlayScrollbars/css/OverlayScrollbars.min.css}">
 		
-		<!-- Google Font: Source Sans Pro -->
-		<link th:href="@{/dist/css/google.css}" rel="stylesheet">
-		
+
 		<title></title>
 		
 	</head>
@@ -55,6 +53,7 @@
 			<div class="form-group">
 			 <label for="iclsFather">父类</label>
 			 <select class="form-control select2bs5"    id="iclsFather">
+			 
 		     </select>
 			</div>
 			<div class="form-group">
@@ -155,7 +154,6 @@ var theRequest = new Object();
 //------全局变量-------
 var a=GetRequest();//中间件菜单传值
 var midwareId=a['midwareId'];
-var inintKey=true;//初始化table 开关
 var clickKey;
 //------全局变量-------
 
@@ -287,7 +285,7 @@ function qryClsBeFather(iclsFather){
 		success:function(result){
 			for(var i=0;i<result.length;i++){
 				var obody="";
-				if(result[i].c_id == iclsFather){
+				if(iclsFather == result[i].c_id){
 					obody	+= "<option selected='selected'>"+result[i].c_id +"</option>";
 				}else{
 					obody	+= "<option>"+result[i].c_id +"</option>";

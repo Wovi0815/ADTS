@@ -42,6 +42,10 @@ public class ShiroConfig {
 		//filterMap.put("/update", "perms[update]");
 		
 		
+		
+		
+		
+		
 		//filterMap.put("/InsertInterfaceParas.do", "anon");
 	//	filterMap.put("/QryInterfaceBySelect.do", "anon");
 		//filterMap.put("/QryInterfaceDetail.do", "anon");
@@ -57,6 +61,7 @@ public class ShiroConfig {
 		//filterMap.put("/QueryMidwareClass.do", "anon");
 		//filterMap.put("/classMain", "anon");
 		//filterMap.put("/QueryMidware.do", "anon");
+		
 		filterMap.put("/*", "authc");
 		
 	

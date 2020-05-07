@@ -19,14 +19,13 @@
 		<!-- overlayScrollbars -->
 		<link rel="stylesheet" th:href="@{/plugins/overlayScrollbars/css/OverlayScrollbars.min.css}">
 		
-		<!-- Google Font: Source Sans Pro -->
-		<link th:href="@{/dist/css/google.css}" rel="stylesheet">
+
 		
 		<title></title>
 	
 	</head>
 	<body>
-	<!-- 参数详情模态框 -->
+	<!-- 接口详情模态框 -->
 	<div class="modal fade" id="modal-detail">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
@@ -62,7 +61,7 @@
 				 <div class='form-group' > 
 				 	<div class='input-group-prepend' style="float:left;">
 				 		<span class='input-group-text' >参数数量</span>
-				 	 <input class='form-control'onkeyup='value=value.replace(/[^\d]/g,"")' placeholder='请输入接口的参数数量' id='iparaCount'/>
+				 	 <input class='form-control'oninput='value=value.replace(/[^\d]/g,"")' placeholder='请输入接口的参数数量' id='iparaCount'/>
 	            	</div>
 	            	<div class='input-group-prepend'style="float:left;margin-left:5px">
 				 		<span class='input-group-text' >参数类型</span>
@@ -111,34 +110,73 @@
             </div>
             
             <div class="modal-footer justify-content-between">
-              <button id='closeModal' type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-              <button id='saveModal' type="button" data-dismiss="modal" class="btn btn-primary" onclick="addSave();">保存</button>
+              <button id='closeaddModal' type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+              <button id='saveaddModal' type="button" data-dismiss="modal" class="btn btn-primary" onclick="addSave();">保存</button>
             </div>
           </div>
         </div>
       </div>
 	
 	
-	   <!-- 修改页面模态框 -->
-	<div class="modal fade" id="modal-edit">
+	   <!-- 修改接口页面模态框 -->
+	<div class="modal fade" id="modal-editI">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title" id="modalTitle"></h4>
+            <div class="modal-header" id="editModalHead">
+              
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body">
               	<!-- 模态框内容 -->
-			<div class="form-group" id="editArea">
-			
+			<div class="form-group" >
+				
+				<div class="form-group" >
+					 <label for="einterfaceId">接口标识</label>
+					 <input class="form-control" placeholder="接口标识" id="einterfaceId" readonly='readonly'>
+				</div>
+				<div class="form-group">
+					 <label for="einterfaceName">接口名称</label>
+					 <input class="form-control" placeholder="接口名称" id="einterfaceName">
+				</div>
+				<div class="form-group">
+					 <label for="einterfaceDesc">接口描述</label>
+					 <input class="form-control" placeholder="接口描述" id="einterfaceDesc">
+				</div>
+				<div class="form-group">
+					 <label for="einterfaceRemark">接口备注</label>
+					 <input class="form-control" placeholder="接口备注" id="einterfaceRemark">
+				</div>
+				<div class="form-group">
+					 <label for="einterfaceRetnTyp">返回值类型</label>
+					 <input class="form-control" placeholder="返回值类型" id="einterfaceRetnTyp"  >
+				</div>
+				<div class="form-group">
+					 <label for="einterfaceRetnDesc">返回值描述</label>
+					 <input class="form-control" placeholder="返回值描述" id="einterfaceRetnDesc" >
+				</div>
+				<div class="form-group">
+					 <label for="einterfaceCls">归属类</label>
+					 <input class="form-control" placeholder="归属类" id="einterfaceCls"  readonly='readonly'>
+				</div>
+				
+            </div>
+
 			</div>
 			
-            </div>
+            
+			<div class="modal-footer justify-content-between" id="editModalBtnArea">
+			   <button id='closeEditModal' type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+			   <button id='saveEditModal' type="button"  class="btn btn-primary" data-dismiss="modal" onclick="editInterfaceSave();">保存</button>
+			</div>
+			
+			
           </div>
         </div>
       </div>
+	
+	
 	
 
 	
@@ -147,10 +185,8 @@
              <button id='addBtn'type='button' style='margin-right:2% ;width: 8%;float: right;' class='btn btn-block btn-outline-info btn-sm' data-toggle='modal' data-target='#modal-add' onclick='addClick();'>新增接口</button> 
 			<div id="select">        
  		      <select class="form-control select2bs5"   style="margin-right:5%;width:15%;float:right;" id="selectReturn">
-				
 		      </select> 
 		      <select class="form-control select2bs5"   style="margin-right:3%;width:15%;float:right;" id="selectCount">
-				
 		      </select>
        		</div>
        
@@ -227,6 +263,9 @@ var a=GetRequest();//中间件菜单传值
 var classId=a['classId'];
 var selectCount ;
 var selectReturn ;
+var interfaceId;
+var interfaceParaCount;
+var interfaceParaList;
 
 //------全局变量-------
 
@@ -247,9 +286,10 @@ function QryClsInterface(){//查类下属接口
 		        body    += "<td id='tinterfaceParaCount'>" + result[i].i_para_count + "</td>";
 		        body    += "<td id='tinterfaceParaType'>" + result[i].i_para_list + "</td>";
 		        body    += "<td>"+
-		        "<button id='detailBtn' type='button' style='width:30%;margin-top:6px;float:left;'class='btn btn-block btn-outline-success btn-sm' data-toggle='modal' data-target='#modal-detail'onclick='showDetail(this)'>接口详情</button> "+
-		        "<button id='editBtn' type='button' style='margin-left:3%;width: 30%;float:left'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick='editClick();'>修改</button> "+
-		        "<button id='deleteBtn' type='button' style='margin-left:3%;width: 30%;float:left'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
+		        "<button id='detailBtn' type='button' style='width:22%;margin-top:6px;float:left;'class='btn btn-block btn-outline-success btn-sm' data-toggle='modal' data-target='#modal-detail'onclick='showDetail(this)'>接口详情</button> "+
+		        "<button id='editIBtn' type='button' style='margin-left:4%;width: 22%;float:left'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-editI'onclick='editInterfaceClick(this);'>修改</button> "+
+		        "<button id='deleteBtn' type='button' style='margin-left:4%;width: 22%;float:left'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
+		        "<button id='paraBtn' type='button' style='margin-left:4%;width: 22%;float:left'class='btn btn-block btn-outline-warning' onclick='toPara(this);'>参数操作</button> "+
 		        "</td>";
 		        body    += "</tr>";
 			    $("#example1 tbody" ).append(body); 
@@ -276,18 +316,18 @@ function QryClsInterface(){//查类下属接口
 }
 
 function QryInterParaCount(){//查类下属接口参数数量，构建下拉框
-	$("#selectCount" ).empty();
+	$("#selectCount").empty();
 	$.ajax({
 		url:"/QryInterParaCount.do",
 		type:"POST",
 		async:true,
 		data:{"classId":classId},
 		success:function(result){
+			var obody="<option>筛选条件/参数个数</option>";
 			for(var i=0;i<result.length;i++){
-				var obody="<option>筛选条件/参数个数</option>";
 	        	obody	+= "<option id='opitem'>"+result[i].i_para_count +"</option>";
-	        	$("#selectCount" ).append(obody);
 				}
+			$("#selectCount" ).append(obody);
 		},
 		error:function(result){
 			alert("未知错误联系管理员！");
@@ -295,18 +335,18 @@ function QryInterParaCount(){//查类下属接口参数数量，构建下拉框
 	});	
 }
 function QryInterReturnType(){//查类下属接口返回值类型，构建下拉框
-	$("#selectReturn" ).empty();
+	$("#selectReturn").empty();
 	$.ajax({
 		url:"/QryInterReturnType.do",
 		type:"POST",
 		async:true,
 		data:{"classId":classId},
 		success:function(result){
+			var obody="<option>筛选条件/返回值类型</option>";
 			for(var i=0;i<result.length;i++){
-				var obody="<option>筛选条件/返回值类型</option>";
 	        	obody	+= "<option id='opitem'>"+result[i].i_return +"</option>";
-	        	$("#selectReturn" ).append(obody);
 				}
+			$("#selectReturn" ).append(obody);
 		},
 		error:function(result){
 			alert("未知错误联系管理员！");
@@ -349,8 +389,9 @@ $("#select").change(function(){
 		        body    += "<td id='tinterfaceParaType'>" + result[i].i_para_list + "</td>";
 		        body    += "<td>"+
 		        "<button id='detailBtn' type='button' style='width:30%;margin-top:6px;float:left;'class='btn btn-block btn-outline-success btn-sm' data-toggle='modal' data-target='#modal-detail'onclick='showDetail(this)'>接口详情</button> "+
-		        "<button id='editBtn' type='button' style='margin-left:3%;width: 30%;float:left'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick='editClick();'>修改</button> "+
+		        "<button id='editIBtn' type='button' style='margin-left:3%;width: 30%;float:left'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-editI'onclick='editInterfaceClick(this);'>修改</button> "+
 		        "<button id='deleteBtn' type='button' style='margin-left:3%;width: 30%;float:left'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
+		        "<button id='paraBtn' type='button' style='margin-left:3%;width: 30%;float:left'class='btn btn-block btn-outline-warning' onclick='toPara(this);'>参数操作</button> "+
 		        "</td>";
 		        body    += "</tr>";
 			    $("#example1 tbody" ).append(body); 
@@ -373,8 +414,117 @@ $("#select").change(function(){
 
 })
 
-//展示接口的参数详情	
-function qryInterfaceDetail(interfaceId,interfaceParaCount,interfaceParaList){
+
+function showDetail(e){
+	$("#descArea").empty();
+	 interfaceId=$(e).parent().parent().find("td").eq(0).text();
+	 interfaceParaCount=$(e).parent().parent().find("td").eq(3).text();
+	 interfaceParaList=$(e).parent().parent().find("td").eq(4).text();
+			
+	 $.ajax({
+			url:"/QryInterfaceDetail.do",
+			type:"POST",
+			async:true,
+			data:{
+				"interfaceId":interfaceId,
+				"interfaceParaCount":interfaceParaCount,
+				"interfaceParaList":interfaceParaList
+			},
+			success:function(result){
+				var interfaceRemark = result.i_remark;
+				var interfaceDesc = result.i_desc;
+				var interfaceRetnDesc =result.i_return_desc;
+				var ibody="";
+			   	ibody +="<div class='input-group'>";
+				ibody += 	"<div class='input-group-prepend'>";
+				ibody +=		 "<span class='input-group-text' >接口描述</span>";
+				ibody +=	 "</div>" ;
+				ibody +=	 "<input type='text'   class='form-control' value='"+interfaceDesc+"'readonly='readonly'/>";
+				ibody +="</div>";
+				ibody +="<div class='input-group'>";
+				ibody += 	"<div class='input-group-prepend'>";
+				ibody +=		 "<span class='input-group-text' >返回值描述</span>";
+				ibody +=	 "</div>" ;
+				ibody +=	 "<input type='text'   class='form-control' value='"+interfaceRetnDesc+"'readonly='readonly'/>";
+				ibody +="</div>";
+				ibody +="<div class='input-group'>";
+				ibody += 	"<div class='input-group-prepend'>";
+				ibody +=	 	"<span class='input-group-text' >接口备注</span>";
+				ibody +=   "</div>";
+				ibody += 	"<input type='text'    class='form-control' value='"+interfaceRemark+"'readonly='readonly'/>";
+				ibody +="</div>";
+				
+				$("#descArea").append(ibody);
+				//查参数的信息
+				qryInterfaceParaDetail(interfaceId,interfaceParaCount,interfaceParaList);
+				
+			},	
+			error:function(result){
+				alert("未知错误联系管理员！");
+			}
+		});	
+	 
+		
+}
+
+//新增 接口
+function addClick(){
+	$("#iparaCount").val("");
+	$("#addArea").empty();
+	$("#addAreaX input").each(function() {
+		$(this).val("");
+	})
+	$("#iparalist").val("");
+	$("#iinterfaceCls").val("");
+	$("#iinterfaceCls").val(classId);
+	$("#iparaCount").change(function(){	
+		var iparaCount=$("#iparaCount").val();
+		$("#addArea").empty();
+		$("#iparalist").val("");
+		if(iparaCount==0){$("#iparalist").val("无");}
+		for(var i=1;i<=iparaCount;i++){
+			var ibody="";
+			ibody += "<div class='input-group' >";
+			ibody += "<select class='form-control select2bs5' id='paraAttr"+i+"'><option>输入</option><option>输出</option></select> ";
+			ibody += "<input style='width:2%;' readonly='readonly' placeholder='参数次序' value='"+i+"' id='paraNo"+i+"'/>";
+			ibody += "<input class='form-control' placeholder='参数标识'id='paraId"+i+"'>";
+			ibody += "<input class='form-control' placeholder='参数名称'id='paraName"+i+"'>";
+			ibody += "<input class='form-control' placeholder='参数类型'id='paraType"+i+"'>";
+			ibody += "<input class='form-control' placeholder='参数描述'id='paraDesc"+i+"'>";
+			ibody += "<input class='form-control' placeholder='物理量纲'id='paraPhy"+i+"'>";
+			ibody += "<input class='form-control' type='number' placeholder='最大值'id='paraMax"+i+"'>";
+			ibody += "<input class='form-control' type='number' placeholder='最小值'id='paraMin"+i+"'>";
+			ibody += "<input class='form-control' type='number' placeholder='默认值'id='paraDefault"+i+"'>";
+			ibody += "</div>";
+			$("#addArea").append(ibody);
+		
+		}
+	})
+			$("#addArea").change(function(){
+				var iparaCount=$("#iparaCount").val();
+				var body="";
+				for(var i=1;i<=iparaCount;i++){
+					var paraType = $("#paraType"+i).val();
+					if(iparaCount==1){
+						body += paraType;
+						$("#iparalist").val(body);
+						break;
+					}else{
+						if(paraType==""){
+							$("#iparalist").val(body);
+							continue;}
+						if(i==iparaCount){
+							body += paraType;
+							$("#iparalist").val(body);
+							continue;}
+						body += paraType+",";
+					}
+					$("#iparalist").val(body);
+				}
+			})
+}
+//展示接口参数的详情	
+function qryInterfaceParaDetail(interfaceId,interfaceParaCount,interfaceParaList){
 	$("#paraArea").empty();	 
 	$.ajax({
 				url:"/QryInterfaceParaDetail.do",
@@ -410,11 +560,11 @@ function qryInterfaceDetail(interfaceId,interfaceParaCount,interfaceParaList){
 						body +=        "<span class='input-group-text'style='margin-left:8px;'>描述</span>";
 						body +=    "</div>" ;
 						
-						if(paraPhy!=null){
+						if((paraPhy!="")&&(paraPhy!=null)){
 							paraDesc +="【物理量纲:"+paraPhy+"】";}
-						if(paraMax!=null && paraMin!=null){
+						if((paraMax!="" && paraMin!="")&&(paraMax!=null && paraMin!=null)){
 							paraDesc +="【取值范围:("+paraMin+","+paraMax+")】";}
-						if(paraDefault!=null){
+						if((paraDefault!="")&&(paraDefault!=null)){
 							paraDesc +="【默认值:"+paraDefault+"】";}	
 						body +=	"<input type='text'  readonly='readonly'  class='form-control' value='"+paraDesc+"'/>";
 						body +="</div>";
@@ -429,133 +579,30 @@ function qryInterfaceDetail(interfaceId,interfaceParaCount,interfaceParaList){
 	 }
 
 
-function showDetail(e){
-	$("#descArea").empty();
-	 var interfaceId=$(e).parent().parent().find("td").eq(0).text();
-	 var interfaceParaCount=$(e).parent().parent().find("td").eq(3).text();
-	 var interfaceParaList=$(e).parent().parent().find("td").eq(4).text();
-			
-	 $.ajax({
-			url:"/QryInterfaceDetail.do",
-			type:"POST",
-			async:true,
-			data:{
-				"interfaceId":interfaceId,
-				"interfaceParaCount":interfaceParaCount,
-				"interfaceParaList":interfaceParaList
-			},
-			success:function(result){
-				var interfaceRemark = result.i_remark;
-				var interfaceDesc = result.i_desc;
-				var ibody="";
-			   	ibody +="<div class='input-group'>";
-				ibody += 	"<div class='input-group-prepend'>";
-				ibody +=		 "<span class='input-group-text' >接口描述</span>";
-				ibody +=	 "</div>" ;
-				ibody +=	 "<input type='text'   class='form-control' value='"+interfaceDesc+"'/>";
-				ibody +="</div>";
-				ibody +="<div class='input-group'>";
-				ibody += 	"<div class='input-group-prepend'>";
-				ibody +=	 	"<span class='input-group-text' >接口备注</span>";
-				ibody +=   "</div>";
-				ibody += 	"<input type='text'    class='form-control' value='"+interfaceRemark+"'/>";
-				ibody +="</div>";
-				
-				$("#descArea").append(ibody);
-				qryInterfaceDetail(interfaceId,interfaceParaCount,interfaceParaList);
-				
-			},	
-			error:function(result){
-				alert("未知错误联系管理员！");
-			}
-		});	
-	 
-		
-}
-
-//新增 接口
-function addClick(){
-	debugger;
-	$("#iparaCount").val("");
-	$("#addArea").empty();
-	$("#addAreaX input").each(function() {
-		$(this).val("");
-	})
-	$("#iparalist").val("");
-	$("#iinterfaceCls").val("");
-	$("#iinterfaceCls").val(classId);
-	$("#iparaCount").change(function(){	
-		var iparaCount=$("#iparaCount").val();
-		$("#addArea").empty();
-		$("#iparalist").val("");
-		if(iparaCount==0){$("#iparalist").val("无");}
-		
-		
-		for(var i=1;i<=iparaCount;i++){
-			var ibody="";
-			ibody += "<div class='input-group' >";
-			ibody += "<select class='form-control select2bs5' id='paraAttr"+i+"'><option>输入</option><option>输出</option></select> ";
-			ibody += "<input style='width:2%;' readonly='readonly' placeholder='参数次序' value='"+i+"' id='paraNo"+i+"'/>";
-			ibody += "<input class='form-control' placeholder='参数标识'id='paraId"+i+"'>";
-			ibody += "<input class='form-control' placeholder='参数名称'id='paraName"+i+"'>";
-			ibody += "<input class='form-control' placeholder='参数类型'id='paraType"+i+"'>";
-			ibody += "<input class='form-control' placeholder='参数描述'id='paraDesc"+i+"'>";
-			ibody += "<input class='form-control' placeholder='物理量纲'id='paraPhy"+i+"'>";
-			ibody += "<input class='form-control' placeholder='最大值'id='paraMax"+i+"'>";
-			ibody += "<input class='form-control' placeholder='最小值'id='paraMin"+i+"'>";
-			ibody += "<input class='form-control' placeholder='默认值'id='paraDefault"+i+"'>";
-			ibody += "</div>";
-			$("#addArea").append(ibody);
-		
-		}
-	})
-			$("#addArea").change(function(){
-				var iparaCount=$("#iparaCount").val();
-				var body="";
-				for(var i=1;i<=iparaCount;i++){
-					var paraType = $("#paraType"+i).val();
-					if(iparaCount==1){
-						body += paraType;
-						$("#iparalist").val(body);
-						break;
-					}else{
-						if(paraType==""){
-							$("#iparalist").val(body);
-							continue;}
-						if(i==iparaCount){
-							body += paraType;
-							$("#iparalist").val(body);
-							continue;}
-						body += paraType+",";
-					}
-					$("#iparalist").val(body);
-				}
-			})
-}
 
 function addSave(){
 	//接口信息
 
-	var interfaceId = $("#iinterfaceId").val();
-	var interfaceName =$("#iinterfaceName").val();
-	var interfaceDesc =$("#iinterfaceDesc").val();
-	var interfaceRemark =$("#iinterfaceRemark").val();
-	var interfaceRetnTyp =$("#iinterfaceRetnTyp").val();
-	var interfaceRetnDesc =$("#iinterfaceRetnDesc").val();
-	var interfaceCls =$("#iinterfaceCls").val();
-	var interfaceParaList =$("#iparalist").val();
-	var interfaceParaCount =$("#iparaCount").val();
+	var iinterfaceId = $("#iinterfaceId").val();
+	var iinterfaceName =$("#iinterfaceName").val();
+	var iinterfaceDesc =$("#iinterfaceDesc").val();
+	var iinterfaceRemark =$("#iinterfaceRemark").val();
+	var iinterfaceRetnTyp =$("#iinterfaceRetnTyp").val();
+	var iinterfaceRetnDesc =$("#iinterfaceRetnDesc").val();
+	var iinterfaceCls =$("#iinterfaceCls").val();
+	var iinterfaceParaList =$("#iparalist").val();
+	var iinterfaceParaCount =$("#iparaCount").val();
 	var interfaceMap = new Array();
 	interfaceMap.push({
-		interfaceId :interfaceId,
-		interfaceName :interfaceName,
-		interfaceDesc :interfaceDesc,
-		interfaceRemark :interfaceRemark,
-		interfaceRetnTyp :interfaceRetnTyp,
-		interfaceRetnDesc :interfaceRetnDesc,
-		interfaceCls :interfaceCls,
-		interfaceParaList :interfaceParaList,
-		interfaceParaCount :interfaceParaCount});
+		interfaceId :iinterfaceId,
+		interfaceName :iinterfaceName,
+		interfaceDesc :iinterfaceDesc,
+		interfaceRemark :iinterfaceRemark,
+		interfaceRetnTyp :iinterfaceRetnTyp,
+		interfaceRetnDesc :iinterfaceRetnDesc,
+		interfaceCls :iinterfaceCls,
+		interfaceParaList :iinterfaceParaList,
+		interfaceParaCount :iinterfaceParaCount});
 	
 	//先查有没有重复的
 		$.ajax({
@@ -579,10 +626,7 @@ function addSave(){
 				alert("未知错误联系管理员！");
 			}
 		});	
-
-	
-
-		  
+  
 	}
 //新增接口
 function addInterface(interfaceMap){
@@ -606,7 +650,6 @@ function addInterface(interfaceMap){
 	});	
 	
 }
-
 
 
 //新增接口参数
@@ -636,8 +679,7 @@ function addInterfacePara(id){
 			paraMin:paraMin,
 			paraDefault:paraDefault})
 			
-	}
-		  
+	}  
 		 $.ajax({
 				url:"/InsertInterfaceParas.do",
 				type:"POST",
@@ -647,6 +689,13 @@ function addInterfacePara(id){
 					"id":id
 				},
 				success:function(result){
+					//刷新
+					var oldTable = $('#example1').dataTable();
+		   		    oldTable.fnClearTable(); 
+		  		    oldTable.fnDestroy();
+					QryClsInterface();
+					QryInterParaCount();
+					QryInterReturnType();
 					
 				},	
 				error:function(result){
@@ -659,9 +708,9 @@ function addInterfacePara(id){
 //删除接口
 
 function deleteClick(e){
-	 var interfaceId=$(e).parent().parent().find("td").eq(0).text();
-	 var interfaceParaCount=$(e).parent().parent().find("td").eq(3).text();
-	 var interfaceParaList=$(e).parent().parent().find("td").eq(4).text();
+	interfaceId=$(e).parent().parent().find("td").eq(0).text();
+	interfaceParaCount=$(e).parent().parent().find("td").eq(3).text();
+	interfaceParaList=$(e).parent().parent().find("td").eq(4).text();
 	$.ajax({
 		url:"/deleteInterface.do",
 		type:"POST",
@@ -708,13 +757,98 @@ function deleteInterfacePara(id){
 			alert("未知错误联系管理员！");
 		}
 	});	
-	
-	
-	
-	
-	
-	
+
 }
+//编辑接口
+function editInterfaceClick(e){
+	interfaceId=$(e).parent().parent().find("td").eq(0).text();
+	interfaceParaCount=$(e).parent().parent().find("td").eq(3).text();
+	interfaceParaList=$(e).parent().parent().find("td").eq(4).text();
+	 $.ajax({
+			url:"/QryInterfaceDetail.do",
+			type:"POST",
+			async:true,
+			data:{
+				"interfaceId":interfaceId,
+				"interfaceParaCount":interfaceParaCount,
+				"interfaceParaList":interfaceParaList
+			},
+			success:function(result){
+			$("#einterfaceId").val(result.i_id);
+			$("#einterfaceName").val(result.i_name);		 
+			$("#einterfaceDesc").val(result.i_desc);		 
+			$("#einterfaceRemark").val(result.i_remark);
+			$("#einterfaceRetnTyp").val(result.i_return);	
+			$("#einterfaceRetnDesc").val(result.i_return_desc);		 
+			$("#einterfaceCls").val(result.i_class);		
+			},	
+			error:function(result){
+				alert("未知错误联系管理员！");
+			}
+		});	
+	 
+}
+//编辑接口保存
+function editInterfaceSave(){
+	var interfaceName=$("#einterfaceName").val();
+	var interfaceDesc=$("#einterfaceDesc").val();
+	var interfaceRemark=$("#einterfaceRemark").val();
+	var interfaceRetnTyp=$("#einterfaceRetnTyp").val();
+	var interfaceRetnDesc=$("#einterfaceRetnDesc").val();
+	 $.ajax({
+			url:"/UpdateInterface.do",
+			type:"POST",
+			async:true,
+			data:{
+				"interfaceName":interfaceName,
+				"interfaceDesc":interfaceDesc,
+				"interfaceRemark":interfaceRemark,
+				"interfaceRetnTyp":interfaceRetnTyp,
+				"interfaceRetnDesc":interfaceRetnDesc,
+				"interfaceId":interfaceId,
+				"interfaceParaCount":interfaceParaCount,
+				"interfaceParaList":interfaceParaList	
+			},
+			success:function(result){
+				if(result==1){
+					
+				}else{
+					alert("接口修改失败！");
+				}
+	
+			},	
+			error:function(result){
+				alert("未知错误联系管理员！");
+			}
+		});	
+
+}
+function toPara(e){
+	interfaceId=$(e).parent().parent().find("td").eq(0).text();
+	interfaceParaCount=$(e).parent().parent().find("td").eq(3).text();
+	interfaceParaList=$(e).parent().parent().find("td").eq(4).text();
+	var uniqueInterid;
+	$.ajax({
+		url:"/QryInterfaceDetail.do",
+		type:"POST",
+		async:true,
+		data:{
+			"interfaceId":interfaceId,
+			"interfaceParaCount":interfaceParaCount,
+			"interfaceParaList":interfaceParaList
+		},
+		success:function(result){
+			uniqueInterid=result.id;
+			window.parent.zhu.location.href="/paraForInter?uniqueInterid="+uniqueInterid;
+		},	
+		error:function(result){
+			alert("未知错误联系管理员！");
+		}
+	});	
+	
+
+}
+
 
 </script>    
 

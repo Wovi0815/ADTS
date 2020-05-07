@@ -101,8 +101,8 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 		@RequestMapping("/UpdateCls.do")
 		@ResponseBody
 		public int UpdateCls(String modalCId,String modalCName,
-				String modalCDesc,String modalCFather,String modalCMidware) {
-			int result = interfaceService.UpdateCls(modalCId, modalCName, modalCDesc, modalCFather, modalCMidware);
+				String modalCDesc,String modalCFather) {
+			int result = interfaceService.UpdateCls(modalCId, modalCName, modalCDesc, modalCFather);
 			return result;
 		};
 	
@@ -145,7 +145,7 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 	}
 		
 		
-	//查询接口详情
+	//查询参数接口详情
 	@RequestMapping("/QryInterfaceParaDetail.do")		
 	@ResponseBody
 	List<Map<String, Object>> qryInterfaceParaDetail(String interfaceId,String interfaceParaCount,
@@ -158,7 +158,7 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 	
 	}
 	
-	//查询接口详情(接口描述、备注)
+	//查询接口详情
 		@RequestMapping("/QryInterfaceDetail.do")		
 		@ResponseBody
 		Map<String, Object> qryInterfaceDetail(String interfaceId,String interfaceParaCount,
@@ -263,5 +263,119 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 		int deleteInterfacePara(String id){
 			int result = interfaceService.deleteInterfacePara(id);
 			return result;		
-		}		
+		}
+		
+		
+	//修改接口
+		@RequestMapping("/UpdateInterface.do")		
+		@ResponseBody
+		int updateInterface(String interfaceName,String interfaceDesc,String interfaceRemark,
+				String interfaceRetnTyp,String interfaceRetnDesc,
+				String interfaceId,String interfaceParaCount,String interfaceParaList){
+			int result = interfaceService.updateInterface(interfaceName, interfaceDesc, interfaceRemark, interfaceRetnTyp, 
+					interfaceRetnDesc, interfaceId, interfaceParaCount, interfaceParaList);
+			return result;		
+		}
+	
+	//跳转到接口的参数页面
+		@RequestMapping("/paraForInter")
+		public String toparaForInter() {
+		  return "paraForInter";
+		}
+  
+	// 参数页面
+		@RequestMapping("/QryParaInterface.do")		
+		@ResponseBody
+		List<Map<String, Object>> qryParaInterface(String uniqueInterid){
+			List<Map<String, Object>> result = interfaceService.qryInterfacePara(uniqueInterid);
+			return result;
+		
+		}
+	  
+	//修改参数的回填 
+		@RequestMapping("/QryParaFillback.do")		
+		@ResponseBody
+		Map<String, Object> qryParaFillback(String uniqueInterid,String paraNo){
+			Map<String, Object> result = interfaceService.qryParaFillback(uniqueInterid, paraNo);
+			return result;
+		
+		}
+	  	
+	//新增参数之前判断是否唯一
+		@RequestMapping("/QryParaIsExit.do")		
+		@ResponseBody
+		Map<String, Object> qryParaIsExit(String paraNo,String paraId,String uniqueInterid){
+			Map<String, Object> result = interfaceService.qryParaIsExit(paraNo, paraId, uniqueInterid);
+			return result;
+		}
+	
+	
+	//参数页面新增参数 
+		@RequestMapping("/InsertParaData.do")		
+		@ResponseBody
+		public int InsertParaData(String paraMap) throws JsonParseException, JsonMappingException, IOException {
+			ObjectMapper mapper = new ObjectMapper();   
+			int result =0;
+			List<Map<String, Object>> paramap = mapper.readValue(paraMap, new TypeReference<List<Map<String, Object>>>(){});
+				String  id = paramap.get(0).get("modalInterface").toString();
+				String  paraAttr = paramap.get(0).get("modalParaAttr").toString();
+				String  paraId = paramap.get(0).get("modalParaId").toString();
+				String  paraName = paramap.get(0).get("modalParaName").toString();
+				String  paraType = paramap.get(0).get("modalParaType").toString();
+				String  paraNo = paramap.get(0).get("modalParaNo").toString();
+				String  paraDesc = paramap.get(0).get("modalParaDesc").toString();
+				String  paraPhy = paramap.get(0).get("modalParaPhy").toString();
+				String  paraMax = paramap.get(0).get("modalParaMax").toString();
+				String  paraMin = paramap.get(0).get("modalParaMin").toString();
+				String  paraDefault =  paramap.get(0).get("modalParaDef").toString();  
+			    result = interfaceService.InsertInterfacePara(paraId, paraName, paraDesc, 
+					  paraType, paraAttr, paraNo, id, 
+					  paraPhy, paraMax, paraMin, paraDefault);
+			    return result;	
+			}
+	
+	//参数变动后修改接口中参数个数以及参数类型列表
+		@RequestMapping("/UpdateIinfo.do")		
+		@ResponseBody
+		int UpdateIinfo(String pCount,String paraList,String uniqueInterid){
+			int result = interfaceService.UpdateIinfo(pCount, paraList,uniqueInterid);
+			System.out.println(result);
+		return result;		
+	}
+		
+		
+	//参数页面新增参数 
+		@RequestMapping("/UpdateParaData.do")		
+		@ResponseBody
+		public int UpdateParaData(String paraMap) throws JsonParseException, JsonMappingException, IOException {
+			ObjectMapper mapper = new ObjectMapper();   
+				int result =0;
+				List<Map<String, Object>> paramap = mapper.readValue(paraMap, new TypeReference<List<Map<String, Object>>>(){});
+					String  id = paramap.get(0).get("modalInterface").toString();
+					String  paraAttr = paramap.get(0).get("modalParaAttr").toString();
+					String  paraId = paramap.get(0).get("modalParaId").toString();
+					String  paraName = paramap.get(0).get("modalParaName").toString();
+					String  paraType = paramap.get(0).get("modalParaType").toString();
+					String  paraNo = paramap.get(0).get("modalParaNo").toString();
+					String  paraDesc = paramap.get(0).get("modalParaDesc").toString();
+					String  paraPhy = paramap.get(0).get("modalParaPhy").toString();
+					String  paraMax = paramap.get(0).get("modalParaMax").toString();
+					String  paraMin = paramap.get(0).get("modalParaMin").toString();
+					String  paraDefault =  paramap.get(0).get("modalParaDef").toString();  
+					   result = interfaceService.UpdateParaData(paraId, paraName, paraDesc, 
+						  paraType, paraAttr, paraNo, id, 
+						  paraPhy, paraMax, paraMin, paraDefault);
+					   return result;	
+			}	
+		
+		
+		//单个删除接口参数
+		@RequestMapping("/deleteOnePara.do")
+		@ResponseBody
+		  int deleteOnePara(String uniqueInterid,String paraNo){
+				int result = interfaceService.deleteOnePara(uniqueInterid,paraNo);
+		 return result;		
+		}
+				
+		
 }
