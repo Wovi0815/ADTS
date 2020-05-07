@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.thymeleaf.org">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" th:href="@{/plugins/fontawesome-free/css/all.min.css}">
+    <!-- Ionicons -->
+    <link rel="stylesheet" th:href="@{/dist/css/ionicons.css}">
+    <!-- Tempusdominus Bbootstrap 4 -->
+    <link rel="stylesheet" th:href="@{/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css}">
+    <!-- iCheck -->
+    <link rel="stylesheet" th:href="@{/plugins/icheck-bootstrap/icheck-bootstrap.min.css}">
+    <!-- DataTables -->
+    <link rel="stylesheet" th:href="@{/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css}">
+    <link rel="stylesheet" th:href="@{/plugins/datatables-responsive/css/responsive.bootstrap4.min.css}">
+    <!-- Theme style -->
+    <link rel="stylesheet" th:href="@{/dist/css/adminlte.min.css}">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" th:href="@{/plugins/overlayScrollbars/css/OverlayScrollbars.min.css}">
+
+    <!-- Google Font: Source Sans Pro -->
+    <link th:href="@{/dist/css/google.css}" rel="stylesheet">
+    <meta charset="utf-8">
+    <title></title>
+</head>
+
+<body>
+    <!-- 表格相关 -->
+    <div class="card-body">
+        <button id='addBtn' type='button' style='margin-right:2% ;width: 8%;float: right;'
+            class='btn btn-block btn-outline-info btn-sm' data-toggle='modal' data-target='#modal-add'
+            onclick='add();'>新增报文</button>
+
+        <div id="select">
+            <!-- <select class="form-control select2bs5" style="margin-right:5%;width:15%;float:right;" id="selectReturn">
+
+            </select>
+            <select class="form-control select2bs5" style="margin-right:3%;width:15%;float:right;" id="selectCount">
+
+            </select> -->
+        </div>
+
+        <table id="message" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>报文标识</th>
+                    <th>报文名称</th>
+                    <th>数据源</th>
+                    <th>目的地</th>
+                    <th>报文ID</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</body>
+<script th:src="@{/plugins/jquery/jquery.js}"></script>
+<script th:src="@{/plugins/bootstrap/js/bootstrap.min.js}"></script>
+<script type="module" th:src="@{/plugins/popper/popper.js}"></script>
+<!-- jQuery -->
+<script th:src="@{/plugins/jquery/jquery.min.js}"></script>
+<!-- jQuery UI 1.11.4 -->
+<script th:src="@{/plugins/jquery-ui/jquery-ui.min.js}"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+    $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script th:src="@{/plugins/select2/js/select2.full.min.js}"></script>
+<script th:src="@{/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js}"></script>
+<script th:src="@{/plugins/bootstrap-switch/js/bootstrap-switch.min.js}"></script>
+<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<!-- DataTables -->
+<script th:src="@{/plugins/datatables/jquery.dataTables.min.js}"></script>
+<script th:src="@{/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js}"></script>
+<script th:src="@{/plugins/datatables-responsive/js/dataTables.responsive.min.js}"></script>
+<script th:src="@{/plugins/datatables-responsive/js/responsive.bootstrap4.min.js}"></script>
+
+<!-- ChartJS -->
+
+<!-- Sparkline -->
+<script th:src="@{/plugins/chart.js/Chart.min.js}"></script>
+<script th:src="@{/plugins/sparklines/sparkline.js}"></script>
+
+<!-- jQuery Knob Chart -->
+<script th:src="@{/plugins/jquery-knob/jquery.knob.min.js}"></script>
+<!-- overlayScrollbars -->
+<script th:src="@{/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/dist/js/adminlte.js}"></script>
+<script>
+    // 初始化
+    var mesType = GetRequest();
+    function GetRequest() {
+        var url = location.search; //获取url中"?"符后的字串
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            strs = str.split("&");
+            for (var i = 0; i < strs.length; i++) {
+                theRequest[strs[i].split("=")[0]] = decodeURIComponent(strs[i].split("=")[1]);
+            }
+        }
+        return theRequest['mesType'];
+    }
+    console.log(mesType);
+</script>
+
+
+<script>
+    $(function () {
+        $.ajax({
+            type: "POST",
+            url: "/qryMessage",
+            async: true,
+            data: { "mesType": mesType },
+            success: function (result) {
+                for (var i = 0; i < result.length; i++) {
+                    $("#message tbody").append(
+                        "<tr>" +
+                        "<td>" + result[i].mesId + "</td>" +
+                        "<td>" + result[i].mesName + "</td>" +
+                        "<td>" + result[i].mesSource + "</td>" +
+                        "<td>" + result[i].mesDestination + "</td>" +
+                        "<td>" + result[i].mesIdNum + "</td>" +
+                        "<td>" + "<button id='detailBtn' type='button' style='width:30%;margin-top:6px;float:left;'class='btn btn-block btn-outline-success btn-sm' data-toggle='modal' data-target='#modal-detail'onclick='showDetail(this)'>报文详情</button> " +
+                        "<button id='editBtn' type='button' style='margin-left:3%;width: 30%;float:left'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick='edit(this);'>修改</button> " +
+                        "<button id='deleteBtn' type='button' style='margin-left:3%;width: 30%;float:left'class='btn btn-block btn-outline-danger btn-sm'   onclick='delete(this);'>删除</button> " +
+                        "</td>"
+                    );
+                }
+            },
+            error: function () {
+                console.log("初始化查询错误！请联系管理员！！")
+            }
+        });
+    });
+
+</script>
+
+</html>
