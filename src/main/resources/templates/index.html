@@ -74,58 +74,58 @@
 						data-accordion="false">
 						<!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-						<li class="nav-item has-treeview menu-open">
-							<a href="#" class="nav-link active">
-								<i class="nav-icon fas fa-tachometer-alt"></i>
-								<p>
-									文档管理
-									<i class="right fas fa-angle-left"></i>
-								</p>
-							</a>
-							<ul class="nav nav-treeview">
-								<li class="nav-item has-treeview menu-open">
-									<a href="" class="nav-link active">
-										<i class="far fa-circle nav-icon"></i>
-										<p>接口管理
-											<i class="right fas fa-angle-left"></i>
-										</p>
-									</a>
+			   <li class="nav-item has-treeview menu-open">
+				<a href="#" class="nav-link active">
+					<i class="nav-icon fas fa-tachometer-alt"></i>
+					<p>
+						文档管理
+						<i class="right fas fa-angle-left"></i>
+					</p>
+				</a>
+				<ul class="nav nav-treeview">
+					<li class="nav-item has-treeview menu-close">
+						<a href="" class="nav-link active">
+							<i class="far fa-circle nav-icon"></i>
+							<p>接口管理
+								<i class="right fas fa-angle-left"></i>
+							</p>
+						</a>
 
-									<ul class="nav nav-treeview" style="display: block;" id="qryMidware">
-										<!-- 中间件菜单动态查询 -->
-									</ul>
-								</li>
+						<ul class="nav nav-treeview" style="display: block;" id="qryMidware">
+							<!-- 中间件菜单动态查询 -->
+						</ul>
+					</li>
 
-								<li class="nav-item">
-									<a href="" class="nav-link">
-										<i class="far fa-circle nav-icon"></i>
-										<p>报文管理
-											<i class="right fas fa-angle-left"></i>
-										</p>
-									</a>
-									<ul class="nav-item has-treeview menu-close" id="qryMessage">
-										<!-- 报文菜单动态查询 -->
-										<li class="nav-item">
-											<a href="/messageManager?mesType=Network" target="zhu" class="nav-link">
-												<i class="far fa-circle nav-icon"></i>
-												<p>网络报文</p>
-											</a>
-										</li>
-										<li class="nav-item">
-											<a href="/messageManager?mesType=USB" target="zhu" class="nav-link">
-												<i class="far fa-circle nav-icon"></i>
-												<p>USB报文</p>
-											</a>
-										</li>
-										<li class="nav-item">
-											<a href="/messageManager?mesType=CAN" target="zhu" class="nav-link">
-												<i class="far fa-circle nav-icon"></i>
-												<p>CAN报文</p>
-											</a>
-										</li>
-									</ul>
+					<li class="nav-item has-treeview menu-close">
+						<a href="" class="nav-link">
+							<i class="far fa-circle nav-icon"></i>
+							<p>报文管理
+								<i class="right fas fa-angle-left"></i>
+							</p>
+						</a>
+						<ul class="nav nav-treeview" id="qryMessage">
+							<!-- 报文菜单动态查询 -->
+							<li class="nav-item">
+								<a href="/messageManager?mesType=Network" target="zhu" class="nav-link">
+									<i class="far fa-circle nav-icon"></i>
+									<p>网络报文</p>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a href="/messageManager?mesType=USB" target="zhu" class="nav-link">
+									<i class="far fa-circle nav-icon"></i>
+									<p>USB报文</p>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a href="/messageManager?mesType=CAN" target="zhu" class="nav-link">
+									<i class="far fa-circle nav-icon"></i>
+									<p>CAN报文</p>
+								</a>
+							</li>
+						</ul>
 
-								</li>
+					</li>
 
 								<li class="nav-item">
 									<a href="/ListManager" target="zhu" class="nav-link">
@@ -133,8 +133,6 @@
 										<p>目录结构管理</p>
 									</a>
 								</li>
-
-
 								<li class="nav-item has-treeview menu-close">
 									<a href="/ReportGenerate" class="nav-link">
 										<i class="far fa-circle nav-icon"></i>
