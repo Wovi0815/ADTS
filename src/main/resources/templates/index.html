@@ -275,16 +275,12 @@
 				}
 			});
 
-
-
-		});
-	
-		$(function () {
 			$.ajax({
 				url: "/QueryMessageTyp.do",
 				type: "post",
 				async: true,
 				success: function (result) {
+					console.log(result);
 					for (var i = 0; i < result.length; i++) {
 						$("#qryMessage").append(
 							"<li class='nav-item'>" +
@@ -300,9 +296,24 @@
 				}
 			});
 
-
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 
 		});
+	
+	
+	
+
+
+	
 		
 		
 		

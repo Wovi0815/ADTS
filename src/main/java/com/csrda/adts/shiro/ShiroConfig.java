@@ -37,6 +37,7 @@ public class ShiroConfig {
 		filterMap.put("/login", "anon");
 		filterMap.put("/druid", "anon");
 		filterMap.put("/druid/**", "anon");
+		filterMap.put("/*", "authc");
 		//资源拦截
 		//filterMap.put("/add", "perms[add]");
 		//filterMap.put("/update", "perms[update]");
@@ -62,7 +63,7 @@ public class ShiroConfig {
 		//filterMap.put("/classMain", "anon");
 		//filterMap.put("/QueryMidware.do", "anon");
 		
-		filterMap.put("/*", "authc");
+	
 		
 	
 		
