@@ -94,8 +94,11 @@ public interface WordExportDao {
 			"	t.para_eq;")
 	public List<Map<String,Object>> qryOutputParam(String interfaceId);
 	
-	@Select("SELECT * FROM t_message")
-	public List<Map<String,Object>> qryMessage();
+	@Select("SELECT * FROM t_message where mes_type=#{mesType}")
+	public List<Map<String,Object>> qryMessage(String mesType);
+	
+	@Select("SELECT * FROM t_message ;")
+	public List<Map<String,Object>> qryMessageSketch();
 	
 	@Select("select * from(\r\n" + 
 			"SELECT\r\n" + 
@@ -114,4 +117,10 @@ public interface WordExportDao {
 			"	ORDER BY a.num;")
 	public List<Map<String,Object>> qryMesMem(String mesId);
 	
+	@Select("SELECT  mod_nod as nod,GROUP_CONCAT(b.mod_name) as name FROM(\r\n" + 
+			"SELECT * from t_module\r\n" + 
+			"group by mod_nod,mod_rank\r\n" + 
+			"ORDER BY mod_rank\r\n" + 
+			")b;")
+	public List<Map<String,Object>> qryModNod();
 }

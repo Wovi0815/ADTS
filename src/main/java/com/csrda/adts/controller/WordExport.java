@@ -15,6 +15,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -31,6 +33,7 @@ import com.csrda.adts.pojo.Message;
 import com.csrda.adts.pojo.MessageData;
 import com.csrda.adts.pojo.Method;
 import com.csrda.adts.pojo.MidWare;
+import com.csrda.adts.pojo.ModuleNod;
 import com.csrda.adts.pojo.ObjectData;
 import com.csrda.adts.pojo.Param;
 import com.csrda.adts.pojo.SecondLevelTitle;
@@ -39,8 +42,7 @@ import com.csrda.adts.pojo.ThirdLevelTitle;
 import com.deepoove.poi.XWPFTemplate;
 import com.deepoove.poi.config.Configure;
 import com.deepoove.poi.policy.HackLoopTableRenderPolicy;
-import com.sun.org.slf4j.internal.Logger;
-import com.sun.org.slf4j.internal.LoggerFactory;
+
 
 @Controller
 public class WordExport {
@@ -62,7 +64,11 @@ public class WordExport {
 		secondLevelTitle.setDataTypes(qryDataType());
 		//secondLevelTitle.setDataType(datatypes.getDataType());
 		secondLevelTitle.setMidWares(qryMidWare());
-		secondLevelTitle.setMessages(qryMessage());
+		secondLevelTitle.setNetworkMessages(qryMessage("Network"));
+		secondLevelTitle.setCANMessages(qryMessage("CAN"));
+		secondLevelTitle.setUSBMessages(qryMessage("USB"));
+		secondLevelTitle.setMessages(qryMessageSketchs());
+		secondLevelTitle.setModuleNods(qryModules());
 		HackLoopTableRenderPolicy policy = new HackLoopTableRenderPolicy();
 		Configure config = Configure.newBuilder().bind("dataTypes",policy)
 				.bind("structMembers", policy)
@@ -71,6 +77,8 @@ public class WordExport {
 				.bind("inputParams", policy)
 				.bind("outputParams", policy)
 				.bind("mesDatas", policy)
+				.bind("messages", policy)
+				.bind("moduleNods", policy)
 				.build();
 				
 		
@@ -150,10 +158,16 @@ public class WordExport {
 	public Boolean exportMessage() {
 		try {
 			SecondLevelTitle secondLevelTitle=new SecondLevelTitle();
-			secondLevelTitle.setMessages(qryMessage());
+			secondLevelTitle.setMessages(qryMessageSketchs());
+			secondLevelTitle.setNetworkMessages(qryMessage("Network"));
+			secondLevelTitle.setCANMessages(qryMessage("CAN"));
+			secondLevelTitle.setUSBMessages(qryMessage("USB"));
+			secondLevelTitle.setModuleNods(qryModules());
 			HackLoopTableRenderPolicy policy = new HackLoopTableRenderPolicy();
 			Configure config = Configure.newBuilder()
 					.bind("mesDatas", policy)
+					.bind("messages", policy)
+					.bind("moduleNods", policy)
 					.build();
 					
 			XWPFTemplate template = XWPFTemplate.compile("src/main/resources/public/temp/messageTemp.docx",config).render(secondLevelTitle);
@@ -338,9 +352,9 @@ public class WordExport {
 	}
 	
 	
-	public List<Message> qryMessage(){
+	public List<Message> qryMessage(String mesType){
 		List<Message> messages=new ArrayList<Message>();
-		List<Map<String, Object>> qryMessage=wordExportDao.qryMessage();
+		List<Map<String, Object>> qryMessage=wordExportDao.qryMessage(mesType);
 		for (int i = 0; i < qryMessage.size(); i++) {
 			Message message=new Message();
 			message.setMesId(qryMessage.get(i).get("mes_id").toString());
@@ -368,7 +382,44 @@ public class WordExport {
 		return messages;
 	}
 	
+	public List<Message> qryMessageSketchs() {
+		List<Message> messages=new ArrayList<Message>();
+		List<Map<String, Object>> qryMessage=wordExportDao.qryMessageSketch(); 
+		for (int i = 0; i < qryMessage.size(); i++) {
+			Message message=new Message();
+			message.setMesId(qryMessage.get(i).get("mes_id").toString());
+			message.setMesName(qryMessage.get(i).get("mes_name").toString());
+			message.setMesDesc(qryMessage.get(i).get("mes_desc").toString());
+			message.setMesDestination(qryMessage.get(i).get("mes_destination").toString());
+			message.setMesFunId(qryMessage.get(i).get("mes_fun_id").toString());
+			message.setMesSource(qryMessage.get(i).get("mes_source").toString());
+			message.setMesIdNum(qryMessage.get(i).get("mes_id_num").toString());
+			messages.add(message);
+		}
+		return messages;
+	}
 	
-	
-
+	public List<ModuleNod> qryModules(){
+		List<ModuleNod> modules=new ArrayList<>();
+		List<Map<String, Object>> qryModNod=wordExportDao.qryModNod();
+		for(int i=0;i<qryModNod.size();i++) {
+			ModuleNod moduleNod=new ModuleNod();
+			moduleNod.setModNod(qryModNod.get(i).get("nod").toString());
+			String names=qryModNod.get(i).get("name").toString();
+			String name[]=names.split(",");
+			if(name.length>0) {
+				System.out.println(name[0]);
+				moduleNod.setLevel1(name[0]);
+				System.out.println(moduleNod.getLevel1());
+			}
+			if(name.length>1) {
+				moduleNod.setLevel2(name[1]);
+			}
+			if(name.length>2) {
+				moduleNod.setLevel3(name[2]);
+			}
+			modules.add(moduleNod);
+		}
+		return modules;
+	}
 }

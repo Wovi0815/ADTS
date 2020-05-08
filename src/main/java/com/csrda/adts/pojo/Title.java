@@ -12,6 +12,35 @@ public class Title {
 	public List<DataType> dataTypes;
 	public List<MidWare> midWares;
 	public List<Message> messages;
+	public List<Message> CANMessages;
+	public List<Message> USBMessages;
+	public List<Message> NetworkMessages;
+	public List<ModuleNod> ModuleNods;
+	public List<ModuleNod> getModuleNods() {
+		return ModuleNods;
+	}
+	public void setModuleNods(List<ModuleNod> moduleNods) {
+		ModuleNods = moduleNods;
+	}
+	public List<Message> getNetworkMessages() {
+		return NetworkMessages;
+	}
+	public void setNetworkMessages(List<Message> networkMessages) {
+		NetworkMessages = networkMessages;
+	}
+	public List<Message> getCANMessages() {
+		return CANMessages;
+	}
+	public void setCANMessages(List<Message> cANMessages) {
+		CANMessages = cANMessages;
+	}
+	public List<Message> getUSBMessages() {
+		return USBMessages;
+	}
+	public void setUSBMessages(List<Message> uSBMessages) {
+		USBMessages = uSBMessages;
+	}
+	
 	public List<Message> getMessages() {
 		return messages;
 	}
