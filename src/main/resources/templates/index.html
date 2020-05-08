@@ -105,24 +105,6 @@
 						</a>
 						<ul class="nav nav-treeview" id="qryMessage">
 							<!-- 报文菜单动态查询 -->
-							<li class="nav-item">
-								<a href="/messageManager?mesType=Network" target="zhu" class="nav-link">
-									<i class="far fa-circle nav-icon"></i>
-									<p>网络报文</p>
-								</a>
-							</li>
-							<li class="nav-item">
-								<a href="/messageManager?mesType=USB" target="zhu" class="nav-link">
-									<i class="far fa-circle nav-icon"></i>
-									<p>USB报文</p>
-								</a>
-							</li>
-							<li class="nav-item">
-								<a href="/messageManager?mesType=CAN" target="zhu" class="nav-link">
-									<i class="far fa-circle nav-icon"></i>
-									<p>CAN报文</p>
-								</a>
-							</li>
 						</ul>
 
 					</li>
@@ -296,6 +278,35 @@
 
 
 		});
+	
+		$(function () {
+			$.ajax({
+				url: "/QueryMessageTyp.do",
+				type: "post",
+				async: true,
+				success: function (result) {
+					for (var i = 0; i < result.length; i++) {
+						$("#qryMessage").append(
+							"<li class='nav-item'>" +
+							"<a href='/messageManager?mesType=" + result[i].mes_type + "' target='zhu' class='nav-link avtive'>" +
+							"<i class='far fa-dot-circle nav-icon'></i>" +
+							"<p>" + result[i].mes_type +
+							"</p>" + "</a>" + "</li>"
+						);
+					}
+				},
+				error: function (result) {
+					alert("未知错误联系管理员！");
+				}
+			});
+
+
+
+		});
+		
+		
+		
+		
 	</script>
 
 </body>
