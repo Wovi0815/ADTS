@@ -26,6 +26,20 @@ public class MessageServiceImpl implements MessageService{
 		return messageDao.qryMessage(mesType);
 	}
 
+
+	@Override
+	public List<Map<String, Object>> qryModuleKind() {
+		return messageDao.qryModuleKind();
+	}
+
+
+	@Override
+	public List<Map<String, Object>> qryMesBySelect(String dataSource, String dataDestination, String mesType) {
+		return messageDao.qryMesBySelect(dataSource, dataDestination, mesType);
+	}
+
+
+
 	
 
 	

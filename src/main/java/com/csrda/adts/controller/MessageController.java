@@ -29,12 +29,32 @@ public class MessageController {
 	}
 	//根据报文类型查询所有报文
 	@ResponseBody
-	@RequestMapping("/qryMessage")
+	@RequestMapping("/qryMessage.do")
 	public List<Map<String, Object>> qryMessage(String mesType){
 		List<Map<String, Object>> result = messageService.qryMessage(mesType);
 		return result;
 	}
 	
+	// 查询硬件模块 ,构建 信源信宿的下拉框
+	@ResponseBody
+	@RequestMapping("/qryModSelect.do")
+	public List<Map<String, Object>> qryModSelect(){
+		List<Map<String, Object>> result = messageService.qryModuleKind();
+	return result;
+	}
+	
+	
+	//根据下拉框刷新表格
+	@ResponseBody
+	@RequestMapping("/qryMesBySelect.do")
+	public List<Map<String, Object>> qryMesBySelect(String dataSource,String dataDestination,String mesType){
+		System.out.println("!"+dataSource);
+		System.out.println("!"+dataDestination);
+		System.out.println("!"+mesType);
+		List<Map<String, Object>> result = messageService.qryMesBySelect(dataSource,dataDestination,mesType);
+		System.out.println("!!!"+result);
+	return result;
+	}
 	
 	
 }

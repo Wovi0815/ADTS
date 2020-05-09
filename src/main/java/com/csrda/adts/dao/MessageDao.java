@@ -6,18 +6,40 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Select;
 
 public interface MessageDao {
-	
+	/**
+	 *  查所有的报文类型,构建菜单
+	 */
 	 @Select("SELECT m.mes_type FROM t_message m WHERE m.is_delete = '0' GROUP by m.mes_type" )
 	 public List<Map<String, Object>> QueryMessageTyp();
 
-	
+	/**
+	 *  根据报文类型,查所有的报文
+	*/
 	 @Select("SELECT " + 
-	 		"id, mes_id as mesId,mes_name as mesName,mes_desc as mesDesc,mes_destination as mesDestination," + 
+	 		"id, mes_id as mesId,mes_name as mesName,mes_desc as mesDesc,"+ 
+	 		"mes_source as mesSource,mes_destination as mesDestination," + 
 	 		"mes_id_num as mesIdNum,mes_fun_id as mesFunId,mes_type as mesType " + 
 	 		"FROM t_message " + 
-	 		"WHERE	mes_type = #{mesType}")
+	 		"WHERE	mes_type = #{mesType} AND is_delete ='0' ")
 	 public List<Map<String, Object>> qryMessage(String mesType);
+	 /**
+	  * 查所有的硬件模块种类
+	  */
+	 @Select("SELECT * FROM t_module m WHERE m.is_delete = '0' GROUP by m.mod_pid" )
+	 public List<Map<String, Object>> qryModuleKind();
 	 
 	 
-	 
+	 /**
+	  * 根据下拉框重新刷新
+	  */
+	 @Select("SELECT * FROM("+
+			 	"SELECT " + 
+			 		"id, mes_id as mesId,mes_name as mesName,mes_desc as mesDesc,"+ 
+			 		"mes_source as mesSource,mes_destination as mesDestination," + 
+			 		"mes_id_num as mesIdNum,mes_fun_id as mesFunId,mes_type as mesType " + 
+			 	"FROM t_message " + 
+		 	    "WHERE	mes_type = #{mesType} AND is_delete ='0' "+
+		 	    ")a "+
+		 	"WHERE a.mesSource= #{dataSource} OR a.mesDestination= #{dataDestination}")
+		 public List<Map<String, Object>> qryMesBySelect(String dataSource,String dataDestination,String mesType);
 }

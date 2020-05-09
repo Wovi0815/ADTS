@@ -16,5 +16,14 @@ public interface MessageService {
 	 */
 	List<Map<String,Object>> qryMessage(String mesType);
 	
+	/**
+	 * 查询所有的硬件模块种类
+	 */
+	List<Map<String,Object>> qryModuleKind();
 	
+	
+	/**
+	 * 根据下拉框重新刷新表格
+	 */
+	List<Map<String,Object>> qryMesBySelect(String dataSource,String dataDestination,String mesType);
 }

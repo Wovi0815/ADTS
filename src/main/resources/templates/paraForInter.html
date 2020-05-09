@@ -58,7 +58,7 @@
 			</div>
 			<div class="form-group">
 			 <label for="iparaAttr">参数属性</label>
-			 <select class="form-control select2bs5" id="iparaAttr" >
+			 <select class="form-control select2bs4" id="iparaAttr" >
 			<option value='' disabled selected style='display:none;'>请选择参数属性</option>
 			 	<option id="attr1">输入参数</option>
 			 	<option id="attr2">输出参数</option>
@@ -121,8 +121,10 @@
          </div>
 
 	<script th:src="@{/plugins/jquery/jquery.js}" ></script>
-	<script th:src="@{/plugins/bootstrap/js/bootstrap.min.js}"></script>
-	<script type="module" th:src="@{/plugins/popper/popper.js}"></script>
+	<script type="module"th:src="@{/plugins/popper/esm/popper.js}"></script>
+	<script type="module"th:src="@{/plugins/popper/popper.js}"></script>
+	<script th:src="@{/plugins/popper/umd/popper.js}"></script>
+	<script type="module"th:src="@{/plugins/bootstrap/js/bootstrap.min.js}"></script>
 	<!-- jQuery -->
 	<script th:src="@{/plugins/jquery/jquery.min.js}"></script>
 	<!-- jQuery UI 1.11.4 -->
@@ -207,8 +209,8 @@ function QryParaInterface(){//查接口下属参数
 			
 	
 			$("#example1").DataTable({
-			      "responsive": true,
-			      "autoWidth": false,
+			   
+			      "autoWidth": true,
 			      "paging": true,
 			      "lengthChange": true,
 			      "searching": false,

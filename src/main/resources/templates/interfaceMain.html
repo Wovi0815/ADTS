@@ -19,7 +19,6 @@
 		<!-- overlayScrollbars -->
 		<link rel="stylesheet" th:href="@{/plugins/overlayScrollbars/css/OverlayScrollbars.min.css}">
 		
-
 		
 		<title></title>
 	
@@ -184,9 +183,9 @@
             <div class="card-body">    
              <button id='addBtn'type='button' style='margin-right:2% ;width: 8%;float: right;' class='btn btn-block btn-outline-info btn-sm' data-toggle='modal' data-target='#modal-add' onclick='addClick();'>新增接口</button> 
 			<div id="select">        
- 		      <select class="form-control select2bs5"   style="margin-right:5%;width:15%;float:right;" id="selectReturn">
+ 		      <select class="form-control select2bs4"   style="margin-right:5%;width:15%;float:right;" id="selectReturn">
 		      </select> 
-		      <select class="form-control select2bs5"   style="margin-right:3%;width:15%;float:right;" id="selectCount">
+		      <select class="form-control select2bs4"   style="margin-right:3%;width:15%;float:right;" id="selectCount">
 		      </select>
        		</div>
        
@@ -208,8 +207,10 @@
          
 
 	<script th:src="@{/plugins/jquery/jquery.js}" ></script>
-	<script th:src="@{/plugins/bootstrap/js/bootstrap.min.js}"></script>
-	<script type="module" th:src="@{/plugins/popper/popper.js}"></script>
+	<script type="module"th:src="@{/plugins/popper/esm/popper.js}"></script>
+	<script type="module"th:src="@{/plugins/popper/popper.js}"></script>
+	<script th:src="@{/plugins/popper/umd/popper.js}"></script>
+	<script type="module"th:src="@{/plugins/bootstrap/js/bootstrap.min.js}"></script>
 	<!-- jQuery -->
 	<script th:src="@{/plugins/jquery/jquery.min.js}"></script>
 	<!-- jQuery UI 1.11.4 -->
@@ -219,7 +220,6 @@
 	  $.widget.bridge('uibutton', $.ui.button)
 	</script> 
 	<!-- Bootstrap 4 -->
-	<script th:src="@{/plugins/select2/js/select2.full.min.js}"></script>
 	<script th:src="@{/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js}"></script>
 	<script th:src="@{/plugins/bootstrap-switch/js/bootstrap-switch.min.js}"></script>
 	<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
@@ -228,9 +228,6 @@
 	<script th:src="@{/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js}"></script>
 	<script th:src="@{/plugins/datatables-responsive/js/dataTables.responsive.min.js}"></script>
 	<script th:src="@{/plugins/datatables-responsive/js/responsive.bootstrap4.min.js}"></script>
-	
-	<!-- ChartJS -->
-	
 	<!-- Sparkline -->
 	<script th:src="@{/plugins/chart.js/Chart.min.js}"></script><script th:src="@{/plugins/sparklines/sparkline.js}"></script>
 	
@@ -287,9 +284,9 @@ function QryClsInterface(){//查类下属接口
 		        body    += "<td id='tinterfaceParaType'>" + result[i].i_para_list + "</td>";
 		        body    += "<td>"+
 		        "<button id='detailBtn' type='button' style='width:23%;margin-top:6px;float:left;'class='btn btn-block btn-outline-success btn-sm' data-toggle='modal' data-target='#modal-detail'onclick='showDetail(this)'>接口详情</button> "+
-		        "<button id='editIBtn' type='button' style='margin-left:3%;width: 22%;float:left'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-editI'onclick='editInterfaceClick(this);'>修改</button> "+
-		        "<button id='deleteBtn' type='button' style='margin-left:3%;width: 22%;float:left'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
-		        "<button id='paraBtn' type='button' style='margin-left:3%;width: 24%;float:left'class='btn btn-block btn-outline-warning' onclick='toPara(this);'>参数操作</button> "+
+		        "<button id='editIBtn' type='button' style='margin-left:2%;width:20%;float:left'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-editI'onclick='editInterfaceClick(this);'>修改</button> "+
+		        "<button id='deleteBtn' type='button' style='margin-left:2%;width:20%;float:left'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
+		        "<button id='paraBtn' type='button' style='margin-left:2%;width:25%;float:left'class='btn btn-block btn-outline-warning' onclick='toPara(this);'>参数操作</button> "+
 		        "</td>";
 		        body    += "</tr>";
 			    $("#example1 tbody" ).append(body); 
@@ -298,8 +295,8 @@ function QryClsInterface(){//查类下属接口
 			
 	
 			$("#example1").DataTable({
-			      "responsive": true,
-			      "autoWidth": false,
+			      
+			      "autoWidth": true,
 			      "paging": true,
 			      "lengthChange": true,
 			      "searching": false,
@@ -388,18 +385,18 @@ $("#select").change(function(){
 		        body    += "<td id='tinterfaceParaCount'>" + result[i].i_para_count + "</td>";
 		        body    += "<td id='tinterfaceParaType'>" + result[i].i_para_list + "</td>";
 		        body    += "<td>"+
-		        "<button id='detailBtn' type='button' style='width:30%;margin-top:6px;float:left;'class='btn btn-block btn-outline-success btn-sm' data-toggle='modal' data-target='#modal-detail'onclick='showDetail(this)'>接口详情</button> "+
-		        "<button id='editIBtn' type='button' style='margin-left:3%;width: 30%;float:left'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-editI'onclick='editInterfaceClick(this);'>修改</button> "+
-		        "<button id='deleteBtn' type='button' style='margin-left:3%;width: 30%;float:left'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
-		        "<button id='paraBtn' type='button' style='margin-left:3%;width: 30%;float:left'class='btn btn-block btn-outline-warning' onclick='toPara(this);'>参数操作</button> "+
+		        "<button id='detailBtn' type='button' style='width:23%;margin-top:6px;float:left;'class='btn btn-block btn-outline-success btn-sm' data-toggle='modal' data-target='#modal-detail'onclick='showDetail(this)'>接口详情</button> "+
+		        "<button id='editIBtn' type='button' style='margin-left:2%;width: 20%;float:left'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-editI'onclick='editInterfaceClick(this);'>修改</button> "+
+		        "<button id='deleteBtn' type='button' style='margin-left:2%;width: 20%;float:left'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
+		        "<button id='paraBtn' type='button' style='margin-left:2%;width: 25%;float:left'class='btn btn-block btn-outline-warning' onclick='toPara(this);'>参数操作</button> "+
 		        "</td>";
 		        body    += "</tr>";
 			    $("#example1 tbody" ).append(body); 
 				
 			}
 			$("#example1").DataTable({
-			      "responsive": true,
-			      "autoWidth": false,
+			      
+			      "autoWidth": true,
 			      "paging": true,
 			      "lengthChange": true,
 			      "searching": false,
@@ -485,7 +482,7 @@ function addClick(){
 		for(var i=1;i<=iparaCount;i++){
 			var ibody="";
 			ibody += "<div class='input-group' >";
-			ibody += "<select class='form-control select2bs5' id='paraAttr"+i+"'><option>输入</option><option>输出</option></select> ";
+			ibody += "<select class='form-control select2bs4' id='paraAttr"+i+"'><option>输入</option><option>输出</option></select> ";
 			ibody += "<input style='width:2%;' readonly='readonly' placeholder='参数次序' value='"+i+"' id='paraNo"+i+"'/>";
 			ibody += "<input class='form-control' placeholder='参数标识'id='paraId"+i+"'>";
 			ibody += "<input class='form-control' placeholder='参数名称'id='paraName"+i+"'>";
@@ -856,6 +853,8 @@ function toPara(e){
 	QryClsInterface();
 	QryInterParaCount();
 	QryInterReturnType();
+	
 </script>
+
 </body>
 </html>

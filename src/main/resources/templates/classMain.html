@@ -52,7 +52,7 @@
 			</div>
 			<div class="form-group">
 			 <label for="iclsFather">父类</label>
-			 <select class="form-control select2bs5"    id="iclsFather">
+			 <select class="form-control select2bs4"    id="iclsFather">
 			 
 		     </select>
 			</div>
@@ -77,7 +77,7 @@
       <button id='addBtn'type='button' style="margin-right:2% ;width: 5%;float: right;"class='btn btn-block btn-outline-info btn-sm' data-toggle="modal" data-target="#modal-default" onclick="addClick();">新增类</button> 
         
         <!-- 下拉搜索框开始 -->   
- 		      <select class="form-control select2bs5"   style="margin-right:5%;width:15%;float:right;" id="selectClass">
+ 		      <select class="form-control select2bs4"   style="margin-right:5%;width:15%;float:right;" id="selectClass">
 				
 		      </select>
 
@@ -101,8 +101,10 @@
          </div>
 
 	<script th:src="@{/plugins/jquery/jquery.js}" ></script>
-	<script th:src="@{/plugins/bootstrap/js/bootstrap.min.js}"></script>
-	<script type="module" th:src="@{/plugins/popper/popper.js}"></script>
+	<script type="module"th:src="@{/plugins/popper/esm/popper.js}"></script>
+	<script type="module"th:src="@{/plugins/popper/popper.js}"></script>
+	<script th:src="@{/plugins/popper/umd/popper.js}"></script>
+	<script type="module"th:src="@{/plugins/bootstrap/js/bootstrap.min.js}"></script>
 	<!-- jQuery -->
 	<script th:src="@{/plugins/jquery/jquery.min.js}"></script>
 	<!-- jQuery UI 1.11.4 -->
@@ -112,7 +114,6 @@
 	  $.widget.bridge('uibutton', $.ui.button)
 	</script> 
 	<!-- Bootstrap 4 -->
-	<script th:src="@{/plugins/select2/js/select2.full.min.js}"></script>
 	<script th:src="@{/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js}"></script>
 	<script th:src="@{/plugins/bootstrap-switch/js/bootstrap-switch.min.js}"></script>
 	<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
@@ -182,8 +183,8 @@ function QryMidCls(){//查中间件下属类
 			    $("#example1 tbody" ).append(body); 
 			}
 			$("#example1").DataTable({
-			      "responsive": true,
-			      "autoWidth": false,
+			
+				 "autoWidth": true,
 			      "paging": true,
 			      "lengthChange": true,
 			      "searching": false,
@@ -254,8 +255,8 @@ $("#selectClass").change(function(){
 			        $("#example1 tbody" ).append(body); 
 				}
 				$("#example1").DataTable({
-				      "responsive": true,
-				      "autoWidth": false,
+					 "responsive": true,
+				      "autoWidth": true,
 				      "paging": true,
 				      "lengthChange": true,
 				      "searching": false,

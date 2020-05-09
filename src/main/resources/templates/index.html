@@ -241,8 +241,10 @@
 	<script>
 		$.widget.bridge('uibutton', $.ui.button)
 	</script>
-	<!-- Bootstrap 4 -->
-	<script th:src="@{/plugins/bootstrap/js/bootstrap.min.js}"></script>
+	<script type="module"th:src="@{/plugins/popper/esm/popper.js}"></script>
+	<script type="module"th:src="@{/plugins/popper/popper.js}"></script>
+	<script th:src="@{/plugins/popper/umd/popper.js}"></script>
+	<script type="module"th:src="@{/plugins/bootstrap/js/bootstrap.min.js}"></script>
 	<!-- ChartJS -->
 	<script th:src="@{/plugins/chart.js/Chart.min.js}"></script>
 	<!-- Sparkline -->
