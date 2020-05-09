@@ -105,12 +105,10 @@
 			</button>
 			<div style='float: right;'> 
 				<select id="selectDestination" multiple="multiple" >
-					
 				</select>
 			</div>  
 			<div style='float: right;'> 
 				<select id="selectSource" multiple="multiple" >
-					
 				</select>
 			</div>
 
@@ -131,11 +129,11 @@
 
 	
 	<script th:src="@{/plugins/jquery/jquery.js}" ></script>
-	
+	<script type="module"th:src="@{/plugins/bootstrap/js/bootstrap.min.js}"></script>
 	<script type="module"th:src="@{/plugins/popper/esm/popper.js}"></script>
 	<script type="module"th:src="@{/plugins/popper/popper.js}"></script>
 	<script th:src="@{/plugins/popper/umd/popper.js}"></script>
-	<script type="module"th:src="@{/plugins/bootstrap/js/bootstrap.min.js}"></script>
+	
 	
 	<!-- jQuery -->
 	<script th:src="@{/plugins/jquery/jquery.min.js}"></script>
@@ -232,8 +230,8 @@ function QryMessage(){//根据报文类型查所有报文
 }
 
 //查询硬件模块，构建下拉框
-
 function QryModSelect(){
+	debugger;
 	$.ajax({
 		url:"/qryModSelect.do",
 		type:"POST",
@@ -244,19 +242,21 @@ function QryModSelect(){
 				obody +=  "<option value='"+result[i].mod_name+"'>"+result[i].mod_name +"</option>";
 			}	
 			$("#selectSource").append(obody);
+			$("#selectSource").multiselect("destroy").multiselect({  
+		    	nonSelectedText:"筛选条件/信源",
+				buttonWidth: "200px",
+				numberDisplayed:4,
+				
+	          }); 
+			
 			$("#selectDestination").append(obody);
-		    $("#selectSource").multiselect("destroy").multiselect({  
-		    	nonSelectedText:"筛选条件/信源",
-				buttonWidth: "200px",
-				numberDisplayed:4,
-				
-	          }); 
 		    $("#selectDestination").multiselect("destroy").multiselect({  
-		    	nonSelectedText:"筛选条件/信源",
+		    	nonSelectedText:"筛选条件/信宿",
 				buttonWidth: "200px",
 				numberDisplayed:4,
 				
 	          }); 
+		    $('.dropdown-toggle').dropdown();
 		},
 		error:function(result){
 			alert("未知错误联系管理员！");
@@ -324,15 +324,14 @@ function refreshDataBySelect(){
 		$('#selectSource').multiselect({
 			nonSelectedText:"筛选条件/信源",
 			buttonWidth: "200px",
-			numberDisplayed:4,
-			
+			numberDisplayed:4,	
 	}); 
-	
 		$('#selectDestination').multiselect({
 			nonSelectedText:"筛选条件/信宿",
 			buttonWidth: "200px",
 			numberDisplayed:4,
 		}); 
+		 $('.dropdown-toggle').dropdown();
 	})
 </script>
 

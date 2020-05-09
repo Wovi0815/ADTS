@@ -189,7 +189,13 @@ function QryParaInterface(){//查接口下属参数
 		async:true,
 		data:{"uniqueInterid":uniqueInterid},
 		success:function(result){
-			interfaceId=result[0].i_id;
+			console.log(result);
+			if(!result){
+				interfaceId=result[0].i_id;
+			}else{
+				interfaceId=null;
+			}
+			
 			var body="";
 			for(var i=0;i<result.length;i++){
 				body = "<tr>";
