@@ -231,7 +231,6 @@ function QryMessage(){//根据报文类型查所有报文
 
 //查询硬件模块，构建下拉框
 function QryModSelect(){
-	debugger;
 	$.ajax({
 		url:"/qryModSelect.do",
 		type:"POST",
@@ -246,7 +245,12 @@ function QryModSelect(){
 		    	nonSelectedText:"筛选条件/信源",
 				buttonWidth: "200px",
 				numberDisplayed:4,
-				
+				onDropdownHidden: function(event) {
+					var source=$("#selectSource ").val();
+					var destination=$("#selectDestination ").val();
+					refreshDataBySelect(source,destination);
+					
+	            }
 	          }); 
 			
 			$("#selectDestination").append(obody);
@@ -254,7 +258,11 @@ function QryModSelect(){
 		    	nonSelectedText:"筛选条件/信宿",
 				buttonWidth: "200px",
 				numberDisplayed:4,
-				
+				onDropdownHidden: function(event) {
+					var source=$("#selectSource").val();
+					var destination=$("#selectDestination").val();
+					refreshDataBySelect(source,destination);
+	            }
 	          }); 
 		    $('.dropdown-toggle').dropdown();
 		},
@@ -265,23 +273,19 @@ function QryModSelect(){
 }
 
 //根据下拉框更新当前页面内容
-function refreshDataBySelect(){
-	var dataSource=$("#selectSource").val();
-	var dataDestination=$("#selectDestination").val();
+function refreshDataBySelect(source,destination){
 	$.ajax({
 		url:"/qryMesBySelect.do",
 		type:"POST",
 		async:true,
-		data:{
-			"dataSource":dataSource,
-			"dataDestination":dataDestination,
-			"mesType":mesType
-			},
+		data:{"mesType":mesType,
+			"source":source.toString(),
+			"destination":destination.toString()},
 		success:function(result){
 			var oldTable = $('#example1').dataTable();
 		    oldTable.fnClearTable(); 
 		    oldTable.fnDestroy();
-		    var body="";
+			var body="";
 			for(var i=0;i<result.length;i++){
 				body = "<tr>";
 				body    += "<td id='timesId'>" + result[i].mesId + "</td>";
@@ -295,8 +299,10 @@ function refreshDataBySelect(){
 		        "<button id='dataBtn' type='button' style='margin-left:3%;width: 24%;float:left'class='btn btn-block btn-outline-warning' onclick='toPara(this);'>报文数据</button> "+
 		        "</td>";
 		        body    += "</tr>";
-			    $("#example1 tbody" ).append(body); 				
+			    $("#example1 tbody" ).append(body); 
+				
 			}
+
 			$("#example1").DataTable({
 			      "autoWidth": false,
 			      "paging": true,
@@ -304,14 +310,13 @@ function refreshDataBySelect(){
 			      "searching": false,
 			      "ordering": true,
 			      "info": true,
-			    });	
+			    });
+
 		},
 		error:function(result){
 			alert("未知错误联系管理员！");
 		}
-	});	
-	
-	
+	});
 	
 }
 
@@ -325,11 +330,13 @@ function refreshDataBySelect(){
 			nonSelectedText:"筛选条件/信源",
 			buttonWidth: "200px",
 			numberDisplayed:4,	
+			
 	}); 
 		$('#selectDestination').multiselect({
 			nonSelectedText:"筛选条件/信宿",
 			buttonWidth: "200px",
 			numberDisplayed:4,
+			
 		}); 
 		 $('.dropdown-toggle').dropdown();
 	})

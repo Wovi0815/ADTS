@@ -21,9 +21,20 @@ public interface MessageService {
 	 */
 	List<Map<String,Object>> qryModuleKind();
 	
+	/**
+	 * 根据下拉框信源查询报文
+	 */
+	List<Map<String,Object>>qryMesByDtSource(String source, String mesType);
+	
 	
 	/**
-	 * 根据下拉框重新刷新表格
+	 * 根据下拉框信宿查询报文
 	 */
-	List<Map<String,Object>> qryMesBySelect(String dataSource,String dataDestination,String mesType);
+	List<Map<String,Object>>qryMesByDtDestination(String destination, String mesType);
+	
+	
+	/**
+	 * 根据下拉框信源信宿查询报文
+	 */
+   List<Map<String, Object>> qryMesBySelect(String source, String destination, String mesType);
 }

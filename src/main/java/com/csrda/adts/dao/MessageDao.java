@@ -27,19 +27,40 @@ public interface MessageDao {
 	  */
 	 @Select("SELECT * FROM t_module m WHERE m.is_delete = '0' GROUP by m.mod_pid" )
 	 public List<Map<String, Object>> qryModuleKind();
+	
+	 /**
+	   * 根据下拉框信源查询报文
+	 */
 	 
+	 @Select("SELECT " + 
+		 		"id, mes_id as mesId,mes_name as mesName,mes_desc as mesDesc,"+ 
+		 		"mes_source as mesSource,mes_destination as mesDestination," + 
+		 		"mes_id_num as mesIdNum,mes_fun_id as mesFunId,mes_type as mesType " + 
+		 	"FROM t_message " + 
+	 	    "WHERE	mes_type = #{mesType} AND is_delete ='0' AND mes_source like '%${source}%' ")
+	
+	 public	List<Map<String,Object>>qryMesByDtSource(String source, String mesType);
+		
+		/**
+		 * 根据下拉框信宿查询报文
+		 */
+	 @Select("SELECT " + 
+		 		"id, mes_id as mesId,mes_name as mesName,mes_desc as mesDesc,"+ 
+		 		"mes_source as mesSource,mes_destination as mesDestination," + 
+		 		"mes_id_num as mesIdNum,mes_fun_id as mesFunId,mes_type as mesType " + 
+		 	"FROM t_message " + 
+	 	    "WHERE	mes_type = #{mesType} AND is_delete ='0' AND mes_destination like '%${destination}%'")
+	 public	List<Map<String,Object>>qryMesByDtDestination(String destination, String mesType);
 	 
 	 /**
-	  * 根据下拉框重新刷新
+	  * 根据信源和信宿查报文
 	  */
-	 @Select("SELECT * FROM("+
-			 	"SELECT " + 
+	 @Select("SELECT " + 
 			 		"id, mes_id as mesId,mes_name as mesName,mes_desc as mesDesc,"+ 
 			 		"mes_source as mesSource,mes_destination as mesDestination," + 
 			 		"mes_id_num as mesIdNum,mes_fun_id as mesFunId,mes_type as mesType " + 
 			 	"FROM t_message " + 
-		 	    "WHERE	mes_type = #{mesType} AND is_delete ='0' "+
-		 	    ")a "+
-		 	"WHERE a.mesSource= #{dataSource} OR a.mesDestination= #{dataDestination}")
-		 public List<Map<String, Object>> qryMesBySelect(String dataSource,String dataDestination,String mesType);
+		 	    "WHERE	mes_type = #{mesType} AND is_delete ='0' "
+		 	    + "AND mes_source like '%${source}%' AND mes_destination like '%${destination}%'")
+		 public List<Map<String, Object>> qryMesBySelect(String source, String destination, String mesType);
 }

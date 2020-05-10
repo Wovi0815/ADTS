@@ -39,6 +39,18 @@ public class MessageServiceImpl implements MessageService{
 	}
 
 
+	@Override
+	public List<Map<String, Object>> qryMesByDtSource(String source, String mesType) {
+		return messageDao.qryMesByDtSource(source, mesType);
+	}
+
+
+	@Override
+	public List<Map<String, Object>> qryMesByDtDestination(String destination, String mesType) {
+		return messageDao.qryMesByDtDestination(destination, mesType);
+	}
+
+
 
 	
 

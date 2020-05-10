@@ -1,5 +1,6 @@
 package com.csrda.adts.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -47,13 +48,25 @@ public class MessageController {
 	//根据下拉框刷新表格
 	@ResponseBody
 	@RequestMapping("/qryMesBySelect.do")
-	public List<Map<String, Object>> qryMesBySelect(String dataSource,String dataDestination,String mesType){
-		System.out.println("!"+dataSource);
-		System.out.println("!"+dataDestination);
-		System.out.println("!"+mesType);
-		List<Map<String, Object>> result = messageService.qryMesBySelect(dataSource,dataDestination,mesType);
-		System.out.println("!!!"+result);
-	return result;
+	public List<Map<String, Object>> qryMesBySelect(String mesType,String source,String destination){
+		List<Map<String, Object>> result = new ArrayList();
+		System.out.println("yuan:"+source);
+		System.out.println("xiu:"+destination);
+		if((destination=="")&& (source!="")) {
+			System.out.println("根据源");
+			 result = messageService.qryMesByDtSource(source, mesType);
+		}else if((source=="")&&(destination!="")){
+			System.out.println("根据宿");
+			 result = messageService.qryMesByDtDestination(destination, mesType);
+		}else if((source=="")&&(destination=="")){
+			System.out.println("所有");
+			 result = messageService.qryMessage(mesType);
+		}else if((source!="")&&(destination!="")) {
+			System.out.println("两个都有");
+			result =messageService.qryMesBySelect(source, destination, mesType);
+		}
+		return result;
+		
 	}
 	
 	
