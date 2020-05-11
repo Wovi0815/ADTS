@@ -34,14 +34,14 @@ public class MessageServiceImpl implements MessageService{
 
 
 	@Override
-	public List<Map<String, Object>> qryMesBySelect(String dataSource, String dataDestination, String mesType) {
-		return messageDao.qryMesBySelect(dataSource, dataDestination, mesType);
+	public List<Map<String, Object>> qryMesBySelect(List<Map<String,Object>> sourceList, List<Map<String,Object>> destinationList, String mesType) {
+		return messageDao.qryMesBySelect(sourceList, destinationList, mesType);
 	}
 
 
 	@Override
-	public List<Map<String, Object>> qryMesByDtSource(String source, String mesType) {
-		return messageDao.qryMesByDtSource(source, mesType);
+	public List<Map<String, Object>> qryMesByDtSource(List<Map<String,Object>> sourceList, String mesType) {
+		return messageDao.qryMesByDtSource(sourceList, mesType);
 	}
 
 

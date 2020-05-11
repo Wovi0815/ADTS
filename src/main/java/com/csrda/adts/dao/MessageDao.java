@@ -35,14 +35,26 @@ public interface MessageDao {
 	   * 根据下拉框信源查询报文
 	 */
 	 
-	 @Select("SELECT " + 
+	 @Select("<script>" +
+			 "SELECT " + 
 		 		"id, mes_id as mesId,mes_name as mesName,mes_desc as mesDesc,"+ 
 		 		"mes_source as mesSource,mes_destination as mesDestination," + 
 		 		"mes_id_num as mesIdNum,mes_fun_id as mesFunId,mes_type as mesType " + 
 		 	"FROM t_message " + 
-	 	    "WHERE	mes_type = #{mesType} AND is_delete ='0' AND mes_source like '%${source}%' ")
+	 	    "WHERE	mes_type = #{mesType} AND is_delete ='0' AND "+
+	 	   "<if test='sourceList.size > 1'>"+
+	 	   "<foreach collection='sourceList' item='sourceMap' index='index' separator='OR'>"+
+	 	   "mes_source like '%${sourceMap.source}%' "+
+ 		   "</foreach>"+
+ 		   "</if>"+
+ 		   "<if test='sourceList.size == 1'>"+
+ 		   "<foreach collection='sourceList' item='sourceMap' index='index' separator=' '>"+
+ 		   "mes_source like '%${sourceMap.source}%' "+
+ 		   "</foreach>"+
+ 		   "</if>"+
+ 		   "</script>")
 	
-	 public	List<Map<String,Object>>qryMesByDtSource(String source, String mesType);
+	 public	List<Map<String,Object>>qryMesByDtSource(@Param("sourceList") List<Map<String ,Object>> sourceList,@Param("mesType") String mesType);
 		
 		/**
 		 * 根据下拉框信宿查询报文
@@ -71,12 +83,43 @@ public interface MessageDao {
 	 /**
 	  * 根据信源和信宿查报文
 	  */
-	 @Select("SELECT " + 
+	 @Select("<script>" +
+			 "SELECT " + 
 			 		"id, mes_id as mesId,mes_name as mesName,mes_desc as mesDesc,"+ 
 			 		"mes_source as mesSource,mes_destination as mesDestination," + 
 			 		"mes_id_num as mesIdNum,mes_fun_id as mesFunId,mes_type as mesType " + 
 			 	"FROM t_message " + 
-		 	    "WHERE	mes_type = #{mesType} AND is_delete ='0' "
-		 	    + "AND mes_source like '%${source}%' AND mes_destination like '%${destination}%'")
-		 public List<Map<String, Object>> qryMesBySelect(String source, String destination, String mesType);
+		 	    "WHERE	mes_type = #{mesType} AND is_delete ='0'  AND "+ 
+		 	   "<if test='sourceList.size > 1'>"+
+		 	   "<foreach collection='sourceList' item='sourceMap' index='index' separator='OR'>"+
+		 	   "<if test='index == 0'>"+
+		 	   "(mes_source like '%${sourceMap.source}%' "+
+	 		   "</if>"+
+	 		   "<if test='index != 0'>"+
+		 	   "mes_source like '%${sourceMap.source}%' "+
+		 	   "</if>"+
+		 	   "</foreach>"+
+	 		   "</if>"+
+	 		   "<if test='sourceList.size == 1'>"+
+	 		   "<foreach collection='sourceList' item='sourceMap' index='index' separator=''>"+
+	 		   "(mes_source like '%${sourceMap.source}%' "+
+	 		   "</foreach>"+
+	 		   "</if>"+
+	 		  "<if test='destinationList.size > 1'>"+
+	 		  "<foreach collection='destinationList' item='destinationMap' index='index' separator='OR'>"+
+	 		  "<if test='index == 0'>"+
+	 		  ")AND (mes_destination like '%${destinationMap.destination}%'" +
+	 		  "</if>"+
+	 		  "<if test='index != 0'>"+
+	 		  "mes_destination like '%${destinationMap.destination}%') "+
+	 		  "</if>"+
+	 		  "</foreach>"+
+	 		  "</if>"+
+	 		  "<if test='destinationList.size == 1'>"+
+	 		  "<foreach collection='destinationList' item='destinationMap' index='index' separator=' '>"+
+	 		  ")AND mes_destination like '%${destinationMap.destination}%' "+
+	 		  "</foreach>"+
+	 		  "</if>"+
+	 		  "</script>")
+		 public List<Map<String, Object>> qryMesBySelect(@Param("sourceList") List<Map<String ,Object>> sourceList,@Param("destinationList") List<Map<String ,Object>> destinationList,@Param("mesType") String mesType);
 }

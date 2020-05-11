@@ -24,7 +24,7 @@ public interface MessageService {
 	/**
 	 * 根据下拉框信源查询报文
 	 */
-	List<Map<String,Object>>qryMesByDtSource(String source, String mesType);
+	List<Map<String,Object>>qryMesByDtSource(List<Map<String,Object>> sourceList, String mesType);
 	
 	
 	/**
@@ -36,7 +36,7 @@ public interface MessageService {
 	/**
 	 * 根据下拉框信源信宿查询报文
 	 */
-   List<Map<String, Object>> qryMesBySelect(String source, String destination, String mesType);
+   List<Map<String, Object>> qryMesBySelect(List<Map<String,Object>> sourceList, List<Map<String,Object>> destinationList, String mesType);
 
 	
 }
