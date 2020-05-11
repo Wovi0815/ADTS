@@ -78,7 +78,7 @@ public class MessageController {
 			result =messageService.qryMesBySelect(sourceList, destinationList, mesType);
 		}
 		return result;
-		
+		   
 	}
 	
 	
