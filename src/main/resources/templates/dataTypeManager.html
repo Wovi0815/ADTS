@@ -5,8 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>主页</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
-        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <!-- Font Awesome -->
     <link rel="stylesheet" th:href="@{/plugins/fontawesome-free/css/all.min.css}">
     <!-- Ionicons -->
@@ -32,7 +31,7 @@
             margin-left: 5%;
             margin-bottom: 10px;
         }
-
+        
         .m-toast-pop {
             display: none;
             position: fixed;
@@ -43,7 +42,7 @@
             overflow: auto;
             text-align: center;
         }
-
+        
         .m-toast-inner {
             position: absolute;
             left: 50%;
@@ -53,7 +52,7 @@
             -webkit-transform: translate(-50%, -50%);
             text-align: center;
         }
-
+        
         .m-toast-inner-text {
             display: inline-block;
             margin: 0 22px;
@@ -107,8 +106,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal"
-                        style="float: right;margin-left: 2%;">取消</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" style="float: right;margin-left: 2%;">取消</button>
                     <button type="button" onclick="save();" class="btn btn-primary">保存</button>
                 </div>
             </div>
@@ -118,14 +116,9 @@
     </div>
     <!-- /.modal -->
 
-
     <div class="card-body">
-        <button id='addBtn' type='button' style='margin-right:3% ;width: 10%;float: right;'
-            class='btn btn-block btn-outline-info btn-sm' data-toggle='modal' data-target='#modal-add-basic'
-            onclick='add();'>新增基本类型</button>
-        <button id='addBtn' type='button'
-            style='margin-right:3% ;width: 10%;float: right;margin-top: 0px;margin-bottom: 20px;'
-            class='btn btn-block btn-outline-info btn-sm' onclick='addStruct();'>新增结构体类型</button>
+        <button id='addBtn' type='button' style='margin-right:3% ;width: 10%;float: right;' class='btn btn-block btn-outline-info btn-sm' data-toggle='modal' data-target='#modal-add-basic' onclick='add();'>新增基本类型</button>
+        <button id='addBtn' type='button' style='margin-right:3% ;width: 10%;float: right;margin-top: 0px;margin-bottom: 20px;' class='btn btn-block btn-outline-info btn-sm' onclick='addStruct();'>新增结构体类型</button>
 
 
         <table id="typeData" class="table table-bordered table-striped">
@@ -188,10 +181,9 @@
 <script th:src="@{/dist/js/adminlte.js}"></script>
 
 <script>
-
     var mod = " ";
 
-    $(function () {
+    $(function() {
         search();
     });
 
@@ -205,54 +197,68 @@
                 type: "POST",
                 url: "/saveBasicDataType",
                 async: true,
-                data: { "typId": typId, "typName": typName, "typAttr": "basic", "typSize": typSize, "typDesc": typDesc },
-                success: function (result) {
+                data: {
+                    "typId": typId,
+                    "typName": typName,
+                    "typAttr": "basic",
+                    "typSize": typSize,
+                    "typDesc": typDesc
+                },
+                success: function(result) {
                     search();
                     $('#m-toast-inner-text').text('保存成功');
                     $('#m-toast-pop').fadeIn();
-                    setTimeout(function () {
+                    setTimeout(function() {
                         $('#m-toast-pop').fadeOut();
                     }, 200);
                     $("modal-add-basic").modal('hide');
                 },
-                error: function () {
+                error: function() {
                     console.log("保存错误！请联系管理员！！")
                 }
             });
-        }else if(mod=="edit"){
+        } else if (mod == "edit") {
             $.ajax({
                 type: "POST",
                 url: "/updateBasicDataType",
                 async: true,
-                data: { "typId": typId, "typName": typName, "typAttr": "basic", "typSize": typSize, "typDesc": typDesc },
-                success: function (result) {
+                data: {
+                    "typId": typId,
+                    "typName": typName,
+                    "typAttr": "basic",
+                    "typSize": typSize,
+                    "typDesc": typDesc
+                },
+                success: function(result) {
                     search();
                     $('#m-toast-inner-text').text('保存成功');
                     $('#m-toast-pop').fadeIn();
-                    setTimeout(function () {
+                    setTimeout(function() {
                         $('#m-toast-pop').fadeOut();
                     }, 200);
                     $("modal-add-basic").modal('hide');
                 },
-                error: function () {
+                error: function() {
                     console.log("保存错误！请联系管理员！！")
                 }
             });
         }
     }
+
     function clear() {
         $("#typId").val("");
         $("#typDesc").val("");
         $("#typName").val("");
         $("#typSize").val("");
     }
+
     function search() {
         $("#typeData tbody tr").remove();
         $.ajax({
             type: "POST",
             url: "/qryDataType",
             async: true,
-            success: function (result) {
+            success: function(result) {
                 for (var i = 0; i < result.length; i++) {
                     if (result[i].typAttr == "basic") {
                         $("#typeData tbody").append(
@@ -284,20 +290,27 @@
 
                 }
             },
-            error: function () {
+            error: function() {
                 console.log("初始化查询错误！请联系管理员！！")
             }
         });
     }
+
     function edit(e) {
         var mod = "edit";
     }
+
     function del(e) {
 
     }
+
     function add() {
         var mod = "add";
         clear();
+    }
+
+    function addStruct() {
+        window.parent.zhu.location.href = "/addStruct";
     }
 </script>
 

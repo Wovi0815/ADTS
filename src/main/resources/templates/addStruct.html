@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>主页</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" th:href="@{/plugins/fontawesome-free/css/all.min.css}">
+    <!-- Ionicons -->
+    <link rel="stylesheet" th:href="@{/dist/css/ionicons.css}">
+    <!-- Tempusdominus Bbootstrap 4 -->
+    <link rel="stylesheet" th:href="@{/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css}">
+    <!-- iCheck -->
+    <link rel="stylesheet" th:href="@{/plugins/icheck-bootstrap/icheck-bootstrap.min.css}">
+    <!-- JQVMap -->
+    <link rel="stylesheet" th:href="@{/plugins/jqvmap/jqvmap.min.css}">
+    <!-- Theme style -->
+    <link rel="stylesheet" th:href="@{/dist/css/adminlte.min.css}">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" th:href="@{/plugins/overlayScrollbars/css/OverlayScrollbars.min.css}">
+    <!-- Daterange picker -->
+    <link rel="stylesheet" th:href="@{/plugins/daterangepicker/daterangepicker.css}">
+    <!-- summernote -->
+    <link rel="stylesheet" th:href="@{/plugins/summernote/summernote-bs4.css}">
+
+    <style>
+        #structData {
+            width: 90%;
+            margin-left: 5%;
+            position: relative;
+            top: 5%;
+        }
+        
+        .ctr button {
+            float: left;
+            margin-top: 8px;
+            margin-left: 5px;
+        }
+        
+        #up {
+            width: 20%;
+        }
+        
+        #down {
+            width: 20%;
+        }
+        
+        #del {
+            width: 50%
+        }
+    </style>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+
+    <button id='back' type='button' style='margin-right:3% ;width: 10%;float: right;' class='btn btn-block btn-outline-info btn-sm' onclick='back();'>返回</button>
+
+    <table id="structData" class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>顺序</th>
+                <th>成员标识</th>
+                <th>成员名称</th>
+                <th>成员类型</th>
+                <th>物理量纲</th>
+                <th>最大值</th>
+                <th>最小值</th>
+                <th>描述</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody id="structMem">
+
+
+        </tbody>
+        <tfoot>
+            <tr>
+                <td id="addRow" style="text-align: center;" colspan="9">
+                    ➕
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+
+</body>
+<script th:src="@{/plugins/jquery/jquery.js}"></script>
+<script th:src="@{/plugins/bootstrap/js/bootstrap.min.js}"></script>
+<script type="module" th:src="@{/plugins/popper/popper.js}"></script>
+<!-- jQuery -->
+<script th:src="@{/plugins/jquery/jquery.min.js}"></script>
+<!-- jQuery UI 1.11.4 -->
+<script th:src="@{/plugins/jquery-ui/jquery-ui.min.js}"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+    $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script th:src="@{/plugins/select2/js/select2.full.min.js}"></script>
+<script th:src="@{/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js}"></script>
+<script th:src="@{/plugins/bootstrap-switch/js/bootstrap-switch.min.js}"></script>
+<script th:src="@{/plugins/bootstrap/js/bootstrap.min.js}"></script>
+<!-- DataTables -->
+<script th:src="@{/plugins/datatables/jquery.dataTables.min.js}"></script>
+<script th:src="@{/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js}"></script>
+<script th:src="@{/plugins/datatables-responsive/js/dataTables.responsive.min.js}"></script>
+<script th:src="@{/plugins/datatables-responsive/js/responsive.bootstrap4.min.js}"></script>
+
+<!-- ChartJS -->
+
+<!-- Sparkline -->
+<script th:src="@{/plugins/chart.js/Chart.min.js}"></script>
+<script th:src="@{/plugins/sparklines/sparkline.js}"></script>
+
+<!-- jQuery Knob Chart -->
+<script th:src="@{/plugins/jquery-knob/jquery.knob.min.js}"></script>
+<!-- overlayScrollbars -->
+<script th:src="@{/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/dist/js/adminlte.js}"></script>
+
+<script>
+    var mod = " ";
+    var structId;
+    $(function() {
+        search();
+    });
+
+    function save() {
+
+    }
+
+    function clear() {
+
+    }
+
+    function search() {
+
+    }
+
+    function edit(e) {
+
+    }
+
+    function del(e) {
+
+    }
+
+    function add() {
+
+    }
+
+    function back() {
+        window.parent.zhu.location.href = "/dataTypeManager";
+    }
+
+    $("#addRow").click(function() {
+        $("#structMem").append(
+            "<tr><td></td>" +
+            "<td contentEditable='true'></td>" +
+            "<td contentEditable='true'></td>" +
+            "<td contentEditable='true'></td>" +
+            "<td contentEditable='true'></td>" +
+            "<td contentEditable='true'></td>" +
+            "<td contentEditable='true'></td>" +
+            "<td contentEditable='true'></td>" +
+            "<td class='ctr'>" +
+            "<button id='up' class='btn btn-block btn-outline-info btn-sm' onclick='up();'>⏫</button>" +
+            "<button id='down' class='btn btn-block btn-outline-info btn-sm' onclick='down();'>⏬</button>" +
+            "<button id='del' class='btn btn-block btn-outline-info btn-sm' onclick='del();'>删除</button>" +
+            "</td></tr>"
+        );
+    });
+</script>
+
+</html>
