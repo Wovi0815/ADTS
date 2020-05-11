@@ -38,4 +38,11 @@ public class dataTypeController {
 		typeData.put("typDesc", typDesc);
 		return typeDataDao.saveBasicDataType(typeData);
 	}
+	
+	@RequestMapping("/addStruct")
+	public String addStruct() {
+		return "addStruct";
+	}
+	
+	
 }
