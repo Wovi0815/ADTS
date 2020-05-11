@@ -1,6 +1,7 @@
 package com.csrda.adts.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -49,22 +50,32 @@ public class MessageController {
 	@ResponseBody
 	@RequestMapping("/qryMesBySelect.do")
 	public List<Map<String, Object>> qryMesBySelect(String mesType,String source,String destination){
-		List<Map<String, Object>> result = new ArrayList();
-		System.out.println("yuan:"+source);
-		System.out.println("xiu:"+destination);
-		if((destination=="")&& (source!="")) {
-			System.out.println("根据源");
-			 result = messageService.qryMesByDtSource(source, mesType);
-		}else if((source=="")&&(destination!="")){
-			System.out.println("根据宿");
-			 result = messageService.qryMesByDtDestination(destination, mesType);
-		}else if((source=="")&&(destination=="")){
-			System.out.println("所有");
-			 result = messageService.qryMessage(mesType);
-		}else if((source!="")&&(destination!="")) {
-			System.out.println("两个都有");
-			result =messageService.qryMesBySelect(source, destination, mesType);
+		List<Map<String,Object>>  destinationList = new ArrayList<Map<String, Object>>() ;
+		String[]  d= destination.split(",");
+		for(int i=0;i<d.length;i++) {
+			System.out.println(d[i]);
+			Map<String, Object>  destinationMap = new HashMap<String, Object>();
+			destinationMap.put("destination", d[i]);
+			destinationList.add(destinationMap);
 		}
+		System.out.println(destinationList);
+		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
+		result = messageService.qryMesByDtDestination(destinationList, mesType);
+		
+		 //if((destination=="")&& (source!="")) {
+		//	System.out.println("根据源");
+		//	 result = messageService.qryMesByDtSource(source, mesType);
+		//}else if((source=="")&&(destination!="")){
+		//	System.out.println("根据宿");
+		//	 result = messageService.qryMesByDtDestination(destination, mesType);
+		//}else if((source=="")&&(destination=="")){
+		//	System.out.println("所有");
+		//	 result = messageService.qryMessage(mesType);
+		//}else if((source!="")&&(destination!="")) {
+		//	System.out.println("两个都有");
+		//	result =messageService.qryMesBySelect(source, destination, mesType);
+		//}
+		
 		return result;
 		
 	}

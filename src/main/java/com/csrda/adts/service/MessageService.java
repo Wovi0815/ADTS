@@ -30,11 +30,13 @@ public interface MessageService {
 	/**
 	 * 根据下拉框信宿查询报文
 	 */
-	List<Map<String,Object>>qryMesByDtDestination(String destination, String mesType);
+	List<Map<String,Object>>qryMesByDtDestination(List<Map<String,Object>> destinationList, String mesType);
 	
 	
 	/**
 	 * 根据下拉框信源信宿查询报文
 	 */
    List<Map<String, Object>> qryMesBySelect(String source, String destination, String mesType);
+
+	
 }
