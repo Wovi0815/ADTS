@@ -161,6 +161,7 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 				 String interfaceParaList){
 			Map<String, Object> map = interfaceService.qryFindUniqueInterface(interfaceId,
 					interfaceParaCount,interfaceParaList);
+			System.out.println("!!!!!!!!!!!"+map);
 			return map;
 		
 		}
