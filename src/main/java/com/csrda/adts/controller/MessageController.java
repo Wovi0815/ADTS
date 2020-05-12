@@ -25,9 +25,9 @@ public class MessageController {
 	}
 	
 	//跳转
-	@RequestMapping("/messageManager")
-	public String messageManager() {
-		return "messageManager";
+	@RequestMapping("/messageMain")
+	public String messageMain() {
+		return "messageMain";
 	}
 	//根据报文类型查询所有报文
 	@ResponseBody
@@ -61,7 +61,6 @@ public class MessageController {
 			destinationList.add(destinationMap);
 		}
 		for(int i=0;i<s.length;i++) {
-			System.out.println("源"+s[i]);
 			Map<String, Object>  sourceMap = new HashMap<String, Object>();
 			sourceMap.put("source",s[i]);
 			sourceList.add(sourceMap);
