@@ -121,5 +121,32 @@ public interface MessageDao {
 	 		  "</foreach>"+
 	 		  "</if>"+
 	 		  "</script>")
-		 public List<Map<String, Object>> qryMesBySelect(@Param("sourceList") List<Map<String ,Object>> sourceList,@Param("destinationList") List<Map<String ,Object>> destinationList,@Param("mesType") String mesType);
+	public List<Map<String, Object>> qryMesBySelect(@Param("sourceList") List<Map<String ,Object>> sourceList,@Param("destinationList") List<Map<String ,Object>> destinationList,@Param("mesType") String mesType);
+	 
+	 
+
+	 /**
+	  * 查询报文的进一步详细信息
+	  */
+
+	 @Select("SELECT " + 
+		 		"id, mes_id ,mes_name ,mes_desc ,mes_source ,mes_destination " + 
+		 		"mes_id_num,mes_fun_id ,mes_type " + 
+		 		"FROM t_message " + 
+		 		"WHERE	mes_id = #{mesId} AND is_delete ='0' ")
+	 public Map<String, Object> qryMesDetail(String mesId);
+	 
+	 
+	 
+	 /**
+	  * 查询报文的详细信息(数据)
+	  */
+
+	 @Select("SELECT " + 
+		 		"id, mes_id ,mes_data_range ,mes_data_name ,mes_data_desc ,mes_data_type " + 
+		 		"FROM t_mes_data " + 
+		 		"WHERE	mes_id = #{mesId} AND is_delete ='0' ")
+	 public List<Map<String, Object>> qryMesDataDetail(String mesId);
+	 
+	 
 }

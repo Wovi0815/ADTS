@@ -483,7 +483,7 @@ function addClick(){
 			var ibody="";
 			ibody += "<div class='input-group' >";
 			ibody += "<select class='form-control select2bs4' id='paraAttr"+i+"'><option>输入</option><option>输出</option></select> ";
-			ibody += "<input style='width:2%;' readonly='readonly' placeholder='参数次序' value='"+i+"' id='paraNo"+i+"'/>";
+			ibody += "<input style='width:3%;' readonly='readonly' placeholder='参数次序' value='"+i+"' id='paraNo"+i+"'/>";
 			ibody += "<input class='form-control' placeholder='参数标识'id='paraId"+i+"'>";
 			ibody += "<input class='form-control' placeholder='参数名称'id='paraName"+i+"'>";
 			ibody += "<input class='form-control' placeholder='参数类型'id='paraType"+i+"'>";
@@ -589,40 +589,47 @@ function addSave(){
 	var iinterfaceCls =$("#iinterfaceCls").val();
 	var iinterfaceParaList =$("#iparalist").val();
 	var iinterfaceParaCount =$("#iparaCount").val();
-	var interfaceMap = new Array();
-	interfaceMap.push({
-		interfaceId :iinterfaceId,
-		interfaceName :iinterfaceName,
-		interfaceDesc :iinterfaceDesc,
-		interfaceRemark :iinterfaceRemark,
-		interfaceRetnTyp :iinterfaceRetnTyp,
-		interfaceRetnDesc :iinterfaceRetnDesc,
-		interfaceCls :iinterfaceCls,
-		interfaceParaList :iinterfaceParaList,
-		interfaceParaCount :iinterfaceParaCount});
-	
-	//先查有没有重复的
-		$.ajax({
-			url:"/QryInterfaceDetail.do",
-			type:"POST",
-			async:true,
-			data:{
-				"interfaceId":interfaceId,
-				"interfaceParaCount":interfaceParaCount,
-				"interfaceParaList":interfaceParaList
-			},
-			success:function(result){
-				if(result){
-					alert("插入失败，数据已存在！")
-				}else{//插入接口数据;
-					addInterface(interfaceMap);
-				}
+	if(iinterfaceParaCount != "" ){
+		var interfaceMap = new Array();
+		interfaceMap.push({
+			interfaceId :iinterfaceId,
+			interfaceName :iinterfaceName,
+			interfaceDesc :iinterfaceDesc,
+			interfaceRemark :iinterfaceRemark,
+			interfaceRetnTyp :iinterfaceRetnTyp,
+			interfaceRetnDesc :iinterfaceRetnDesc,
+			interfaceCls :iinterfaceCls,
+			interfaceParaList :iinterfaceParaList,
+			interfaceParaCount :iinterfaceParaCount});
+		
+		//先查有没有重复的
+			$.ajax({
+				url:"/QryInterfaceDetail.do",
+				type:"POST",
+				async:true,
+				data:{
+					"interfaceId":interfaceId,
+					"interfaceParaCount":interfaceParaCount,
+					"interfaceParaList":interfaceParaList
+				},
+				success:function(result){
+					if(result){
+						alert("插入失败，数据已存在！")
+					}else{//插入接口数据;
+						addInterface(interfaceMap);
+					}
 
-			},	
-			error:function(result){
-				alert("未知错误联系管理员！");
-			}
-		});	
+				},	
+				error:function(result){
+					alert("未知错误联系管理员！");
+				}
+			});	
+	}else{
+		alert("请输入参数个数！")
+	}
+	
+	
+	
   
 	}
 //新增接口
