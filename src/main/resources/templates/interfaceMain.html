@@ -121,7 +121,7 @@
 	<div class="modal fade" id="modal-editI">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
-            <div class="modal-header" id="editModalHead">
+            <div class="modal-header" >
               
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -545,13 +545,16 @@ function qryInterfaceParaDetail(interfaceId,interfaceParaCount,interfaceParaList
 					var body="";
 					   	body +="<div class='input-group'>";
 						body += 	"<div class='input-group-prepend'>";
+						body +="<span class='input-group-text'>属性</span>";
 						body +=		 "<span class='input-group-text' >"+paraAttr+"</span>";
 						body +=	 "</div>" ;
 						body +=	 "<div class='input-group-prepend'>";
-						body +=	 	"<span class='input-group-text'  style='width:55px;margin-left:10px;'>"+paraType+"</span>";
+						body +="<span class='input-group-text'style='margin-left:5px;'>类型</span>";
+						body +=	 "<span class='input-group-text'  style='width:55px;'>"+paraType+"</span>";
 						body +=	 "</div>";
 						body +=	 "<div class='input-group-prepend'>";
-						body +=	 	"<span class='input-group-text' style='margin-left:10px;width:100px;'>"+paraId+"</span>";
+						body +="<span class='input-group-text'style='margin-left:5px;'>标识</span>";
+						body +=	 	"<span class='input-group-text' style='width:100px;'>"+paraId+"</span>";
 						body +=	 "</div>" ;
 						body +=    "<div class='input-group-prepend'>";
 						body +=        "<span class='input-group-text'style='margin-left:8px;'>描述</span>";
@@ -768,7 +771,8 @@ function editInterfaceClick(e){
 	interfaceId=$(e).parent().parent().find("td").eq(0).text();
 	interfaceParaCount=$(e).parent().parent().find("td").eq(3).text();
 	interfaceParaList=$(e).parent().parent().find("td").eq(4).text();
-	 $.ajax({
+	//先回填
+	$.ajax({
 			url:"/QryInterfaceDetail.do",
 			type:"POST",
 			async:true,

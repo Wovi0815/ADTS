@@ -91,12 +91,12 @@
 					 <input class="form-control" placeholder="报文备注" id="imesRemark">
 				</div>
 				<div class="form-group">
-					 <label for="imesSource">数据源</label>
-					 <input class="form-control" placeholder="数据源" id="imesSource"  >
+					 <label for="imesSource">信源</label>
+					 <input class="form-control" placeholder="信源" id="imesSource"  >
 				</div>
 				<div class="form-group">
-					 <label for="imesDestination">目的地</label>
-					 <input class="form-control" placeholder="目的地" id="imesDestination" >
+					 <label for="imesDestination">信宿</label>
+					 <input class="form-control" placeholder="信宿" id="imesDestination" >
 				</div>
 				<div class="form-group">
 					 <label for="imesID">报文ID</label>
@@ -121,6 +121,92 @@
         </div>
       </div>
 	
+	
+  <!-- 修改报文页面模态框 -->
+	<div class="modal fade" id="modal-edit">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header" >
+              
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              	<!-- 模态框内容 -->
+			<div class="form-group" >
+				
+				<div class="form-group" >
+					 <label for="emesId">报文标识</label>
+					 <input class="form-control" placeholder="报文标识" id="emesId" readonly='readonly'>
+				</div>
+				<div class="form-group">
+					 <label for="emesName">报文名称</label>
+					 <input class="form-control" placeholder="报文名称" id="emesName">
+				</div>
+				<div class="form-group">
+					 <label for="emesDesc">报文描述</label>
+					 <input class="form-control" placeholder="报文描述" id="emesDesc">
+				</div>
+				<div class="form-group">
+					 <label for="emesSource">信源</label>
+					 <select id="emesSource" multiple="multiple" >
+					 </select>
+				</div>
+				<div class="form-group">
+					 <label for="emesDestination">信宿</label>
+					 <select id="emesDestination" multiple="multiple" >
+					 </select>
+				</div>
+				
+				<div class="form-group">
+					 <label for="emesFunNum">功能码</label>
+					 <input class="form-control" placeholder="功能码" id="emesFunNum" >
+				</div>
+				
+				<div class="form-group">
+					 <label for="emesIDNum">报文ID</label>
+					 <input class="form-control" placeholder="报文ID" id="emesIDNum" >
+				</div>
+				<div class="form-group">
+					 <label for="emesRemark">报文备注</label>
+					 <input class="form-control" placeholder="报文备注" id="emesRemark">
+				</div>
+				<div class="form-group">
+					 <label for="emesTyp">报文类型</label>
+					 <input class="form-control" placeholder="报文类型" id="emesTyp"  readonly='readonly'>
+				</div>
+				
+				
+				
+            </div>
+
+			</div>
+			
+            
+			<div class="modal-footer justify-content-between" id="editModalBtnArea">
+			   <button id='closeEditModal' type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+			   <button id='saveEditModal' type="button"  class="btn btn-primary" data-dismiss="modal" onclick="editMesSave();">保存</button>
+			</div>
+			
+			
+          </div>
+        </div>
+      </div>
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
 
 		<!-- 表格相关 -->
 		<div class="card-body">
@@ -210,6 +296,8 @@ var theRequest = new Object();
 var a=GetRequest();//中间件菜单传值
 var mesType=a['mesType'];
 var mesId;
+var mesSource;
+var mesDestination;
 //------全局变量-------
 
 function QryMessage(){//根据报文类型查所有报文
@@ -229,7 +317,7 @@ function QryMessage(){//根据报文类型查所有报文
 		        body    += "<td id='tmesDestination'>" + result[i].mesDestination + "</td>";
 		        body    += "<td>"+
 		        "<button id='detailBtn' type='button' style='width:23%;margin-top:6px;float:left;'class='btn btn-block btn-outline-success btn-sm' data-toggle='modal' data-target='#modal-detail'onclick='showDetail(this)'>报文详情</button> "+
-		        "<button id='editIBtn' type='button' style='margin-left:2%;width: 23%;float:left'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-editI'onclick='editMesClick(this);'>修改</button> "+
+		        "<button id='editBtn' type='button' style='margin-left:2%;width: 23%;float:left'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-edit'onclick='editMesClick(this);'>修改</button> "+
 		        "<button id='deleteBtn' type='button' style='margin-left:2%;width: 23%;float:left'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
 		        "<button id='dataBtn' type='button' style='margin-left:1%;width: 25%;float:left'class='btn btn-block btn-outline-warning' onclick='toMesData(this);'>报文数据</button> "+
 		        "</td>";
@@ -320,7 +408,7 @@ function refreshDataBySelect(source,destination){
 		        body    += "<td id='tmesDestination'>" + result[i].mesDestination + "</td>";
 		        body    += "<td>"+
 		        "<button id='detailBtn' type='button' style='width:23%;margin-top:6px;float:left;'class='btn btn-block btn-outline-success btn-sm' data-toggle='modal' data-target='#modal-detail'onclick='showDetail(this)'>报文详情</button> "+
-		        "<button id='editIBtn' type='button' style='margin-left:2%;width: 22%;float:left'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-editI'onclick='editMesClick(this);'>修改</button> "+
+		        "<button id='editBtn' type='button' style='margin-left:2%;width: 22%;float:left'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-edit'onclick='editMesClick(this);'>修改</button> "+
 		        "<button id='deleteBtn' type='button' style='margin-left:2%;width: 22%;float:left'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
 		        "<button id='dataBtn' type='button' style='margin-left:1%;width: 25%;float:left'class='btn btn-block btn-outline-warning' onclick='toPara(this);'>报文数据</button> "+
 		        "</td>";
@@ -345,12 +433,10 @@ function refreshDataBySelect(source,destination){
 	});
 	
 }
-
+//点击报文详情
 function showDetail(e){
 	$("#descArea").empty();
-	 mesId=$(e).parent().parent().find("td").eq(0).text();
-	
-			
+	 mesId=$(e).parent().parent().find("td").eq(0).text();		
 	 $.ajax({
 			url:"/qryMesDetail.do",
 			type:"POST",
@@ -362,6 +448,7 @@ function showDetail(e){
 				var mesDesc = result.mes_desc;
 				var mesIDNum = result.mes_id_num;
 				var mesFunId =result.mes_fun_id;
+				var mesRemark = result.mes_remark;
 				var ibody="";
 			   	ibody +="<div class='input-group'>";
 				ibody += 	"<div class='input-group-prepend'>";
@@ -380,6 +467,11 @@ function showDetail(e){
 				ibody +=	 	"<span class='input-group-text' >功能码</span>";
 				ibody +=   "</div>";
 				ibody += 	"<input type='text'    class='form-control' value='"+mesFunId+"'readonly='readonly'/>";
+				ibody +="<div class='input-group'>";
+				ibody += 	"<div class='input-group-prepend'>";
+				ibody +=	 	"<span class='input-group-text' >报文备注</span>";
+				ibody +=   "</div>";
+				ibody += 	"<input type='text'    class='form-control' value='"+mesRemark+"'readonly='readonly'/>";
 				ibody +="</div>";
 				
 				$("#descArea").append(ibody);
@@ -393,6 +485,7 @@ function showDetail(e){
 		});	
 	
 }
+// 报文的数据详情
 function  qryMesDataDetail(mesId){
 	$("#dataArea").empty();	 
 	$.ajax({
@@ -438,12 +531,118 @@ function  qryMesDataDetail(mesId){
 	 }
 	
 	
+//编辑报文
+function editMesClick(e){
+	 mesId=$(e).parent().parent().find("td").eq(0).text();
+	 //先回填
+	 $.ajax({
+			url:"/qryMesDetail.do",
+			type:"POST",
+			async:true,
+			data:{
+				"mesId":mesId
+			},
+			success:function(result){
+				$("#emesId").val(result.mes_id);
+				$("#emesName").val(result.mes_name);		 
+				$("#emesDesc").val(result.mes_desc);		 
+				$("#emesFunNum").val(result.mes_fun_id);
+				$("#emesIDNum").val(result.mes_id_num);	
+				$("#emesRemark").val(result.mes_remark);		 
+				$("#emesTyp").val(mesType);		
+				mesSource = result.mes_source;
+				mesDestination = result.mes_destination;
+				//模态框信源信宿下拉框
+				qryModToModal(mesSource,mesDestination);
+			},	
+			error:function(result){
+				alert("未知错误联系管理员！");
+			}
+		});	
+	 
+}
+// 查询 模组 用于新增和编辑 的模态框 
+function qryModToModal(mesSource,mesDestination){
+	$.ajax({
+		url:"/qryModSelect.do",
+		type:"POST",
+		async:true,
+		success:function(result){
+			var sbody="";
+			var dbody="";
+			for(var i=0;i<result.length;i++){
+				//信源
+				if(result[i].mod_name == mesSource ){
+					sbody +=  "<option selected='selected' value='"+result[i].mod_name+"'>"+result[i].mod_name +"</option>";
+				}else{
+					sbody +=  "<option  value='"+result[i].mod_name+"'>"+result[i].mod_name +"</option>";
+				}
+				//信宿
+				if(result[i].mod_name == mesDestination ){
+					dbody +=  "<option selected='selected' value='"+result[i].mod_name+"'>"+result[i].mod_name +"</option>";
+				}else{
+					dbody +=  "<option value='"+result[i].mod_name+"'>"+result[i].mod_name +"</option>";
+				}
+				
+			}	
+			$("#emesSource").append(sbody);
+			$("#emesSource").multiselect("destroy").multiselect({  
+		    	nonSelectedText: mesSource ,
+				buttonWidth: "200px",
+				numberDisplayed:4
+	          }); 
+			
+			$("#emesDestination").append(obody);
+		    $("#emesDestination").multiselect("destroy").multiselect({  
+		    	nonSelectedText: mesDestination,
+				buttonWidth: "200px",
+				numberDisplayed:4
+	          }); 
+		    $('.dropdown-toggle').dropdown();
+		},
+		error:function(result){
+			alert("未知错误联系管理员！");
+		}
+	});
+	
+}
 
 
 
 
 
 
+
+
+
+
+
+//编辑报文保存
+function editMesSave(){
+	var modalmesId =$("#emesId").val();
+	var modalmesName=$("#emesName").val();
+	var modalmesDesc=$("#emesDesc").val();
+	var modalmesRemark=$("#emesRemark").val();
+	var modalmesFunNum=$("#emesFunNum").val();
+	var modalmesIDNum=$("#emesIDNum").val();
+	var modalmesTyp=$("#emesTyp").val();
+	var modalmesSource=$("#emesSource").val().toString();
+	var modalmesDestination=$("#emesDestination").val().toString();	 
+	
+	console.log(modalmesId);
+	console.log(modalmesName);
+	console.log(modalmesDesc);
+	console.log(modalmesRemark);
+	console.log(modalmesFunNum);
+	console.log(modalmesIDNum);
+	console.log(modalmesTyp);
+	console.log(modalmesSource);
+	console.log(modalmesDestination);
+	
+	
+	 
+
+}
 </script>    
 
 <script type="text/javascript">

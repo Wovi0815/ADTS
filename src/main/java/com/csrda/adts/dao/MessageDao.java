@@ -130,8 +130,8 @@ public interface MessageDao {
 	  */
 
 	 @Select("SELECT " + 
-		 		"id, mes_id ,mes_name ,mes_desc ,mes_source ,mes_destination " + 
-		 		"mes_id_num,mes_fun_id ,mes_type " + 
+		 		"id, mes_id ,mes_name ,mes_desc ,mes_source ,mes_destination, " + 
+		 		"mes_id_num,mes_fun_id ,mes_type,mes_remark " + 
 		 		"FROM t_message " + 
 		 		"WHERE	mes_id = #{mesId} AND is_delete ='0' ")
 	 public Map<String, Object> qryMesDetail(String mesId);
@@ -143,7 +143,8 @@ public interface MessageDao {
 	  */
 
 	 @Select("SELECT " + 
-		 		"id, mes_id ,mes_data_range ,mes_data_name ,mes_data_desc ,mes_data_type " + 
+		 		"id, mes_id ,mes_data_range ,mes_data_name ,"+ 
+		 		"mes_data_desc ,mes_data_type " + 
 		 		"FROM t_mes_data " + 
 		 		"WHERE	mes_id = #{mesId} AND is_delete ='0' ")
 	 public List<Map<String, Object>> qryMesDataDetail(String mesId);
