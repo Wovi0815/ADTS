@@ -5,8 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>主页</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
-        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <!-- Font Awesome -->
     <link rel="stylesheet" th:href="@{/plugins/fontawesome-free/css/all.min.css}">
     <!-- Ionicons -->
@@ -33,35 +32,37 @@
             position: relative;
             top: 5%;
         }
-
+        
         .ctr button {
             float: left;
             margin-top: 8px;
             margin-left: 5px;
         }
-
+        
         #up {
             width: 20%;
         }
-
+        
         #down {
             width: 20%;
         }
-
+        
         #del {
             width: 50%
+        }
+        
+        #data .input-group {
+            width: 90%;
         }
     </style>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
 
-    <button id='back' type='button' style='margin-right:3% ;width: 10%;float: right;margin-bottom: 2%;
-    margin-top: 2%;' class='btn btn-block btn-outline-info btn-sm' onclick='back();'>返回</button>
-
-    <table id="structData" class="table table-bordered table-hover">
+    <table id="data" frame=void style="width: 90%; margin-left: 5%;margin-bottom: 2%;margin-top: 2%;">
         <tbody>
             <tr>
+
                 <td>
                     <div class="input-group">
                         <div class="input-group-btn">
@@ -71,24 +72,37 @@
                         <input id="typId" type="text" class="form-control">
                     </div>
                 </td>
+
                 <td>
                     <div class="input-group">
                         <div class="input-group-btn">
                             <button type="button" class="btn btn-default">类型名称</button>
                         </div>
                         <!-- /btn-group -->
-                        <input id="typId" type="text" class="form-control">
+                        <input id="typName" type="text" class="form-control">
                     </div>
                 </td>
+
+                <td>
+                    <div class="input-group">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn btn-default">类型大小</button>
+                        </div>
+                        <!-- /btn-group -->
+                        <input id="typSize" type="text" class="form-control">
+                    </div>
+                </td>
+
                 <td>
                     <div class="input-group">
                         <div class="input-group-btn">
                             <button type="button" class="btn btn-default">类型描述</button>
                         </div>
                         <!-- /btn-group -->
-                        <input id="typId" type="text" class="form-control">
+                        <input id="typDesc" type="text" class="form-control">
                     </div>
                 </td>
+
             </tr>
         </tbody>
     </table>
@@ -119,7 +133,10 @@
             </tr>
         </tfoot>
     </table>
-
+    <button id='cancel' type='button' style='margin-right:3% ;width: 10%;float: right;margin-bottom: 1%;
+    margin-top: 2%;' class='btn btn-block btn-outline-info btn-sm' onclick='cancel();'>取消</button>
+    <button id='save' type='button' style='margin-right:3% ;width: 10%;float: right;margin-bottom: 2%;
+    margin-top: 2%;' class='btn btn-block btn-outline-info btn-sm' onclick='save();'>保存</button>
 </body>
 <script th:src="@{/plugins/jquery/jquery.js}"></script>
 <script th:src="@{/plugins/bootstrap/js/bootstrap.min.js}"></script>
@@ -157,14 +174,31 @@
 <script th:src="@{/dist/js/adminlte.js}"></script>
 
 <script>
+    var count = 1;
     var mod = " ";
     var structId;
-    $(function () {
+    $(function() {
         search();
     });
 
     function save() {
+        var typId = $("#typId").val();
+        var typName = $("#typName").val();
+        var typSize = $("#typSize").val();
+        var typDesc = $("#typDesc").val();
 
+        var trList = $("#structMem").children("tr");
+        for (var i = 0; i < trList.length; i++) {
+            var tdArr = trList.eq(i).find("td");
+            var history_income_type = tdArr.eq(0).text();
+            var history_income_type = tdArr.eq(1).text();
+            var history_income_type = tdArr.eq(2).text();
+            var history_income_type = tdArr.eq(3).text();
+            var history_income_type = tdArr.eq(4).text();
+            var history_income_type = tdArr.eq(5).text();
+            var history_income_type = tdArr.eq(6).text();
+            var history_income_type = tdArr.eq(7).text();
+        }
     }
 
     function clear() {
@@ -180,6 +214,9 @@
     }
 
     function del(e) {
+        $(e).parent().parent().remove();
+
+        refresh();
 
     }
 
@@ -187,13 +224,13 @@
 
     }
 
-    function back() {
+    function cancel() {
         window.parent.zhu.location.href = "/dataTypeManager";
     }
 
-    $("#addRow").click(function () {
+    $("#addRow").click(function() {
         $("#structMem").append(
-            "<tr><td></td>" +
+            "<tr><td class='order'>" + "</td>" +
             "<td contentEditable='true'></td>" +
             "<td contentEditable='true'></td>" +
             "<td contentEditable='true'></td>" +
@@ -202,12 +239,49 @@
             "<td contentEditable='true'></td>" +
             "<td contentEditable='true'></td>" +
             "<td class='ctr'>" +
-            "<button id='up' class='btn btn-block btn-outline-info btn-sm' onclick='up();'>⏫</button>" +
-            "<button id='down' class='btn btn-block btn-outline-info btn-sm' onclick='down();'>⏬</button>" +
-            "<button id='del' class='btn btn-block btn-outline-info btn-sm' onclick='del();'>删除</button>" +
+            "<button id='up' class='btn btn-block btn-outline-info btn-sm' onclick='up(this);'>⏫</button>" +
+            "<button id='down' class='btn btn-block btn-outline-info btn-sm' onclick='down(this);'>⏬</button>" +
+            "<button id='del' class='btn btn-block btn-outline-info btn-sm' onclick='del(this);'>删除</button>" +
             "</td></tr>"
         );
+        refresh();
     });
+
+    function up(e) {
+        console.log($(e).parent().parent().prev());
+        $(e).parent().parent().prev().before(
+            "<tr>" +
+            $(e).parent().parent().html() +
+            "</tr>"
+        );
+        $(e).parent().parent().remove();
+        refresh();
+    }
+
+    function down(e) {
+
+        console.log($(e).parent().parent().next());
+        $(e).parent().parent().next().after(
+            "<tr>" +
+            $(e).parent().parent().html() +
+            "</tr>"
+        );
+        $(e).parent().parent().remove();
+        refresh();
+
+    }
+
+    function refresh() {
+        $("#structMem #up").show();
+        $("#structMem #down").show();
+        $("#structMem #up").first().hide();
+        $("#structMem #down").last().hide();
+        var i = 1;
+        $("#structMem").find("tr").each(function() {
+            console.log($(this).children("td:first").text(i));
+            i++;
+        });
+    }
 </script>
 
 </html>
