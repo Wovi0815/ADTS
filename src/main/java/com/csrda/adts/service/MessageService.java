@@ -38,5 +38,12 @@ public interface MessageService {
 	 */
    List<Map<String, Object>> qryMesBySelect(List<Map<String,Object>> sourceList, List<Map<String,Object>> destinationList, String mesType);
 
-	
+	/**
+	 * 查询报文的进一步信息
+	 */
+   Map<String,Object>  qryMesDetail(String mesId);
+   /**
+      * 查询报文数据的信息
+    */
+   List<Map<String, Object>> qryMesDataDetail(String mesId);
 }

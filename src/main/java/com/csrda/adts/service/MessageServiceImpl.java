@@ -51,6 +51,18 @@ public class MessageServiceImpl implements MessageService{
 	}
 
 
+	@Override
+	public Map<String, Object> qryMesDetail(String mesId) {
+		return messageDao.qryMesDetail(mesId);
+	}
+
+
+	@Override
+	public List<Map<String, Object>> qryMesDataDetail(String mesId) {
+		return messageDao.qryMesDataDetail(mesId);
+	}
+
+
 	
 
 

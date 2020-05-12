@@ -82,4 +82,21 @@ public class MessageController {
 	}
 	
 	
+	// 查询报文的进一步信息
+	@ResponseBody
+	@RequestMapping("/qryMesDetail.do")
+	public Map<String, Object> qryMesDetail(String mesId){
+		Map<String, Object> result = messageService.qryMesDetail(mesId);
+		return result;
+	}
+
+	//查询报文数据详情
+	//根据报文类型查询所有报文
+	@ResponseBody
+	@RequestMapping("/qryMesDataDetail.do")
+	public List<Map<String, Object>> qryMesDataDetail(String mesId){
+		List<Map<String, Object>> result = messageService.qryMesDataDetail(mesId);
+		return result;
+	}
+
 }
