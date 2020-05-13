@@ -296,8 +296,7 @@ var theRequest = new Object();
 var a=GetRequest();//中间件菜单传值
 var mesType=a['mesType'];
 var mesId;
-var mesSource;
-var mesDestination;
+
 //------全局变量-------
 
 function QryMessage(){//根据报文类型查所有报文
@@ -550,8 +549,8 @@ function editMesClick(e){
 				$("#emesIDNum").val(result.mes_id_num);	
 				$("#emesRemark").val(result.mes_remark);		 
 				$("#emesTyp").val(mesType);		
-				mesSource = result.mes_source;
-				mesDestination = result.mes_destination;
+				var mesSource = result.mes_source;
+				var mesDestination = result.mes_destination;
 				//模态框信源信宿下拉框
 				qryModToModal(mesSource,mesDestination);
 			},	
@@ -563,38 +562,51 @@ function editMesClick(e){
 }
 // 查询 模组 用于新增和编辑 的模态框 
 function qryModToModal(mesSource,mesDestination){
+	$("#emesSource").empty();
+	$("#emesDestination").empty();
+	var s =mesSource.split(",")
+	var d=mesDestination.split(",")
+	console.log("s"+s);
+	console.log("d"+d);
 	$.ajax({
 		url:"/qryModSelect.do",
 		type:"POST",
 		async:true,
 		success:function(result){
+			debugger;
 			var sbody="";
 			var dbody="";
-			for(var i=0;i<result.length;i++){
-				//信源
-				if(result[i].mod_name == mesSource ){
-					sbody +=  "<option selected='selected' value='"+result[i].mod_name+"'>"+result[i].mod_name +"</option>";
-				}else{
-					sbody +=  "<option  value='"+result[i].mod_name+"'>"+result[i].mod_name +"</option>";
-				}
-				//信宿
-				if(result[i].mod_name == mesDestination ){
-					dbody +=  "<option selected='selected' value='"+result[i].mod_name+"'>"+result[i].mod_name +"</option>";
-				}else{
-					dbody +=  "<option value='"+result[i].mod_name+"'>"+result[i].mod_name +"</option>";
-				}
+				for(var i=0;i<result.length;i++){
+					alert("设备"+result[i].mod_name);
+					sbody ="";
+					sbody +=  "<option id ='soption"+i+"'  value='"+ result[i].mod_name+"'>"+result[i].mod_name +"</option>";
+					$("#emesSource").append(sbody);
+					for(var j=0;j<s.length;j++){
+						if(s[j] == result[i].mod_name){
+							$("#soption"+i).attr("selected","selected");
+						}
+					}
+				}	
+				for(var i=0;i<result.length;i++){
+					alert("设备"+result[i].mod_name);
+					dbody ="";
+					dbody +=  "<option id ='doption"+i+"' value='"+ result[i].mod_name+"'>"+result[i].mod_name +"</option>";
+					$("#emesDestination").append(dbody);
+					for(var j=0;j<d.length;j++){
 				
-			}	
-			$("#emesSource").append(sbody);
+						if(d[j] == result[i].mod_name){
+							$("#doption"+i).attr("selected","selected");
+						}
+					}
+				}	
+			
 			$("#emesSource").multiselect("destroy").multiselect({  
-		    	nonSelectedText: mesSource ,
 				buttonWidth: "200px",
 				numberDisplayed:4
 	          }); 
 			
-			$("#emesDestination").append(obody);
+			$("#emesDestination").append(dbody);
 		    $("#emesDestination").multiselect("destroy").multiselect({  
-		    	nonSelectedText: mesDestination,
 				buttonWidth: "200px",
 				numberDisplayed:4
 	          }); 
