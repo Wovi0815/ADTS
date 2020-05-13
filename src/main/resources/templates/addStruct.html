@@ -117,12 +117,12 @@
                 <th>物理量纲</th>
                 <th>最大值</th>
                 <th>最小值</th>
+                <th>默认值</th>
                 <th>描述</th>
                 <th>操作</th>
             </tr>
         </thead>
         <tbody id="structMem">
-
 
         </tbody>
         <tfoot>
@@ -186,19 +186,79 @@
         var typName = $("#typName").val();
         var typSize = $("#typSize").val();
         var typDesc = $("#typDesc").val();
-
-        var trList = $("#structMem").children("tr");
-        for (var i = 0; i < trList.length; i++) {
-            var tdArr = trList.eq(i).find("td");
-            var history_income_type = tdArr.eq(0).text();
-            var history_income_type = tdArr.eq(1).text();
-            var history_income_type = tdArr.eq(2).text();
-            var history_income_type = tdArr.eq(3).text();
-            var history_income_type = tdArr.eq(4).text();
-            var history_income_type = tdArr.eq(5).text();
-            var history_income_type = tdArr.eq(6).text();
-            var history_income_type = tdArr.eq(7).text();
+        if (typId == null || typId.trim() == "") {
+            alert("类型标识不能为空！！");
+            return;
         }
+        if (typName == null || typName.trim() == "") {
+            alert("类型标识不能为空！！");
+            return;
+        }
+        if (typSize == null || typSize.trim() == "") {
+            alert("类型标识不能为空！！");
+            return;
+        }
+        if (typDesc == null || typDesc.trim() == "") {
+            alert("类型标识不能为空！！");
+            return;
+        }
+        var trList = $("#structMem").children("tr");
+        var memList = new Array();
+        for (var i = 0; i < trList.length; i++) {
+            var mem = new Map();
+            var tdArr = trList.eq(i).find("td");
+            var memNo = tdArr.eq(0).text();
+            var memId = tdArr.eq(1).text();
+            var memName = tdArr.eq(2).text();
+            var memType = tdArr.eq(3).text();
+            var memPhyDim = tdArr.eq(4).text();
+            var memMax = tdArr.eq(5).text();
+            var memMin = tdArr.eq(6).text();
+            var memDefault = tdArr.eq(7).text();
+            var memDesc = tdArr.eq(8).text();
+            // mem.push("memNo", memNo);
+            // mem.set("memId", memId);
+            // mem.set("memName", memName);
+            // mem.set("memType", memType);
+            // mem.set("memPhyDim", memPhyDim);
+            // mem.set("memMax", memMax);
+            // mem.set("memMin", memMin);
+            // mem.set("memDefault", memDefault);
+            // mem.set("memDesc", memDesc);
+            memList.push({
+                memNo: memNo,
+                memId: memId,
+                memName: memName,
+                memType: memType,
+                memPhyDim: memPhyDim,
+                memMax: memMax,
+                memMin: memMin,
+                memDefault: memDefault,
+                memDesc: memDesc
+            });
+        }
+        console.log(memList);
+        $.ajax({
+            data: {
+                "typId": typId,
+                "typName": typName,
+                "typSize": typSize,
+                "typDesc": typDesc,
+                "memList": JSON.stringify(memList)
+            },
+            url: "/addStructData",
+            type: "POST",
+            async: true,
+            success: function(result) {
+
+            },
+            error: function() {
+                alert("未知错误！！请联系管理员！！！");
+            }
+        });
+
+
+
     }
 
     function clear() {
@@ -231,6 +291,7 @@
     $("#addRow").click(function() {
         $("#structMem").append(
             "<tr><td class='order'>" + "</td>" +
+            "<td contentEditable='true'></td>" +
             "<td contentEditable='true'></td>" +
             "<td contentEditable='true'></td>" +
             "<td contentEditable='true'></td>" +
