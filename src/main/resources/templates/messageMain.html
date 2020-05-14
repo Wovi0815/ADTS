@@ -504,15 +504,15 @@ function  qryMesDataDetail(mesId){
 					   	body +="<div class='input-group'>";
 						body += "<div class='input-group-prepend'>";
 						body +="<span class='input-group-text'>字节序号</span>";
-						body +=	"<span class='input-group-text'style='width:65px;' >"+mesDRange+"</span>";
+						body +=	"<span class='input-group-text'style='width:90px;' >"+mesDRange+"</span>";
 						body +=	"</div>" ;
 						body +=	"<div class='input-group-prepend'>";
 						body +="<span class='input-group-text'style='margin-left:5px;'>名称</span>";
-						body +=	"<span class='input-group-text'  style='width:95px'>"+mesDName+"</span>";
+						body +=	"<span class='input-group-text'  style='width:120px'>"+mesDName+"</span>";
 						body +=	 "</div>";
 						body +=	 "<div class='input-group-prepend'>";
 						body +="<span class='input-group-text'style='margin-left:5px;'>类型</span>";
-						body +=	 	"<span class='input-group-text' style='width:75px;'>"+mesDTyp+"</span>";
+						body +=	 	"<span class='input-group-text' style='width:85px;'>"+mesDTyp+"</span>";
 						body +=	 "</div>" ;
 						body +=    "<div class='input-group-prepend'>";
 						body +=        "<span class='input-group-text'style='margin-left:5px;'>描述</span>";
@@ -566,18 +566,14 @@ function qryModToModal(mesSource,mesDestination){
 	$("#emesDestination").empty();
 	var s =mesSource.split(",")
 	var d=mesDestination.split(",")
-	console.log("s"+s);
-	console.log("d"+d);
 	$.ajax({
 		url:"/qryModSelect.do",
 		type:"POST",
 		async:true,
 		success:function(result){
-			debugger;
 			var sbody="";
 			var dbody="";
 				for(var i=0;i<result.length;i++){
-					alert("设备"+result[i].mod_name);
 					sbody ="";
 					sbody +=  "<option id ='soption"+i+"'  value='"+ result[i].mod_name+"'>"+result[i].mod_name +"</option>";
 					$("#emesSource").append(sbody);
@@ -588,13 +584,11 @@ function qryModToModal(mesSource,mesDestination){
 					}
 				}	
 				for(var i=0;i<result.length;i++){
-					alert("设备"+result[i].mod_name);
 					dbody ="";
 					dbody +=  "<option id ='doption"+i+"' value='"+ result[i].mod_name+"'>"+result[i].mod_name +"</option>";
 					$("#emesDestination").append(dbody);
 					for(var j=0;j<d.length;j++){
-				
-						if(d[j] == result[i].mod_name){
+							if(d[j] == result[i].mod_name){
 							$("#doption"+i).attr("selected","selected");
 						}
 					}
@@ -605,7 +599,7 @@ function qryModToModal(mesSource,mesDestination){
 				numberDisplayed:4
 	          }); 
 			
-			$("#emesDestination").append(dbody);
+			
 		    $("#emesDestination").multiselect("destroy").multiselect({  
 				buttonWidth: "200px",
 				numberDisplayed:4
