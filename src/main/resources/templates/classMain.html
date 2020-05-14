@@ -362,6 +362,7 @@ function InsertData(modalCId,modalCName,modalCDesc,modalCFather,modalCMidware){
 				    oldTable.fnClearTable(); 
 				    oldTable.fnDestroy();
 					QryMidCls();
+					QryMidClsFather();
 				}else{
 					alert("插入失败");
 				}
@@ -394,6 +395,7 @@ function UpdateData(modalCId,modalCName,modalCDesc,modalCFather,modalCMidware){
 			    oldTable.fnClearTable(); 
 			    oldTable.fnDestroy();
 				QryMidCls();
+				QryMidClsFather();
 			}else{
 				alert("更新失败");
 			}

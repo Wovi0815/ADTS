@@ -616,13 +616,6 @@ function qryModToModal(mesSource,mesDestination){
 
 
 
-
-
-
-
-
-
-
 //编辑报文保存
 function editMesSave(){
 	var modalmesId =$("#emesId").val();
@@ -635,17 +628,38 @@ function editMesSave(){
 	var modalmesSource=$("#emesSource").val().toString();
 	var modalmesDestination=$("#emesDestination").val().toString();	 
 	
-	console.log(modalmesId);
-	console.log(modalmesName);
-	console.log(modalmesDesc);
-	console.log(modalmesRemark);
-	console.log(modalmesFunNum);
-	console.log(modalmesIDNum);
-	console.log(modalmesTyp);
-	console.log(modalmesSource);
-	console.log(modalmesDestination);
+	 $.ajax({
+			url:"/UpdateMes.do",
+			type:"POST",
+			async:true,
+			data:{
+				"modalmesId":modalmesId,
+				"modalmesName":modalmesName,
+				"modalmesDesc":modalmesDesc,
+				"modalmesRemark":modalmesRemark,
+				"modalmesFunNum":modalmesFunNum,
+				"modalmesIDNum":modalmesIDNum,
+				"modalmesTyp":modalmesTyp,
+				"modalmesSource":modalmesSource,	
+				"modalmesDestination":modalmesDestination,	
+			},
+			success:function(result){
+				if(result==1){
+					var oldTable = $('#example1').dataTable();
+				    oldTable.fnClearTable(); 
+				    oldTable.fnDestroy();
+				    QryMessage();
+				    
+				}else{
+					alert("接口修改失败！");
+				}
 	
-	
+			},	
+			error:function(result){
+				alert("未知错误联系管理员！");
+			}
+		});	
+
 	 
 
 }

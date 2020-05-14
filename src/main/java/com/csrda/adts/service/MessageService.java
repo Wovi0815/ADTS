@@ -46,4 +46,11 @@ public interface MessageService {
       * 查询报文数据的信息
     */
    List<Map<String, Object>> qryMesDataDetail(String mesId);
+   
+   /**
+    * 修改报文
+    */
+   int UpdateMes(String modalmesId,String modalmesName,String modalmesDesc,
+			String modalmesRemark,String modalmesFunNum,String modalmesIDNum,String modalmesTyp,
+			String modalmesSource,String modalmesDestination);
 }

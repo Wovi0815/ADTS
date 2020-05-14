@@ -63,6 +63,17 @@ public class MessageServiceImpl implements MessageService{
 	}
 
 
+	@Override
+	public int UpdateMes(String modalmesId, String modalmesName, String modalmesDesc, String modalmesRemark,
+			String modalmesFunNum, String modalmesIDNum, String modalmesTyp, String modalmesSource,
+			String modalmesDestination) {
+		
+		return messageDao.UpdateMes(modalmesId, modalmesName, modalmesDesc, 
+				modalmesRemark, modalmesFunNum, modalmesIDNum,
+				modalmesTyp, modalmesSource, modalmesDestination);
+	}
+
+
 	
 
 

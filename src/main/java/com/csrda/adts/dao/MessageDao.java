@@ -7,13 +7,14 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 public interface MessageDao {
 	/**
 	 *  查所有的报文类型,构建菜单
 	 */
 	 @Select("SELECT m.mes_type FROM t_message m WHERE m.is_delete = '0' GROUP by m.mes_type" )
-	 public List<Map<String, Object>> QueryMessageTyp();
+	 List<Map<String, Object>> QueryMessageTyp();
 
 	/**
 	 *  根据报文类型,查所有的报文
@@ -24,12 +25,12 @@ public interface MessageDao {
 	 		"mes_id_num as mesIdNum,mes_fun_id as mesFunId,mes_type as mesType " + 
 	 		"FROM t_message " + 
 	 		"WHERE	mes_type = #{mesType} AND is_delete ='0' ")
-	 public List<Map<String, Object>> qryMessage(String mesType);
+	  List<Map<String, Object>> qryMessage(String mesType);
 	 /**
 	  * 查所有的硬件模块种类
 	  */
 	 @Select("SELECT * FROM t_module m WHERE m.is_delete = '0' GROUP by m.mod_pid" )
-	 public List<Map<String, Object>> qryModuleKind();
+	 List<Map<String, Object>> qryModuleKind();
 	
 	 /**
 	   * 根据下拉框信源查询报文
@@ -54,7 +55,7 @@ public interface MessageDao {
  		   "</if>"+
  		   "</script>")
 	
-	 public	List<Map<String,Object>>qryMesByDtSource(@Param("sourceList") List<Map<String ,Object>> sourceList,@Param("mesType") String mesType);
+	 	List<Map<String,Object>>qryMesByDtSource(@Param("sourceList") List<Map<String ,Object>> sourceList,@Param("mesType") String mesType);
 		
 		/**
 		 * 根据下拉框信宿查询报文
@@ -78,7 +79,7 @@ public interface MessageDao {
 	 		  "</if>"+
  		   "</script>")
 	 
-	 public	List<Map<String, Object>> qryMesByDtDestination(@Param("destinationList") List<Map<String ,Object>> destinationList,@Param("mesType") String mesType);
+	 	List<Map<String, Object>> qryMesByDtDestination(@Param("destinationList") List<Map<String ,Object>> destinationList,@Param("mesType") String mesType);
 	 
 	 /**
 	  * 根据信源和信宿查报文
@@ -121,7 +122,7 @@ public interface MessageDao {
 	 		  "</foreach>"+
 	 		  "</if>"+
 	 		  "</script>")
-	public List<Map<String, Object>> qryMesBySelect(@Param("sourceList") List<Map<String ,Object>> sourceList,@Param("destinationList") List<Map<String ,Object>> destinationList,@Param("mesType") String mesType);
+	 List<Map<String, Object>> qryMesBySelect(@Param("sourceList") List<Map<String ,Object>> sourceList,@Param("destinationList") List<Map<String ,Object>> destinationList,@Param("mesType") String mesType);
 	 
 	 
 
@@ -134,7 +135,7 @@ public interface MessageDao {
 		 		"mes_id_num,mes_fun_id ,mes_type,mes_remark " + 
 		 		"FROM t_message " + 
 		 		"WHERE	mes_id = #{mesId} AND is_delete ='0' ")
-	 public Map<String, Object> qryMesDetail(String mesId);
+	  Map<String, Object> qryMesDetail(String mesId);
 	 
 	 
 	 
@@ -147,7 +148,17 @@ public interface MessageDao {
 		 		"mes_data_desc ,mes_data_type " + 
 		 		"FROM t_mes_data " + 
 		 		"WHERE	mes_id = #{mesId} AND is_delete ='0' ")
-	 public List<Map<String, Object>> qryMesDataDetail(String mesId);
+	  List<Map<String, Object>> qryMesDataDetail(String mesId);
 	 
+	 /**
+	  * 更新报文
+	  */
+	@Update("UPDATE  t_message  m SET m.mes_name=#{modalmesName},"
+				+ "m.mes_desc=#{modalmesDesc},m.mes_remark=#{modalmesRemark},m.mes_fun_id= #{modalmesFunNum},"
+				+ "m.mes_id_num =#{modalmesIDNum},m.mes_source =#{modalmesSource},m.mes_destination =#{modalmesDestination}"
+				+ "WHERE m.mes_id =#{modalmesId} AND m.mes_type =#{modalmesTyp} ")
+	int UpdateMes(String modalmesId,String modalmesName,String modalmesDesc,
+			String modalmesRemark,String modalmesFunNum,String modalmesIDNum,
+			String modalmesTyp,String modalmesSource,String modalmesDestination);
 	 
 }

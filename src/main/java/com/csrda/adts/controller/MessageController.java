@@ -90,12 +90,23 @@ public class MessageController {
 	}
 
 	//查询报文数据详情
-	//根据报文类型查询所有报文
 	@ResponseBody
 	@RequestMapping("/qryMesDataDetail.do")
 	public List<Map<String, Object>> qryMesDataDetail(String mesId){
 		List<Map<String, Object>> result = messageService.qryMesDataDetail(mesId);
 		return result;
 	}
-
+	
+	//修改报文
+	@RequestMapping("/UpdateMes.do")
+	@ResponseBody
+	public int UpdateMes(String modalmesId,String modalmesName,String modalmesDesc,
+			String modalmesRemark,String modalmesFunNum,String modalmesIDNum,String modalmesTyp,
+			String modalmesSource,String modalmesDestination) {
+		int result = messageService.UpdateMes(modalmesId, modalmesName, modalmesDesc, 
+				modalmesRemark, modalmesFunNum, modalmesIDNum,
+				modalmesTyp, modalmesSource, modalmesDestination);
+		return result;
+	};
+	
 }

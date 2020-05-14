@@ -819,6 +819,13 @@ function editInterfaceSave(){
 			},
 			success:function(result){
 				if(result==1){
+					//刷新
+					var oldTable = $('#example1').dataTable();
+				    oldTable.fnClearTable(); 
+				    oldTable.fnDestroy();
+					QryClsInterface();
+					QryInterParaCount();
+					QryInterReturnType();
 					
 				}else{
 					alert("接口修改失败！");
