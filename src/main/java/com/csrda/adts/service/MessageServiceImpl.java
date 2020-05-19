@@ -52,8 +52,8 @@ public class MessageServiceImpl implements MessageService{
 
 
 	@Override
-	public Map<String, Object> qryMesDetail(String mesId) {
-		return messageDao.qryMesDetail(mesId);
+	public Map<String, Object> qryMesDetail(String mesId,String mesTyp) {
+		return messageDao.qryMesDetail(mesId,mesTyp);
 	}
 
 
@@ -72,6 +72,22 @@ public class MessageServiceImpl implements MessageService{
 				modalmesRemark, modalmesFunNum, modalmesIDNum,
 				modalmesTyp, modalmesSource, modalmesDestination);
 	}
+
+
+	@Override
+	public int InsertMes(String mesId, String mesName, String mesDesc, String mesRemark, String mesSource,
+			String mesDestination, String mesID, String mesFunId, String mesTyp) {
+		
+		return messageDao.InsertMes(mesId, mesName, mesDesc, 
+				mesRemark, mesSource, mesDestination,
+				mesID, mesFunId, mesTyp);
+	}
+
+
+	
+
+
+	
 
 
 	

@@ -41,7 +41,7 @@ public interface MessageService {
 	/**
 	 * 查询报文的进一步信息
 	 */
-   Map<String,Object>  qryMesDetail(String mesId);
+   Map<String,Object>  qryMesDetail(String mesId,String mesTyp);
    /**
       * 查询报文数据的信息
     */
@@ -53,4 +53,19 @@ public interface MessageService {
    int UpdateMes(String modalmesId,String modalmesName,String modalmesDesc,
 			String modalmesRemark,String modalmesFunNum,String modalmesIDNum,String modalmesTyp,
 			String modalmesSource,String modalmesDestination);
+   
+   /**
+	 * 新增报文
+	 */
+	int InsertMes(String mesId,String mesName,String mesDesc,
+			String mesRemark,String mesSource,String mesDestination,
+			String mesID,String mesFunId,String mesTyp);
+
+	
+	/**
+	 * 新增报文数据
+	 */
+	
+	
+   
 }

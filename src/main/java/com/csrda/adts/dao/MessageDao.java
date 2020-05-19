@@ -3,6 +3,7 @@ package com.csrda.adts.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
@@ -134,8 +135,8 @@ public interface MessageDao {
 		 		"id, mes_id ,mes_name ,mes_desc ,mes_source ,mes_destination, " + 
 		 		"mes_id_num,mes_fun_id ,mes_type,mes_remark " + 
 		 		"FROM t_message " + 
-		 		"WHERE	mes_id = #{mesId} AND is_delete ='0' ")
-	  Map<String, Object> qryMesDetail(String mesId);
+		 		"WHERE	mes_id = #{mesId} AND is_delete ='0' AND mes_type=#{mesTyp} ")
+	  Map<String, Object> qryMesDetail(String mesId,String mesTyp);
 	 
 	 
 	 
@@ -160,5 +161,34 @@ public interface MessageDao {
 	int UpdateMes(String modalmesId,String modalmesName,String modalmesDesc,
 			String modalmesRemark,String modalmesFunNum,String modalmesIDNum,
 			String modalmesTyp,String modalmesSource,String modalmesDestination);
+	
+	
+	
+	
+	/**
+	 * 新增报文
+	 */
+	@Insert("INSERT INTO t_message (mes_id,mes_name,mes_desc,mes_remark,mes_source,mes_destination,mes_id_num,mes_fun_id,mes_type) "
+			+ "VALUE(#{mesId},#{mesName},#{mesDesc},#{mesRemark},#{mesSource},#{mesDestination}, "
+			+ "#{mesID},#{mesFunId},#{mesTyp} )"  
+			)
+	int InsertMes(String mesId,String mesName,String mesDesc,
+			String mesRemark,String mesSource,String mesDestination,
+			String mesID,String mesFunId,String mesTyp);
+	
+
+	
+	/**
+	 * 新增接口参数
+	 */
+	@Insert("INSERT INTO t_parameter "
+			+ "(para_id,para_name,para_desc,para_type,para_attr,para_eq,para_interface,para_phy_dim,para_max,para_min,para_default) "
+			+ "VALUE(#{paraId},#{paraName},#{paraDesc},#{paraType},#{paraAttr},#{paraNo}, "
+			+ "#{id},#{paraPhy},#{paraMax},#{paraMin},#{paraDefault} )"  
+			)
+	int InsertInterfacePara(String paraId,String paraName,String paraDesc,
+			String paraType,String paraAttr,String paraNo,
+			String id,String paraPhy,String paraMax,String paraMin,String paraDefault);
+	
 	 
 }

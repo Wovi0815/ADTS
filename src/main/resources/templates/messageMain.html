@@ -434,13 +434,12 @@ function refreshDataBySelect(source,destination){
 }
 //新增报文
 function  addClick(){
-	var imesGroupCount=$("#iparaCount").val();
+	var imesGroupCount=$("#imesGroupCount").val();
 	$("#imesGroupCount").val("");
 	$("#addArea").empty();
 	$("#addAreaX input").each(function() {
 		$(this).val("");
 	})
-	
 	$("#imesTyp").val("");
 	$("#imesTyp").val(mesType);
 	$("#imesGroupCount").change(function(){	
@@ -448,23 +447,18 @@ function  addClick(){
 		$("#addArea").empty();
 		if(imesGroupCount==0){
 			//先不对报文数据进行新增
-			console.log("bu");
+			
 			
 		}else{
-			console.log("画表格");
-			debugger;
 			for(var i=1;i<=imesGroupCount;i++){
 				var ibody=" ";
 				ibody += "<div class='input-group' >";
-				
-			  
-			
-				ibody += "<div style='width:30%'><input class='form-control' placeholder='起始字节'id='mesDataStart"+i+"' ></div>";
-				ibody += "<input style='width:2%;border:none;' value='至'>";
-				ibody += "<input style='' placeholder='终止字节'id='mesDatEnd"+i+"'>";
+				ibody += "<input class='form-control' oninput='onlyPositiveNum(this);' placeholder='起始字节'id='mesDataStart"+i+"' >";
+				ibody += "<input style='width:2%;border:none; '  value='至'  disabled='disabled'>";
+				ibody += "<input class='form-control'oninput='onlyPositiveNum(this);' placeholder='终止字节'id='mesDataEnd"+i+"'>";
 				ibody += "<input class='form-control' style='margin-left:2%;' placeholder='数据名称'id='mesDataName"+i+"'>";
-				ibody += "<input class='form-control' placeholder='数据描述'id='paraDesc"+i+"'>";
-				ibody += "<input class='form-control' placeholder='数据类型'id='paraPhy"+i+"'>";
+				ibody += "<input class='form-control' placeholder='数据描述'id='mesDataDesc"+i+"'>";
+				ibody += "<input class='form-control' placeholder='数据类型'id='mesDataTyp"+i+"'>";
 				ibody += "</div>";
 				$("#addArea").append(ibody);
 			
@@ -472,16 +466,136 @@ function  addClick(){
 		}
 	
 	})
-	
-	
 
+}
+function onlyPositiveNum(e){
+	$(e).val($(e).val().replace(/[^\d]/g,""));
+}
+function addSave(){
+	//报文信息
+	var imesId = $("#imesId").val();
+	var imesName =$("#imesName").val();
+	var imesDesc =$("#imesDesc").val();
+	var imesRemark =$("#imesRemark").val();
+	var imesSource =$("#imesSource").val();
+	var imesDestination =$("#imesDestination").val();
+	var imesID =$("#imesID").val();
+	var imesFunId =$("#imesFunId").val();
+	var imesTyp =$("#imesTyp").val();
+		
+	if(imesGroupCount != "" ){
+		var mesMap = new Array();
+		mesMap.push({
+			imesId :imesId,
+			imesName :imesName,
+			imesDesc :imesDesc,
+			imesRemark :imesRemark,
+			imesSource :imesSource,
+			imesDestination :imesDestination,
+			imesID :imesID,
+			imesFunId :imesFunId,
+			imesTyp :imesTyp});
+		
+		//先查有没有重复的
+			 $.ajax({
+				url:"/qryMesDetail.do",
+				type:"POST",
+				async:true,
+				data:{
+					"mesId":imesId,
+					"mesTyp":imesTyp
+				},
+				success:function(result){
+					if(result){
+						alert("插入失败，数据已存在！")
+					}else{//插入接口数据;
+						addMes(mesMap);
+					}
+
+				},	
+				error:function(result){
+					alert("未知错误联系管理员！");
+				}
+			});	
+	}else{
+		alert("请输入报文分组数！")
+	}
+	
+	
+	
+  
+	}
+//新增报文
+function addMes(mesMap){
+	console.log(mesMap);
+	$.ajax({
+		url:"/InsertMes.do",
+		type:"POST",
+		async:true,
+		data:{
+			"mesMap":JSON.stringify(mesMap)
+		},
+		success:function(id){
+			if(id!=""){
+				addMesData(id);}
+			else{
+					alert("新增报文失败！")
+				}
+		},	
+		error:function(result){
+			alert("未知错误联系管理员！");
+		}
+	});	
 	
 }
 
 
-
-
-
+//新增报文数据
+function addMesData(id){
+	for(var i=1;i<=imesGroupCount;i++){
+	var imesGroupCount=$("#imesGroupCount").val();
+		var start =$("#mesDataStart"+i).val();
+		var end = $("#mesDataEnd"+i).val();
+		var dataName = $("#mesDataName"+i).val();
+		var dataDesc = $("#mesDataDesc"+i).val();
+		var dataType = $("#mesDataTyp"+i).val();
+		if(end<start){
+			alert("字节范围输入错误!");
+		}
+		if(end == start){
+			var dataRange =start;
+		}else{
+			var dataRange = start +"~"+end;
+		}
+		alert(dataRange);
+			
+	}  
+		 $.ajax({
+				url:"/InsertMesData.do",
+				type:"POST",
+				async:true,
+				data:{
+					"mesId":id,
+					"dataRange":dataRange,
+					"dataName":dataName,
+					"dataDesc":dataDesc,
+					"dataType":dataType
+				},
+				success:function(result){
+					//刷新
+					var oldTable = $('#example1').dataTable();
+		   		    oldTable.fnClearTable(); 
+		  		    oldTable.fnDestroy();
+					
+					
+				},	
+				error:function(result){
+					alert("未知错误联系管理员！");
+				}
+			});	
+		  
+		  
+}
 
 
 
@@ -509,7 +623,8 @@ function showDetail(e){
 			type:"POST",
 			async:true,
 			data:{
-				"mesId":mesId
+				"mesId":mesId,
+				"mesTyp":mesType
 			},
 			success:function(result){
 				var mesDesc = result.mes_desc;

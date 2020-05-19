@@ -1,5 +1,6 @@
 package com.csrda.adts.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,6 +11,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.csrda.adts.service.MessageService;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 public class MessageController {
@@ -84,8 +89,8 @@ public class MessageController {
 	// 查询报文的进一步信息
 	@ResponseBody
 	@RequestMapping("/qryMesDetail.do")
-	public Map<String, Object> qryMesDetail(String mesId){
-		Map<String, Object> result = messageService.qryMesDetail(mesId);
+	public Map<String, Object> qryMesDetail(String mesId,String mesTyp){
+		Map<String, Object> result = messageService.qryMesDetail(mesId,mesTyp);
 		return result;
 	}
 
@@ -108,5 +113,34 @@ public class MessageController {
 				modalmesTyp, modalmesSource, modalmesDestination);
 		return result;
 	};
+	
+	//新增报文
+	@RequestMapping("/InsertMes.do")		
+	@ResponseBody
+	public String InsertMes(String mesMap) throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper mapper = new ObjectMapper();   
+		List<Map<String, Object>> mMap = mapper.readValue(mesMap, new TypeReference<List<Map<String, Object>>>(){});
+		String mesId=mMap.get(0).get("imesId").toString();
+		String mesName=mMap.get(0).get("imesName").toString();
+		String mesDesc=mMap.get(0).get("imesDesc").toString();
+		String mesRemark=mMap.get(0).get("imesRemark").toString();
+		String mesSource=mMap.get(0).get("imesSource").toString();
+		String mesDestination=mMap.get(0).get("imesDestination").toString();
+		String mesID=mMap.get(0).get("imesID").toString();
+		String mesFunId=mMap.get(0).get("imesFunId").toString();
+		String mesTyp=mMap.get(0).get("imesTyp").toString();
+		int inresult = messageService.InsertMes(mesId, mesName, mesDesc, mesRemark,
+				mesSource, mesDestination, 
+				mesID, mesFunId, mesTyp);
+		Map<String, Object> result = messageService.qryMesDetail(mesId,mesTyp);
+		System.out.println("!!!!!!"+result);
+		String id =result.get("0").toString();
+		System.out.println("id:"+id);
+		return id;
+		
+		
+		
+		
+	}
 	
 }
