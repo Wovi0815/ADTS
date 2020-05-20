@@ -84,6 +84,12 @@ public class MessageServiceImpl implements MessageService{
 	}
 
 
+	@Override
+	public int InsertMesData(String mesId, String dataRange, String dataName, String dataDesc, String dataType) {
+		return  messageDao.InsertMesData(mesId, dataRange, dataName, dataDesc, dataType);
+	}
+
+
 	
 
 

@@ -181,14 +181,12 @@ public interface MessageDao {
 	/**
 	 * 新增报文数据
 	 */
-	@Insert("INSERT INTO t_message_data "
-			+ "(para_id,para_name,para_desc,para_type,para_attr,para_eq,para_interface,para_phy_dim,para_max,para_min,para_default) "
-			+ "VALUE(#{paraId},#{paraName},#{paraDesc},#{paraType},#{paraAttr},#{paraNo}, "
-			+ "#{id},#{paraPhy},#{paraMax},#{paraMin},#{paraDefault} )"  
+	@Insert("INSERT INTO t_mes_data "
+			+ "(mes_id,mes_data_range,mes_data_name,mes_data_desc,mes_data_type) "
+			+ "VALUE(#{mesId},#{dataRange},#{dataName},#{dataDesc},#{dataType})"  
 			)
-	int InsertInterfacePara(String paraId,String paraName,String paraDesc,
-			String paraType,String paraAttr,String paraNo,
-			String id,String paraPhy,String paraMax,String paraMin,String paraDefault);
-	
+	int InsertMesData(String mesId,String dataRange,String dataName,
+			String dataDesc,String dataType);
+
 	 
 }

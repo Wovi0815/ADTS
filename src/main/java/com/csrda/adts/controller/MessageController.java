@@ -143,9 +143,9 @@ public class MessageController {
 	@ResponseBody
 	public int InsertMesData(String mesId,String dataRange,
 			String dataName,String dataDesc,String dataType) {
-		int result = messageService.
+		int result = messageService.InsertMesData(mesId, dataRange, dataName, dataDesc, dataType);
 		return result;
-		
+
 	}
 
 		
