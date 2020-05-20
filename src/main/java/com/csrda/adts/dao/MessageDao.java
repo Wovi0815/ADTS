@@ -179,9 +179,9 @@ public interface MessageDao {
 
 	
 	/**
-	 * 新增接口参数
+	 * 新增报文数据
 	 */
-	@Insert("INSERT INTO t_parameter "
+	@Insert("INSERT INTO t_message_data "
 			+ "(para_id,para_name,para_desc,para_type,para_attr,para_eq,para_interface,para_phy_dim,para_max,para_min,para_default) "
 			+ "VALUE(#{paraId},#{paraName},#{paraDesc},#{paraType},#{paraAttr},#{paraNo}, "
 			+ "#{id},#{paraPhy},#{paraMax},#{paraMin},#{paraDefault} )"  

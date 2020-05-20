@@ -133,14 +133,22 @@ public class MessageController {
 				mesSource, mesDestination, 
 				mesID, mesFunId, mesTyp);
 		Map<String, Object> result = messageService.qryMesDetail(mesId,mesTyp);
-		System.out.println("!!!!!!"+result);
-		String id =result.get("0").toString();
-		System.out.println("id:"+id);
+		String id =result.get("mes_id").toString();
 		return id;
-		
-		
-		
+
+	}
+	
+	//新增报文数据
+	@RequestMapping("/InsertMesData.do")		
+	@ResponseBody
+	public int InsertMesData(String mesId,String dataRange,
+			String dataName,String dataDesc,String dataType) {
+		int result = messageService.
+		return result;
 		
 	}
+
+		
+	
 	
 }

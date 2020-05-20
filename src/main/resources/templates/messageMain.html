@@ -447,8 +447,6 @@ function  addClick(){
 		$("#addArea").empty();
 		if(imesGroupCount==0){
 			//先不对报文数据进行新增
-			
-			
 		}else{
 			for(var i=1;i<=imesGroupCount;i++){
 				var ibody=" ";
@@ -481,53 +479,51 @@ function addSave(){
 	var imesDestination =$("#imesDestination").val();
 	var imesID =$("#imesID").val();
 	var imesFunId =$("#imesFunId").val();
-	var imesTyp =$("#imesTyp").val();
-		
-	if(imesGroupCount != "" ){
-		var mesMap = new Array();
-		mesMap.push({
-			imesId :imesId,
-			imesName :imesName,
-			imesDesc :imesDesc,
-			imesRemark :imesRemark,
-			imesSource :imesSource,
-			imesDestination :imesDestination,
-			imesID :imesID,
-			imesFunId :imesFunId,
-			imesTyp :imesTyp});
-		
-		//先查有没有重复的
-			 $.ajax({
-				url:"/qryMesDetail.do",
-				type:"POST",
-				async:true,
-				data:{
-					"mesId":imesId,
-					"mesTyp":imesTyp
-				},
-				success:function(result){
-					if(result){
-						alert("插入失败，数据已存在！")
-					}else{//插入接口数据;
-						addMes(mesMap);
-					}
-
-				},	
-				error:function(result){
-					alert("未知错误联系管理员！");
-				}
-			});	
+	var imesTyp =$("#imesTyp").val();	
+	if(imesId==""||imesName==""||imesDesc==""||imesRemark==""||imesSource==""||imesDestination==""||imesID==""||imesFunId==""||imesTyp==""){
+		alert("ERROR!存在未填项");
 	}else{
-		alert("请输入报文分组数！")
-	}
-	
-	
-	
-  
-	}
+		if(imesGroupCount != "" ){
+			var mesMap = new Array();
+			mesMap.push({
+				imesId :imesId,
+				imesName :imesName,
+				imesDesc :imesDesc,
+				imesRemark :imesRemark,
+				imesSource :imesSource,
+				imesDestination :imesDestination,
+				imesID :imesID,
+				imesFunId :imesFunId,
+				imesTyp :imesTyp});
+			
+			//先查有没有重复的
+				 $.ajax({
+					url:"/qryMesDetail.do",
+					type:"POST",
+					async:true,
+					data:{
+						"mesId":imesId,
+						"mesTyp":imesTyp
+					},
+					success:function(result){
+						if(result){
+							alert("插入失败，数据已存在！")
+						}else{//插入接口数据;
+							addMes(mesMap);
+						}
+
+					},	
+					error:function(result){
+						alert("未知错误联系管理员！");
+					}
+				});	
+		}else{
+			alert("请输入报文分组数！")
+		}
+	}	
+}
 //新增报文
 function addMes(mesMap){
-	console.log(mesMap);
 	$.ajax({
 		url:"/InsertMes.do",
 		type:"POST",
