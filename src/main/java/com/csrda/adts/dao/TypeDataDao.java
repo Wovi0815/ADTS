@@ -22,6 +22,20 @@ public interface TypeDataDao {
 	@Insert("INSERT INTO `csrda_adts_test`.`t_data_type` ( `typ_id`, `typ_name`, `typ_size`, `typ_attr`, `typ_desc`, `modify_user` )\r\n" + 
 			"VALUES\r\n" + 
 			"	(#{typId}, #{typName}, #{typSize}, #{typAttr}, #{typDesc}, 'admin');")
-	//@SelectKey(statement = "select last_insert_id()", keyProperty = "id", before = false, resultType = int.class)
 	public int saveBasicDataType(Map<String,String> typeData);
+	
+	@Select("SELECT\r\n" + 
+			"	count( * ) as num\r\n" + 
+			"FROM\r\n" + 
+			"	( SELECT * FROM `t_data_type` WHERE typ_id = #{typId} ) a")
+	public List<Map<String, Object>> qryRep(String typId);
+	
+	@Select("SELECT\r\n" + 
+			"	count( * ) AS num \r\n" + 
+			"FROM\r\n" + 
+			"	( SELECT * FROM `t_struct_member` WHERE mem_struct = #{struct} AND mem_id = #{memId} ) a")
+	public List<Map<String, Object>> qryStructMemRep(String struct,String memId);
+	
+	@Insert("")
+	public int addStructMem(List<Map<String, Object>> memData);
 }

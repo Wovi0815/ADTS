@@ -10,6 +10,14 @@ public class StructMember {
 	/**成员描述*/
 	String memDesc;
 	String memPhyDim;
+	/**成员最大值*/
+	String memMax;
+	/**成员最小值*/
+	String memMin;
+	/**成员默认值*/
+	String memDefault;
+	/**成员顺序*/
+	String memNo;
 	public String getMemPhyDim() {
 		return memPhyDim;
 	}
@@ -22,12 +30,6 @@ public class StructMember {
 	public void setMemName(String memName) {
 		this.memName = memName;
 	}
-	/**成员最大值*/
-	String memMax;
-	/**成员最小值*/
-	String memMin;
-	/**成员默认值*/
-	String memDefault;
 	public String getMemId() {
 		return memId;
 	}
