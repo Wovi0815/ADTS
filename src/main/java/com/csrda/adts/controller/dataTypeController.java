@@ -5,8 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -21,6 +25,9 @@ public class dataTypeController {
 	@Autowired
 	TypeDataDao typeDataDao;
 
+	@Autowired
+	private DataSourceTransactionManager transaction;
+	
 	@RequestMapping("/dataTypeManager")
 	public String dataTypeManager() {
 		return "dataTypeManager";
@@ -52,17 +59,38 @@ public class dataTypeController {
 	
 	@RequestMapping("/addStructData")
 	@ResponseBody
-	public String addStructData(String typId,String typName,String typSize,String typDesc,String memList) throws Exception, JsonMappingException, IOException {
+	@Transactional
+	public String addStructData(String typId,String typName,String typSize,String typDesc,String memList){
 		ObjectMapper mapper = new ObjectMapper();
-		List<Map<String, Object>> memData = mapper.readValue(memList, new TypeReference<List<Map<String, Object>>>(){});
-		System.out.println(memList.toString());
-		System.out.println(typId);
-		System.out.println(typName);
-		System.out.println(typSize);
-		System.out.println(typDesc);
-		
-		return "addStruct";
+		try {
+			List<Map<String, Object>> memData = mapper.readValue(memList, new TypeReference<List<Map<String, Object>>>(){});
+			if(Integer.valueOf(typeDataDao.qryRep(typId).get(0).get("num").toString())>0) {
+				return "TypRep";
+			}
+			Map<String, String> typeData=new HashMap<String, String>();
+			typeData.put("typId", typId);
+			typeData.put("typName", typName);
+			typeData.put("typAttr", "struct");
+			typeData.put("typSize", typSize);
+			typeData.put("typDesc", typDesc);
+			typeDataDao.saveBasicDataType(typeData);
+
+			for (int i = 0; i < memData.size(); i++) {
+				if(Integer.valueOf(typeDataDao.qryStructMemRep(typId, memData.get(i).get("memId").toString()).get(0).get("num").toString())>0) {
+					return "structRep";
+				}
+				memData.get(i).put("memStruct", typId);
+				typeDataDao.addStructMem(memData);
+			}
+			return "1";
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return "0";
+		}
+
+
 	}
-	
-	
+
+
 }
