@@ -471,6 +471,7 @@ function  addClick(){
 function onlyPositiveNum(e){
 	$(e).val($(e).val().replace(/[^\d]/g,""));
 }
+//新增报文系列操作
 function addSave(){
 	//报文信息
 	var imesId = $("#imesId").val();
@@ -482,8 +483,8 @@ function addSave(){
 	var imesID =$("#imesID").val();
 	var imesFunId =$("#imesFunId").val();
 	var imesTyp =$("#imesTyp").val();	
-	if(imesId==""||imesName==""||imesDesc==""||imesRemark==""||imesSource==""||imesDestination==""||imesID==""||imesFunId==""||imesTyp==""){
-		alert("ERROR!存在未填项");
+	if(imesId==""||imesName==""||imesDesc==""||imesSource==""||imesDestination==""||imesID==""||imesFunId==""||imesTyp==""){
+		alert("报文信息必填项未填写充分!");
 	}
 	if(imesGroupCount != ""){
 			var mesMap = new Array();
@@ -497,118 +498,56 @@ function addSave(){
 				imesID :imesID,
 				imesFunId :imesFunId,
 				imesTyp :imesTyp});
-			
-			//先查有没有重复的
-				 $.ajax({
-					url:"/qryMesDetail.do",
-					type:"POST",
-					async:true,
-					data:{
-						"mesId":imesId,
-						"mesTyp":imesTyp
-					},
-					success:function(result){
-						if(result){
-							alert("插入失败，数据已存在！")
-						}else{//插入报文;
-							addMes(mesMap);
-						}
 
-					},	
-					error:function(result){
-						alert("未知错误联系管理员！");
-					}
-				});	
-		}else{
-			alert("请输入报文分组数！")
-		}
-	
-}
-//新增报文
-function addMes(mesMap){
-	$.ajax({
-		url:"/InsertMes.do",
-		type:"POST",
-		async:true,
-		data:{
-			"mesMap":JSON.stringify(mesMap)
-		},
-		success:function(id){
-
-			if(id!=""){
-				addMesData(id);}
-			
-			
-			
-			
-			
-			
-			else{
-					alert("新增报文失败！")
+			var mesDataMap = new Array();
+			for(var i=1;i<=imesGroupCount;i++){
+				var start =$("#mesDataStart"+i).val();
+				var end = $("#mesDataEnd"+i).val();
+				var dataName = $("#mesDataName"+i).val();
+				var dataDesc = $("#mesDataDesc"+i).val();
+				var dataType = $("#mesDataTyp"+i).val();
+				if(start==""||end==""||dataName==""||dataDesc==""||dataType==""){
+						alert("报文数据必填项未填写充分!");
+					 	return;
 				}
-		},	
-		error:function(result){
-			alert("未知错误联系管理员！");
-		}
-	});	
-	
-}
-
-
-//新增报文数据
-function addMesData(id){
-	
-	var imesGroupCount=$("#imesGroupCount").val();
-	for(var i=1;i<=imesGroupCount;i++){
-		var start =$("#mesDataStart"+i).val();
-		var end = $("#mesDataEnd"+i).val();
-		var dataName = $("#mesDataName"+i).val();
-		var dataDesc = $("#mesDataDesc"+i).val();
-		var dataType = $("#mesDataTyp"+i).val();
-		
-		if(start==""||end==""||dataName==""||dataDesc==""||dataType==""){
-			alert("ERROR!存在未填项");
-			break;
-		}else{
-			if(end>=start){ 
 				if(end == start){
 					var dataRange =start;
-				}else{
+				}else if(end > start){
 					var dataRange = start +"~"+end;
+				}else if(end < start){
+					alert("报文数据的字节范围输入有误!");
+					return;
 				}
-				 $.ajax({
-						url:"/InsertMesData.do",
-						type:"POST",
-						async:true,
-						data:{
-							"mesId":id,
-							"dataRange":dataRange,
-							"dataName":dataName,
-							"dataDesc":dataDesc,
-							"dataType":dataType
-						},
-						success:function(result){
-							
-						},	
-						error:function(result){
-							alert("未知错误联系管理员！");
-						}
-					});	
-			}else {
-				alert("字节范围输入有误!")
-				break;
-			}
-		}  
-			
-	}
-		
-	
-	
-	
-		
-		
-}
 
+				mesDataMap.push({
+					dataRange :dataRange,
+					dataName :dataName,
+					dataDesc :dataDesc,
+					dataType :dataType});
+				
+		}
+			
+		//新增
+					 $.ajax({
+							url:"/InsertMesData.do",
+							type:"POST",
+							async:true,
+							data:{
+								
+							},
+							success:function(result){
+								
+							},	
+							error:function(result){
+								alert("未知错误联系管理员！");
+							}
+						});	
+			
+	}else{
+		alert("请输入报文分组数!");
+	}
+			
+}
 
 
 
