@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.csrda.adts.dao.TypeDataDao;
+import com.csrda.adts.service.DataTypeServiceImpl;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -26,7 +27,7 @@ public class dataTypeController {
 	TypeDataDao typeDataDao;
 
 	@Autowired
-	private DataSourceTransactionManager transaction;
+	DataTypeServiceImpl dataTypeServiceImpl;
 	
 	@RequestMapping("/dataTypeManager")
 	public String dataTypeManager() {
@@ -59,37 +60,8 @@ public class dataTypeController {
 	
 	@RequestMapping("/addStructData")
 	@ResponseBody
-	@Transactional
 	public String addStructData(String typId,String typName,String typSize,String typDesc,String memList){
-		ObjectMapper mapper = new ObjectMapper();
-		try {
-			List<Map<String, Object>> memData = mapper.readValue(memList, new TypeReference<List<Map<String, Object>>>(){});
-			if(Integer.valueOf(typeDataDao.qryRep(typId).get(0).get("num").toString())>0) {
-				return "TypRep";
-			}
-			Map<String, String> typeData=new HashMap<String, String>();
-			typeData.put("typId", typId);
-			typeData.put("typName", typName);
-			typeData.put("typAttr", "struct");
-			typeData.put("typSize", typSize);
-			typeData.put("typDesc", typDesc);
-			typeDataDao.saveBasicDataType(typeData);
-
-			for (int i = 0; i < memData.size(); i++) {
-				if(Integer.valueOf(typeDataDao.qryStructMemRep(typId, memData.get(i).get("memId").toString()).get(0).get("num").toString())>0) {
-					return "structRep";
-				}
-				memData.get(i).put("memStruct", typId);
-				typeDataDao.addStructMem(memData);
-			}
-			return "1";
-		}
-		catch(Exception e){
-			e.printStackTrace();
-			return "0";
-		}
-
-
+		return dataTypeServiceImpl.addStruct(typId, typName, typSize, typDesc, memList);
 	}
 
 

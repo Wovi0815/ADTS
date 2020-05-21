@@ -24,6 +24,8 @@ public interface TypeDataDao {
 			"	(#{typId}, #{typName}, #{typSize}, #{typAttr}, #{typDesc}, 'admin');")
 	public int saveBasicDataType(Map<String,String> typeData);
 	
+	public int updateBasicDataType(Map<String,String> typeData);
+	
 	@Select("SELECT\r\n" + 
 			"	count( * ) as num\r\n" + 
 			"FROM\r\n" + 
@@ -36,6 +38,24 @@ public interface TypeDataDao {
 			"	( SELECT * FROM `t_struct_member` WHERE mem_struct = #{struct} AND mem_id = #{memId} ) a")
 	public List<Map<String, Object>> qryStructMemRep(String struct,String memId);
 	
-	@Insert("")
-	public int addStructMem(List<Map<String, Object>> memData);
+	@Insert("INSERT INTO `csrda_adts_test`.`t_struct_member` ( `mem_id`, `mem_name`, `mem_type`, `mem_struct`, `mem_no`, `mem_desc`, `mem_phy_dim`, `mem_max`, `mem_min`, `mem_default`, `modify_user` )\r\n" + 
+			"VALUES\r\n" + 
+			"	(\r\n" + 
+			"		#{memId},\r\n" + 
+			"		#{memName},\r\n" + 
+			"		#{memType},\r\n" + 
+			"		#{memStruct},\r\n" + 
+			"		#{memNo},\r\n" + 
+			"		#{memDesc},\r\n" + 
+			"		#{memPhyDim},\r\n" + 
+			"		#{memMax},\r\n" + 
+			"		#{memMin},\r\n" + 
+			"		#{memDefault},\r\n" + 
+			"	'admin' \r\n" + 
+			"	);")
+	public int addStructMem(Map<String, Object> memData);
+	
+	public int delStructMem(String typId);
+	
+	public List<Map<String, Object>> qryStructMem(String typId);
 }

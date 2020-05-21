@@ -66,7 +66,7 @@
                 <td>
                     <div class="input-group">
                         <div class="input-group-btn">
-                            <button type="button" class="btn btn-default">类型标识</button>
+                            <button type="button" class="btn btn-default">结构体标识</button>
                         </div>
                         <!-- /btn-group -->
                         <input id="typId" type="text" class="form-control">
@@ -76,7 +76,7 @@
                 <td>
                     <div class="input-group">
                         <div class="input-group-btn">
-                            <button type="button" class="btn btn-default">类型名称</button>
+                            <button type="button" class="btn btn-default">结构体名称</button>
                         </div>
                         <!-- /btn-group -->
                         <input id="typName" type="text" class="form-control">
@@ -86,7 +86,7 @@
                 <td>
                     <div class="input-group">
                         <div class="input-group-btn">
-                            <button type="button" class="btn btn-default">类型大小</button>
+                            <button type="button" class="btn btn-default">结构体大小</button>
                         </div>
                         <!-- /btn-group -->
                         <input id="typSize" type="text" class="form-control">
@@ -96,7 +96,7 @@
                 <td>
                     <div class="input-group">
                         <div class="input-group-btn">
-                            <button type="button" class="btn btn-default">类型描述</button>
+                            <button type="button" class="btn btn-default">结构体描述</button>
                         </div>
                         <!-- /btn-group -->
                         <input id="typDesc" type="text" class="form-control">
@@ -216,15 +216,6 @@
             var memMin = tdArr.eq(6).text();
             var memDefault = tdArr.eq(7).text();
             var memDesc = tdArr.eq(8).text();
-            // mem.push("memNo", memNo);
-            // mem.set("memId", memId);
-            // mem.set("memName", memName);
-            // mem.set("memType", memType);
-            // mem.set("memPhyDim", memPhyDim);
-            // mem.set("memMax", memMax);
-            // mem.set("memMin", memMin);
-            // mem.set("memDefault", memDefault);
-            // mem.set("memDesc", memDesc);
             memList.push({
                 memNo: memNo,
                 memId: memId,
@@ -250,7 +241,15 @@
             type: "POST",
             async: true,
             success: function(result) {
-
+                if (result == "TypRep") {
+                    alert("该结构体已存在！！！！");
+                } else if (result == "structRep") {
+                    alert("结构体成员存在重复请检查！！！！");
+                } else if (result == "success") {
+                    window.parent.zhu.location.href = "/dataTypeManager";
+                } else if (result == "fault") {
+                    alert("保存失败！出现未知错误！！请联系管理员！！！");
+                }
             },
             error: function() {
                 alert("未知错误！！请联系管理员！！！");
