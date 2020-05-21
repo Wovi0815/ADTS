@@ -1,9 +1,13 @@
 package com.csrda.adts.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Select;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 
 public interface InterfaceService {
 
@@ -105,6 +109,14 @@ public interface InterfaceService {
 	
 	
 	/**
+	 * 新增参数之前判断是否唯一
+	 */
+	Map<String, Object> qryParaIsExit(String paraNo,String paraId,String uniqueInterid);
+	
+	
+	
+	
+	/**
 	 * 新增接口参数
 	 */
 	int InsertInterfacePara(String paraId,String paraName,String paraDesc,
@@ -134,10 +146,7 @@ public interface InterfaceService {
 	 */
 	Map<String,Object> qryParaFillback(String uniqueInterid,String paraNo);
 	
-	/**
-	 * 新增参数之前判断是否唯一
-	 */
-	Map<String, Object> qryParaIsExit(String paraNo,String paraId,String uniqueInterid);
+	
 	
 	/**
 	 *  编辑更新接口
@@ -154,4 +163,12 @@ public interface InterfaceService {
 	 * 单个删除接口参数
 	 */
 	int deleteOnePara(String uniqueInterid,String paraNo);
+	
+	
+	/**
+	 * 新增接口和参数的系列操作
+	 */
+	
+	String addInterfaceAndPara(String interfaceMap,String paraListMap) ;
+	
 }

@@ -1,13 +1,20 @@
 package com.csrda.adts.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import com.csrda.adts.dao.InterfaceDao;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 @Service
 public class InterfaceServiceImpl implements InterfaceService{
 	@Autowired
@@ -166,16 +173,83 @@ public class InterfaceServiceImpl implements InterfaceService{
 		return interfaceDao.deleteOnePara(uniqueInterid, paraNo);
 	}
 
+	@Override
+	@Transactional
+	public String addInterfaceAndPara(String interfaceMap, String paraListMap) {
+		ObjectMapper mapper = new ObjectMapper();   
+		List<Map<String, Object>> iMap;
+		
+			try {
+				iMap = mapper.readValue(interfaceMap, new TypeReference<List<Map<String, Object>>>(){});
+			
+			String interfaceId=iMap.get(0).get("interfaceId").toString();
+			String interfaceName=iMap.get(0).get("interfaceName").toString();
+			String interfaceDesc=iMap.get(0).get("interfaceDesc").toString();
+			String interfaceRemark=iMap.get(0).get("interfaceRemark").toString();
+			String interfaceRetnTyp=iMap.get(0).get("interfaceRetnTyp").toString();
+			String interfaceRetnDesc=iMap.get(0).get("interfaceRetnDesc").toString();
+			String interfaceCls=iMap.get(0).get("interfaceCls").toString();
+			String interfaceParaList=iMap.get(0).get("interfaceParaList").toString();
+			String interfaceParaCount=iMap.get(0).get("interfaceParaCount").toString();
+			Map<String, Object> map = interfaceDao.qryFindUniqueInterface(interfaceId, interfaceParaCount, interfaceParaList);
+			if(map!=null) {
+				System.out.println("!!!!!!!!!!!!Exist");
+				return "Exist";
+			}else {
+				//插入
+				int iresult = interfaceDao.InsertInterface(interfaceId, interfaceName, 
+						interfaceDesc, interfaceRemark, interfaceRetnTyp, interfaceRetnDesc, 
+						interfaceCls, interfaceParaList, interfaceParaCount);
+				if(iresult!=1) {
+					TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+					System.out.println("!!!!!!!!!!!!InsertInterfaceFail");
+					return "InsertInterfaceFail";
+				}
 
-	
-
-	
-	
-
-
-
-
-
+				String id = interfaceDao.qryFindUniqueInterface(interfaceId, interfaceParaCount, interfaceParaList).get("id").toString();
+				List<Map<String, Object>> paraList = mapper.readValue(paraListMap, new TypeReference<List<Map<String, Object>>>(){});
+				for(int i=0;i<paraList.size();i++) {
+					String  paraAttr = paraList.get(i).get("paraAttr").toString();
+					String  paraId = paraList.get(i).get("paraId").toString();
+					String  paraName = paraList.get(i).get("paraName").toString();
+					String  paraType = paraList.get(i).get("paraType").toString();
+					String  paraNo = paraList.get(i).get("paraNo").toString();
+					String  paraDesc = paraList.get(i).get("paraDesc").toString();
+					String  paraPhy = paraList.get(i).get("paraPhy").toString();
+					String  paraMax = paraList.get(i).get("paraMax").toString();
+					String  paraMin = paraList.get(i).get("paraMin").toString();
+					String  paraDefault =  paraList.get(i).get("paraDefault").toString(); 
+					//先查询参数是否重名
+					map = interfaceDao.qryParaIsExit(paraNo, paraId, id);
+							
+					if(map!=null) {//重复
+						TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+						System.out.println("!!!!!!!!!!!!ParaExist");
+						return "ParaExist";
+					}
+					int  presult = interfaceDao.InsertInterfacePara(paraId, paraName, paraDesc, 
+							paraType, paraAttr, paraNo, id, paraPhy, 
+							paraMax, paraMin, paraDefault);
+					if(presult!=1) {
+						TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+						System.out.println("!!!!!!!!!!!!InsertParaFail");
+						return "InsertParaFail";
+					}
+				}
+			}
+			
+		
+		} catch (JsonParseException e) {	
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {	
+			e.printStackTrace();
+		}
+			
+			return "SUCCESS";
+		
+	}
 
 
 }

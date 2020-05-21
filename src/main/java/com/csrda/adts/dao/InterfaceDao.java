@@ -153,6 +153,21 @@ public interface InterfaceDao {
 			String interfaceRemark,String interfaceRetnTyp,String interfaceRetnDesc,
 			String interfaceCls,String interfaceParaList,String interfaceParaCount);
 	
+	
+	
+	/**
+	 * 新增参数之前判断是否唯一
+	 */
+	@Select("SELECT * FROM( " + 
+			"SELECT * FROM t_parameter p " + 
+			"WHERE p.para_interface=#{uniqueInterid} AND p.is_delete='0' ) a " + 
+			"WHERE a.para_eq=#{paraNo} OR a.para_id=#{paraId} ")
+	Map<String, Object> qryParaIsExit(String paraNo,String paraId,String uniqueInterid);
+	
+	
+	
+
+	
 	/**
 	 * 新增接口参数
 	 */
@@ -199,14 +214,7 @@ public interface InterfaceDao {
 	Map<String,Object> qryParaFillback(String uniqueInterid,String paraNo);
 
 	
-	/**
-	 * 新增参数之前判断是否唯一
-	 */
-	@Select("SELECT * FROM( " + 
-			"SELECT * FROM t_parameter p " + 
-			"WHERE p.para_interface=#{uniqueInterid} AND p.is_delete='0' ) a " + 
-			"WHERE a.para_eq=#{paraNo} OR a.para_id=#{paraId} ")
-	Map<String, Object> qryParaIsExit(String paraNo,String paraId,String uniqueInterid);
+	
 	
 	/**
 	 *  修改参数后对接口进行修改

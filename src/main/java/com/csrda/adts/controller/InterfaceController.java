@@ -5,10 +5,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.csrda.adts.service.InterfaceService;
@@ -161,7 +164,7 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 				 String interfaceParaList){
 			Map<String, Object> map = interfaceService.qryFindUniqueInterface(interfaceId,
 					interfaceParaCount,interfaceParaList);
-			System.out.println("!!!!!!!!!!!"+map);
+			
 			return map;
 		
 		}
@@ -184,58 +187,22 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 			return result;
 		
 		}
-		//新增接口 信息
+		//新增接口 
 		@RequestMapping("/InsertInterface.do")		
 		@ResponseBody
-		public String InsertInterface(String interfaceMap) throws JsonParseException, JsonMappingException, IOException {
-		    ObjectMapper mapper = new ObjectMapper();   
-			List<Map<String, Object>> iMap = mapper.readValue(interfaceMap, new TypeReference<List<Map<String, Object>>>(){});
-			String interfaceId=iMap.get(0).get("interfaceId").toString();
-			String interfaceName=iMap.get(0).get("interfaceName").toString();
-			String interfaceDesc=iMap.get(0).get("interfaceDesc").toString();
-			String interfaceRemark=iMap.get(0).get("interfaceRemark").toString();
-			String interfaceRetnTyp=iMap.get(0).get("interfaceRetnTyp").toString();
-			String interfaceRetnDesc=iMap.get(0).get("interfaceRetnDesc").toString();
-			String interfaceCls=iMap.get(0).get("interfaceCls").toString();
-			String interfaceParaList=iMap.get(0).get("interfaceParaList").toString();
-			String interfaceParaCount=iMap.get(0).get("interfaceParaCount").toString();
-			int inresult = interfaceService.InsertInterface(interfaceId, interfaceName, interfaceDesc, 
-					interfaceRemark, interfaceRetnTyp, interfaceRetnDesc, interfaceCls, 
-					interfaceParaList, interfaceParaCount);
-			Map<String, Object> map = interfaceService.qryFindUniqueInterface(interfaceId,
-					interfaceParaCount,interfaceParaList);
-			String id = map.get("id").toString();
-			return id;
+	
+		public String addInterfaceAndPara(String interfaceMap, String paraListMap){
+			 
+			return interfaceService.addInterfaceAndPara(interfaceMap, paraListMap);
 			
 		}
 
-		//新增接口 参数信息
-		@RequestMapping("/InsertInterfaceParas.do")		
-		@ResponseBody
-		int InsertInterfaceParas(String paraListMap,String id) throws JsonParseException, JsonMappingException, IOException{
-			 ObjectMapper mapper = new ObjectMapper();   
-			 List<Map<String, Object>> paraList = mapper.readValue(paraListMap, new TypeReference<List<Map<String, Object>>>(){});
-			 int result =0;
-			 for(int i=0;i<paraList.size();i++) {
-				  String  paraAttr = paraList.get(i).get("paraAttr").toString();
-				  String  paraId = paraList.get(i).get("paraId").toString();
-				  String  paraName = paraList.get(i).get("paraName").toString();
-				  String  paraType = paraList.get(i).get("paraType").toString();
-				  String  paraNo = paraList.get(i).get("paraNo").toString();
-				  String  paraDesc = paraList.get(i).get("paraDesc").toString();
-				  String  paraPhy = paraList.get(i).get("paraPhy").toString();
-				  String  paraMax = paraList.get(i).get("paraMax").toString();
-				  String  paraMin = paraList.get(i).get("paraMin").toString();
-				  String  paraDefault =  paraList.get(i).get("paraDefault").toString();  
-				  
-				  result = interfaceService.InsertInterfacePara(paraId, paraName, paraDesc, 
-							paraType, paraAttr, paraNo, 
-							id, paraPhy, paraMax, paraMin, paraDefault);
-			 }
-			 return result;
-			
-			
-		}
+	
+		
+		
+		
+		
+		
 		
 	//删除接口
 		@RequestMapping("/deleteInterface.do")		

@@ -110,7 +110,7 @@
             
             <div class="modal-footer justify-content-between">
               <button id='closeaddModal' type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-              <button id='saveaddModal' type="button" data-dismiss="modal" class="btn btn-primary" onclick="addSave();">保存</button>
+              <button id='saveaddModal' type="button"  class="btn btn-primary" onclick="addSave();">保存</button>
             </div>
           </div>
         </div>
@@ -582,7 +582,6 @@ function qryInterfaceParaDetail(interfaceId,interfaceParaCount,interfaceParaList
 
 function addSave(){
 	//接口信息
-
 	var iinterfaceId = $("#iinterfaceId").val();
 	var iinterfaceName =$("#iinterfaceName").val();
 	var iinterfaceDesc =$("#iinterfaceDesc").val();
@@ -592,6 +591,12 @@ function addSave(){
 	var iinterfaceCls =$("#iinterfaceCls").val();
 	var iinterfaceParaList =$("#iparalist").val();
 	var iinterfaceParaCount =$("#iparaCount").val();
+	
+	if(iinterfaceId==""||iinterfaceName==""||iinterfaceDesc==""||iinterfaceRetnTyp==""||iinterfaceRetnDesc==""){
+		alert("必填项未填写充分!");
+		return ;
+	}
+
 	if(iinterfaceParaCount != "" ){
 		var interfaceMap = new Array();
 		interfaceMap.push({
@@ -605,113 +610,87 @@ function addSave(){
 			interfaceParaList :iinterfaceParaList,
 			interfaceParaCount :iinterfaceParaCount});
 		
-		//先查有没有重复的
-			$.ajax({
-				url:"/QryInterfaceDetail.do",
-				type:"POST",
-				async:true,
-				data:{
-					"interfaceId":interfaceId,
-					"interfaceParaCount":interfaceParaCount,
-					"interfaceParaList":interfaceParaList
-				},
-				success:function(result){
-					if(result){
-						alert("插入失败，数据已存在！")
-					}else{//插入接口数据;
-						addInterface(interfaceMap);
-					}
-
-				},	
-				error:function(result){
-					alert("未知错误联系管理员！");
-				}
-			});	
-	}else{
-		alert("请输入参数个数！")
-	}
-	
-	
-	
-  
-	}
-//新增接口
-function addInterface(interfaceMap){
-	$.ajax({
-		url:"/InsertInterface.do",
-		type:"POST",
-		async:true,
-		data:{
-			"interfaceMap":JSON.stringify(interfaceMap)
-		},
-		success:function(id){
-			if(id!=""){
-				addInterfacePara(id);}
-			else{
-					alert("新增接口失败！")
-				}
-		},	
-		error:function(result){
-			alert("未知错误联系管理员！");
-		}
-	});	
-	
-}
-
-
-//新增接口参数
-function addInterfacePara(id){
-	var iparaCount=$("#iparaCount").val();
-	var paraListMap = new Array();
-	for(var i=1;i<=iparaCount;i++){
-		var paraAttr =$("#paraAttr"+i).val();
-		var paraId = $("#paraId"+i).val();
-		var paraName = $("#paraName"+i).val();
-		var paraType = $("#paraType"+i).val();
-		var paraNo = $("#paraNo"+i).val();
-		var paraDesc = $("#paraDesc"+i).val();
-		var paraPhy = $("#paraPhy"+i).val();
-		var paraMax = $("#paraMax"+i).val();
-		var paraMin = $("#paraMin"+i).val();
-		var paraDefault = $("#paraDefault"+i).val();
-		paraListMap.push({
-			paraAttr:paraAttr,
-			paraId:paraId,
-			paraName:paraName,
-			paraType:paraType,
-			paraNo:paraNo,
-			paraDesc:paraDesc,
-			paraPhy:paraPhy,
-			paraMax:paraMax,
-			paraMin:paraMin,
-			paraDefault:paraDefault})
+		var paraListMap = new Array();
+		for(var i=1;i<=iinterfaceParaCount;i++){
+			var paraAttr =$("#paraAttr"+i).val();
+			var paraId = $("#paraId"+i).val();
+			var paraName = $("#paraName"+i).val();
+			var paraType = $("#paraType"+i).val();
+			var paraNo = $("#paraNo"+i).val();
+			var paraDesc = $("#paraDesc"+i).val();
+			var paraPhy = $("#paraPhy"+i).val();
+			var paraMax = $("#paraMax"+i).val();
+			var paraMin = $("#paraMin"+i).val();
+			var paraDefault = $("#paraDefault"+i).val();
 			
-	}  
-		 $.ajax({
-				url:"/InsertInterfaceParas.do",
-				type:"POST",
-				async:true,
-				data:{
-					"paraListMap":JSON.stringify(paraListMap),
-					"id":id
-				},
-				success:function(result){
-					//刷新
-					var oldTable = $('#example1').dataTable();
-		   		    oldTable.fnClearTable(); 
-		  		    oldTable.fnDestroy();
-					QryClsInterface();
-					QryInterParaCount();
-					QryInterReturnType();
-					
-				},	
-				error:function(result){
-					alert("未知错误联系管理员！");
+			
+			if(paraAttr==""||paraId==""||paraName==""||paraType==""||paraNo==""||paraDesc==""){
+				alert("接口参数中存在必填项未填写充分!");
+				return ;
+			}
+			
+			
+			
+			paraListMap.push({
+				paraAttr:paraAttr,
+				paraId:paraId,
+				paraName:paraName,
+				paraType:paraType,
+				paraNo:paraNo,
+				paraDesc:paraDesc,
+				paraPhy:paraPhy,
+				paraMax:paraMax,
+				paraMin:paraMin,
+				paraDefault:paraDefault})
+				
+		}
+		//新增
+		$.ajax({
+			url:"/InsertInterface.do",
+			type:"POST",
+			async:true,
+			data:{
+				"interfaceMap":JSON.stringify(interfaceMap),
+				"paraListMap":JSON.stringify(paraListMap)
+				
+			},
+			success:function(result){
+				if(result=="Exist"){
+					alert("接口已存在!重复!");
+				}else if(result=="ParaExist"){
+					alert("接口参数已存在!重复!")
+				}else if(result == "InsertParaFail"){
+					alert("接口参数新增失败!")
+				}else if(result=="SUCCESS"){
+					 $("#modal-add").modal('hide'); 
+					 var oldTable = $('#example1').dataTable();
+			   		    oldTable.fnClearTable(); 
+			  		    oldTable.fnDestroy();
+						QryClsInterface();
+						QryInterParaCount();
+						QryInterReturnType();
 				}
-			});	
-		  
-		  
+					
+			},	
+			error:function(result){
+				alert("未知错误联系管理员！");
+			}
+		});	
+
+	}else{
+		alert("请输入参数个数!");
+	
+	}
+	
 }
+	
+	
+	
+	
+	
+	
+	  
+
 //删除接口
 
 function deleteClick(e){
