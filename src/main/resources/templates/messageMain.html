@@ -481,7 +481,6 @@ function addSave(){
 		return;
 	}
     var imesGroupCount = $("#imesGroupCount").val();
-    debugger;
 	if(imesGroupCount != "" ){
 			var mesMap = new Array();
 			mesMap.push({
@@ -539,7 +538,7 @@ function addSave(){
 							   		    oldTable.fnClearTable(); 
 							  		    oldTable.fnDestroy();
 							  			QryMessage();
-							  			QryModSelect();
+							  			
 								}							
 							},	
 							error:function(result){
@@ -660,7 +659,8 @@ function editMesClick(e){
 			type:"POST",
 			async:true,
 			data:{
-				"mesId":mesId
+				"mesId":mesId,
+				"mesTyp":mesType
 			},
 			success:function(result){
 				$("#emesId").val(result.mes_id);
