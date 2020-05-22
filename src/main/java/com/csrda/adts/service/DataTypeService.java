@@ -54,10 +54,35 @@ public class DataTypeService implements DataTypeServiceImpl {
 		}
 	}
 
+	@Transactional
 	@Override
 	public String updateStruct(String typId, String typName, String typSize, String typDesc, String memList) {
-		// TODO Auto-generated method stub
-		return null;
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			List<Map<String, Object>> memData = mapper.readValue(memList, new TypeReference<List<Map<String, Object>>>(){});
+			Map<String, String> typeData=new HashMap<String, String>();
+			typeData.put("typId", typId);
+			typeData.put("typName", typName);
+			typeData.put("typAttr", "struct");
+			typeData.put("typSize", typSize);
+			typeData.put("typDesc", typDesc);
+			typeDataDao.updateBasicDataType(typeData);
+			typeDataDao.delStructMem(typId);
+			for (int i = 0; i < memData.size(); i++) {
+				if(Integer.valueOf(typeDataDao.qryStructMemRep(typId, memData.get(i).get("memId").toString()).get(0).get("num").toString())>0) {
+					TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+					return "structRep";
+				}
+				memData.get(i).put("memStruct", typId);
+				typeDataDao.addStructMem(memData.get(i));
+			}
+			return "success";
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			return "fault";
+		}
 	}
 	
 	

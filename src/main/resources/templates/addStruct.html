@@ -5,7 +5,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>主页</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <!-- Font Awesome -->
     <link rel="stylesheet" th:href="@{/plugins/fontawesome-free/css/all.min.css}">
     <!-- Ionicons -->
@@ -32,25 +33,25 @@
             position: relative;
             top: 5%;
         }
-        
+
         .ctr button {
             float: left;
             margin-top: 8px;
             margin-left: 5px;
         }
-        
+
         #up {
             width: 20%;
         }
-        
+
         #down {
             width: 20%;
         }
-        
+
         #del {
             width: 50%
         }
-        
+
         #data .input-group {
             width: 90%;
         }
@@ -127,7 +128,7 @@
         </tbody>
         <tfoot>
             <tr>
-                <td id="addRow" style="text-align: center;" colspan="9">
+                <td id="addRow" style="text-align: center;" colspan="10">
                     ➕
                 </td>
             </tr>
@@ -174,13 +175,32 @@
 <script th:src="@{/dist/js/adminlte.js}"></script>
 
 <script>
+    function GetRequest() {
+        var url = location.search; //获取url中"?"符后的字串
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            strs = str.split("&");
+            for (var i = 0; i < strs.length; i++) {
+                theRequest[strs[i].split("=")[0]] = decodeURIComponent(strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
+    }
+    var param = GetRequest();
     var count = 1;
-    var mod = " ";
+    var mod = param['mod'];
+    var typId = param['typId'];
+    console.log("mod:" + mod);
+    console.log("typId:" + typId);
     var structId;
-    $(function() {
-        search();
-    });
+    $(function () {
+        if (mod == "edit") {
+            $("#typId").attr("disabled", "disabled");
+            search();
+        }
 
+    });
     function save() {
         var typId = $("#typId").val();
         var typName = $("#typName").val();
@@ -229,34 +249,62 @@
             });
         }
         console.log(memList);
-        $.ajax({
-            data: {
-                "typId": typId,
-                "typName": typName,
-                "typSize": typSize,
-                "typDesc": typDesc,
-                "memList": JSON.stringify(memList)
-            },
-            url: "/addStructData",
-            type: "POST",
-            async: true,
-            success: function(result) {
-                if (result == "TypRep") {
-                    alert("该结构体已存在！！！！");
-                } else if (result == "structRep") {
-                    alert("结构体成员存在重复请检查！！！！");
-                } else if (result == "success") {
-                    window.parent.zhu.location.href = "/dataTypeManager";
-                } else if (result == "fault") {
-                    alert("保存失败！出现未知错误！！请联系管理员！！！");
+
+        if (mod == "add") {
+            $.ajax({
+                data: {
+                    "typId": typId,
+                    "typName": typName,
+                    "typSize": typSize,
+                    "typDesc": typDesc,
+                    "memList": JSON.stringify(memList)
+                },
+                url: "/addStructData",
+                type: "POST",
+                async: true,
+                success: function (result) {
+                    if (result == "TypRep") {
+                        alert("该结构体已存在！！！！");
+                    } else if (result == "structRep") {
+                        alert("结构体成员存在重复请检查！！！！");
+                    } else if (result == "success") {
+                        window.parent.zhu.location.href = "/dataTypeManager";
+                    } else if (result == "fault") {
+                        alert("保存失败！出现未知错误！！请联系管理员！！！");
+                    }
+                },
+                error: function () {
+                    alert("未知错误！！请联系管理员！！！");
                 }
-            },
-            error: function() {
-                alert("未知错误！！请联系管理员！！！");
-            }
-        });
-
-
+            });
+        } else if (mod == "edit") {
+            $.ajax({
+                data: {
+                    "typId": typId,
+                    "typName": typName,
+                    "typSize": typSize,
+                    "typDesc": typDesc,
+                    "memList": JSON.stringify(memList)
+                },
+                url: "/editStructData",
+                type: "POST",
+                async: true,
+                success: function (result) {
+                    if (result == "TypRep") {
+                        alert("该结构体已存在！！！！");
+                    } else if (result == "structRep") {
+                        alert("结构体成员存在重复请检查！！！！");
+                    } else if (result == "success") {
+                        window.parent.zhu.location.href = "/dataTypeManager";
+                    } else if (result == "fault") {
+                        alert("保存失败！出现未知错误！！请联系管理员！！！");
+                    }
+                },
+                error: function () {
+                    alert("未知错误！！请联系管理员！！！");
+                }
+            });
+        }
 
     }
 
@@ -265,7 +313,41 @@
     }
 
     function search() {
+        $.ajax({
+            data: { "typId": typId },
+            url: "/detailStructMem",
+            type: "POST",
+            async: true,
+            success: function (result) {
+                $("#typId").val(result[0].typId);
+                $("#typName").val(result[0].typName);
+                $("#typSize").val(result[0].typSize);
+                $("#typDesc").val(result[0].typDesc);
+                for (var i = 0; i < result.length; i++) {
+                    $("#structMem").append(
+                        "<tr><td class='order'>" + (i + 1) + "</td>" +
+                        "<td contentEditable='true'>" + result[i].memId + "</td>" +
+                        "<td contentEditable='true'>" + result[i].memName + "</td>" +
+                        "<td contentEditable='true'>" + result[i].memType + "</td>" +
+                        "<td contentEditable='true'>" + result[i].memPhyDim + "</td>" +
+                        "<td contentEditable='true'>" + result[i].memMax + "</td>" +
+                        "<td contentEditable='true'>" + result[i].memMin + "</td>" +
+                        "<td contentEditable='true'>" + result[i].memDefault + "</td>" +
+                        "<td contentEditable='true'>" + result[i].memDesc + "</td>" +
+                        "<td class='ctr'>" +
+                        "<button id='up' class='btn btn-block btn-outline-info btn-sm' onclick='up(this);'>⏫</button>" +
+                        "<button id='down' class='btn btn-block btn-outline-info btn-sm' onclick='down(this);'>⏬</button>" +
+                        "<button id='del' class='btn btn-block btn-outline-info btn-sm' onclick='del(this);'>删除</button>" +
+                        "</td></tr>"
+                    );
+                }
+                refresh();
+            },
+            error: function (result) {
+                alert("未知错误！请联系管理员！！");
+            }
 
+        });
     }
 
     function edit(e) {
@@ -274,20 +356,17 @@
 
     function del(e) {
         $(e).parent().parent().remove();
-
         refresh();
-
     }
 
     function add() {
 
     }
-
     function cancel() {
         window.parent.zhu.location.href = "/dataTypeManager";
     }
 
-    $("#addRow").click(function() {
+    $("#addRow").click(function () {
         $("#structMem").append(
             "<tr><td class='order'>" + "</td>" +
             "<td contentEditable='true'></td>" +
@@ -308,7 +387,6 @@
     });
 
     function up(e) {
-        console.log($(e).parent().parent().prev());
         $(e).parent().parent().prev().before(
             "<tr>" +
             $(e).parent().parent().html() +
@@ -319,8 +397,6 @@
     }
 
     function down(e) {
-
-        console.log($(e).parent().parent().next());
         $(e).parent().parent().next().after(
             "<tr>" +
             $(e).parent().parent().html() +
@@ -337,8 +413,8 @@
         $("#structMem #up").first().hide();
         $("#structMem #down").last().hide();
         var i = 1;
-        $("#structMem").find("tr").each(function() {
-            console.log($(this).children("td:first").text(i));
+        $("#structMem").find("tr").each(function () {
+            $(this).children("td:first").text(i);
             i++;
         });
     }

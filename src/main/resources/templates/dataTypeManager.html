@@ -282,7 +282,7 @@
                             "<td>" + result[i].typAttr + "</td>" +
                             "<td>" + result[i].typDesc + "</td>" +
                             "<td>" +
-                            "<button id='editBtn' type='button' style='margin-left:3%;width: 25%;margin-top:6px;float:left'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick='editStruct(this);'>结构体详情</button> " +
+                            "<button id='editBtn' type='button' style='margin-left:3%;width: 25%;margin-top:6px;float:left'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick='detailStruct(this);'>结构体详情</button> " +
                             "<button id='editBtn' type='button' style='margin-left:3%;width: 20%;margin-top:6px;float:left'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick='editStruct(this);'>修改</button> " +
                             "<button id='deleteBtn' type='button' style='margin-left:3%;width: 20%;margin-top:6px;float:left'class='btn btn-block btn-outline-danger btn-sm'   onclick='delStruct(this);'>删除</button> " +
                             "</td>");
@@ -297,20 +297,70 @@
     }
 
     function edit(e) {
+        $("#modal-add-basic .modal-footer").show();
         var mod = "edit";
+        var typId = $(e).parent().parent().children().eq(0).text();
+        $.ajax({
+            url:"/detailBasicDataType",
+            data:{"typId":typId},
+            type:"POST",
+            async:true,
+            success:function(result){
+                $("#typId").attr("disabled", "disabled");
+                $("#typName").removeAttr("disabled");
+                $("#typSize").removeAttr("disabled");
+                $("#typDesc").removeAttr("disabled");
+                $("#typId").val(result.typId);
+                $("#typDesc").val(result.typDesc);
+                $("#typName").val(result.typName);
+                $("#typSize").val(result.typSize);
+            }
+        });
     }
 
     function del(e) {
-
+        var typId = $(e).parent().parent().children().eq(0).text();
+        $.ajax({
+            url:"/delBasicDataType",
+            data:{"typId":typId},
+            type:"POST",
+            async:true,
+            success:function(result){
+                search();
+                    $('#m-toast-inner-text').text('删除成功');
+                    $('#m-toast-pop').fadeIn();
+                    setTimeout(function() {
+                        $('#m-toast-pop').fadeOut();
+                    }, 200);
+            }
+        });
     }
 
     function add() {
         var mod = "add";
+        $("#typId").removeAttr("disabled");
+        $("#typName").removeAttr("disabled");
+        $("#typSize").removeAttr("disabled");
+        $("#typDesc").removeAttr("disabled");
+        $("#modal-add-basic .modal-footer").show();
         clear();
     }
-
     function addStruct() {
-        window.parent.zhu.location.href = "/addStruct";
+        window.parent.zhu.location.href = "/addStruct?mod=add";
+    }
+    function editStruct(e){
+        var mod = "edit";
+        var typId = $(e).parent().parent().children().eq(0).text();
+        console.log(typId);
+        window.parent.zhu.location.href = "/addStruct?mod=edit&typId="+typId;
+    }
+    function delStruct(){
+        var typId = $(e).parent().parent().children().eq(0).text();
+        console.log(typId);
+    }
+    function detailStruct(e){
+        var typId = $(e).parent().parent().children().eq(0).text();
+        window.parent.zhu.location.href = "/detailStruct?typId="+typId;
     }
 </script>
 
