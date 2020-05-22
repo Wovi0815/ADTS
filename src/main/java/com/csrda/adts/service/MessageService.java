@@ -60,13 +60,18 @@ public interface MessageService {
 	int InsertMes(String mesId,String mesName,String mesDesc,
 			String mesRemark,String mesSource,String mesDestination,
 			String mesID,String mesFunId,String mesTyp);
-
 	
 	/**
 	 * 新增报文数据
 	 */
 	int InsertMesData(String mesId,String dataRange,
 			String dataName,String dataDesc,String dataType);
+	
+	
+	/**
+	 * 新增报文、报文数据的系列操作
+	 */
+	String addMesAndData(String mesMap,String mesDataMap);
 	
    
 }

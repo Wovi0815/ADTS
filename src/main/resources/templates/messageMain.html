@@ -434,7 +434,7 @@ function refreshDataBySelect(source,destination){
 }
 //新增报文
 function  addClick(){
-	var imesGroupCount=$("#imesGroupCount").val();
+	var imesGroupCount;
 	$("#imesGroupCount").val("");
 	$("#addArea").empty();
 	$("#addAreaX input").each(function() {
@@ -445,31 +445,24 @@ function  addClick(){
 	$("#imesGroupCount").change(function(){	
 		imesGroupCount=$("#imesGroupCount").val();
 		$("#addArea").empty();
-		if(imesGroupCount==0 ||imesGroupCount==""){
-			//先不对报文数据进行新增
-			
-			
-		}else{
 			for(var i=1;i<=imesGroupCount;i++){
 				var ibody=" ";
 				ibody += "<div class='input-group' >";
 				ibody += "<input class='form-control' oninput='onlyPositiveNum(this);' placeholder='起始字节'id='mesDataStart"+i+"' >";
-				ibody += "<input style='width:2%;border:none; '  value='至'  disabled='disabled'>";
-				ibody += "<input class='form-control'oninput='onlyPositiveNum(this);' placeholder='终止字节'id='mesDataEnd"+i+"'>";
+				ibody += "<input class='form-control'oninput='onlyPositiveNum(this);' placeholder='字节长度'id='mesDataLength"+i+"'>";
 				ibody += "<input class='form-control' style='margin-left:2%;' placeholder='数据名称'id='mesDataName"+i+"'>";
 				ibody += "<input class='form-control' placeholder='数据描述'id='mesDataDesc"+i+"'>";
 				ibody += "<input class='form-control' placeholder='数据类型'id='mesDataTyp"+i+"'>";
 				ibody += "</div>";
-				$("#addArea").append(ibody);
-			
+				$("#addArea").append(ibody);		
 			}
-		}
-	
+			$("#mesDataStart1").val("1");
 	})
 
 }
 function onlyPositiveNum(e){
 	$(e).val($(e).val().replace(/[^\d]/g,""));
+
 }
 //新增报文系列操作
 function addSave(){
@@ -485,8 +478,10 @@ function addSave(){
 	var imesTyp =$("#imesTyp").val();	
 	if(imesId==""||imesName==""||imesDesc==""||imesSource==""||imesDestination==""||imesID==""||imesFunId==""||imesTyp==""){
 		alert("报文信息必填项未填写充分!");
+		return;
 	}
-	if(imesGroupCount != ""){
+    var imesGroupCount = $("#imesGroupCount").val();
+	if(imesGroupCount != "" ){
 			var mesMap = new Array();
 			mesMap.push({
 				imesId :imesId,
@@ -498,45 +493,53 @@ function addSave(){
 				imesID :imesID,
 				imesFunId :imesFunId,
 				imesTyp :imesTyp});
-
 			var mesDataMap = new Array();
 			for(var i=1;i<=imesGroupCount;i++){
 				var start =$("#mesDataStart"+i).val();
-				var end = $("#mesDataEnd"+i).val();
+				var length = $("#mesDataLength"+i).val();
 				var dataName = $("#mesDataName"+i).val();
 				var dataDesc = $("#mesDataDesc"+i).val();
 				var dataType = $("#mesDataTyp"+i).val();
-				if(start==""||end==""||dataName==""||dataDesc==""||dataType==""){
+				if(start==""||length==""||dataName==""||dataDesc==""||dataType==""){
 						alert("报文数据必填项未填写充分!");
 					 	return;
 				}
-				if(end == start){
-					var dataRange =start;
+				var end = (start-0) + (length-0) - 1 ;
+				if(end==start){
+					var dataRange = start;
 				}else if(end > start){
-					var dataRange = start +"~"+end;
-				}else if(end < start){
-					alert("报文数据的字节范围输入有误!");
-					return;
+					var dataRange = start+"~"+end;
 				}
-
 				mesDataMap.push({
 					dataRange :dataRange,
 					dataName :dataName,
 					dataDesc :dataDesc,
-					dataType :dataType});
-				
-		}
-			
+					dataType :dataType});	
+		}	
 		//新增
 					 $.ajax({
-							url:"/InsertMesData.do",
+							url:"/InsertMes.do",
 							type:"POST",
 							async:true,
 							data:{
-								
+								"mesMap":JSON.stringify(mesMap),
+								"mesDataMap":JSON.stringify(mesDataMap)
 							},
 							success:function(result){
-								
+								if(result=="Exist"){
+									alert("报文已存在!重复!");
+								}else if(result=="InsertMesFail"){
+									alert("新增报文失败!")
+								}else if(result == "DataRangeERROR"){
+									alert("报文数据字节范围有误!!")
+								}else if(result=="SUCCESS"){
+									 $("#modal-add").modal('hide'); 
+									 var oldTable = $('#example1').dataTable();
+							   		    oldTable.fnClearTable(); 
+							  		    oldTable.fnDestroy();
+							  			QryMessage();
+							  			
+								}							
 							},	
 							error:function(result){
 								alert("未知错误联系管理员！");
@@ -548,9 +551,6 @@ function addSave(){
 	}
 			
 }
-
-
-
 //点击报文详情
 function showDetail(e){
 	$("#descArea").empty();
@@ -659,7 +659,8 @@ function editMesClick(e){
 			type:"POST",
 			async:true,
 			data:{
-				"mesId":mesId
+				"mesId":mesId,
+				"mesTyp":mesType
 			},
 			success:function(result){
 				$("#emesId").val(result.mes_id);

@@ -176,12 +176,10 @@ public class InterfaceServiceImpl implements InterfaceService{
 	@Override
 	@Transactional
 	public String addInterfaceAndPara(String interfaceMap, String paraListMap) {
+		try {
 		ObjectMapper mapper = new ObjectMapper();   
 		List<Map<String, Object>> iMap;
-		
-			try {
-				iMap = mapper.readValue(interfaceMap, new TypeReference<List<Map<String, Object>>>(){});
-			
+			iMap = mapper.readValue(interfaceMap, new TypeReference<List<Map<String, Object>>>(){});
 			String interfaceId=iMap.get(0).get("interfaceId").toString();
 			String interfaceName=iMap.get(0).get("interfaceName").toString();
 			String interfaceDesc=iMap.get(0).get("interfaceDesc").toString();

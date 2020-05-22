@@ -117,38 +117,10 @@ public class MessageController {
 	//新增报文
 	@RequestMapping("/InsertMes.do")		
 	@ResponseBody
-	public String InsertMes(String mesMap) throws JsonParseException, JsonMappingException, IOException {
-		ObjectMapper mapper = new ObjectMapper();   
-		List<Map<String, Object>> mMap = mapper.readValue(mesMap, new TypeReference<List<Map<String, Object>>>(){});
-		String mesId=mMap.get(0).get("imesId").toString();
-		String mesName=mMap.get(0).get("imesName").toString();
-		String mesDesc=mMap.get(0).get("imesDesc").toString();
-		String mesRemark=mMap.get(0).get("imesRemark").toString();
-		String mesSource=mMap.get(0).get("imesSource").toString();
-		String mesDestination=mMap.get(0).get("imesDestination").toString();
-		String mesID=mMap.get(0).get("imesID").toString();
-		String mesFunId=mMap.get(0).get("imesFunId").toString();
-		String mesTyp=mMap.get(0).get("imesTyp").toString();
-		int inresult = messageService.InsertMes(mesId, mesName, mesDesc, mesRemark,
-				mesSource, mesDestination, 
-				mesID, mesFunId, mesTyp);
-		Map<String, Object> result = messageService.qryMesDetail(mesId,mesTyp);
-		String id =result.get("mes_id").toString();
-		return id;
-
+	public String addMesAndData(String mesMap,String mesDataMap)  {
+		return messageService.addMesAndData(mesMap, mesDataMap);
 	}
 	
-	//新增报文数据
-	@RequestMapping("/InsertMesData.do")		
-	@ResponseBody
-	public int InsertMesData(String mesId,String dataRange,
-			String dataName,String dataDesc,String dataType) {
-		int result = messageService.InsertMesData(mesId, dataRange, dataName, dataDesc, dataType);
-		return result;
 
-	}
-
-		
-	
 	
 }
