@@ -38,7 +38,7 @@ public interface TypeDataDao {
 			"FROM\r\n" + 
 			"	t_data_type \r\n" + 
 			"WHERE\r\n" + 
-			"	mem_struct = #{typId};")
+			"	typ_id = #{typId};")
 	public int delBasicDataType(String typId);
 	
 	@Select("SELECT\r\n" + 

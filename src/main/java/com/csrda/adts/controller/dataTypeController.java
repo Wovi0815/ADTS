@@ -43,6 +43,10 @@ public class dataTypeController {
 	@RequestMapping("/saveBasicDataType")
 	@ResponseBody
 	public int saveBasicDataType(String typId,String typName,String typAttr,String typSize,String typDesc) {
+		if(Integer.valueOf(typeDataDao.qryRep(typId).get(0).get("num").toString())>0) {
+			//TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			return 0;
+		}
 		Map<String, String> typeData=new HashMap<String, String>();
 		typeData.put("typId", typId);
 		typeData.put("typName", typName);

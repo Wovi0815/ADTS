@@ -2,10 +2,8 @@
 <html lang="en" xmlns="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>主页</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Font Awesome -->
     <link rel="stylesheet" th:href="@{/plugins/fontawesome-free/css/all.min.css}">
     <!-- Ionicons -->
@@ -14,16 +12,15 @@
     <link rel="stylesheet" th:href="@{/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css}">
     <!-- iCheck -->
     <link rel="stylesheet" th:href="@{/plugins/icheck-bootstrap/icheck-bootstrap.min.css}">
-    <!-- JQVMap -->
-    <link rel="stylesheet" th:href="@{/plugins/jqvmap/jqvmap.min.css}">
+    <!-- DataTables -->
+    <link rel="stylesheet" th:href="@{/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css}">
+    <link rel="stylesheet" th:href="@{/plugins/datatables-responsive/css/responsive.bootstrap4.min.css}">
     <!-- Theme style -->
     <link rel="stylesheet" th:href="@{/dist/css/adminlte.min.css}">
     <!-- overlayScrollbars -->
     <link rel="stylesheet" th:href="@{/plugins/overlayScrollbars/css/OverlayScrollbars.min.css}">
-    <!-- Daterange picker -->
-    <link rel="stylesheet" th:href="@{/plugins/daterangepicker/daterangepicker.css}">
-    <!-- summernote -->
-    <link rel="stylesheet" th:href="@{/plugins/summernote/summernote-bs4.css}">
+    <!-- bootstrap-multiselect -->
+    <link rel="stylesheet" th:href="@{/plugins/bootstrap-multiselect/css/bootstrap-multiselect.css}">
     <style>
         #add .input-group {
             float: left;
@@ -77,32 +74,33 @@
                         <span aria-hidden="true">&times;</span></button>
                     <h4 id="title" class="modal-title"></h4>
                 </div>
-
-                <div id="add">
-                    <div class="input-group">
-                        <div class="input-group-btn">
-                            <button type="button" class="btn btn-default">类型标识</button>
+                <div class="modal-body">
+                    <div id="add">
+                        <div class="input-group">
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-default">类型标识</button>
+                            </div>
+                            <!-- /btn-group -->
+                            <input id="typId" type="text" class="form-control">
                         </div>
-                        <!-- /btn-group -->
-                        <input id="typId" type="text" class="form-control">
-                    </div>
-                    <div class="input-group">
-                        <div class="input-group-btn">
-                            <button type="button" class="btn btn-default">类型名称</button>
+                        <div class="input-group">
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-default">类型名称</button>
+                            </div>
+                            <input id="typName" type="text" class="form-control">
                         </div>
-                        <input id="typName" type="text" class="form-control">
-                    </div>
-                    <div class="input-group">
-                        <div class="input-group-btn">
-                            <button type="button" class="btn btn-default">长度</button>
+                        <div class="input-group">
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-default">长度</button>
+                            </div>
+                            <input id="typSize" type="text" class="form-control">
                         </div>
-                        <input id="typSize" type="text" class="form-control">
-                    </div>
-                    <div class="input-group" style="">
-                        <div class="input-group-btn">
-                            <button type="button" class="btn btn-default">类型描述</button>
+                        <div class="input-group" style="">
+                            <div class="input-group-btn">
+                                <button type="button" class="btn btn-default">类型描述</button>
+                            </div>
+                            <input id="typDesc" type="text" class="form-control">
                         </div>
-                        <input id="typDesc" type="text" class="form-control">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -146,8 +144,12 @@
 </body>
 
 <script th:src="@{/plugins/jquery/jquery.js}"></script>
-<script th:src="@{/plugins/bootstrap/js/bootstrap.min.js}"></script>
+<script type="module" th:src="@{/plugins/bootstrap/js/bootstrap.min.js}"></script>
+<script type="module" th:src="@{/plugins/popper/esm/popper.js}"></script>
 <script type="module" th:src="@{/plugins/popper/popper.js}"></script>
+<script th:src="@{/plugins/popper/umd/popper.js}"></script>
+
+
 <!-- jQuery -->
 <script th:src="@{/plugins/jquery/jquery.min.js}"></script>
 <!-- jQuery UI 1.11.4 -->
@@ -157,22 +159,20 @@
     $.widget.bridge('uibutton', $.ui.button)
 </script>
 <!-- Bootstrap 4 -->
-<script th:src="@{/plugins/select2/js/select2.full.min.js}"></script>
 <script th:src="@{/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js}"></script>
 <script th:src="@{/plugins/bootstrap-switch/js/bootstrap-switch.min.js}"></script>
-<script th:src="@{/plugins/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
 <!-- DataTables -->
 <script th:src="@{/plugins/datatables/jquery.dataTables.min.js}"></script>
 <script th:src="@{/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js}"></script>
 <script th:src="@{/plugins/datatables-responsive/js/dataTables.responsive.min.js}"></script>
 <script th:src="@{/plugins/datatables-responsive/js/responsive.bootstrap4.min.js}"></script>
 
-<!-- ChartJS -->
-
 <!-- Sparkline -->
 <script th:src="@{/plugins/chart.js/Chart.min.js}"></script>
 <script th:src="@{/plugins/sparklines/sparkline.js}"></script>
-
+<!-- bootstrap-multiselect -->
+<script th:src="@{/plugins/bootstrap-multiselect/js/bootstrap-multiselect.js}"></script>
 <!-- jQuery Knob Chart -->
 <script th:src="@{/plugins/jquery-knob/jquery.knob.min.js}"></script>
 <!-- overlayScrollbars -->
@@ -205,13 +205,19 @@
                     "typDesc": typDesc
                 },
                 success: function(result) {
+                    if (result == 0) {
+                        alert("该类型已存在！");
+                        return;
+                    }
                     search();
                     $('#m-toast-inner-text').text('保存成功');
                     $('#m-toast-pop').fadeIn();
                     setTimeout(function() {
                         $('#m-toast-pop').fadeOut();
+
                     }, 200);
-                    $("modal-add-basic").modal('hide');
+                    $("#modal-add-basic").modal('hide');
+
                 },
                 error: function() {
                     console.log("保存错误！请联系管理员！！")
@@ -231,12 +237,14 @@
                 },
                 success: function(result) {
                     search();
+                    $("#modal-add-basic").modal('hide');
+
                     $('#m-toast-inner-text').text('保存成功');
                     $('#m-toast-pop').fadeIn();
                     setTimeout(function() {
                         $('#m-toast-pop').fadeOut();
+
                     }, 200);
-                    $("modal-add-basic").modal('hide');
                 },
                 error: function() {
                     console.log("保存错误！请联系管理员！！")
@@ -269,7 +277,7 @@
                             "<td>" + result[i].typAttr + "</td>" +
                             "<td>" + result[i].typDesc + "</td>" +
                             "<td>" +
-                            "<button id='editBtn' type='button' style='margin-left:3%;width: 20%;margin-top:6px;float:left'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick='edit(this);'>修改</button> " +
+                            "<button id='editBtn' type='button' style='margin-left:3%;width: 20%;margin-top:6px;float:left'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-add-basic'onclick='edit(this);'>修改</button> " +
                             "<button id='deleteBtn' type='button' style='margin-left:3%;width: 20%;margin-top:6px;float:left'class='btn btn-block btn-outline-danger btn-sm'   onclick='del(this);'>删除</button> " +
                             "</td>"
                         );
@@ -282,8 +290,8 @@
                             "<td>" + result[i].typAttr + "</td>" +
                             "<td>" + result[i].typDesc + "</td>" +
                             "<td>" +
-                            "<button id='editBtn' type='button' style='margin-left:3%;width: 25%;margin-top:6px;float:left'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick='detailStruct(this);'>结构体详情</button> " +
-                            "<button id='editBtn' type='button' style='margin-left:3%;width: 20%;margin-top:6px;float:left'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick='editStruct(this);'>修改</button> " +
+                            "<button id='editBtn' type='button' style='margin-left:3%;width: 25%;margin-top:6px;float:left'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' onclick='detailStruct(this);'>结构体详情</button> " +
+                            "<button id='editBtn' type='button' style='margin-left:3%;width: 20%;margin-top:6px;float:left'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' onclick='editStruct(this);'>修改</button> " +
                             "<button id='deleteBtn' type='button' style='margin-left:3%;width: 20%;margin-top:6px;float:left'class='btn btn-block btn-outline-danger btn-sm'   onclick='delStruct(this);'>删除</button> " +
                             "</td>");
                     }
@@ -297,23 +305,25 @@
     }
 
     function edit(e) {
-        $("#modal-add-basic .modal-footer").show();
-        var mod = "edit";
+        mod = "edit";
         var typId = $(e).parent().parent().children().eq(0).text();
         $.ajax({
-            url:"/detailBasicDataType",
-            data:{"typId":typId},
-            type:"POST",
-            async:true,
-            success:function(result){
+            url: "/detailBasicDataType",
+            data: {
+                "typId": typId
+            },
+            type: "POST",
+            async: true,
+            success: function(result) {
+                console.log(result[0].typId);
                 $("#typId").attr("disabled", "disabled");
                 $("#typName").removeAttr("disabled");
                 $("#typSize").removeAttr("disabled");
                 $("#typDesc").removeAttr("disabled");
-                $("#typId").val(result.typId);
-                $("#typDesc").val(result.typDesc);
-                $("#typName").val(result.typName);
-                $("#typSize").val(result.typSize);
+                $("#typId").val(result[0].typId);
+                $("#typDesc").val(result[0].typDesc);
+                $("#typName").val(result[0].typName);
+                $("#typSize").val(result[0].typSize);
             }
         });
     }
@@ -321,46 +331,51 @@
     function del(e) {
         var typId = $(e).parent().parent().children().eq(0).text();
         $.ajax({
-            url:"/delBasicDataType",
-            data:{"typId":typId},
-            type:"POST",
-            async:true,
-            success:function(result){
+            url: "/delBasicDataType",
+            data: {
+                "typId": typId
+            },
+            type: "POST",
+            async: true,
+            success: function(result) {
                 search();
-                    $('#m-toast-inner-text').text('删除成功');
-                    $('#m-toast-pop').fadeIn();
-                    setTimeout(function() {
-                        $('#m-toast-pop').fadeOut();
-                    }, 200);
+                $('#m-toast-inner-text').text('删除成功');
+                $('#m-toast-pop').fadeIn();
+                setTimeout(function() {
+                    $('#m-toast-pop').fadeOut();
+                }, 200);
             }
         });
     }
 
     function add() {
-        var mod = "add";
+        mod = "add";
         $("#typId").removeAttr("disabled");
         $("#typName").removeAttr("disabled");
         $("#typSize").removeAttr("disabled");
         $("#typDesc").removeAttr("disabled");
-        $("#modal-add-basic .modal-footer").show();
         clear();
     }
+
     function addStruct() {
         window.parent.zhu.location.href = "/addStruct?mod=add";
     }
-    function editStruct(e){
-        var mod = "edit";
+
+    function editStruct(e) {
+
         var typId = $(e).parent().parent().children().eq(0).text();
         console.log(typId);
-        window.parent.zhu.location.href = "/addStruct?mod=edit&typId="+typId;
+        window.parent.zhu.location.href = "/addStruct?mod=edit&typId=" + typId;
     }
-    function delStruct(){
+
+    function delStruct() {
         var typId = $(e).parent().parent().children().eq(0).text();
         console.log(typId);
     }
-    function detailStruct(e){
+
+    function detailStruct(e) {
         var typId = $(e).parent().parent().children().eq(0).text();
-        window.parent.zhu.location.href = "/detailStruct?typId="+typId;
+        window.parent.zhu.location.href = "/detailStruct?typId=" + typId;
     }
 </script>
 
