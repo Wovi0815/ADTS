@@ -182,10 +182,10 @@ public interface MessageDao {
 	 * 新增报文数据
 	 */
 	@Insert("INSERT INTO t_mes_data "
-			+ "(mes_id,mes_data_range,mes_data_name,mes_data_desc,mes_data_type) "
-			+ "VALUE(#{mesId},#{dataRange},#{dataName},#{dataDesc},#{dataType})"  
+			+ "(mes_id,mes_data_range,mes_data_long,mes_data_name,mes_data_desc,mes_data_type) "
+			+ "VALUE(#{mesId},#{dataRange},#{dataLong},#{dataName},#{dataDesc},#{dataType})"  
 			)
-	int InsertMesData(String mesId,String dataRange,String dataName,
+	int InsertMesData(String mesId,String dataRange,String dataLong,String dataName,
 			String dataDesc,String dataType);
 	
 	

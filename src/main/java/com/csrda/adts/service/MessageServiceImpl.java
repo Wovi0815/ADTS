@@ -92,8 +92,8 @@ public class MessageServiceImpl implements MessageService{
 
 
 	@Override
-	public int InsertMesData(String mesId, String dataRange, String dataName, String dataDesc, String dataType) {
-		return  messageDao.InsertMesData(mesId, dataRange, dataName, dataDesc, dataType);
+	public int InsertMesData(String mesId, String dataRange, String dataLong,String dataName, String dataDesc, String dataType) {
+		return  messageDao.InsertMesData(mesId, dataRange, dataLong,dataName, dataDesc, dataType);
 	}
 
 
@@ -132,6 +132,7 @@ public class MessageServiceImpl implements MessageService{
 			List<Map<String, Object>> dMap = mapper.readValue(mesDataMap, new TypeReference<List<Map<String, Object>>>(){});
 			for(int i=0;i<dMap.size();i++) {
 				String  dataRange = dMap.get(i).get("dataRange").toString();
+				String  dataLong = dMap.get(i).get("length").toString();
 				String  dataName = dMap.get(i).get("dataName").toString();
 				String  dataDesc = dMap.get(i).get("dataDesc").toString();
 				String  dataType = dMap.get(i).get("dataType").toString();
@@ -179,7 +180,7 @@ public class MessageServiceImpl implements MessageService{
 					}
 				}
 				
-				int dresult = messageDao.InsertMesData(mesID, dataRange, dataName,
+				int dresult = messageDao.InsertMesData(mesID, dataRange,dataLong, dataName,
 						dataDesc, dataType);
 				if(dresult!=1) {
 					TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();

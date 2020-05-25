@@ -64,7 +64,7 @@ public interface MessageService {
 	/**
 	 * 新增报文数据
 	 */
-	int InsertMesData(String mesId,String dataRange,
+	int InsertMesData(String mesId,String dataRange,String dataLong,
 			String dataName,String dataDesc,String dataType);
 	
 	
