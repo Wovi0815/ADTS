@@ -132,19 +132,17 @@ public class MessageServiceImpl implements MessageService{
 			List<Map<String, Object>> dMap = mapper.readValue(mesDataMap, new TypeReference<List<Map<String, Object>>>(){});
 			for(int i=0;i<dMap.size();i++) {
 				String  dataRange = dMap.get(i).get("dataRange").toString();
-				String  dataLong = dMap.get(i).get("length").toString();
+				String  dataLong = dMap.get(i).get("dataLong").toString();
 				String  dataName = dMap.get(i).get("dataName").toString();
 				String  dataDesc = dMap.get(i).get("dataDesc").toString();
 				String  dataType = dMap.get(i).get("dataType").toString();
 				//查询数据范围是否合规
 				List<Map<String, Object>> list = messageDao.qryMesDataDetail(mId);
-				System.out.println("!!!!!!!!!!!"+list);
 				for(int j=0;j<list.size();j++) {
 					String dtRange = list.get(i-1).get("mes_data_range").toString();
-					System.out.println("!!"+dtRange);
 					String[]  lastlist= dtRange.split("~");
 					String[]  nowlist= dataRange.split("~");
-					if(lastlist.length!=0 && nowlist.length!=0) {
+					if(lastlist.length!=1 && nowlist.length!=1) {
 						int a =Integer.valueOf(lastlist[1]);
 						int b =Integer.valueOf(nowlist[0]);
 						if(a>=b) {
@@ -153,7 +151,7 @@ public class MessageServiceImpl implements MessageService{
 							return "DataRangeERROR";
 						}
 						
-					}else if(lastlist.length!=0 && nowlist.length==0) {
+					}else if(lastlist.length!=1 && nowlist.length==1) {
 						int a =Integer.valueOf(lastlist[1]);
 						int b =Integer.valueOf(dataRange);
 						if(a>=b) {
@@ -161,7 +159,7 @@ public class MessageServiceImpl implements MessageService{
 							TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 							return "DataRangeERROR";
 						}
-					}else if(lastlist.length==0 && nowlist.length!=0) {
+					}else if(lastlist.length==1 && nowlist.length!=1) {
 						int a =Integer.valueOf(dtRange);
 						int b =Integer.valueOf(nowlist[0]);
 						if(a>=b) {
@@ -169,7 +167,7 @@ public class MessageServiceImpl implements MessageService{
 							TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 							return "DataRangeERROR";
 						}
-					}else if(lastlist.length==0 && nowlist.length==0) {
+					}else if(lastlist.length==1 && nowlist.length==1) {
 						int a =Integer.valueOf(dtRange);
 						int b =Integer.valueOf(dataRange);
 						if(a>=b) {
@@ -200,6 +198,20 @@ public class MessageServiceImpl implements MessageService{
 			e.printStackTrace();
 		}
 		return "SUCCESS";
+	}
+
+
+	@Override
+	public int deleteMes(String mesId, String mesTyp) {
+	
+		return 0;
+	}
+
+
+	@Override
+	public int deleteMesData(String mesId) {
+		
+		return 0;
 	}
 
 

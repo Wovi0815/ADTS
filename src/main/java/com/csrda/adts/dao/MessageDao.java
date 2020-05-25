@@ -189,7 +189,17 @@ public interface MessageDao {
 			String dataDesc,String dataType);
 	
 	
+	/**
+	 * 删除报文
+	 */
+	@Update("UPDATE t_message m SET m.is_delete ='1' WHERE m.mes_id = #{mesId} AND m.mes_type = #{mesTyp}")
+	int deleteMes(String mesId,String mesTyp);
 	
+	/**
+	 * 删除报文的数据
+	 */
+	@Update("UPDATE t_mes_data d SET d.is_delete ='1' WHERE d.mes_id = #{mesId}")
+	int deleteMesData(String mesId);
 	
 	 
 }

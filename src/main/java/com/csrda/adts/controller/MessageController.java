@@ -121,6 +121,23 @@ public class MessageController {
 		return messageService.addMesAndData(mesMap, mesDataMap);
 	}
 	
+	
+	//删除接口
+	@RequestMapping("/deleteMes.do")		
+	@ResponseBody
+	int deleteInterface(String mesId,String mesTyp){
+		int delresult = messageService.deleteMes(mesId,mesTyp);
+		return delresult;	
+	}
+
+
+	//删除接口参数
+	@RequestMapping("/deleteMesData.do")		
+	@ResponseBody
+	int deleteInterfacePara(String mesId){
+		int result = messageService.deleteMesData(mesId);
+		return result;		
+	}
 
 	
 }

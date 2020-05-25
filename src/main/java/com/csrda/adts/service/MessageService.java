@@ -73,5 +73,16 @@ public interface MessageService {
 	 */
 	String addMesAndData(String mesMap,String mesDataMap);
 	
+	/**
+	 * 删除报文
+	 */
+	int deleteMes(String mesId, String mesTyp);
+	
+	
+	/**
+	 * 删除报文数据
+	 */
+	int deleteMesData(String mesId);
+	
    
 }

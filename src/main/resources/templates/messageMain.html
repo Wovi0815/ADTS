@@ -512,7 +512,7 @@ function addSave(){
 				}
 				mesDataMap.push({
 					dataRange :dataRange,
-					dataLong ：length,
+					dataLong :length,
 					dataName :dataName,
 					dataDesc :dataDesc,
 					dataType :dataType});	
@@ -781,6 +781,55 @@ function editMesSave(){
 
 }
 
+
+//删除接口
+
+function deleteClick(e){
+	var mesId=$(e).parent().parent().find("td").eq(0).text();
+	
+	$.ajax({
+		url:"/deleteMes.do",
+		type:"POST",
+		async:true,
+		data:{
+			"mesId":mesId,
+			"mesTyp":mesType
+			
+		},
+		success:function(result){
+			
+			if(result.id!=""){
+				deleteMesData(mesId);
+			}else{
+				alert("报文删除失败！")
+			}
+			
+		},	
+		error:function(result){
+			alert("未知错误联系管理员！");
+		}
+	});	
+
+}
+
+function deleteMesData(mesId){
+	$.ajax({
+		url:"/deleteMesData.do",
+		type:"POST",
+		async:true,
+		data:{
+			"mesId":mesId
+		},
+		success:function(result){
+			
+			
+		},	
+		error:function(result){
+			alert("未知错误联系管理员！");
+		}
+	});	
+
+}
 
 
 </script>    
