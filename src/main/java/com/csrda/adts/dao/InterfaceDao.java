@@ -162,7 +162,7 @@ public interface InterfaceDao {
 			"SELECT * FROM t_parameter p " + 
 			"WHERE p.para_interface=#{uniqueInterid} AND p.is_delete='0' ) a " + 
 			"WHERE a.para_eq=#{paraNo} OR a.para_id=#{paraId} ")
-	Map<String, Object> qryParaIsExit(String paraNo,String paraId,String uniqueInterid);
+	Map<String, Object> qryParaIsExist(String paraNo,String paraId,String uniqueInterid);
 	
 	
 	

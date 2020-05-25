@@ -111,7 +111,7 @@ public interface InterfaceService {
 	/**
 	 * 新增参数之前判断是否唯一
 	 */
-	Map<String, Object> qryParaIsExit(String paraNo,String paraId,String uniqueInterid);
+	Map<String, Object> qryParaIsExist(String paraNo,String paraId,String uniqueInterid);
 	
 	
 	

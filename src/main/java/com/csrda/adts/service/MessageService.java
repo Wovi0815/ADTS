@@ -84,5 +84,10 @@ public interface MessageService {
 	 */
 	int deleteMesData(String mesId);
 	
+	/**
+	 * 报文数据回填
+	 */
+	Map<String, Object> QryDataFillback(String dataName,String mesId);
+	
    
 }

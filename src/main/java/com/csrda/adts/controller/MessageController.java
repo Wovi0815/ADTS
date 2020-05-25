@@ -139,5 +139,44 @@ public class MessageController {
 		return result;		
 	}
 
+	//跳转到报文的数据页面
+	@RequestMapping("/dataForMes")
+	public String toMesData() {
+		return "dataForMes";
+	}
+	
+	//报文数据回填
+	@ResponseBody
+	@RequestMapping("/QryDataFillback.do")
+	public Map<String, Object> QryDataFillback(String dataName,String mesId){
+		Map<String, Object> result = messageService.QryDataFillback(dataName,mesId);
+		return result;
+	}
+	
+	//新增之前查询报文数据是否重复
+	@ResponseBody
+	@RequestMapping("/QryDataIsExist.do")
+	public Map<String, Object> QryDataIsExist(String mesId){
+		List<Map<String, Object>> result = messageService.(mesId);
+		for(int i=0;i<result.size();i++) {
+			String dataRange = result.get(i).get("mes_data_range").toString();
+			String[]  list= dataRange.split("~");
+			if(list.length ==1) {
+				int a =Integer.valueOf(dataStart);
+				int b =Integer.valueOf(list[0]);
+
+
+
+
+
+			}else if(list.length ==2) {
+				String start = list[0];
+				String end = list[1];
+			}
+		}
+
+
+		return null;
+	}
 	
 }

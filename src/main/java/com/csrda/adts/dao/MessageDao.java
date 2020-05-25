@@ -145,7 +145,7 @@ public interface MessageDao {
 	  */
 
 	 @Select("SELECT " + 
-		 		"id, mes_id ,mes_data_range ,mes_data_name ,"+ 
+		 		"id, mes_id ,mes_data_range, mes_data_long,mes_data_name ,"+ 
 		 		"mes_data_desc ,mes_data_type " + 
 		 		"FROM t_mes_data " + 
 		 		"WHERE	mes_id = #{mesId} AND is_delete ='0' ")
@@ -200,6 +200,16 @@ public interface MessageDao {
 	 */
 	@Update("UPDATE t_mes_data d SET d.is_delete ='1' WHERE d.mes_id = #{mesId}")
 	int deleteMesData(String mesId);
+	
+	/**
+	 * 报文数据的回填
+	 */
+	 @Select("SELECT " + 
+		 		"id, mes_id ,mes_data_range, mes_data_long,mes_data_name ,"+ 
+		 		"mes_data_desc ,mes_data_type " + 
+		 		"FROM t_mes_data " + 
+		 		"WHERE	mes_data_name = #{dataName} AND mes_id = #{mesId} AND is_delete ='0' ")
+	Map<String, Object> QryDataFillback(String dataName,String mesId);
 	
 	 
 }

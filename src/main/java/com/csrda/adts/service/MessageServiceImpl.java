@@ -203,15 +203,20 @@ public class MessageServiceImpl implements MessageService{
 
 	@Override
 	public int deleteMes(String mesId, String mesTyp) {
-	
-		return 0;
+		return messageDao.deleteMes(mesId, mesTyp);
 	}
 
 
 	@Override
 	public int deleteMesData(String mesId) {
+		return messageDao.deleteMesData(mesId);
+	}
+
+
+	@Override
+	public Map<String, Object> QryDataFillback(String dataName,String mesId) {
 		
-		return 0;
+		return messageDao.QryDataFillback(dataName,mesId);
 	}
 
 

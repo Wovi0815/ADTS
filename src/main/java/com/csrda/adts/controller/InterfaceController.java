@@ -266,10 +266,10 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 		}
 	  	
 	//新增参数之前判断是否唯一
-		@RequestMapping("/QryParaIsExit.do")		
+		@RequestMapping("/QryParaIsExist.do")		
 		@ResponseBody
-		Map<String, Object> qryParaIsExit(String paraNo,String paraId,String uniqueInterid){
-			Map<String, Object> result = interfaceService.qryParaIsExit(paraNo, paraId, uniqueInterid);
+		Map<String, Object> qryParaIsExist(String paraNo,String paraId,String uniqueInterid){
+			Map<String, Object> result = interfaceService.qryParaIsExist(paraNo, paraId, uniqueInterid);
 			return result;
 		}
 	
