@@ -308,7 +308,7 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 	}
 		
 		
-	//参数页面新增参数 
+	//参数页面修改参数 
 		@RequestMapping("/UpdateParaData.do")		
 		@ResponseBody
 		public int UpdateParaData(String paraMap) throws JsonParseException, JsonMappingException, IOException {

@@ -197,6 +197,7 @@ function QryDataMes(){//查接口下属参数
 //新增     ###模态框内容####
 function addClick(){
 	clickKey="add";
+	$("#idataname").removeAttr("readonly");
 	$("#idatastart").val("");
 	$("#idatalong").val("");
 	$("#idataname").val("");
@@ -209,6 +210,7 @@ function addClick(){
 //编辑     ###模态框内容####
 function editClick(e){	
 	clickKey="edit";
+	  $("#idataname").attr("readonly","readonly");
 	    var dataName=$(e).parent().parent().find("td").eq(2).text();
 	    $.ajax({
 			url:"/QryDataFillback.do",
@@ -222,7 +224,6 @@ function editClick(e){
 				var dataRange = result.mes_data_range;
 				var s = dataRange.split("~");
 				var start = s[0];
-				alert(start);
 				$("#idatastart").val(start);
 				$("#idatalong").val(result.mes_data_long);
 				$("#idataname").val(result.mes_data_name);
@@ -244,10 +245,18 @@ function save(){
 	var dataDesc=$("#idatadesc").val();
 	var dataTyp=$("#idataTyp").val();
 	var mesId=$("#imesId").val();
-
+	var dataEnd = (dataStart-0) + (dataLong-0) - 1 ;
+	if(dataEnd==dataStart){
+		var dataRange = dataStart;
+	}else if(dataEnd > dataStart){
+		var dataRange = dataStart+"~"+dataEnd;
+	}
+	
+	
 	var dataMap = new Array();
 	dataMap.push({
 		dataStart :dataStart,
+		dataRange:dataRange,
 		dataLong :dataLong,
 		dataName :dataName,
 		dataDesc :dataDesc,
@@ -261,72 +270,51 @@ function save(){
 }
 
 function changeDataByKey(dataMap) {
-	if(clickKey=="add"){
-		//新增之前先进行验证是否唯一   
+		//保存之前先进行验证是否唯一   
 		 $.ajax({
 				url:"/QryDataIsExist.do",
 				type:"POST",
 				async:true,
 				data:{
-					"mesId":mesId
+					"dataMap":JSON.stringify(dataMap)
 				},
 				success:function(result){
-					if(result.para_id){	
-						alert("参数标识或次序已存在!请检查!");
-					}else{
-						InsertData(paraMap);//插入
-					}
+					if(result=="dataRangeExist"){
+						alert("字节范围填写有误!");
+					}else if(result == "dataNameExist"){
+						alert("数据名称已存在!重复!");
+					}else if(result == "SUCCESS"){
+						if(clickKey=="add"){
+						InsertData(dataMap);
+					  }else if(clickKey=="edit"){  
+						  UpdateData(dataMap);
+					 }
+				  }
 				},
 				error:function(result){
 					alert("未知错误联系管理员！");
 				}
 			}); 
-	}else if(clickKey=="edit"){
-		//修改之前检查是否唯一
-		var nowparaNo =paraMap[0].modalParaNo;
-		 $.ajax({
-				url:"/QryParaIsExit.do",
-				type:"POST",
-				async:true,
-				data:{
-					"paraNo":nowparaNo,
-					"paraId":paraId,
-					"uniqueInterid":uniqueInterid
-				},
-				success:function(result){
-					if((result.para_eq)&&(nowparaNo!=oldParaNo)){	
-						alert("参数次序已存在!请检查!");
-					}else{
-						UpdateData(paraMap);
-					}
-				},
-				error:function(result){
-					alert("未知错误联系管理员！");
-				}
-			}); 
-		
-	}
-
 }	
 //新增数据
-function InsertData(paraMap){
+function InsertData(dataMap){
 	$.ajax({
-		url:"/InsertParaData.do",
+		url:"/InsertMesData.do",
 		type:"POST",
 		async:true,
 		data:{
-			"paraMap":JSON.stringify(paraMap)
+			"dataMap":JSON.stringify(dataMap)
 		},
 		success:function(result){
-		if(result>0){
+		if(result==1){
+			$("#modal-default").modal('hide'); 
 			var oldTable = $('#example1').dataTable();
    		    oldTable.fnClearTable(); 
   		    oldTable.fnDestroy();
-  			QryParaInterface();
-  		  	//修改接口表中的参数列表以及参数个数
-  		  	updateinfo();
+  			QryDataMes();
+  			
 		}else{
-			alert("新增参数失败!");
+			alert("新增报文数据失败!");
 		} 
 	},
 		error:function(result){
@@ -339,21 +327,24 @@ function InsertData(paraMap){
 
 
 //编辑数据
-function UpdateData(paraMap){
+function UpdateData(dataMap){
 	$.ajax({
-		url:"/UpdateParaData.do",
+		url:"/UpdateMesData.do",
 		type:"POST",
 		async:true,
 		data:{
-			"paraMap":JSON.stringify(paraMap)
+			"dataMap":JSON.stringify(dataMap)
 		},
 		success:function(result){
-			if(result>0){
+			if(result==1){
+				$("#modal-default").modal('hide'); 
 				var oldTable = $('#example1').dataTable();
 	   		    oldTable.fnClearTable(); 
 	  		    oldTable.fnDestroy();
-	  		  	QryParaInterface();
-	  			updateinfo();
+	  			QryDataMes();
+	  		  	
+			}else{
+				alert("报文数据修改失败!");
 			}
 	
 		},
@@ -366,24 +357,24 @@ function UpdateData(paraMap){
 
 //单个删除数据
 function deleteClick(e){
-	var paraNo=$(e).parent().parent().find("td").eq(3).text();
+	var dataName=$(e).parent().parent().find("td").eq(2).text();
 	$.ajax({
-		url:"/deleteOnePara.do",
+		url:"/deleteOneData.do",
 		type:"POST",
 		async:true,
 		data:{
-			"uniqueInterid":uniqueInterid,
-			"paraNo":paraNo
+			"dataName":dataName,
+			"mesId":mesId
 		},
 		success:function(result){
-			if(result>0){
+			if(result==1){
 				var oldTable = $('#example1').dataTable();
 	   		    oldTable.fnClearTable(); 
 	  		    oldTable.fnDestroy();
-	  		  	QryParaInterface();
-	  			updateinfo();
+	  			QryDataMes();
+	  		
 			}else{
-				alert("参数删除失败!")
+				alert("报文数据删除失败!")
 			}
 		},	
 		error:function(result){

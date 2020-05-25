@@ -212,4 +212,22 @@ public interface MessageDao {
 	Map<String, Object> QryDataFillback(String dataName,String mesId);
 	
 	 
+
+	 /**
+	  * 修改报文数据
+	  */
+	 @Update("UPDATE  t_mes_data d  SET "
+			 + "d.mes_data_range=#{dataRange},d.mes_data_long=#{dataLong},"
+			 + "d.mes_data_desc =#{dataDesc},d.mes_data_type=#{dataTyp} "
+			 + "WHERE d.mes_data_name=#{dataName} AND d.mes_id=#{mesId}")
+
+	 int UpdateMesData(String mesId, String dataRange, String dataLong, 
+			 String dataName, String dataDesc, String dataTyp);
+	 
+	 /**
+	  * 单个删除报文数据
+	  */
+	 @Update("UPDATE t_mes_data d SET d.is_delete ='1'WHERE d.mes_data_name=#{dataName} AND d.mes_id=#{mesId}")
+	 int deleteOneData(String mesId, String dataName);
+
 }

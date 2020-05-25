@@ -156,27 +156,99 @@ public class MessageController {
 	//新增之前查询报文数据是否重复
 	@ResponseBody
 	@RequestMapping("/QryDataIsExist.do")
-	public Map<String, Object> QryDataIsExist(String mesId){
-		List<Map<String, Object>> result = messageService.(mesId);
+	public String QryDataIsExist(String dataMap)throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper mapper = new ObjectMapper();   
+		List<Map<String, Object>> map = mapper.readValue(dataMap, new TypeReference<List<Map<String, Object>>>(){});
+		String  mesId = map.get(0).get("mesId").toString();
+		String  dataStart = map.get(0).get("dataStart").toString();
+		String  dataLong = map.get(0).get("dataLong").toString();
+		String  dataName = map.get(0).get("dataName").toString();
+		List<Map<String, Object>> result = messageService.qryMesDataDetail(mesId);
 		for(int i=0;i<result.size();i++) {
 			String dataRange = result.get(i).get("mes_data_range").toString();
+			String dataname = result.get(i).get("mes_data_name").toString();
 			String[]  list= dataRange.split("~");
 			if(list.length ==1) {
 				int a =Integer.valueOf(dataStart);
 				int b =Integer.valueOf(list[0]);
-
-
-
-
-
+				int c =Integer.valueOf(dataLong) + a - 1;
+				if(a==b) {
+					return "dataRangeExist";
+				}
+				if(c==b) {
+					return "dataRangeExist";
+				}
 			}else if(list.length ==2) {
-				String start = list[0];
-				String end = list[1];
+				int start = Integer.valueOf(list[0]);
+				int end = Integer.valueOf(list[1]);
+				int a =Integer.valueOf(dataStart);
+				int b =Integer.valueOf(dataLong) + a - 1;
+				if(a>start && a<= end) {
+					return "dataRangeExist";
+				}
+				if(b>=start && b<= end && i+1!=result.size()) {
+					return "dataRangeExist";
+				}
 			}
+			if(dataName==dataname) {
+				return "dataNameExist";
+			}
+			
 		}
 
 
-		return null;
+		return "SUCCESS";
 	}
+		
+	//数据页面新增数据
+	@RequestMapping("/InsertMesData.do")		
+	@ResponseBody
+	public int InsertMesData(String dataMap) throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper mapper = new ObjectMapper();   
+		int result =0;
+		List<Map<String, Object>> map = mapper.readValue(dataMap, new TypeReference<List<Map<String, Object>>>(){});
+			String  dataRange = map.get(0).get("dataRange").toString();
+			String  dataLong = map.get(0).get("dataLong").toString();
+			String  dataName = map.get(0).get("dataName").toString();
+			String  dataDesc = map.get(0).get("dataDesc").toString();
+			String  dataTyp = map.get(0).get("dataTyp").toString();
+			String  mesId = map.get(0).get("mesId").toString();
+		    result = messageService.InsertMesData(mesId, dataRange, dataLong, dataName, dataDesc, dataTyp);
+		    return result;	
+		}
+
+	
+	//数据页面新增数据
+	@RequestMapping("/UpdateMesData.do")		
+	@ResponseBody
+	public int UpdateMesData(String dataMap) throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper mapper = new ObjectMapper();   
+		int result =0;
+		List<Map<String, Object>> map = mapper.readValue(dataMap, new TypeReference<List<Map<String, Object>>>(){});
+		String  dataRange = map.get(0).get("dataRange").toString();
+		String  dataLong = map.get(0).get("dataLong").toString();
+		String  dataName = map.get(0).get("dataName").toString();
+		String  dataDesc = map.get(0).get("dataDesc").toString();
+		String  dataTyp = map.get(0).get("dataTyp").toString();
+		String  mesId = map.get(0).get("mesId").toString();
+		result = messageService.UpdateMesData(mesId, dataRange, dataLong, dataName, dataDesc, dataTyp);
+		return result;	
+		}	
+	
+	
+	//单个删除接口参数
+	@RequestMapping("/deleteOneData.do")
+	@ResponseBody
+	  int deleteOnePara(String dataName,String mesId){
+			int result = messageService.deleteOneData(mesId,dataName);
+	  return result;		
+	}
+			
+	
+	
+	
+	
+	
+	
 	
 }

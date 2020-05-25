@@ -215,8 +215,20 @@ public class MessageServiceImpl implements MessageService{
 
 	@Override
 	public Map<String, Object> QryDataFillback(String dataName,String mesId) {
-		
 		return messageDao.QryDataFillback(dataName,mesId);
+	}
+
+
+	@Override
+	public int UpdateMesData(String mesId, String dataRange, String dataLong, 
+			String dataName, String dataDesc,String dataTyp) {
+		return messageDao.UpdateMesData(mesId, dataRange, dataLong, dataName, dataDesc, dataTyp);
+	}
+
+
+	@Override
+	public int deleteOneData(String mesId, String dataName) {
+		return messageDao.deleteOneData(mesId, dataName);
 	}
 
 
