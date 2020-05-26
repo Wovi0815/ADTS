@@ -211,6 +211,24 @@ public interface MessageDao {
 		 		"WHERE	mes_data_name = #{dataName} AND mes_id = #{mesId} AND is_delete ='0' ")
 	Map<String, Object> QryDataFillback(String dataName,String mesId);
 	
+	 /**
+	  * 编辑保存之前判断唯一，需查知有什么（新增复用qryMesDataDetail）
+	  */
+	 
+	 
+	 @Select("SELECT " + 
+		 		"id, mes_id ,mes_data_range, mes_data_long,mes_data_name ,"+ 
+		 		"mes_data_desc ,mes_data_type " + 
+		 		"FROM t_mes_data " + 
+		 		"WHERE	mes_data_name != #{dataName} AND mes_id = #{mesId} AND is_delete ='0' ")
+	 
+	  List<Map<String, Object>> qryUpdateMesdataIsExist(String mesId,String dataName);
+	 
+	 
+	 
+	 
+	 
+	 
 	 
 
 	 /**

@@ -232,6 +232,13 @@ public class MessageServiceImpl implements MessageService{
 	}
 
 
+	@Override
+	public List<Map<String, Object>> qryUpdateMesdataIsExist(String mesId, String dataName) {
+		
+		return messageDao.qryUpdateMesdataIsExist(mesId, dataName);
+	}
+
+
 	
 
 

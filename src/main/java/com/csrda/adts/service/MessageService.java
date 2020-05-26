@@ -89,6 +89,13 @@ public interface MessageService {
 	 */
 	Map<String, Object> QryDataFillback(String dataName,String mesId);
 	
+	
+	
+	/**
+	 * 编辑保存之前判断唯一，需查知有什么（新增复用qryMesDataDetail）
+	 */
+	List<Map<String, Object>> qryUpdateMesdataIsExist(String mesId,String dataName);
+	
     /**
      * 更新报文数据
      */

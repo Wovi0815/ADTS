@@ -164,7 +164,12 @@ public class MessageController {
 		String  dataStart = map.get(0).get("dataStart").toString();
 		String  dataLong = map.get(0).get("dataLong").toString();
 		String  dataName = map.get(0).get("dataName").toString();
-		List<Map<String, Object>> result = messageService.qryMesDataDetail(mesId);
+		List<Map<String, Object>> result = null ;
+		if(clickKey.equals("add")) {//新增
+			 result = messageService.qryMesDataDetail(mesId);
+		}else if(clickKey.equals("edit")) {//编辑
+			 result = messageService.qryUpdateMesdataIsExist(mesId,dataName);
+		}
 		for(int i=0;i<result.size();i++) {
 			String dataRange = result.get(i).get("mes_data_range").toString();
 			String dataname = result.get(i).get("mes_data_name").toString();
@@ -172,35 +177,34 @@ public class MessageController {
 			if(list.length ==1) {
 				int a =Integer.valueOf(dataStart);
 				int b =Integer.valueOf(list[0]);
-				int c =Integer.valueOf(dataLong) + a - 1;
-				if(a==b) {
-					return "dataRangeExist";
-				}
-				if(c==b&&clickKey=="add") {
-					return "dataRangeExist";
-				}
+				int c =Integer.valueOf(dataLong) + a - 1;	
+				for(int j=a;j<=c;j++) {
+					if(j==b) {
+						return "dataRangeExist";
+					}
+				}	
 			}else if(list.length ==2) {
 				int start = Integer.valueOf(list[0]);
 				int end = Integer.valueOf(list[1]);
 				int a =Integer.valueOf(dataStart);
 				int b =Integer.valueOf(dataLong) + a - 1;
-				if(a>start && a<= end) {
-					return "dataRangeExist";
-				}
-				if(b>=start && b<= end && i+1!=result.size()&&clickKey=="add") {
-					return "dataRangeExist";
-				}
+					for(int j=a;j<=b;j++) {
+						if(j>=start && j<=end) {
+							return "dataRangeExist";
+						}
+				}	
 			}
+
 			if(dataName==dataname) {
 				return "dataNameExist";
 			}
 			
 		}
-
-
 		return "SUCCESS";
 	}
 		
+	
+	
 	//数据页面新增数据
 	@RequestMapping("/InsertMesData.do")		
 	@ResponseBody
