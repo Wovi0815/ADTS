@@ -159,6 +159,7 @@ public class MessageController {
 	public String QryDataIsExist(String dataMap)throws JsonParseException, JsonMappingException, IOException {
 		ObjectMapper mapper = new ObjectMapper();   
 		List<Map<String, Object>> map = mapper.readValue(dataMap, new TypeReference<List<Map<String, Object>>>(){});
+		String clickKey =map.get(0).get("clickKey").toString();
 		String  mesId = map.get(0).get("mesId").toString();
 		String  dataStart = map.get(0).get("dataStart").toString();
 		String  dataLong = map.get(0).get("dataLong").toString();
@@ -175,7 +176,7 @@ public class MessageController {
 				if(a==b) {
 					return "dataRangeExist";
 				}
-				if(c==b) {
+				if(c==b&&clickKey=="add") {
 					return "dataRangeExist";
 				}
 			}else if(list.length ==2) {
@@ -186,7 +187,7 @@ public class MessageController {
 				if(a>start && a<= end) {
 					return "dataRangeExist";
 				}
-				if(b>=start && b<= end && i+1!=result.size()) {
+				if(b>=start && b<= end && i+1!=result.size()&&clickKey=="add") {
 					return "dataRangeExist";
 				}
 			}

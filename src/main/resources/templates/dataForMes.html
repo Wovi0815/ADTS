@@ -255,6 +255,7 @@ function save(){
 	
 	var dataMap = new Array();
 	dataMap.push({
+		clickKey：clickKey,
 		dataStart :dataStart,
 		dataRange:dataRange,
 		dataLong :dataLong,
@@ -270,7 +271,7 @@ function save(){
 }
 
 function changeDataByKey(dataMap) {
-		//保存之前先进行验证是否唯一   
+		//保存之前先进行验证  
 		 $.ajax({
 				url:"/QryDataIsExist.do",
 				type:"POST",
