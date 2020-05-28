@@ -17,6 +17,8 @@
 		<link rel="stylesheet" th:href="@{/dist/css/adminlte.min.css}">
 		<!-- overlayScrollbars -->
 		<link rel="stylesheet" th:href="@{/plugins/overlayScrollbars/css/OverlayScrollbars.min.css}">
+		<!-- toastr -->
+		<link rel="stylesheet" th:href="@{/plugins/toastr/toastr.min.css}">
 		
 		
 		<title></title>
@@ -236,8 +238,8 @@
 	<script th:src="@{/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js}"></script>
 	<!-- AdminLTE App -->
 	<script th:src="@{/dist/js/adminlte.js}"></script>
-
-	 
+	<!-- toastr -->
+	<script th:src="@{/plugins/toastr/toastr.min.js}"></script>
 	<!-- page script -->
 <script type="text/javascript">
 
@@ -285,7 +287,7 @@ function QryClsInterface(){//查类下属接口
 		        "<button id='detailBtn' type='button' style='width:23%;margin-top:6px;float:left;'class='btn btn-block btn-outline-success btn-sm' data-toggle='modal' data-target='#modal-detail'onclick='showDetail(this)'>接口详情</button> "+
 		        "<button id='editIBtn' type='button' style='margin-left:2%;width:20%;float:left'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-editI'onclick='editInterfaceClick(this);'>修改</button> "+
 		        "<button id='deleteBtn' type='button' style='margin-left:2%;width:20%;float:left'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
-		        "<button id='paraBtn' type='button' style='margin-left:2%;width:25%;float:left'class='btn btn-block btn-outline-warning' onclick='toPara(this);'>参数操作</button> "+
+		        "<button id='paraBtn' type='button' style='margin-left:2%;width:25%;float:left'class='btn btn-block btn-outline-warning btn-sm' onclick='toPara(this);'>参数操作</button> "+
 		        "</td>";
 		        body    += "</tr>";
 			    $("#example1 tbody" ).append(body); 
@@ -305,7 +307,7 @@ function QryClsInterface(){//查类下属接口
 
 		},
 		error:function(result){
-			alert("未知错误联系管理员！");
+			toastr.warning('未知错误,请联系管理员!');
 		}
 	});
 
@@ -326,7 +328,7 @@ function QryInterParaCount(){//查类下属接口参数数量，构建下拉框
 			$("#selectCount" ).append(obody);
 		},
 		error:function(result){
-			alert("未知错误联系管理员！");
+			toastr.warning('未知错误,请联系管理员!');
 		}
 	});	
 }
@@ -345,7 +347,7 @@ function QryInterReturnType(){//查类下属接口返回值类型，构建下拉
 			$("#selectReturn" ).append(obody);
 		},
 		error:function(result){
-			alert("未知错误联系管理员！");
+			toastr.warning('未知错误,请联系管理员!');
 		}
 	});	
 }
@@ -387,7 +389,7 @@ $("#select").change(function(){
 		        "<button id='detailBtn' type='button' style='width:23%;margin-top:6px;float:left;'class='btn btn-block btn-outline-success btn-sm' data-toggle='modal' data-target='#modal-detail'onclick='showDetail(this)'>接口详情</button> "+
 		        "<button id='editIBtn' type='button' style='margin-left:2%;width: 20%;float:left'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-editI'onclick='editInterfaceClick(this);'>修改</button> "+
 		        "<button id='deleteBtn' type='button' style='margin-left:2%;width: 20%;float:left'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
-		        "<button id='paraBtn' type='button' style='margin-left:2%;width: 25%;float:left'class='btn btn-block btn-outline-warning' onclick='toPara(this);'>参数操作</button> "+
+		        "<button id='paraBtn' type='button' style='margin-left:2%;width: 25%;float:left'class='btn btn-block btn-outline-warning btn-sm' onclick='toPara(this);'>参数操作</button> "+
 		        "</td>";
 		        body    += "</tr>";
 			    $("#example1 tbody" ).append(body); 
@@ -404,7 +406,7 @@ $("#select").change(function(){
 			    });
 		},	
 			error:function(result){
-			alert("未知错误联系管理员！");
+				toastr.warning('未知错误,请联系管理员!');
 		}
 	});	
 
@@ -456,7 +458,7 @@ function showDetail(e){
 				
 			},	
 			error:function(result){
-				alert("未知错误联系管理员！");
+				toastr.warning('未知错误,请联系管理员!');
 			}
 		});	
 	 
@@ -572,7 +574,7 @@ function qryInterfaceParaDetail(interfaceId,interfaceParaCount,interfaceParaList
 				 }
 				},	
 				error:function(result){
-					alert("未知错误联系管理员！");
+					toastr.warning('未知错误,请联系管理员!');
 				}
 			});	
 	 }
@@ -592,7 +594,7 @@ function addSave(){
 	var iinterfaceParaCount =$("#iparaCount").val();
 	
 	if(iinterfaceId==""||iinterfaceName==""||iinterfaceDesc==""||iinterfaceRetnTyp==""||iinterfaceRetnDesc==""){
-		alert("必填项未填写充分!");
+		toastr.info('接口必填项未填写充分!');
 		return ;
 	}
 
@@ -624,7 +626,7 @@ function addSave(){
 			
 			
 			if(paraAttr==""||paraId==""||paraName==""||paraType==""||paraNo==""||paraDesc==""){
-				alert("接口参数中存在必填项未填写充分!");
+				toastr.info('接口参数中必填项未填写充分!');
 				return ;
 			}
 			
@@ -655,11 +657,13 @@ function addSave(){
 			},
 			success:function(result){
 				if(result=="Exist"){
-					alert("接口已存在!重复!");
+					toastr.error('接口已存在!重复!');
 				}else if(result=="ParaExist"){
-					alert("接口参数已存在!重复!")
+					toastr.error('接口参数已存在!重复!');
 				}else if(result == "InsertParaFail"){
-					alert("接口参数新增失败!")
+					toastr.error('接口参数新增失败!');
+				}else if(result=="InsertInterfaceFail"){
+					toastr.error('接口新增失败!');
 				}else if(result=="SUCCESS"){
 					 $("#modal-add").modal('hide'); 
 					 var oldTable = $('#example1').dataTable();
@@ -672,12 +676,12 @@ function addSave(){
 					
 			},	
 			error:function(result){
-				alert("未知错误联系管理员！");
+				toastr.warning('未知错误,请联系管理员!');
 			}
 		});	
 
 	}else{
-		alert("请输入参数个数!");
+		toastr.info('请输入参数个数!');
 	
 	}
 	
@@ -704,12 +708,12 @@ function deleteClick(e){
 			if(result.id!=""){
 				deleteInterfacePara(id);
 			}else{
-				alert("接口删除失败！")
+				toastr.error('接口删除失败!');
 			}
 			
 		},	
 		error:function(result){
-			alert("未知错误联系管理员！");
+			toastr.warning('未知错误,请联系管理员!');
 		}
 	});	
 
@@ -733,7 +737,7 @@ function deleteInterfacePara(id){
 			
 		},	
 		error:function(result){
-			alert("未知错误联系管理员！");
+			toastr.warning('未知错误,请联系管理员!');
 		}
 	});	
 
@@ -763,7 +767,7 @@ function editInterfaceClick(e){
 			$("#einterfaceCls").val(result.i_class);		
 			},	
 			error:function(result){
-				alert("未知错误联系管理员！");
+				toastr.warning('未知错误,请联系管理员!');
 			}
 		});	
 	 
@@ -800,12 +804,12 @@ function editInterfaceSave(){
 					QryInterReturnType();
 					
 				}else{
-					alert("接口修改失败！");
+					toastr.error('接口修改失败!');
 				}
 	
 			},	
 			error:function(result){
-				alert("未知错误联系管理员！");
+				toastr.warning('未知错误,请联系管理员!');
 			}
 		});	
 
@@ -829,7 +833,7 @@ function toPara(e){
 			window.parent.zhu.location.href="/paraForInter?uniqueInterid="+uniqueInterid;
 		},	
 		error:function(result){
-			alert("未知错误联系管理员！");
+			toastr.warning('未知错误,请联系管理员!');
 		}
 	});	
 	
@@ -840,6 +844,23 @@ function toPara(e){
 </script>    
 
 <script type="text/javascript">
+toastr.options = {
+		  "closeButton": true,
+		  "debug": false,
+		  "newestOnTop": true,
+		  "progressBar": true,
+		  "positionClass": "toast-top-full-width",
+		  "preventDuplicates": false,
+		  "onclick": null,
+		  "showDuration": "300",
+		  "hideDuration": "800",
+		  "timeOut": "2500",
+		  "extendedTimeOut": "1000",
+		  "showEasing": "swing",
+		  "hideEasing": "linear",
+		  "showMethod": "fadeIn",
+		  "hideMethod": "fadeOut"
+		}
 	QryClsInterface();
 	QryInterParaCount();
 	QryInterReturnType();
