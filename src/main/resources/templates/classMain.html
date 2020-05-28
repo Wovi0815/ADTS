@@ -18,7 +18,8 @@
 		<link rel="stylesheet" th:href="@{/dist/css/adminlte.min.css}">
 		<!-- overlayScrollbars -->
 		<link rel="stylesheet" th:href="@{/plugins/overlayScrollbars/css/OverlayScrollbars.min.css}">
-		
+		<!-- toastr -->
+		<link rel="stylesheet" th:href="@{/plugins/toastr/toastr.min.css}">
 
 		<title></title>
 		
@@ -64,7 +65,7 @@
             </div>
             <div class="modal-footer justify-content-between">
               <button id='closeModal' type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-              <button id='saveModal' type="button" data-dismiss="modal" class="btn btn-primary" onclick="save();">保存</button>
+              <button id='saveModal' type="button"  class="btn btn-primary" onclick="save();">保存</button>
             </div>
             
           </div>
@@ -134,7 +135,8 @@
 	<script th:src="@{/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js}"></script>
 	<!-- AdminLTE App -->
 	<script th:src="@{/dist/js/adminlte.js}"></script>
-
+	<!-- toastr -->
+	<script th:src="@{/plugins/toastr/toastr.min.js}"></script>
 	 	
 	<!-- page script -->
 <script type="text/javascript">
@@ -194,7 +196,7 @@ function QryMidCls(){//查中间件下属类
 
 		},
 		error:function(result){
-			alert("未知错误联系管理员！");
+			toastr.warning('未知错误,请联系管理员!');
 		}
 	});
 
@@ -215,7 +217,7 @@ function QryMidClsFather(){
 			$("#selectClass" ).append(obody);
 		},	
 		error:function(result){
-			alert("未知错误联系管理员！");
+			toastr.warning('未知错误,请联系管理员!');
 		}
 	});
 }
@@ -266,7 +268,7 @@ $("#selectClass").change(function(){
 
 			},
 			error:function(result){
-				alert("未知错误联系管理员！");
+				toastr.warning('未知错误,请联系管理员!');
 			}
 		});
 
@@ -295,7 +297,7 @@ function qryClsBeFather(iclsFather){
 			}
 		},
 		error:function(result){
-			alert("未知错误联系管理员！");
+			toastr.warning('未知错误,请联系管理员!');
 		}
 	});
 }
@@ -337,10 +339,52 @@ function editClick(e){
 				qryClsBeFather(iclsFather);
 			},
 			error:function(result){
-				alert("未知错误联系管理员！");
+				toastr.warning('未知错误,请联系管理员!');
 			}
 		}); 	 
 }
+
+
+function save(){
+	var modalCId=$("#iclsId").val();
+	var modalCName=$("#iclsName").val();
+	var modalCDesc=$("#iclsDesc").val();
+	var modalCFather=$("#iclsFather").val();
+	var modalCMidware=$("#iclsMidware").val();
+	if(modalCId==""||modalCName==""||modalCDesc==""||modalCFather==""||modalCMidware==""){
+		toastr.info('类中必填项未填写充分!');
+	}else{
+		changeDataByKey(modalCId,modalCName,modalCDesc,modalCFather,modalCMidware);
+	}
+}
+
+function changeDataByKey(modalCId,modalCName,modalCDesc,modalCFather,modalCMidware) {
+	if(clickKey=="add"){
+		//新增之前先进行查询类标识是否唯一   
+		 $.ajax({
+				url:"/QryMidClsByCId.do",
+				type:"POST",
+				async:true,
+				data:{
+					"cId":modalCId
+				},
+				success:function(result){
+					if(result.c_id == modalCId){	
+						toastr.error('类已存在!重复!');
+					}else{
+						InsertData(modalCId,modalCName,modalCDesc,modalCFather,modalCMidware);//插入
+					}
+				},
+				error:function(result){
+					toastr.warning('未知错误,请联系管理员!');
+				}
+			}); 
+					
+	}else if(clickKey=="edit"){
+		UpdateData(modalCId,modalCName,modalCDesc,modalCFather,modalCMidware);
+	}
+
+}	
 //插入数据
 function InsertData(modalCId,modalCName,modalCDesc,modalCFather,modalCMidware){
 
@@ -357,19 +401,19 @@ function InsertData(modalCId,modalCName,modalCDesc,modalCFather,modalCMidware){
 			},
 			success:function(result){
 				if(result=1){
-					
+					$("#modal-default").modal('hide'); 
 					var oldTable = $('#example1').dataTable();
 				    oldTable.fnClearTable(); 
 				    oldTable.fnDestroy();
 					QryMidCls();
 					QryMidClsFather();
 				}else{
-					alert("插入失败");
+					toastr.error('类新增失败!');
 				}
 				
 			},
 			error:function(result){
-				alert("未知错误联系管理员！");
+				toastr.warning('未知错误,请联系管理员!');
 				
 			}
 		});
@@ -390,63 +434,23 @@ function UpdateData(modalCId,modalCName,modalCDesc,modalCFather,modalCMidware){
 		},
 		success:function(result){
 			if(result=1){
-				
+				$("#modal-default").modal('hide'); 
 				var oldTable = $('#example1').dataTable();
 			    oldTable.fnClearTable(); 
 			    oldTable.fnDestroy();
 				QryMidCls();
 				QryMidClsFather();
 			}else{
-				alert("更新失败");
+				toastr.error('类修改失败!');
 			}
 			
 		},
 		error:function(result){
-			alert("发生未知错误联系管理员！");
+			toastr.warning('未知错误,请联系管理员!');
 		}
 	});
 
 }	
-function changeDataByKey(modalCId,modalCName,modalCDesc,modalCFather,modalCMidware) {
-	if(clickKey=="add"){
-		//新增之前先进行查询类标识是否唯一   
-		 $.ajax({
-				url:"/QryMidClsByCId.do",
-				type:"POST",
-				async:true,
-				data:{
-					"cId":modalCId
-				},
-				success:function(result){
-					if(result.c_id == modalCId){	
-						alert("ERROR类标识为唯一项");
-					}else{
-						InsertData(modalCId,modalCName,modalCDesc,modalCFather,modalCMidware);//插入
-					}
-				},
-				error:function(result){
-					alert("未知错误联系管理员！");
-				}
-			}); 
-					
-	}else if(clickKey=="edit"){
-		UpdateData(modalCId,modalCName,modalCDesc,modalCFather,modalCMidware);
-	}
-
-}	
-function save(){
-	var modalCId=$("#iclsId").val();
-	var modalCName=$("#iclsName").val();
-	var modalCDesc=$("#iclsDesc").val();
-	var modalCFather=$("#iclsFather").val();
-	var modalCMidware=$("#iclsMidware").val();
-	if(modalCId==""||modalCName==""||modalCDesc==""||modalCFather==""||modalCMidware==""){
-		alert("ERROR!存在未填项");
-	}else{
-		changeDataByKey(modalCId,modalCName,modalCDesc,modalCFather,modalCMidware);
-	}
-}
-
 // 删除
 function deleteClick(e){
 	var cId=$(e).parent().parent().find("td").eq(0).text();
@@ -465,12 +469,12 @@ function deleteClick(e){
 				QryMidCls();
 				QryMidClsFather();
 			}else{
-				alert("删除失败");
+				toastr.error('类删除失败!');
 			}
 			
 		},
 		error:function(result){
-			alert("发生未知错误联系管理员！");
+			toastr.warning('未知错误,请联系管理员!');
 		}
 	});
 	
@@ -486,13 +490,25 @@ function toInterface(e){
 
 
 <script type="text/javascript">
-$(function(){
+	toastr.options = {
+			  "closeButton": true,
+			  "debug": false,
+			  "newestOnTop": true,
+			  "progressBar": true,
+			  "positionClass": "toast-top-full-width",
+			  "preventDuplicates": false,
+			  "onclick": null,
+			  "showDuration": "300",
+			  "hideDuration": "800",
+			  "timeOut": "2500",
+			  "extendedTimeOut": "1000",
+			  "showEasing": "swing",
+			  "hideEasing": "linear",
+			  "showMethod": "fadeIn",
+			  "hideMethod": "fadeOut"
+			}
 	QryMidCls();
 	QryMidClsFather();
-
-});
-
-
 </script>    
 </body>
 </html>
