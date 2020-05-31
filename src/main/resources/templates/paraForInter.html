@@ -18,6 +18,8 @@
 		<link rel="stylesheet" th:href="@{/dist/css/adminlte.min.css}">
 		<!-- overlayScrollbars -->
 		<link rel="stylesheet" th:href="@{/plugins/overlayScrollbars/css/OverlayScrollbars.min.css}">
+		<!-- toastr -->
+		<link rel="stylesheet" th:href="@{/plugins/toastr/toastr.min.css}">
 		
 		<title></title>
 		
@@ -155,8 +157,8 @@
 	<script th:src="@{/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js}"></script>
 	<!-- AdminLTE App -->
 	<script th:src="@{/dist/js/adminlte.js}"></script>
-
-	 	
+	<!-- toastr -->
+	<script th:src="@{/plugins/toastr/toastr.min.js}"></script>	
 	<!-- page script -->
 <script type="text/javascript">
 
@@ -226,7 +228,7 @@ function QryParaInterface(){//查接口下属参数
 
 		},
 		error:function(result){
-			alert("未知错误联系管理员！");
+			toastr.warning('未知错误,请联系管理员!');
 		}
 	});
 
@@ -285,7 +287,7 @@ function editClick(e){
 				
 			},
 			error:function(result){
-				alert("未知错误联系管理员！");
+				toastr.warning('未知错误,请联系管理员!');
 			}
 		}); 	 
 }
@@ -316,7 +318,7 @@ function save(){
 		modalParaAttr :modalParaAttr,
 		modalInterface:modalInterface});
 	if(modalParaId==""||modalParaName==""||modalParaDesc==""||modalParaNo==""||modalParaAttr==null||modalInterface==""){
-		alert("ERROR!存在未填项");
+		toastr.info('接口参数中必填项未填写充分!');
 	}else{
 		changeDataByKey(paraMap);
 	}
@@ -338,13 +340,14 @@ function changeDataByKey(paraMap) {
 				},
 				success:function(result){
 					if(result.para_id){	
-						alert("参数标识或次序已存在!请检查!");
+						toastr.error('参数标识或次序已存在!请检查!');
+
 					}else{
 						InsertData(paraMap);//插入
 					}
 				},
 				error:function(result){
-					alert("未知错误联系管理员！");
+					toastr.warning('未知错误,请联系管理员!');
 				}
 			}); 
 	}else if(clickKey=="edit"){
@@ -361,13 +364,13 @@ function changeDataByKey(paraMap) {
 				},
 				success:function(result){
 					if((result.para_eq)&&(nowparaNo!=oldParaNo)){	
-						alert("参数次序已存在!请检查!");
+						toastr.error('参数次序已存在!请检查!');
 					}else{
 						UpdateData(paraMap);
 					}
 				},
 				error:function(result){
-					alert("未知错误联系管理员！");
+					toastr.warning('未知错误,请联系管理员!');
 				}
 			}); 
 		
@@ -392,11 +395,11 @@ function InsertData(paraMap){
   		  	//修改接口表中的参数列表以及参数个数
   		  	updateinfo();
 		}else{
-			alert("新增参数失败!");
+			toastr.error('接口参数新增失败!');
 		} 
 	},
 		error:function(result){
-			alert("未知错误联系管理员！");
+			toastr.warning('未知错误,请联系管理员!');
 		}
 	}); 
 	
@@ -427,7 +430,7 @@ function updateinfo(){
 			updateIinfo(pCount,paraList);
 		},
 		error:function(result){
-			alert("未知错误联系管理员！");
+			toastr.warning('未知错误,请联系管理员!');
 		}
 	});
 }
@@ -446,7 +449,7 @@ function updateIinfo(pCount,paraList){
 			
 		},
 		error:function(result){
-			alert("未知错误联系管理员！");
+			toastr.warning('未知错误,请联系管理员!');
 		}
 	});
 }
@@ -471,7 +474,7 @@ function UpdateData(paraMap){
 	
 		},
 		error:function(result){
-			alert("未知错误联系管理员！");
+			toastr.warning('未知错误,请联系管理员!');
 		}
 	}); 
 	
@@ -496,25 +499,39 @@ function deleteClick(e){
 	  		  	QryParaInterface();
 	  			updateinfo();
 			}else{
-				alert("参数删除失败!")
+				toastr.error('接口参数删除失败!');
 			}
 		},	
 		error:function(result){
-			alert("未知错误联系管理员！");
+			toastr.warning('未知错误,请联系管理员!');
 		}
 	});	
 
 }
 
 
-
-
-
-
-
-
 </script>    
 <script type="text/javascript">
+
+toastr.options = {
+		  "closeButton": true,
+		  "debug": false,
+		  "newestOnTop": true,
+		  "progressBar": true,
+		  "positionClass": "toast-top-full-width",
+		  "preventDuplicates": false,
+		  "onclick": null,
+		  "showDuration": "300",
+		  "hideDuration": "800",
+		  "timeOut": "2500",
+		  "extendedTimeOut": "1000",
+		  "showEasing": "swing",
+		  "hideEasing": "linear",
+		  "showMethod": "fadeIn",
+		  "hideMethod": "fadeOut"
+		}
+
+
 	QryParaInterface();
 	
 </script>

@@ -20,6 +20,8 @@
 		<link rel="stylesheet" th:href="@{/plugins/overlayScrollbars/css/OverlayScrollbars.min.css}">	
 		<!-- bootstrap-multiselect -->
 		<link rel="stylesheet" th:href="@{/plugins/bootstrap-multiselect/css/bootstrap-multiselect.css}" >
+		<!-- toastr -->
+		<link rel="stylesheet" th:href="@{/plugins/toastr/toastr.min.css}">
 	<style>
 	
 	.multiselect-container{ /*下拉框的样式*/
@@ -262,7 +264,8 @@
 	<script th:src="@{/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js}"></script>
 	<!-- AdminLTE App -->
 	<script th:src="@{/dist/js/adminlte.js}"></script>
-
+	<!-- toastr -->
+	<script th:src="@{/plugins/toastr/toastr.min.js}"></script>
 	 
 	<!-- page script -->
 <script type="text/javascript">
@@ -324,7 +327,7 @@ function QryMessage(){//根据报文类型查所有报文
 
 		},
 		error:function(result){
-			alert("未知错误联系管理员！");
+			toastr.warning('未知错误,请联系管理员!');
 		}
 	});
 
@@ -368,7 +371,7 @@ function QryModSelect(){
 		    $('.dropdown-toggle').dropdown();
 		},
 		error:function(result){
-			alert("未知错误联系管理员！");
+			toastr.warning('未知错误,请联系管理员!');
 		}
 	});
 }
@@ -415,7 +418,7 @@ function refreshDataBySelect(source,destination){
 
 		},
 		error:function(result){
-			alert("未知错误联系管理员！");
+			toastr.warning('未知错误,请联系管理员!');
 		}
 	});
 	
@@ -465,7 +468,7 @@ function addSave(){
 	var imesFunId =$("#imesFunId").val();
 	var imesTyp =$("#imesTyp").val();	
 	if(imesId==""||imesName==""||imesDesc==""||imesSource==""||imesDestination==""||imesID==""||imesFunId==""||imesTyp==""){
-		alert("报文信息必填项未填写充分!");
+		toastr.info('报文必填项未填写充分!');
 		return;
 	}
     var imesGroupCount = $("#imesGroupCount").val();
@@ -489,7 +492,7 @@ function addSave(){
 				var dataDesc = $("#mesDataDesc"+i).val();
 				var dataType = $("#mesDataTyp"+i).val();
 				if(start==""||length==""||dataName==""||dataDesc==""||dataType==""){
-						alert("报文数据必填项未填写充分!");
+					toastr.info('报文数据必填项未填写充分!');
 					 	return;
 				}
 				var end = (start-0) + (length-0) - 1 ;
@@ -516,11 +519,11 @@ function addSave(){
 							},
 							success:function(result){
 								if(result=="Exist"){
-									alert("报文已存在!重复!");
+									toastr.error('报文已存在!重复!');
 								}else if(result=="InsertMesFail"){
-									alert("新增报文失败!")
+									toastr.error('报文新增失败!');
 								}else if(result == "DataRangeERROR"){
-									alert("报文数据字节范围有误!!")
+									toastr.error('报文数据字节范围有误!');
 								}else if(result=="SUCCESS"){
 									 $("#modal-add").modal('hide'); 
 									 var oldTable = $('#example1').dataTable();
@@ -531,12 +534,12 @@ function addSave(){
 								}							
 							},	
 							error:function(result){
-								alert("未知错误联系管理员！");
+								toastr.warning('未知错误,请联系管理员!');
 							}
 						});	
 			
 	}else{
-		alert("请输入报文分组数!");
+		toastr.info('请输入报文分组数!');
 	}
 			
 }
@@ -588,7 +591,7 @@ function showDetail(e){
 				
 			},	
 			error:function(result){
-				alert("未知错误联系管理员！");
+				toastr.warning('未知错误,请联系管理员!');
 			}
 		});	
 	
@@ -633,7 +636,7 @@ function  qryMesDataDetail(mesId){
 				 }
 				},	
 				error:function(result){
-					alert("未知错误联系管理员！");
+					toastr.warning('未知错误,请联系管理员!');
 				}
 			});	
 	 }
@@ -665,7 +668,7 @@ function editMesClick(e){
 				qryModToModal(mesSource,mesDestination);
 			},	
 			error:function(result){
-				alert("未知错误联系管理员！");
+				toastr.warning('未知错误,请联系管理员!');
 			}
 		});	
 	 
@@ -717,7 +720,7 @@ function qryModToModal(mesSource,mesDestination){
 		    $('.dropdown-toggle').dropdown();
 		},
 		error:function(result){
-			alert("未知错误联系管理员！");
+			toastr.warning('未知错误,请联系管理员!');
 		}
 	});
 	
@@ -758,12 +761,12 @@ function editMesSave(){
 				    QryMessage();
 				    
 				}else{
-					alert("接口修改失败！");
+					toastr.error('报文修改失败!');
 				}
 	
 			},	
 			error:function(result){
-				alert("未知错误联系管理员！");
+				toastr.warning('未知错误,请联系管理员!');
 			}
 		});	
 
@@ -788,12 +791,12 @@ function deleteClick(e){
 			if(delresult==1){
 				deleteMesData(mesId);
 			}else{
-				alert("报文删除失败！")
+				toastr.error('报文删除失败!');
 			}
 			
 		},	
 		error:function(result){
-			alert("未知错误联系管理员！");
+			toastr.warning('未知错误,请联系管理员!');
 		}
 	});	
 
@@ -815,7 +818,7 @@ function deleteMesData(mesId){
 			
 		},	
 		error:function(result){
-			alert("未知错误联系管理员！");
+			toastr.warning('未知错误,请联系管理员!');
 		}
 	});	
 
@@ -839,9 +842,28 @@ function toMesData(e){
 </script>    
 
 <script type="text/javascript">
-	QryMessage();
-	QryModSelect();
+	
 	$(function () {
+		toastr.options = {
+				  "closeButton": true,
+				  "debug": false,
+				  "newestOnTop": true,
+				  "progressBar": true,
+				  "positionClass": "toast-top-full-width",
+				  "preventDuplicates": false,
+				  "onclick": null,
+				  "showDuration": "300",
+				  "hideDuration": "800",
+				  "timeOut": "2500",
+				  "extendedTimeOut": "1000",
+				  "showEasing": "swing",
+				  "hideEasing": "linear",
+				  "showMethod": "fadeIn",
+				  "hideMethod": "fadeOut"
+				}
+		
+
+		
 		$('#selectSource').multiselect({
 			nonSelectedText:"筛选条件/信源",
 			buttonWidth: "200px",
@@ -855,6 +877,12 @@ function toMesData(e){
 			
 		}); 
 		 $('.dropdown-toggle').dropdown();
+		 
+		 
+		 
+		 QryMessage();
+		 QryModSelect();
+		 
 	})
 </script>
 
