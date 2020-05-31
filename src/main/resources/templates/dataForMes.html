@@ -18,8 +18,10 @@
 		<link rel="stylesheet" th:href="@{/dist/css/adminlte.min.css}">
 		<!-- overlayScrollbars -->
 		<link rel="stylesheet" th:href="@{/plugins/overlayScrollbars/css/OverlayScrollbars.min.css}">
+		<!-- toastr -->
+		<link rel="stylesheet" th:href="@{/plugins/toastr/toastr.min.css}">
 		
-		<title></title>
+		<title>报文数据页</title>
 		
 	</head>
 	<body>
@@ -128,7 +130,8 @@
 	<script th:src="@{/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js}"></script>
 	<!-- AdminLTE App -->
 	<script th:src="@{/dist/js/adminlte.js}"></script>
-
+	<!-- toastr -->
+	<script th:src="@{/plugins/toastr/toastr.min.js}"></script>
 	 	
 	<!-- page script -->
 <script type="text/javascript">
@@ -188,7 +191,7 @@ function QryDataMes(){//查接口下属参数
 
 		},
 		error:function(result){
-			alert("未知错误联系管理员！");
+			toastr.warning('未知错误,请联系管理员!');
 		}
 	});
 
@@ -233,7 +236,7 @@ function editClick(e){
 				
 			},
 			error:function(result){
-				alert("未知错误联系管理员！");
+				toastr.warning('未知错误,请联系管理员!');
 			}
 		}); 	 
 }
@@ -264,7 +267,7 @@ function save(){
 		dataTyp :dataTyp,
 		mesId :mesId});
 	if(dataStart==""||dataLong==""||dataName==""||dataDesc==""||dataTyp==""||mesId==""){
-		alert("ERROR!必填项未填写充分!");
+		toastr.info('报文数据必填项未填写充分!');
 	}else{
 		changeDataByKey(dataMap);
 	}
@@ -281,9 +284,9 @@ function changeDataByKey(dataMap) {
 				},
 				success:function(result){
 					if(result=="dataRangeExist"){
-						alert("字节范围填写有误!");
+						toastr.error('字节范围填写有误!');
 					}else if(result == "dataNameExist"){
-						alert("数据名称已存在!重复!");
+						toastr.error('数据名称已存在!重复!');
 					}else if(result == "SUCCESS"){
 						if(clickKey=="add"){
 						InsertData(dataMap);
@@ -293,7 +296,7 @@ function changeDataByKey(dataMap) {
 				  }
 				},
 				error:function(result){
-					alert("未知错误联系管理员！");
+					toastr.warning('未知错误,请联系管理员!');
 				}
 			}); 
 }	
@@ -315,11 +318,11 @@ function InsertData(dataMap){
   			QryDataMes();
   			
 		}else{
-			alert("新增报文数据失败!");
+			toastr.error('报文数据新增失败!');
 		} 
 	},
 		error:function(result){
-			alert("未知错误联系管理员！");
+			toastr.warning('未知错误,请联系管理员!');
 		}
 	}); 
 	
@@ -345,12 +348,12 @@ function UpdateData(dataMap){
 	  			QryDataMes();
 	  		  	
 			}else{
-				alert("报文数据修改失败!");
+				toastr.error('报文数据修改失败!');
 			}
 	
 		},
 		error:function(result){
-			alert("未知错误联系管理员！");
+			toastr.warning('未知错误,请联系管理员!');
 		}
 	}); 
 	
@@ -375,11 +378,11 @@ function deleteClick(e){
 	  			QryDataMes();
 	  		
 			}else{
-				alert("报文数据删除失败!")
+				toastr.error('报文数据删除失败!');
 			}
 		},	
 		error:function(result){
-			alert("未知错误联系管理员！");
+			toastr.warning('未知错误,请联系管理员!');
 		}
 	});	
 
@@ -394,6 +397,23 @@ function deleteClick(e){
 
 </script>    
 <script type="text/javascript">
+toastr.options = {
+		  "closeButton": true,
+		  "debug": false,
+		  "newestOnTop": true,
+		  "progressBar": true,
+		  "positionClass": "toast-top-full-width",
+		  "preventDuplicates": false,
+		  "onclick": null,
+		  "showDuration": "300",
+		  "hideDuration": "800",
+		  "timeOut": "2500",
+		  "extendedTimeOut": "1000",
+		  "showEasing": "swing",
+		  "hideEasing": "linear",
+		  "showMethod": "fadeIn",
+		  "hideMethod": "fadeOut"
+		}
 	QryDataMes();
 	
 </script>
