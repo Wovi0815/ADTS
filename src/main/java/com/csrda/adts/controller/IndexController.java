@@ -6,25 +6,27 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
-
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @Controller
 
 public class IndexController {
-
+	
+	Session session;
+	
+	
 	//登录逻辑
 	
 	@RequestMapping("/login")
 	public String login(String userName ,String passWord,Model model) {
-		
-		//SecurityUtils.getSubject().getSession().setTimeout(-1000l);
+		SecurityUtils.getSubject().getSession().setTimeout(-1000l);
 		//shiro 认证操作
 		//1.获取subject
 		Subject subject = SecurityUtils.getSubject();
@@ -36,11 +38,11 @@ public class IndexController {
 		try {
 			subject.login(token);
 			
-		//	Session session = subject.getSession();
-         //   session.setAttribute("username", userName);
+			session = subject.getSession();
+            session.setAttribute("userName", userName);
 			
 			//登录成功
-			return "redirect:/index";
+			return "redirect:/index"; 
 		} catch (UnknownAccountException e) {
 			//e.printStackTrace();
 			//登录失败:用户名不存在
@@ -70,6 +72,9 @@ public class IndexController {
 	public String unAuth() {
 		return "unAuth";
 	}
+	
+	
+	
 	
 	
 
