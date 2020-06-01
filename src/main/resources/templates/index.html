@@ -78,7 +78,7 @@
 		<ul class="nav nav-treeview">
 			<li class="nav-item has-treeview menu-close">
 				<a href="" class="nav-link ">
-					<i class="far fa-circle nav-icon"></i>
+					<i class="fas fa-circle nav-icon"></i>
 					<p>接口管理
 						<i class="right fas fa-angle-left"></i>
 					</p>
@@ -91,7 +91,7 @@
 
 			<li class="nav-item has-treeview menu-close">
 				<a href="" class="nav-link">
-					<i class="far fa-circle nav-icon"></i>
+					<i class="fas fa-circle nav-icon"></i>
 					<p>报文管理
 						<i class="right fas fa-angle-left"></i>
 					</p>
@@ -105,16 +105,16 @@
 					
 			<li class="nav-item has-treeview menu-close">
 				<a href="" class="nav-link ">
-					<i class="far fa-circle nav-icon"></i>
+					<i class="fas fa-circle nav-icon"></i>
 					<p>数据信息管理
 						<i class="right fas fa-angle-left"></i>
 					</p>
 				</a>
 
-				<ul class="nav nav-treeview"  id="qryMidware">
+				<ul class="nav nav-treeview"  id="">
 						<li class="nav-item">
 							<a href="/dataTypeManager"  target="zhu" class="nav-link"> 
-							<i class="far fa-circle nav-icon"></i>
+							<i class="nav-icon far fa-circle text-info"></i>
 							<p >数据类型</p>
 							</a>
 						</li>
@@ -122,56 +122,56 @@
 								
 						<li class="nav-item">
 							<a href="/"  target="zhu" class="nav-link"> 
-							<i class="far fa-circle nav-icon"></i>
+							<i class="nav-icon far fa-circle text-info"></i>
 							<p >设备模组</p>
 							</a>
 						</li>		
-						</ul>
-					</li>
+				</ul>
+			</li>
 
-					<li class="nav-item has-treeview menu-close">
-							<a href="/ReportGenerate" class="nav-link">
-								<i class="far fa-circle nav-icon"></i>
-								<p>文档生成</p>
-								<i class="right fas fa-angle-left"></i>
+			<li class="nav-item has-treeview menu-close">
+					<a href="/ReportGenerate" class="nav-link">
+						<i class="fas fa-circle nav-icon"></i>
+						<p>文档生成</p>
+						<i class="right fas fa-angle-left"></i>
+					</a>
+					<ul class="nav nav-treeview">
+						<li class="nav-item">
+							<a href="#" class="nav-link">
+								<i class="nav-icon far fa-circle text-info"></i>
+								<p id="exportAll">生成全部</p>
 							</a>
-							<ul class="nav nav-treeview">
-								<li class="nav-item">
-									<a href="#" class="nav-link">
-										<i class="far fa-circle nav-icon"></i>
-										<p id="exportAll">生成全部</p>
-									</a>
-								</li>
-								<li class="nav-item">
-									<a href="#" class="nav-link">
-										<i class="far fa-circle nav-icon"></i>
-										<p id="exportDataType">生成数据类型部分</p>
-									</a>
-								</li>
-								<li class="nav-item">
-									<a href="#" class="nav-link">
-										<i class="far fa-circle nav-icon"></i>
-										<p id="exportInterface">生成接口部分</p>
-									</a>
-								</li>
-								<li class="nav-item">
-									<a href="#" class="nav-link">
-										<i class="far fa-circle nav-icon"></i>
-										<p id="exportMessage">生成报文部分</p>
-									</a>
-								</li>
-								<li class="nav-item">
-									<a href="#" class="nav-link">
-										<i class="far fa-circle nav-icon"></i>
+						</li>
+						<li class="nav-item">
+							<a href="#" class="nav-link">
+								<i class="nav-icon far fa-circle text-info"></i>
+								<p id="exportDataType">生成数据类型部分</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="#" class="nav-link">
+								<i class="nav-icon far fa-circle text-info"></i>
+								<p id="exportInterface">生成接口部分</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="#" class="nav-link">
+								<i class="nav-icon far fa-circle text-info"></i>
+								<p id="exportMessage">生成报文部分</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="#" class="nav-link">
+										<i class="nav-icon far fa-circle text-info"></i>
 										<p id="uploadTemp">模板上传</p>
 									</a>
 								</li>
 							</ul>
 						</li>
-					</ul>
-
-					</li>
 				</ul>
+
+				</li>
+			</ul>
 				
 				
 				
@@ -362,7 +362,7 @@
 						$("#qryMidware").append(
 							"<li class='nav-item'>" +
 							"<a href='/classMain?midwareId=" + result[i].mid_id + "' target='zhu' class='nav-link avtive'>" +
-							"<i class='far fa-dot-circle nav-icon'></i>" +
+							"<i class='nav-icon far fa-circle text-info'></i>" +
 							"<p>" + result[i].mid_name +
 							"</p>" + "</a>" + "</li>"
 						);
@@ -383,7 +383,7 @@
 						$("#qryMessage").append(
 							"<li class='nav-item'>" +
 							"<a href='/messageMain?mesType=" + result[i].mes_type + "' target='zhu' class='nav-link avtive'>" +
-							"<i class='far fa-dot-circle nav-icon'></i>" +
+							"<i class='nav-icon far fa-circle text-info'></i>" +
 							"<p>" + result[i].mes_type +
 							"</p>" + "</a>" + "</li>"
 						);
