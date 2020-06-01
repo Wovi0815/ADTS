@@ -24,6 +24,26 @@
 		<link rel="stylesheet" th:href="@{/plugins/toastr/toastr.min.css}">
 	<style>
 	
+		input::-webkit-input-placeholder {
+			/* WebKit browsers */
+			font-size: 10px;
+		}
+
+		input:-moz-placeholder {
+			/* Mozilla Firefox 4 to 18 */
+			font-size: 10px;
+		}
+
+		input::-moz-placeholder {
+			/* Mozilla Firefox 19+ */
+			font-size: 10px;
+		}
+
+		input:-ms-input-placeholder {
+			/* Internet Explorer 10+ */
+			font-size: 10px;
+		}
+
 	.multiselect-container{ /*下拉框的样式*/
            width:200px;
        }
@@ -63,8 +83,8 @@
             <div class="modal-header">
              <div class='form-group' > 
 				 	<div class='input-group-prepend' style="float:left;">
-				 		<span class='input-group-text' >报文分组数</span>
-				 	 <input class='form-control'oninput='value=value.replace(/[^\d]/g,"")' placeholder='请输入报文的分组数量' id='imesGroupCount'/>
+				 		<span class='input-group-text' >报文分段数</span>
+				 	 <input class='form-control'oninput='value=value.replace(/[^\d]/g,"")' placeholder='请输入报文的分段数量' id='imesGroupCount'/>
 	            	</div>     	
 	             </div>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -539,7 +559,7 @@ function addSave(){
 						});	
 			
 	}else{
-		toastr.info('请输入报文分组数!');
+		toastr.info('请输入报文分段数量!');
 	}
 			
 }
@@ -575,7 +595,7 @@ function showDetail(e){
 				ibody +="</div>";
 				ibody +="<div class='input-group'>";
 				ibody += 	"<div class='input-group-prepend'>";
-				ibody +=	 	"<span class='input-group-text' >功能码</span>";
+				ibody +=	 	"<span class='input-group-text' >功能码 </span>";
 				ibody +=   "</div>";
 				ibody += 	"<input type='text'    class='form-control' value='"+mesFunId+"'readonly='readonly'/>";
 				ibody +="<div class='input-group'>";
