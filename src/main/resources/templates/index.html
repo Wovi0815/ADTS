@@ -39,8 +39,8 @@
 					<div class="image" style="margin: auto;">
 						
 							 <span>欢迎您,</span>
-							 <a th:text="${session.userName}" onclick="alert('!');"></a> 
-						
+							 <a th:text="${session.userName}" onclick="showUser();"></a> 
+							 <a href='/loginOut'>退出 </a>
 					   
 						<img src="dist/img/csic-logo.png" class="img-circle elevation-2" alt="User Image"
 							style="height: 35px;">
@@ -345,7 +345,7 @@
 					}
 				},
 				error: function (result) {
-					alert("未知错误联系管理员！");
+					alert("未知错误联系管理员！"); 
 				}
 			});
 
@@ -354,7 +354,6 @@
 				type: "post",
 				async: true,
 				success: function (result) {
-					console.log(result);
 					for (var i = 0; i < result.length; i++) {
 						$("#qryMessage").append(
 							"<li class='nav-item'>" +
@@ -370,22 +369,15 @@
 				}
 			});
 
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
 
 		});
 	
 	
+function showUser(){
+		
+}
+  
 	
-
 
 	
 		

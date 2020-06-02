@@ -42,6 +42,7 @@ public class IndexController {
             session.setAttribute("userName", userName);
 			
 			//登录成功
+           System.out.println("!!!!!!!!!!!");
 			return "redirect:/index"; 
 		} catch (UnknownAccountException e) {
 			//e.printStackTrace();
@@ -74,10 +75,17 @@ public class IndexController {
 	}
 	
 	
+	//用户退出，返回登录页
+		@RequestMapping("/loginOut")
+		//@ResponseBody
+		public String loginOut(){
+			session.removeAttribute("userName");
+			return "login"; 
+		}
 	
 	
 	
-
+ 
 
 }
 		
