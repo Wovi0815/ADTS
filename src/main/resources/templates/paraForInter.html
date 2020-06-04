@@ -206,7 +206,7 @@ var oldParaNo;//编辑时，获取初始参数次序用于比对
 function QryParaInterface(){//查接口下属参数
 	$("#example1 tbody" ).empty();
 	$.ajax({
-		url:"/QryParaInterface.do",
+		url:"/QryParaInterface",
 		type:"POST",
 		async:true,
 		data:{"uniqueInterid":uniqueInterid},
@@ -279,7 +279,7 @@ function editClick(e){
 	    var paraNo=$(e).parent().parent().find("td").eq(3).text();
 	    oldParaNo =$(e).parent().parent().find("td").eq(3).text();
 	    $.ajax({
-			url:"/QryParaFillback.do",
+			url:"/QryParaFillback",
 			type:"POST",
 			async:true,
 			data:{
@@ -350,7 +350,7 @@ function changeDataByKey(paraMap) {
 		var paraNo =paraMap[0].modalParaNo;
 		var paraId =paraMap[0].modalParaId;
 		 $.ajax({
-				url:"/QryParaIsExit.do",
+				url:"/QryParaIsExit",
 				type:"POST",
 				async:true,
 				data:{
@@ -374,7 +374,7 @@ function changeDataByKey(paraMap) {
 		//修改之前检查是否唯一
 		var nowparaNo =paraMap[0].modalParaNo;
 		 $.ajax({
-				url:"/QryParaIsExit.do",
+				url:"/QryParaIsExit",
 				type:"POST",
 				async:true,
 				data:{
@@ -400,7 +400,7 @@ function changeDataByKey(paraMap) {
 //新增参数
 function InsertData(paraMap){
 	$.ajax({
-		url:"/InsertParaData.do",
+		url:"/InsertParaData",
 		type:"POST",
 		async:true,
 		data:{
@@ -428,7 +428,7 @@ function InsertData(paraMap){
 //新增后进行接口表更新 1.先获取信息
 function updateinfo(){
 	$.ajax({
-		url:"/QryParaInterface.do",
+		url:"/QryParaInterface",
 		type:"POST",
 		async:true,
 		data:{"uniqueInterid":uniqueInterid},
@@ -457,7 +457,7 @@ function updateinfo(){
 //新增后进行接口表更新 2.更新信息
 function updateIinfo(pCount,paraList){
 	$.ajax({
-		url:"/UpdateIinfo.do",
+		url:"/UpdateIinfo",
 		type:"POST",
 		async:true,
 		data:{
@@ -477,7 +477,7 @@ function updateIinfo(pCount,paraList){
 //编辑参数
 function UpdateData(paraMap){
 	$.ajax({
-		url:"/UpdateParaData.do",
+		url:"/UpdateParaData",
 		type:"POST",
 		async:true,
 		data:{
@@ -504,7 +504,7 @@ function UpdateData(paraMap){
 function deleteClick(e){
 	var paraNo=$(e).parent().parent().find("td").eq(3).text();
 	$.ajax({
-		url:"/deleteOnePara.do",
+		url:"/deleteOnePara",
 		type:"POST",
 		async:true,
 		data:{

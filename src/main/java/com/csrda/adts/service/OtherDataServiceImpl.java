@@ -9,15 +9,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
-import com.csrda.adts.dao.TypeDataDao;
+import com.csrda.adts.dao.OtherDataDao;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
-public class DataTypeService implements DataTypeServiceImpl {
+public class OtherDataServiceImpl implements OtherDataService{
 
 	@Autowired
-	TypeDataDao typeDataDao;
+	OtherDataDao otherDataDao;
 	
 	@Override
 	@Transactional
@@ -25,7 +25,7 @@ public class DataTypeService implements DataTypeServiceImpl {
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			List<Map<String, Object>> memData = mapper.readValue(memList, new TypeReference<List<Map<String, Object>>>(){});
-			if(Integer.valueOf(typeDataDao.qryRep(typId).get(0).get("num").toString())>0) {
+			if(Integer.valueOf(otherDataDao.qryRep(typId).get(0).get("num").toString())>0) {
 				//TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 				return "TypRep";
 			}
@@ -35,15 +35,15 @@ public class DataTypeService implements DataTypeServiceImpl {
 			typeData.put("typAttr", "struct");
 			typeData.put("typSize", typSize);
 			typeData.put("typDesc", typDesc);
-			typeDataDao.saveBasicDataType(typeData);
+			otherDataDao.saveBasicDataType(typeData);
 
 			for (int i = 0; i < memData.size(); i++) {
-				if(Integer.valueOf(typeDataDao.qryStructMemRep(typId, memData.get(i).get("memId").toString()).get(0).get("num").toString())>0) {
+				if(Integer.valueOf(otherDataDao.qryStructMemRep(typId, memData.get(i).get("memId").toString()).get(0).get("num").toString())>0) {
 					TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 					return "structRep";
 				}
 				memData.get(i).put("memStruct", typId);
-				typeDataDao.addStructMem(memData.get(i));
+				otherDataDao.addStructMem(memData.get(i));
 			}
 			return "success";
 		}
@@ -66,15 +66,15 @@ public class DataTypeService implements DataTypeServiceImpl {
 			typeData.put("typAttr", "struct");
 			typeData.put("typSize", typSize);
 			typeData.put("typDesc", typDesc);
-			typeDataDao.updateBasicDataType(typeData);
-			typeDataDao.delStructMem(typId);
+			otherDataDao.updateBasicDataType(typeData);
+			otherDataDao.delStructMem(typId);
 			for (int i = 0; i < memData.size(); i++) {
-				if(Integer.valueOf(typeDataDao.qryStructMemRep(typId, memData.get(i).get("memId").toString()).get(0).get("num").toString())>0) {
+				if(Integer.valueOf(otherDataDao.qryStructMemRep(typId, memData.get(i).get("memId").toString()).get(0).get("num").toString())>0) {
 					TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 					return "structRep";
 				}
 				memData.get(i).put("memStruct", typId);
-				typeDataDao.addStructMem(memData.get(i));
+				otherDataDao.addStructMem(memData.get(i));
 			}
 			return "success";
 		}
@@ -83,6 +83,76 @@ public class DataTypeService implements DataTypeServiceImpl {
 			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 			return "fault";
 		}
+	}
+
+	@Override
+	public List<Map<String, Object>> qryTypeData() {
+		return otherDataDao.qryTypeData();
+	}
+
+	@Override
+	public int saveBasicDataType(Map<String, String> typeData) {
+		return otherDataDao.saveBasicDataType(typeData);
+	}
+
+	@Override
+	public int updateBasicDataType(Map<String, String> typeData) {
+		return otherDataDao.updateBasicDataType(typeData);
+	}
+
+	@Override
+	public int delBasicDataType(String typId) {
+		return otherDataDao.delBasicDataType(typId);
+	}
+
+	@Override
+	public List<Map<String, Object>> detailBasicDataType(String typId) {
+		return otherDataDao.detailBasicDataType(typId);
+	}
+
+	@Override
+	public List<Map<String, Object>> qryRep(String typId) {
+		return otherDataDao.qryRep(typId);
+	}
+
+	@Override
+	public List<Map<String, Object>> qryStructMemRep(String struct, String memId) {
+		return otherDataDao.qryStructMemRep(struct, memId);
+	}
+
+	@Override
+	public int addStructMem(Map<String, Object> memData) {
+		return otherDataDao.addStructMem(memData);
+	}
+
+	@Override
+	public int delStructMem(String typId) {
+		return otherDataDao.delStructMem(typId);
+	}
+
+	@Override
+	public List<Map<String, Object>> qryStructMem(String typId) {
+		return otherDataDao.qryStructMem(typId);
+	}
+
+	@Override
+	public int InsertMid(String modMidId, String modMidName, String modMidDesc) {
+		return otherDataDao.InsertMid(modMidId, modMidName, modMidDesc);
+	}
+
+	@Override
+	public Map<String, Object> qryMidByMidId(String midId) {
+		return otherDataDao.qryMidByMidId(midId);
+	}
+
+	@Override
+	public int UpdateMid(String modMidId, String modMidName, String modMidDesc) {
+		return otherDataDao.UpdateMid(modMidId, modMidName, modMidDesc);
+	}
+
+	@Override
+	public int deleteMid(String midId) {
+		return otherDataDao.deleteMid(midId);
 	}
 	
 	

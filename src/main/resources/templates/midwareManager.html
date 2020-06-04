@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.thymeleaf.org">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- Font Awesome -->
+	 	<link rel="stylesheet" th:href="@{/plugins/fontawesome-free/css/all.min.css}"> 
+		<!-- Ionicons -->
+		<link rel="stylesheet" th:href="@{/dist/css/ionicons.css}">
+		<!-- Tempusdominus Bbootstrap 4 -->
+		<link rel="stylesheet" th:href="@{/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css}">
+		<!-- iCheck -->
+		<link rel="stylesheet" th:href="@{/plugins/icheck-bootstrap/icheck-bootstrap.min.css}">
+		<!-- DataTables -->
+  		<link rel="stylesheet" th:href="@{/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css}">
+  		<link rel="stylesheet" th:href="@{/plugins/datatables-responsive/css/responsive.bootstrap4.min.css}">
+		<!-- Theme style -->
+		<link rel="stylesheet" th:href="@{/dist/css/adminlte.min.css}">
+		<!-- overlayScrollbars -->
+		<link rel="stylesheet" th:href="@{/plugins/overlayScrollbars/css/OverlayScrollbars.min.css}">
+		<!-- toastr -->
+		<link rel="stylesheet" th:href="@{/plugins/toastr/toastr.min.css}">
+
+		<title>中间件页面</title>
+		<style type="text/css">
+		input::-webkit-input-placeholder {
+			/* WebKit browsers */
+			font-size: 10px;
+		}
+
+		input:-moz-placeholder {
+			/* Mozilla Firefox 4 to 18 */
+			font-size: 10px;
+		}
+
+		input::-moz-placeholder {
+			/* Mozilla Firefox 19+ */
+			font-size: 10px;
+		}
+
+		input:-ms-input-placeholder {
+			/* Internet Explorer 10+ */
+			font-size: 10px;
+		}
+	</style>
+		
+	</head>
+	<body>
+
+	<div class="modal fade" id="modal-default">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="modalTitle"></h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              
+              	<!-- 模态框内容 -->
+			<div class="form-group" >
+			 <label for="imidId">中间件标识</label>
+			 <input class="form-control" placeholder="中间件标识" id="imidId" readonly="readonly" >
+			</div>
+			
+			<div class="form-group">
+			 <label for="imidName">中间件名称</label>
+			 <input class="form-control" placeholder="中间件名称" id="imidName" >
+			</div>
+			<div class="form-group">
+			 <label for="imidDesc">中间件描述</label>
+			 <input class="form-control" placeholder="中间件描述" id="imidDesc">
+			</div>
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button id='closeModal' type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+              <button id='saveModal' type="button"  class="btn btn-primary" onclick="save();">保存</button>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+
+	
+		<!-- 表格相关 -->   
+            <div class="card-body">     
+      <button id='addBtn'type='button' style="margin-right:2% ;width: 5%;float: right;"class='btn btn-block btn-outline-info btn-sm' data-toggle="modal" data-target="#modal-default" onclick="addClick();">新增中间件</button> 
+
+       
+              <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <th>中间件标识</th>
+                  <th>中间件名称</th>
+                  <th>中间件描述</th>
+                  <th>操作</th>
+                </tr>
+                </thead>
+                <tbody >
+                
+                </tbody>
+              </table>
+         </div>
+
+	<script th:src="@{/plugins/jquery/jquery.js}" ></script>
+	<script type="module"th:src="@{/plugins/popper/esm/popper.js}"></script>
+	<script type="module"th:src="@{/plugins/popper/popper.js}"></script>
+	<script th:src="@{/plugins/popper/umd/popper.js}"></script>
+	<script type="module"th:src="@{/plugins/bootstrap/js/bootstrap.min.js}"></script>
+	<!-- jQuery -->
+	<script th:src="@{/plugins/jquery/jquery.min.js}"></script>
+	<!-- jQuery UI 1.11.4 -->
+	<script th:src="@{/plugins/jquery-ui/jquery-ui.min.js}"></script>
+	<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+	 <script>
+	  $.widget.bridge('uibutton', $.ui.button)
+	</script> 
+	<!-- Bootstrap 4 -->
+	<script th:src="@{/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js}"></script>
+	<script th:src="@{/plugins/bootstrap-switch/js/bootstrap-switch.min.js}"></script>
+	<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+	<!-- DataTables -->
+	<script th:src="@{/plugins/datatables/jquery.dataTables.min.js}"></script>
+	<script th:src="@{/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js}"></script>
+	<script th:src="@{/plugins/datatables-responsive/js/dataTables.responsive.min.js}"></script>
+	<script th:src="@{/plugins/datatables-responsive/js/responsive.bootstrap4.min.js}"></script>
+	
+	<!-- ChartJS -->
+	<script th:src="@{/plugins/chart.js/Chart.min.js}"></script>
+	<!-- Sparkline -->
+	<script th:src="@{/plugins/sparklines/sparkline.js}"></script>
+	
+	<!-- jQuery Knob Chart -->
+	<script th:src="@{/plugins/jquery-knob/jquery.knob.min.js}"></script>
+	<!-- overlayScrollbars -->
+	<script th:src="@{/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js}"></script>
+	<!-- AdminLTE App -->
+	<script th:src="@{/dist/js/adminlte.js}"></script>
+	<!-- toastr -->
+	<script th:src="@{/plugins/toastr/toastr.min.js}"></script>
+	 	
+	<!-- page script -->
+<script type="text/javascript">
+
+
+//------全局变量-------
+var clickKey;
+//------全局变量-------
+
+
+function QryMid(){//查中间件
+	$("#example1 tbody" ).empty();
+	$.ajax({
+		url:"/QueryMidware",
+		type:"POST",
+		async:true,
+		success:function(result){
+			var body="";
+			for(var i=0;i<result.length;i++){
+				body = "<tr>";
+		        body    += "<td >" + result[i].mid_id + "</td>";
+		        body    += "<td >" + result[i].mid_name + "</td>";
+		        body    += "<td >" + result[i].mid_desc + "</td>";  
+		        body    += "<td>"+
+		        "<button id='editBtn' type='button' style='width: 48%;float: left;'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick='editClick(this);'>修改</button> "+
+		        "<button id='deleteBtn' type='button' style='margin-left: 4%; width: 48%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
+		        "</td>";
+		        body    += "</tr>";
+			    $("#example1 tbody" ).append(body); 
+			}
+			$("#example1").DataTable({
+			
+				 "autoWidth": false,
+			      "paging": true,
+			      "lengthChange": true,
+			      "searching": false,
+			      "ordering": true,
+			      "info": true,
+			    });
+
+		},
+		error:function(result){
+			toastr.warning('未知错误,请联系管理员!');
+		}
+	});
+
+}
+
+//新增     ###模态框内容####
+function addClick(){
+	clickKey="add";
+	$("#imidId").val("");
+	$("#imidId").removeAttr("readonly");
+	$("#imidName").val("");
+	$("#imidDesc").val("");
+    
+}
+//编辑     ###模态框内容####
+function editClick(e){	
+	clickKey="edit";
+	    var midId=$(e).parent().parent().find("td").eq(0).text();
+	    $.ajax({
+			url:"/QryMidByMidId",
+			type:"POST",
+			async:true,
+			data:{
+				"midId":midId
+			},
+			success:function(result){
+				
+				$("#imidId").val(result.mid_id);
+				$("#imidId").attr("readOnly","true");
+				$("#imidName").val(result.mid_name);
+				$("#imidDesc").val(result.mid_desc);
+				
+			},
+			error:function(result){
+				toastr.warning('未知错误,请联系管理员!');
+			}
+		}); 	 
+}
+ 
+//保存
+function save(){
+	var modMidId=$("#imidId").val();
+	var modMidName=$("#imidName").val();
+	var modMidDesc=$("#imidDesc").val();
+	
+	if(modMidId==""||modMidName==""||modMidDesc==""){
+		toastr.info('中间件中必填项未填写充分!');
+	}else{
+		changeDataByKey(modMidId,modMidName,modMidDesc);
+	}
+}
+
+function changeDataByKey(modMidId,modMidName,modMidDesc) {
+
+	if(clickKey=="add"){
+		//新增之前先进行查询是否唯一   
+		 $.ajax({
+				url:"/QryMidByMidId",
+				type:"POST",
+				async:true,
+				data:{
+					"midId":modMidId
+				},
+				success:function(result){
+				
+					if(result.mid_id == modMidId){	
+						toastr.error('中间件已存在!重复!');
+					}else{
+						InsertData(modMidId,modMidName,modMidDesc);//插入
+					}
+				},
+				error:function(result){
+					toastr.warning('未知错误,请联系管理员!');
+				}
+			}); 
+					
+	}else if(clickKey=="edit"){
+		UpdateData(modMidId,modMidName,modMidDesc);
+	}
+
+}	
+//插入数据
+function InsertData(modMidId,modMidName,modMidDesc){
+
+		$.ajax({
+			url:"/InsertMid",
+			type:"POST",
+			async:true,
+			data:{
+				"modMidId":modMidId,
+				"modMidName":modMidName,
+				"modMidDesc":modMidDesc
+			},
+			success:function(result){
+				if(result=1){
+					$("#modal-default").modal('hide'); 
+					var oldTable = $('#example1').dataTable();
+				    oldTable.fnClearTable(); 
+				    oldTable.fnDestroy();
+				    QryMid();
+				}else{
+					toastr.error('中间件新增失败!');
+				}
+				
+			},
+			error:function(result){
+				toastr.warning('未知错误,请联系管理员!');
+				
+			}
+		});
+	
+}
+//更新数据
+function UpdateData(modMidId,modMidName,modMidDesc){
+	$.ajax({
+		url:"/UpdateMid",
+		type:"POST",
+		async:true,
+		data:{
+			"modMidId":modMidId,
+			"modMidName":modMidName,
+			"modMidDesc":modMidDesc
+		},
+		success:function(result){
+			if(result=1){
+				$("#modal-default").modal('hide'); 
+				var oldTable = $('#example1').dataTable();
+			    oldTable.fnClearTable(); 
+			    oldTable.fnDestroy();
+			    QryMid();
+			}else{
+				toastr.error('中间件修改失败!');
+			}
+			
+		},
+		error:function(result){
+			toastr.warning('未知错误,请联系管理员!');
+		}
+	});
+
+}	
+// 删除
+function deleteClick(e){
+	var midId=$(e).parent().parent().find("td").eq(0).text();
+	$.ajax({
+		url:"/DeleteMid",
+		type:"POST",
+		async:true,
+		data:{
+			"midId":midId	
+		},
+		success:function(result){
+			if(result==1){
+				var oldTable = $('#example1').dataTable();
+			    oldTable.fnClearTable(); 
+			    oldTable.fnDestroy();
+			    QryMid();
+			}else{
+				toastr.error('类删除失败!');
+			}
+			
+		},
+		error:function(result){
+			toastr.warning('未知错误,请联系管理员!');
+		}
+	});
+	
+}
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+<script type="text/javascript">
+	toastr.options = {
+			  "closeButton": true,
+			  "debug": false,
+			  "newestOnTop": true,
+			  "progressBar": true,
+			  "positionClass": "toast-top-full-width",
+			  "preventDuplicates": false,
+			  "onclick": null,
+			  "showDuration": "300",
+			  "hideDuration": "800",
+			  "timeOut": "2500",
+			  "extendedTimeOut": "1000",
+			  "showEasing": "swing",
+			  "hideEasing": "linear",
+			  "showMethod": "fadeIn",
+			  "hideMethod": "fadeOut"
+			} 
+	QryMid();
+	
+	
+</script>    
+</body>
+</html>

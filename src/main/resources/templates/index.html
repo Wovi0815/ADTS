@@ -83,7 +83,7 @@
 				<li class="nav-item has-treeview menu-close">
 				<a href="" class="nav-link ">
 					<i class="fas fa-circle nav-icon"></i>
-					<p>接口管理
+					<p>接口数据管理
 						<i class="right fas fa-angle-left"></i>
 					</p>
 				</a>
@@ -96,7 +96,7 @@
 				<li class="nav-item has-treeview menu-close">
 				<a href="" class="nav-link">
 					<i class="fas fa-circle nav-icon"></i>
-					<p>报文管理
+					<p>报文数据管理
 						<i class="right fas fa-angle-left"></i>
 					</p>
 				</a>
@@ -113,7 +113,19 @@
 					</p>
 					</a>
 
-					<ul class="nav nav-treeview"  id="">
+					<ul class="nav nav-treeview" >
+						<li class="nav-item">
+							<a href="/midwareManager"  target="zhu" class="nav-link"> 
+							<i class="nav-icon far fa-circle text-info"></i>
+							<p >中间件</p>
+							</a>
+						</li>		
+						<li class="nav-item">
+							<a href="/messageManager"  target="zhu" class="nav-link"> 
+							<i class="nav-icon far fa-circle text-info"></i>
+							<p >报文</p>
+							</a>
+						</li>		
 						<li class="nav-item">
 							<a href="/dataTypeManager"  target="zhu" class="nav-link"> 
 							<i class="nav-icon far fa-circle text-info"></i>
@@ -121,11 +133,12 @@
 							</a>
 						</li>							
 						<li class="nav-item">
-							<a href="/"  target="zhu" class="nav-link"> 
+							<a href="/moduleManager"  target="zhu" class="nav-link"> 
 							<i class="nav-icon far fa-circle text-info"></i>
 							<p >设备模组</p>
 							</a>
-						</li>		
+						</li>	
+							
 					</ul>
 				</li>
 
@@ -351,7 +364,7 @@
 	<script>
 		$(function () {
 			$.ajax({
-				url: "/QueryMidware.do",
+				url: "/QueryMidware",
 				type: "post",
 				async: true,
 				success: function (result) {
@@ -371,7 +384,7 @@
 			});
 
 			$.ajax({
-				url: "/QueryMessageTyp.do",
+				url: "/QueryMessageTyp",
 				type: "post",
 				async: true,
 				success: function (result) {

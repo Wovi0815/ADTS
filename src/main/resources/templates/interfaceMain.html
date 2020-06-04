@@ -291,7 +291,7 @@ var interfaceParaList;
 function QryClsInterface(){//查类下属接口
 	$("#example1 tbody" ).empty();
 	$.ajax({
-		url:"/QryClsInterface.do",
+		url:"/QryClsInterface",
 		type:"POST",
 		async:true,
 		data:{"classId":classId},
@@ -337,7 +337,7 @@ function QryClsInterface(){//查类下属接口
 function QryInterParaCount(){//查类下属接口参数数量，构建下拉框
 	$("#selectCount").empty();
 	$.ajax({
-		url:"/QryInterParaCount.do",
+		url:"/QryInterParaCount",
 		type:"POST",
 		async:true,
 		data:{"classId":classId},
@@ -356,7 +356,7 @@ function QryInterParaCount(){//查类下属接口参数数量，构建下拉框
 function QryInterReturnType(){//查类下属接口返回值类型，构建下拉框
 	$("#selectReturn").empty();
 	$.ajax({
-		url:"/QryInterReturnType.do",
+		url:"/QryInterReturnType",
 		type:"POST",
 		async:true,
 		data:{"classId":classId},
@@ -390,7 +390,7 @@ $("#select").change(function(){
 	
 	
 	$.ajax({
-		url:"/QryInterfaceBySelect.do",
+		url:"/QryInterfaceBySelect",
 		type:"POST",
 		async:true,
 		data:{
@@ -441,7 +441,7 @@ function showDetail(e){
 	 interfaceParaList=$(e).parent().parent().find("td").eq(4).text();
 			
 	 $.ajax({
-			url:"/QryInterfaceDetail.do",
+			url:"/QryInterfaceDetail",
 			type:"POST",
 			async:true,
 			data:{
@@ -546,7 +546,7 @@ function addClick(){
 function qryInterfaceParaDetail(interfaceId,interfaceParaCount,interfaceParaList){
 	$("#paraArea").empty();	 
 	$.ajax({
-				url:"/QryInterfaceParaDetail.do",
+				url:"/QryInterfaceParaDetail",
 				type:"POST",
 				async:true,
 				data:{
@@ -668,7 +668,7 @@ function addSave(){
 		}
 		//新增
 		$.ajax({
-			url:"/InsertInterface.do",
+			url:"/InsertInterface",
 			type:"POST",
 			async:true,
 			data:{
@@ -716,7 +716,7 @@ function deleteClick(e){
 	interfaceParaCount=$(e).parent().parent().find("td").eq(3).text();
 	interfaceParaList=$(e).parent().parent().find("td").eq(4).text();
 	$.ajax({
-		url:"/deleteInterface.do",
+		url:"/deleteInterface",
 		type:"POST",
 		async:true,
 		data:{
@@ -742,7 +742,7 @@ function deleteClick(e){
 
 function deleteInterfacePara(id){
 	$.ajax({
-		url:"/deleteInterfacePara.do",
+		url:"/deleteInterfacePara",
 		type:"POST",
 		async:true,
 		data:{
@@ -770,7 +770,7 @@ function editInterfaceClick(e){
 	interfaceParaList=$(e).parent().parent().find("td").eq(4).text();
 	//先回填
 	$.ajax({
-			url:"/QryInterfaceDetail.do",
+			url:"/QryInterfaceDetail",
 			type:"POST",
 			async:true,
 			data:{
@@ -801,7 +801,7 @@ function editInterfaceSave(){
 	var interfaceRetnTyp=$("#einterfaceRetnTyp").val();
 	var interfaceRetnDesc=$("#einterfaceRetnDesc").val();
 	 $.ajax({
-			url:"/UpdateInterface.do",
+			url:"/UpdateInterface",
 			type:"POST",
 			async:true,
 			data:{
@@ -841,7 +841,7 @@ function toPara(e){
 	interfaceParaList=$(e).parent().parent().find("td").eq(4).text();
 	var uniqueInterid;
 	$.ajax({
-		url:"/QryInterfaceDetail.do",
+		url:"/QryInterfaceDetail",
 		type:"POST",
 		async:true,
 		data:{

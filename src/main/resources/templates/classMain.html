@@ -185,7 +185,7 @@ var clickKey;
 function QryMidCls(){//查中间件下属类
 	$("#example1 tbody" ).empty();
 	$.ajax({
-		url:"/QueryMidwareClass.do",
+		url:"/QueryMidwareClass",
 		type:"POST",
 		async:true,
 		data:{"midwareId":midwareId},
@@ -226,7 +226,7 @@ function QryMidCls(){//查中间件下属类
 function QryMidClsFather(){
 	$("#selectClass" ).empty();
 	$.ajax({
-		url:"/QryMidClsFather.do",
+		url:"/QryMidClsFather",
 		type:"POST",
 		async:true,
 		data:{"midwareId":midwareId},
@@ -254,7 +254,7 @@ $("#selectClass").change(function(){
 		    oldTable.fnClearTable(); 
 		    oldTable.fnDestroy();
 		$.ajax({
-			url:"/QryMidClsByFather.do",
+			url:"/QryMidClsByFather",
 			type:"POST",
 			async:true,
 			data:{
@@ -300,7 +300,7 @@ $("#selectClass").change(function(){
 function qryClsBeFather(iclsFather){
 	$("#iclsFather" ).empty();
 	$.ajax({
-		url:"/QryClsBeFather.do",
+		url:"/QryClsBeFather",
 		type:"POST",
 		async:true,
 		data:{
@@ -342,7 +342,7 @@ function editClick(e){
 	clickKey="edit";
 	    var cId=$(e).parent().parent().find("td").eq(0).text();
 	    $.ajax({
-			url:"/QryMidClsByCId.do",
+			url:"/QryMidClsByCId",
 			type:"POST",
 			async:true,
 			data:{
@@ -383,7 +383,7 @@ function changeDataByKey(modalCId,modalCName,modalCDesc,modalCFather,modalCMidwa
 	if(clickKey=="add"){
 		//新增之前先进行查询类标识是否唯一   
 		 $.ajax({
-				url:"/QryMidClsByCId.do",
+				url:"/QryMidClsByCId",
 				type:"POST",
 				async:true,
 				data:{
@@ -410,7 +410,7 @@ function changeDataByKey(modalCId,modalCName,modalCDesc,modalCFather,modalCMidwa
 function InsertData(modalCId,modalCName,modalCDesc,modalCFather,modalCMidware){
 
 		$.ajax({
-			url:"/InsertCls.do",
+			url:"/InsertCls",
 			type:"POST",
 			async:true,
 			data:{
@@ -443,7 +443,7 @@ function InsertData(modalCId,modalCName,modalCDesc,modalCFather,modalCMidware){
 //更新数据
 function UpdateData(modalCId,modalCName,modalCDesc,modalCFather,modalCMidware){
 	$.ajax({
-		url:"/UpdateCls.do",
+		url:"/UpdateCls",
 		type:"POST",
 		async:true,
 		data:{
@@ -476,14 +476,14 @@ function UpdateData(modalCId,modalCName,modalCDesc,modalCFather,modalCMidware){
 function deleteClick(e){
 	var cId=$(e).parent().parent().find("td").eq(0).text();
 	$.ajax({
-		url:"/DeleteCls.do",
+		url:"/DeleteCls",
 		type:"POST",
 		async:true,
 		data:{
 			"cId":cId	
 		},
 		success:function(result){
-			if(result=1){
+			if(result==1){
 				var oldTable = $('#example1').dataTable();
 			    oldTable.fnClearTable(); 
 			    oldTable.fnDestroy();

@@ -10,8 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.csrda.adts.service.InterfaceService;
@@ -27,7 +25,7 @@ public class InterfaceController {
 private InterfaceService interfaceService;
 Logger logger= LoggerFactory.getLogger(this.getClass());
 	//查询中间件,构建菜单
-	@RequestMapping("/QueryMidware.do")
+	@RequestMapping("/QueryMidware")
 	@ResponseBody
 	public List<Map<String,Object>> QueryMidware() {
 		List<Map<String, Object>> result = interfaceService.qryMidware();
@@ -41,7 +39,7 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 		}
 		
 	//根据中间件查询下属类
-		@RequestMapping("/QueryMidwareClass.do")
+		@RequestMapping("/QueryMidwareClass")
 		@ResponseBody
 		public List<Map<String,Object>> QueryMidwareClass(String midwareId) {		
 			List<Map<String, Object>> result = interfaceService.qryMidwareClass(midwareId);
@@ -49,7 +47,7 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 		}
 
 	//查询中间件下所有父类，构建筛选下拉框
-		@RequestMapping("/QryMidClsFather.do")
+		@RequestMapping("/QryMidClsFather")
 		@ResponseBody
 		public List<Map<String,Object>> QueryMidClsFather(String midwareId) {
 			List<Map<String, Object>> result = interfaceService.qryMidClsFather(midwareId);
@@ -57,7 +55,7 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 		} 
 
 	//根据下拉框所选择父类进行筛选
-		@RequestMapping("/QryMidClsByFather.do")
+		@RequestMapping("/QryMidClsByFather")
 		@ResponseBody
 		public List<Map<String,Object>> QueryMidClsByFather(String cfather,String midwareId) {
 			List<Map<String, Object>> result = null;
@@ -71,7 +69,7 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 		
 		
 	//根据类标识查询类信息
-		@RequestMapping("/QryMidClsByCId.do")
+		@RequestMapping("/QryMidClsByCId")
 		@ResponseBody
 		public Map<String,Object> QueryMidClsByCId(String cId) {
 			Map<String, Object>result = interfaceService.qryMidClsByCId(cId);
@@ -79,7 +77,7 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 		};
 
 	//查询所有父类、
-		@RequestMapping("/QryClsBeFather.do")
+		@RequestMapping("/QryClsBeFather")
 		@ResponseBody
 		public List<Map<String,Object>> QueryClsFather(String midwareId) {
 			List<Map<String, Object>> result = interfaceService.qryClsBeFather(midwareId);
@@ -87,7 +85,7 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 		};
 
 	// 新增类	
-		@RequestMapping("/InsertCls.do")
+		@RequestMapping("/InsertCls")
 		@ResponseBody
 		public int InsertCls(String modalCId,String modalCName,
 				String modalCDesc,String modalCFather,String modalCMidware) {
@@ -97,7 +95,7 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 		
 		
 	// 编辑类
-		@RequestMapping("/UpdateCls.do")
+		@RequestMapping("/UpdateCls")
 		@ResponseBody
 		public int UpdateCls(String modalCId,String modalCName,
 				String modalCDesc,String modalCFather) {
@@ -106,7 +104,7 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 		};
 	
 	// 删除类
-		@RequestMapping("/DeleteCls.do")
+		@RequestMapping("/DeleteCls")
 		@ResponseBody
 		public int deleteCls(String cId) {
 			int result = interfaceService.deleteCls(cId);
@@ -120,7 +118,7 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 		}
 			
 	//查询类下属接口
-	@RequestMapping("/QryClsInterface.do")
+	@RequestMapping("/QryClsInterface")
 	@ResponseBody
 	public List<Map<String,Object>> QryClsInterface(String classId) {		
 		List<Map<String, Object>> result = interfaceService.qryClsInterface(classId);
@@ -128,14 +126,14 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 	}
 	
 	//查询类下属接口下所有参数个数以构建下拉框，筛选数据
-	@RequestMapping("/QryInterParaCount.do")
+	@RequestMapping("/QryInterParaCount")
 	@ResponseBody
 	public List<Map<String,Object>> QryClsParaCount(String classId) {
 		List<Map<String, Object>> result = interfaceService.qryInterParaCount(classId);
 		return result;
 	}	
 	//查询类下属接口下所有返回值类型以构建下拉框，筛选数据
-	@RequestMapping("/QryInterReturnType.do")		
+	@RequestMapping("/QryInterReturnType")		
 	@ResponseBody
 	List<Map<String,Object>> qryClsReturnType(String classId){
 		List<Map<String, Object>> result = interfaceService.qryInterReturnType(classId);
@@ -145,7 +143,7 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 		
 		
 	//查询参数接口详情
-	@RequestMapping("/QryInterfaceParaDetail.do")		
+	@RequestMapping("/QryInterfaceParaDetail")		
 	@ResponseBody
 	List<Map<String, Object>> qryInterfaceParaDetail(String interfaceId,String interfaceParaCount,
 			 String interfaceParaList){
@@ -158,7 +156,7 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 	}
 	
 	//查询接口详情
-		@RequestMapping("/QryInterfaceDetail.do")		
+		@RequestMapping("/QryInterfaceDetail")		
 		@ResponseBody
 		Map<String, Object> qryInterfaceDetail(String interfaceId,String interfaceParaCount,
 				 String interfaceParaList){
@@ -171,7 +169,7 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 	
 	
 	//根据下拉框查询接口
-		@RequestMapping("/QryInterfaceBySelect.do")		
+		@RequestMapping("/QryInterfaceBySelect")		
 		@ResponseBody
 		List<Map<String, Object>> qryInterfaceBySelect(String selectReturn,String selectCount,String classId){
 			List<Map<String, Object>> result = new ArrayList();
@@ -188,7 +186,7 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 		
 		}
 		//新增接口 
-		@RequestMapping("/InsertInterface.do")		
+		@RequestMapping("/InsertInterface")		
 		@ResponseBody
 	
 		public String addInterfaceAndPara(String interfaceMap, String paraListMap){
@@ -205,7 +203,7 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 		
 		
 	//删除接口
-		@RequestMapping("/deleteInterface.do")		
+		@RequestMapping("/deleteInterface")		
 		@ResponseBody
 		Map<String,Object> deleteInterface(String interfaceId,String interfaceParaCount,String interfaceParaList){
 			Map<String, Object> map = interfaceService.qryFindUniqueInterface(interfaceId,
@@ -222,7 +220,7 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 	
 		
 	//删除接口参数
-		@RequestMapping("/deleteInterfacePara.do")		
+		@RequestMapping("/deleteInterfacePara")		
 		@ResponseBody
 		int deleteInterfacePara(String id){
 			int result = interfaceService.deleteInterfacePara(id);
@@ -231,7 +229,7 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 		
 		
 	//修改接口
-		@RequestMapping("/UpdateInterface.do")		
+		@RequestMapping("/UpdateInterface")		
 		@ResponseBody
 		int updateInterface(String interfaceName,String interfaceDesc,String interfaceRemark,
 				String interfaceRetnTyp,String interfaceRetnDesc,
@@ -248,7 +246,7 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 		}
   
 	// 参数页面
-		@RequestMapping("/QryParaInterface.do")		
+		@RequestMapping("/QryParaInterface")		
 		@ResponseBody
 		List<Map<String, Object>> qryParaInterface(String uniqueInterid){
 			List<Map<String, Object>> result = interfaceService.qryInterfacePara(uniqueInterid);
@@ -257,7 +255,7 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 		}
 	  
 	//修改参数的回填 
-		@RequestMapping("/QryParaFillback.do")		
+		@RequestMapping("/QryParaFillback")		
 		@ResponseBody
 		Map<String, Object> qryParaFillback(String uniqueInterid,String paraNo){
 			Map<String, Object> result = interfaceService.qryParaFillback(uniqueInterid, paraNo);
@@ -266,7 +264,7 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 		}
 	  	
 	//新增参数之前判断是否唯一
-		@RequestMapping("/QryParaIsExist.do")		
+		@RequestMapping("/QryParaIsExist")		
 		@ResponseBody
 		Map<String, Object> qryParaIsExist(String paraNo,String paraId,String uniqueInterid){
 			Map<String, Object> result = interfaceService.qryParaIsExist(paraNo, paraId, uniqueInterid);
@@ -275,7 +273,7 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 	
 	
 	//参数页面新增参数 
-		@RequestMapping("/InsertParaData.do")		
+		@RequestMapping("/InsertParaData")		
 		@ResponseBody
 		public int InsertParaData(String paraMap) throws JsonParseException, JsonMappingException, IOException {
 			ObjectMapper mapper = new ObjectMapper();   
@@ -299,7 +297,7 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 			}
 	
 	//参数变动后修改接口中参数个数以及参数类型列表
-		@RequestMapping("/UpdateIinfo.do")		
+		@RequestMapping("/UpdateIinfo")		
 		@ResponseBody
 		int UpdateIinfo(String pCount,String paraList,String uniqueInterid){
 			int result = interfaceService.UpdateIinfo(pCount, paraList,uniqueInterid);
@@ -309,7 +307,7 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 		
 		
 	//参数页面修改参数 
-		@RequestMapping("/UpdateParaData.do")		
+		@RequestMapping("/UpdateParaData")		
 		@ResponseBody
 		public int UpdateParaData(String paraMap) throws JsonParseException, JsonMappingException, IOException {
 			ObjectMapper mapper = new ObjectMapper();   
@@ -334,7 +332,7 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 		
 		
 		//单个删除接口参数
-		@RequestMapping("/deleteOnePara.do")
+		@RequestMapping("/deleteOnePara")
 		@ResponseBody
 		  int deleteOnePara(String uniqueInterid,String paraNo){
 				int result = interfaceService.deleteOnePara(uniqueInterid,paraNo);

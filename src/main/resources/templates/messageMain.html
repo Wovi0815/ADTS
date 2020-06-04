@@ -313,7 +313,7 @@ var mesId;
 function QryMessage(){//根据报文类型查所有报文
 	$("#example1 tbody" ).empty();
 	$.ajax({
-		url:"/qryMessage.do",
+		url:"/qryMessage",
 		type:"POST",
 		async:true,
 		data:{"mesType":mesType},
@@ -356,7 +356,7 @@ function QryMessage(){//根据报文类型查所有报文
 //查询硬件模块，构建下拉框
 function QryModSelect(){
 	$.ajax({
-		url:"/qryModSelect.do",
+		url:"/qryModSelect",
 		type:"POST",
 		async:true,
 		success:function(result){
@@ -399,7 +399,7 @@ function QryModSelect(){
 //根据下拉框更新当前页面内容
 function refreshDataBySelect(source,destination){
 	$.ajax({
-		url:"/qryMesBySelect.do",
+		url:"/qryMesBySelect",
 		type:"POST",
 		async:true,
 		data:{"mesType":mesType,
@@ -530,7 +530,7 @@ function addSave(){
 		}	
 		//新增
 					 $.ajax({
-							url:"/InsertMes.do",
+							url:"/InsertMes",
 							type:"POST",
 							async:true,
 							data:{
@@ -568,7 +568,7 @@ function showDetail(e){
 	$("#descArea").empty();
 	 mesId=$(e).parent().parent().find("td").eq(0).text();		
 	 $.ajax({
-			url:"/qryMesDetail.do",
+			url:"/qryMesDetail",
 			type:"POST",
 			async:true,
 			data:{
@@ -620,7 +620,7 @@ function showDetail(e){
 function  qryMesDataDetail(mesId){
 	$("#dataArea").empty();	 
 	$.ajax({
-				url:"/qryMesDataDetail.do",
+				url:"/qryMesDataDetail",
 				type:"POST",
 				async:true,
 				data:{
@@ -667,7 +667,7 @@ function editMesClick(e){
 	 mesId=$(e).parent().parent().find("td").eq(0).text();
 	 //先回填
 	 $.ajax({
-			url:"/qryMesDetail.do",
+			url:"/qryMesDetail",
 			type:"POST",
 			async:true,
 			data:{
@@ -700,7 +700,7 @@ function qryModToModal(mesSource,mesDestination){
 	var s =mesSource.split(",")
 	var d=mesDestination.split(",")
 	$.ajax({
-		url:"/qryModSelect.do",
+		url:"/qryModSelect",
 		type:"POST",
 		async:true,
 		success:function(result){
@@ -759,7 +759,7 @@ function editMesSave(){
 	var modalmesDestination=$("#emesDestination").val().toString();	 
 	
 	 $.ajax({
-			url:"/UpdateMes.do",
+			url:"/UpdateMes",
 			type:"POST",
 			async:true,
 			data:{
@@ -799,7 +799,7 @@ function deleteClick(e){
 	var mesId=$(e).parent().parent().find("td").eq(0).text();
 	
 	$.ajax({
-		url:"/deleteMes.do",
+		url:"/deleteMes",
 		type:"POST",
 		async:true,
 		data:{
@@ -824,7 +824,7 @@ function deleteClick(e){
 
 function deleteMesData(mesId){
 	$.ajax({
-		url:"/deleteMesData.do",
+		url:"/deleteMesData",
 		type:"POST",
 		async:true,
 		data:{

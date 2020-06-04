@@ -23,7 +23,7 @@ public class MessageController {
 	private MessageService messageService;
 	//查报文类型构建菜单
 	@ResponseBody
-	@RequestMapping("/QueryMessageTyp.do")
+	@RequestMapping("/QueryMessageTyp")
 	public List<Map<String, Object>> QueryMessageTyp(){
 		List<Map<String, Object>> result = messageService.QueryMessageTyp();
 		return result;
@@ -36,7 +36,7 @@ public class MessageController {
 	}
 	//根据报文类型查询所有报文
 	@ResponseBody
-	@RequestMapping("/qryMessage.do")
+	@RequestMapping("/qryMessage")
 	public List<Map<String, Object>> qryMessage(String mesType){
 		List<Map<String, Object>> result = messageService.qryMessage(mesType);
 		return result;
@@ -44,7 +44,7 @@ public class MessageController {
 	
 	// 查询硬件模块 ,构建 信源信宿的下拉框
 	@ResponseBody
-	@RequestMapping("/qryModSelect.do")
+	@RequestMapping("/qryModSelect")
 	public List<Map<String, Object>> qryModSelect(){
 		List<Map<String, Object>> result = messageService.qryModuleKind();
 	return result;
@@ -53,7 +53,7 @@ public class MessageController {
 	
 	//根据下拉框刷新表格
 	@ResponseBody
-	@RequestMapping("/qryMesBySelect.do")
+	@RequestMapping("/qryMesBySelect")
 	public List<Map<String, Object>> qryMesBySelect(String mesType,String source,String destination){
 
 		List<Map<String,Object>>  destinationList = new ArrayList<Map<String, Object>>() ;
@@ -88,7 +88,7 @@ public class MessageController {
 	
 	// 查询报文的进一步信息
 	@ResponseBody
-	@RequestMapping("/qryMesDetail.do")
+	@RequestMapping("/qryMesDetail")
 	public Map<String, Object> qryMesDetail(String mesId,String mesTyp){
 		Map<String, Object> result = messageService.qryMesDetail(mesId,mesTyp);
 		return result;
@@ -96,14 +96,14 @@ public class MessageController {
 
 	//查询报文数据详情
 	@ResponseBody
-	@RequestMapping("/qryMesDataDetail.do")
+	@RequestMapping("/qryMesDataDetail")
 	public List<Map<String, Object>> qryMesDataDetail(String mesId){
 		List<Map<String, Object>> result = messageService.qryMesDataDetail(mesId);
 		return result;
 	}
 	
 	//修改报文
-	@RequestMapping("/UpdateMes.do")
+	@RequestMapping("/UpdateMes")
 	@ResponseBody
 	public int UpdateMes(String modalmesId,String modalmesName,String modalmesDesc,
 			String modalmesRemark,String modalmesFunNum,String modalmesIDNum,String modalmesTyp,
@@ -115,7 +115,7 @@ public class MessageController {
 	};
 	
 	//新增报文
-	@RequestMapping("/InsertMes.do")		
+	@RequestMapping("/InsertMes")		
 	@ResponseBody
 	public String addMesAndData(String mesMap,String mesDataMap)  {
 		return messageService.addMesAndData(mesMap, mesDataMap);
@@ -123,7 +123,7 @@ public class MessageController {
 	
 	
 	//删除接口
-	@RequestMapping("/deleteMes.do")		
+	@RequestMapping("/deleteMes")		
 	@ResponseBody
 	int deleteInterface(String mesId,String mesTyp){
 		int delresult = messageService.deleteMes(mesId,mesTyp);
@@ -132,7 +132,7 @@ public class MessageController {
 
 
 	//删除接口参数
-	@RequestMapping("/deleteMesData.do")		
+	@RequestMapping("/deleteMesData")		
 	@ResponseBody
 	int deleteInterfacePara(String mesId){
 		int result = messageService.deleteMesData(mesId);
@@ -147,7 +147,7 @@ public class MessageController {
 	
 	//报文数据回填
 	@ResponseBody
-	@RequestMapping("/QryDataFillback.do")
+	@RequestMapping("/QryDataFillback")
 	public Map<String, Object> QryDataFillback(String dataName,String mesId){
 		Map<String, Object> result = messageService.QryDataFillback(dataName,mesId);
 		return result;
@@ -155,7 +155,7 @@ public class MessageController {
 	
 	//新增之前查询报文数据是否重复
 	@ResponseBody
-	@RequestMapping("/QryDataIsExist.do")
+	@RequestMapping("/QryDataIsExist")
 	public String QryDataIsExist(String dataMap)throws JsonParseException, JsonMappingException, IOException {
 		ObjectMapper mapper = new ObjectMapper();   
 		List<Map<String, Object>> map = mapper.readValue(dataMap, new TypeReference<List<Map<String, Object>>>(){});
@@ -206,7 +206,7 @@ public class MessageController {
 	
 	
 	//数据页面新增数据
-	@RequestMapping("/InsertMesData.do")		
+	@RequestMapping("/InsertMesData")		
 	@ResponseBody
 	public int InsertMesData(String dataMap) throws JsonParseException, JsonMappingException, IOException {
 		ObjectMapper mapper = new ObjectMapper();   
@@ -224,7 +224,7 @@ public class MessageController {
 
 	
 	//数据页面新增数据
-	@RequestMapping("/UpdateMesData.do")		
+	@RequestMapping("/UpdateMesData")		
 	@ResponseBody
 	public int UpdateMesData(String dataMap) throws JsonParseException, JsonMappingException, IOException {
 		ObjectMapper mapper = new ObjectMapper();   
@@ -242,7 +242,7 @@ public class MessageController {
 	
 	
 	//单个删除接口参数
-	@RequestMapping("/deleteOneData.do")
+	@RequestMapping("/deleteOneData")
 	@ResponseBody
 	  int deleteOnePara(String dataName,String mesId){
 			int result = messageService.deleteOneData(mesId,dataName);

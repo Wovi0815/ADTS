@@ -178,7 +178,7 @@ var clickKey;
 function QryDataMes(){//查接口下属参数
 	$("#example1 tbody" ).empty();
 	$.ajax({
-		url:"/qryMesDataDetail.do",
+		url:"/qryMesDataDetail",
 		type:"POST",
 		async:true,
 		data:{"mesId":mesId},
@@ -236,7 +236,7 @@ function editClick(e){
 	  $("#idataname").attr("readonly","readonly");
 	    var dataName=$(e).parent().parent().find("td").eq(2).text();
 	    $.ajax({
-			url:"/QryDataFillback.do",
+			url:"/QryDataFillback",
 			type:"POST",
 			async:true,
 			data:{
@@ -296,7 +296,7 @@ function save(){
 function changeDataByKey(dataMap) {
 		//保存之前先进行验证  
 		 $.ajax({
-				url:"/QryDataIsExist.do",
+				url:"/QryDataIsExist",
 				type:"POST",
 				async:true,
 				data:{
@@ -323,7 +323,7 @@ function changeDataByKey(dataMap) {
 //新增数据
 function InsertData(dataMap){
 	$.ajax({
-		url:"/InsertMesData.do",
+		url:"/InsertMesData",
 		type:"POST",
 		async:true,
 		data:{
@@ -353,7 +353,7 @@ function InsertData(dataMap){
 //编辑数据
 function UpdateData(dataMap){
 	$.ajax({
-		url:"/UpdateMesData.do",
+		url:"/UpdateMesData",
 		type:"POST",
 		async:true,
 		data:{
@@ -383,7 +383,7 @@ function UpdateData(dataMap){
 function deleteClick(e){
 	var dataName=$(e).parent().parent().find("td").eq(2).text();
 	$.ajax({
-		url:"/deleteOneData.do",
+		url:"/deleteOneData",
 		type:"POST",
 		async:true,
 		data:{

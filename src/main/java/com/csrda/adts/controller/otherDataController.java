@@ -1,33 +1,24 @@
 package com.csrda.adts.controller;
-
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.csrda.adts.dao.TypeDataDao;
-import com.csrda.adts.service.DataTypeServiceImpl;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
+import com.csrda.adts.service.OtherDataService;
+
+
 
 @Controller
-public class dataTypeController {
-	@Autowired
-	TypeDataDao typeDataDao;
+public class otherDataController {
+
 
 	@Autowired
-	DataTypeServiceImpl dataTypeServiceImpl;
+	OtherDataService otherDataService;
 	
 	@RequestMapping("/dataTypeManager")
 	public String dataTypeManager() {
@@ -37,14 +28,13 @@ public class dataTypeController {
 	@RequestMapping("/qryDataType")
 	@ResponseBody
 	public List<Map<String, Object>> qryDataType(){
-		return typeDataDao.qryTypeData();
+		return otherDataService.qryTypeData();
 	}
 	
 	@RequestMapping("/saveBasicDataType")
 	@ResponseBody
 	public int saveBasicDataType(String typId,String typName,String typAttr,String typSize,String typDesc) {
-		if(Integer.valueOf(typeDataDao.qryRep(typId).get(0).get("num").toString())>0) {
-			//TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+		if(Integer.valueOf(otherDataService.qryRep(typId).get(0).get("num").toString())>0) {
 			return 0;
 		}
 		Map<String, String> typeData=new HashMap<String, String>();
@@ -53,7 +43,7 @@ public class dataTypeController {
 		typeData.put("typAttr", typAttr);
 		typeData.put("typSize", typSize);
 		typeData.put("typDesc", typDesc);
-		return typeDataDao.saveBasicDataType(typeData);
+		return otherDataService.saveBasicDataType(typeData);
 	}
 	
 	@RequestMapping("/updateBasicDataType")
@@ -65,19 +55,19 @@ public class dataTypeController {
 		typeData.put("typAttr", typAttr);
 		typeData.put("typSize", typSize);
 		typeData.put("typDesc", typDesc);
-		return typeDataDao.updateBasicDataType(typeData);
+		return otherDataService.updateBasicDataType(typeData);
 	}
 	
 	@RequestMapping("/detailBasicDataType")
 	@ResponseBody
 	public List<Map<String,Object>> detailBasicDataType(String typId){
-		return typeDataDao.detailBasicDataType(typId);
+		return otherDataService.detailBasicDataType(typId);
 	}
 	
 	@RequestMapping("/delBasicDataType")
 	@ResponseBody
 	public int delBasicDataType(String typId) {
-		return typeDataDao.delBasicDataType(typId);
+		return otherDataService.delBasicDataType(typId);
 	}
 	
 	@RequestMapping("/addStruct")
@@ -88,13 +78,13 @@ public class dataTypeController {
 	@RequestMapping("/addStructData")
 	@ResponseBody
 	public String addStructData(String typId,String typName,String typSize,String typDesc,String memList){
-		return dataTypeServiceImpl.addStruct(typId, typName, typSize, typDesc, memList);
+		return otherDataService.addStruct(typId, typName, typSize, typDesc, memList);
 	}
 
 	@RequestMapping("/detailStructMem")
 	@ResponseBody
 	public List<Map<String, Object>> detailStructMem(String typId){
-		return typeDataDao.qryStructMem(typId);
+		return otherDataService.qryStructMem(typId);
 	}
 	
 	@RequestMapping("/detailStruct")
@@ -105,7 +95,54 @@ public class dataTypeController {
 	@RequestMapping("/editStructData")
 	@ResponseBody
 	public String editStructData(String typId,String typName,String typSize,String typDesc,String memList){
-		return dataTypeServiceImpl.updateStruct(typId, typName, typSize, typDesc, memList);
+		return otherDataService.updateStruct(typId, typName, typSize, typDesc, memList);
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//跳转到中间件页面
+	@RequestMapping("/midwareManager")
+	public String toMidwareManager() {		
+	return "midwareManager";
+	}
+	
+	//中间件编辑模态框数据回填
+	@RequestMapping("/QryMidByMidId")
+	@ResponseBody
+	public Map<String, Object> qryMidByMidId(String midId) {		
+		return otherDataService.qryMidByMidId(midId);
+	}
+	
+	// 新增中间件	
+	@RequestMapping("/InsertMid")
+	@ResponseBody
+	public int InsertCls(String modMidId,String modMidName,String modMidDesc) {
+		int result = otherDataService.InsertMid(modMidId,modMidName,modMidDesc);
+		return result;
+	};
+
+
+	// 编辑类
+	@RequestMapping("/UpdateMid")
+	@ResponseBody
+	public int UpdateCls(String modMidId,String modMidName,String modMidDesc) {
+		int result = otherDataService.UpdateMid(modMidId,modMidName,modMidDesc);
+		return result;
+	};
+
+	// 删除类
+	@RequestMapping("/DeleteMid")
+	@ResponseBody
+	public int deleteCls(String midId) {
+		int result = otherDataService.deleteMid(midId);
+		return result;
+	};	
+	
 
 }

@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectKey;
 import org.apache.ibatis.annotations.Update;
 
-public interface TypeDataDao {
+public interface OtherDataDao {
 	
 	@Select("SELECT\r\n" + 
 			"	typ_id as typId,\r\n" + 
@@ -107,4 +107,44 @@ public interface TypeDataDao {
 			"WHERE\r\n" + 
 			"	tdt.typ_id = #{typId} order by tsm.mem_no ASC;")
 	public List<Map<String, Object>> qryStructMem(String typId);
+	
+	
+	/**
+	 * 根据中间件Id查找中间件
+	 */
+	
+	@Select("SELECT " + 
+	 		"mid_id,mid_name,mid_desc "+ 
+	 		"FROM t_midware  " + 
+	 		"WHERE	mid_id = #{midId} AND is_delete ='0' ")
+	public Map<String, Object>qryMidByMidId(String midId);
+	
+	
+	
+	/**
+	 *  新增中间件
+	 */
+	@Insert("INSERT INTO t_midware (mid_id,mid_name,mid_desc)VALUE(#{modMidId},"
+			+ "#{modMidName},#{modMidDesc})")
+	int InsertMid(String modMidId, String modMidName, String modMidDesc);
+
+
+	/**
+	 *  编辑更新中间件
+	 */
+	@Update("UPDATE  t_midware SET mid_name=#{modMidName},"
+			+ "mid_desc=#{modMidDesc}"
+			+ "WHERE t_midware.mid_id =#{modMidId}")
+	int UpdateMid(String modMidId, String modMidName, String modMidDesc);
+	
+	
+	/**
+	 * 	删除中间件
+	 */
+	
+	@Update("UPDATE t_midware m SET m.is_delete ='1' WHERE m.mid_id=#{midId}")
+	int deleteMid(String midId);
+	
+	
+	
 }
