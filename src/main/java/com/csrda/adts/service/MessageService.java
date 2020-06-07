@@ -106,4 +106,14 @@ public interface MessageService {
 	 * 单个删除报文数据
 	 */
 	 int deleteOneData(String mesId, String dataName);
+	 
+	 
+	 
+	 /**
+	  * 单独报文页面查询所有报文
+	  */
+	 List<Map<String,Object>> qryAllMessage();
+
+	 
+	 
 }

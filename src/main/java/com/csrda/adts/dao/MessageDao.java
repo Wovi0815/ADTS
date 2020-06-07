@@ -247,5 +247,21 @@ public interface MessageDao {
 	  */
 	 @Update("UPDATE t_mes_data d SET d.is_delete ='1'WHERE d.mes_data_name=#{dataName} AND d.mes_id=#{mesId}")
 	 int deleteOneData(String mesId, String dataName);
+	 
+	 
+	 
+
+	 /**
+	  *  根单独报文页面，查所有的报文
+	  */
+	 @Select("SELECT " + 
+			 "id, mes_id as mesId,mes_name as mesName,mes_desc as mesDesc,"+ 
+			 "mes_source as mesSource,mes_destination as mesDestination," + 
+			 "mes_id_num as mesIdNum,mes_fun_id as mesFunId,mes_type as mesType " + 
+			 "FROM t_message " + 
+			 "WHERE	 is_delete ='0' ")
+	 List<Map<String, Object>> qryAllMessage();
+	 
+	 
 
 }

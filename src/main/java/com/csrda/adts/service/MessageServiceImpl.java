@@ -239,6 +239,12 @@ public class MessageServiceImpl implements MessageService{
 	}
 
 
+	@Override
+	public List<Map<String, Object>> qryAllMessage() {
+		return messageDao.qryAllMessage();
+	}
+
+
 	
 
 

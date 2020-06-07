@@ -128,7 +128,7 @@ public class otherDataController {
 	};
 
 
-	// 编辑类
+	// 编辑中间件
 	@RequestMapping("/UpdateMid")
 	@ResponseBody
 	public int UpdateCls(String modMidId,String modMidName,String modMidDesc) {
@@ -136,7 +136,7 @@ public class otherDataController {
 		return result;
 	};
 
-	// 删除类
+	// 删除中中间件
 	@RequestMapping("/DeleteMid")
 	@ResponseBody
 	public int deleteCls(String midId) {
@@ -144,5 +144,9 @@ public class otherDataController {
 		return result;
 	};	
 	
-
+	//跳转到中间件页面
+		@RequestMapping("/messageManager")
+		public String toMessageManager() {		
+		return "messageManager";
+		}
 }

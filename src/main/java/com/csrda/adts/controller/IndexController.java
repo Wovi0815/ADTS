@@ -77,7 +77,6 @@ public class IndexController {
 	
 	//用户退出，返回登录页
 		@RequestMapping("/loginOut")
-		//@ResponseBody
 		public String loginOut(){
 			session.removeAttribute("userName");
 			return "login"; 

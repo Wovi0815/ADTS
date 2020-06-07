@@ -251,9 +251,14 @@ public class MessageController {
 			
 	
 	
+	//单独报文页面 查所有报文
 	
-	
-	
+	@ResponseBody
+	@RequestMapping("/qryAllMessage")
+	public List<Map<String, Object>> qryAllMessage(){
+		List<Map<String, Object>> result = messageService.qryAllMessage();
+		return result;
+	}
 	
 	
 }
