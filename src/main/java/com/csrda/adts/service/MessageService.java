@@ -114,6 +114,6 @@ public interface MessageService {
 	  */
 	 List<Map<String,Object>> qryAllMessage();
 
-	 
+	
 	 
 }

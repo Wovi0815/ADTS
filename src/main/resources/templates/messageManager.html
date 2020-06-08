@@ -107,11 +107,13 @@
 				</div>
 				<div class="form-group">
 					 <label for="imesSource">信源</label>
-					 <input class="form-control" placeholder="信源" id="imesSource"  >
+					 <select id="imesSource" multiple="multiple" >
+					 </select>
 				</div>
 				<div class="form-group">
 					 <label for="imesDestination">信宿</label>
-					 <input class="form-control" placeholder="信宿" id="imesDestination" >
+					 <select id="imesDestination" multiple="multiple" >
+					 </select>
 				</div>
 				<div class="form-group">
 					 <label for="imesID">报文ID</label>
@@ -130,7 +132,7 @@
             
             <div class="modal-footer justify-content-between">
               <button id='closeaddModal' type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-              <button id='saveaddModal' type="button"  class="btn btn-primary" onclick="addSave();">保存</button>
+              <button id='saveaddModal' type="button"  class="btn btn-primary" onclick="save();">保存</button>
             </div>
           </div>
         </div>
@@ -205,13 +207,19 @@
 	 
 	<!-- page script -->
 <script type="text/javascript">
-
-
-
 //------全局变量-------
-var mesId;
-
+var clickKey;
 //------全局变量-------
+
+
+function save(){
+	if(clickKey=="add"){
+		 addSave();
+	}else if(clickKey=="edit"){
+		editMesSave();
+	}
+}
+
 
 function QryAllMessage(){//查所有报文
 	$("#example1 tbody" ).empty();
@@ -230,9 +238,9 @@ function QryAllMessage(){//查所有报文
 		        body    += "<td id='tmesDestination'>" + result[i].mesDestination + "</td>";
 		        body    += "<td id='tmesType'>" + result[i].mesType + "</td>";
 		        body    += "<td>"+
-		        "<button id='detailBtn' type='button' style='width:23%;margin-top:6px;float:left;'class='btn btn-block btn-outline-success btn-sm' data-toggle='modal' data-target='#modal-detail'onclick='showDetail(this)'>报文详情</button> "+
-		        "<button id='editBtn' type='button' style='margin-left:2%;width: 23%;float:left'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-edit'onclick='editMesClick(this);'>修改</button> "+
-		        "<button id='deleteBtn' type='button' style='margin-left:2%;width: 23%;float:left'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
+		        "<button id='detailBtn' type='button' style='width:30%;margin-top:6px;float:left;'class='btn btn-block btn-outline-success btn-sm' data-toggle='modal' data-target='#modal-detail'onclick='showDetail(this)'>报文详情</button> "+
+		        "<button id='editBtn' type='button' style='margin-left:2%;width: 30%;float:left'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal'onclick='editMesClick(this);'>修改</button> "+
+		        "<button id='deleteBtn' type='button' style='margin-left:2%;width: 30%;float:left'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
 		        "</td>";
 		        body    += "</tr>";
 			    $("#example1 tbody" ).append(body); 
@@ -257,21 +265,60 @@ function QryAllMessage(){//查所有报文
 }
 
 
-
+//查询 模组 用于新增的模态框 
+function qryModToAModal(){
+	$("#imesSource").empty();
+	$("#imesDestination").empty();
+	$.ajax({
+		url:"/qryModSelect",
+		type:"POST",
+		async:true,
+		success:function(result){
+			var sbody="";
+			var dbody="";
+				for(var i=0;i<result.length;i++){
+					sbody ="";
+					sbody +=  "<option id ='soption"+i+"'  value='"+ result[i].mod_name+"'>"+result[i].mod_name +"</option>";
+					$("#imesSource").append(sbody);
+					
+				}	
+				for(var i=0;i<result.length;i++){
+					dbody ="";
+					dbody +=  "<option id ='doption"+i+"' value='"+ result[i].mod_name+"'>"+result[i].mod_name +"</option>";
+					$("#imesDestination").append(dbody);
+				
+				}	
+			
+			$("#imesSource").multiselect("destroy").multiselect({  
+				buttonWidth: "200px",
+				numberDisplayed:4
+	          }); 
+			
+			
+		    $("#imesDestination").multiselect("destroy").multiselect({  
+				buttonWidth: "200px",
+				numberDisplayed:4
+	          }); 
+		    $('.dropdown-toggle').dropdown();
+		},
+		error:function(result){
+			toastr.warning('未知错误,请联系管理员!');
+		}
+	});
+	
+}
 
 //新增报文
 function  addClick(){
+	$("#imesId").removeAttr("readonly");
+	$("#imesTyp").removeAttr("readonly");
 	$("#addArea input").each(function() {
 		$(this).val("");
-	})
-	
-
-
+	});
+	clickKey="add";
+	qryModToAModal();
 }
-function onlyPositiveNum(e){
-	$(e).val($(e).val().replace(/[^\d]/g,""));
 
-}
 //新增报文系列操作
 function addSave(){
 	//报文信息
@@ -279,8 +326,8 @@ function addSave(){
 	var imesName =$("#imesName").val();
 	var imesDesc =$("#imesDesc").val();
 	var imesRemark =$("#imesRemark").val();
-	var imesSource =$("#imesSource").val();
-	var imesDestination =$("#imesDestination").val();
+	var imesSource =$("#imesSource").val().toString();
+	var imesDestination =$("#imesDestination").val().toString();
 	var imesID =$("#imesID").val();
 	var imesFunId =$("#imesFunId").val();
 	var imesTyp =$("#imesTyp").val();	
@@ -288,9 +335,7 @@ function addSave(){
 		toastr.info('报文必填项未填写充分!');
 		return;
 	}
-    var imesGroupCount = $("#imesGroupCount").val();
-	if(imesGroupCount != "" ){
-			var mesMap = new Array();
+		var mesMap = new Array();
 			mesMap.push({
 				imesId :imesId,
 				imesName :imesName,
@@ -301,52 +346,26 @@ function addSave(){
 				imesID :imesID,
 				imesFunId :imesFunId,
 				imesTyp :imesTyp});
-			var mesDataMap = new Array();
-			for(var i=1;i<=imesGroupCount;i++){
-				var start =$("#mesDataStart"+i).val();
-				var length = $("#mesDataLength"+i).val();
-				var dataName = $("#mesDataName"+i).val();
-				var dataDesc = $("#mesDataDesc"+i).val();
-				var dataType = $("#mesDataTyp"+i).val();
-				if(start==""||length==""||dataName==""||dataDesc==""||dataType==""){
-					toastr.info('报文数据必填项未填写充分!');
-					 	return;
-				}
-				var end = (start-0) + (length-0) - 1 ;
-				if(end==start){
-					var dataRange = start;
-				}else if(end > start){
-					var dataRange = start+"~"+end;
-				}
-				mesDataMap.push({
-					dataRange :dataRange,
-					dataLong :length,
-					dataName :dataName,
-					dataDesc :dataDesc,
-					dataType :dataType});	
-		}	
+			
 		//新增
 					 $.ajax({
-							url:"/InsertMes",
+							url:"/InsertMessage",
 							type:"POST",
 							async:true,
 							data:{
-								"mesMap":JSON.stringify(mesMap),
-								"mesDataMap":JSON.stringify(mesDataMap)
+								"mesMap":JSON.stringify(mesMap)	
 							},
 							success:function(result){
-								if(result=="Exist"){
+								if(result==2){
 									toastr.error('报文已存在!重复!');
-								}else if(result=="InsertMesFail"){
+								}if(result==0){
 									toastr.error('报文新增失败!');
-								}else if(result == "DataRangeERROR"){
-									toastr.error('报文数据字节范围有误!');
-								}else if(result=="SUCCESS"){
-									 $("#modal-add").modal('hide'); 
+								}else if(result=="1"){
+									 $("#modal").modal('hide'); 
 									 var oldTable = $('#example1').dataTable();
 							   		    oldTable.fnClearTable(); 
 							  		    oldTable.fnDestroy();
-							  			QryMessage();
+							  		    QryAllMessage()
 							  			
 								}							
 							},	
@@ -354,16 +373,13 @@ function addSave(){
 								toastr.warning('未知错误,请联系管理员!');
 							}
 						});	
-			
-	}else{
-		toastr.info('请输入报文分段数量!');
-	}
-			
+		
 }
 //点击报文详情
 function showDetail(e){
 	$("#descArea").empty();
-	 mesId=$(e).parent().parent().find("td").eq(0).text();		
+	 var mesId=$(e).parent().parent().find("td").eq(0).text();		
+	 var mesType=$(e).parent().parent().find("td").eq(4).text();		
 	 $.ajax({
 			url:"/qryMesDetail",
 			type:"POST",
@@ -403,9 +419,7 @@ function showDetail(e){
 				ibody +="</div>";
 				
 				$("#descArea").append(ibody);
-				//查报文的数据详情
-				qryMesDataDetail(mesId);
-				
+			
 			},	
 			error:function(result){
 				toastr.warning('未知错误,请联系管理员!');
@@ -413,55 +427,13 @@ function showDetail(e){
 		});	
 	
 }
-// 报文的数据详情
-function  qryMesDataDetail(mesId){
-	$("#dataArea").empty();	 
-	$.ajax({
-				url:"/qryMesDataDetail",
-				type:"POST",
-				async:true,
-				data:{
-					"mesId":mesId
-				},
-				success:function(result){
-				for(var i=0;i<result.length;i++){
-					var mesDRange = result[i].mes_data_range;
-					var mesDName = result[i].mes_data_name;
-					var mesDDesc = result[i].mes_data_desc;
-					var mesDTyp = result[i].mes_data_type;
-					var body="";
-					   	body +="<div class='input-group'>";
-						body += "<div class='input-group-prepend'>";
-						body +="<span class='input-group-text'>字节序号</span>";
-						body +=	"<span class='input-group-text'style='width:90px;' >"+mesDRange+"</span>";
-						body +=	"</div>" ;
-						body +=	"<div class='input-group-prepend'>";
-						body +="<span class='input-group-text'style='margin-left:5px;'>名称</span>";
-						body +=	"<span class='input-group-text'  style='width:120px'>"+mesDName+"</span>";
-						body +=	 "</div>";
-						body +=	 "<div class='input-group-prepend'>";
-						body +="<span class='input-group-text'style='margin-left:5px;'>类型</span>";
-						body +=	 	"<span class='input-group-text' style='width:85px;'>"+mesDTyp+"</span>";
-						body +=	 "</div>" ;
-						body +=    "<div class='input-group-prepend'>";
-						body +=        "<span class='input-group-text'style='margin-left:5px;'>描述</span>";
-						body +=    "</div>" ;
-						body +=	"<input type='text'  readonly='readonly'  class='form-control' value='"+mesDDesc+"'/>";
-						body +="</div>";
-						$("#dataArea").append(body);
-						
-				 }
-				},	
-				error:function(result){
-					toastr.warning('未知错误,请联系管理员!');
-				}
-			});	
-	 }
-	
+
 	
 //编辑报文
 function editMesClick(e){
-	 mesId=$(e).parent().parent().find("td").eq(0).text();
+	var mesId=$(e).parent().parent().find("td").eq(0).text();
+    var mesType=$(e).parent().parent().find("td").eq(4).text();		
+    clickKey="edit";
 	 //先回填
 	 $.ajax({
 			url:"/qryMesDetail",
@@ -472,13 +444,15 @@ function editMesClick(e){
 				"mesTyp":mesType
 			},
 			success:function(result){
-				$("#emesId").val(result.mes_id);
-				$("#emesName").val(result.mes_name);		 
-				$("#emesDesc").val(result.mes_desc);		 
-				$("#emesFunNum").val(result.mes_fun_id);
-				$("#emesIDNum").val(result.mes_id_num);	
-				$("#emesRemark").val(result.mes_remark);		 
-				$("#emesTyp").val(mesType);		
+				$("#imesId").val(result.mes_id);
+				$("#imesName").val(result.mes_name);		 
+				$("#imesDesc").val(result.mes_desc);		 
+				$("#imesFunId").val(result.mes_fun_id);
+				$("#imesID").val(result.mes_id_num);	
+				$("#imesRemark").val(result.mes_remark);		 
+				$("#imesTyp").val(result.mes_type);	
+				$("#imesId").attr("readonly","readonly");
+				$("#imesTyp").attr("readonly","readonly");
 				var mesSource = result.mes_source;
 				var mesDestination = result.mes_destination;
 				//模态框信源信宿下拉框
@@ -490,10 +464,10 @@ function editMesClick(e){
 		});	
 	 
 }
-// 查询 模组 用于新增和编辑 的模态框 
+// 查询 模组 用于编辑 的模态框 
 function qryModToModal(mesSource,mesDestination){
-	$("#emesSource").empty();
-	$("#emesDestination").empty();
+	$("#imesSource").empty();
+	$("#imesDestination").empty();
 	var s =mesSource.split(",")
 	var d=mesDestination.split(",")
 	$.ajax({
@@ -506,7 +480,7 @@ function qryModToModal(mesSource,mesDestination){
 				for(var i=0;i<result.length;i++){
 					sbody ="";
 					sbody +=  "<option id ='soption"+i+"'  value='"+ result[i].mod_name+"'>"+result[i].mod_name +"</option>";
-					$("#emesSource").append(sbody);
+					$("#imesSource").append(sbody);
 					for(var j=0;j<s.length;j++){
 						if(s[j] == result[i].mod_name){
 							$("#soption"+i).attr("selected","selected");
@@ -516,7 +490,7 @@ function qryModToModal(mesSource,mesDestination){
 				for(var i=0;i<result.length;i++){
 					dbody ="";
 					dbody +=  "<option id ='doption"+i+"' value='"+ result[i].mod_name+"'>"+result[i].mod_name +"</option>";
-					$("#emesDestination").append(dbody);
+					$("#imesDestination").append(dbody);
 					for(var j=0;j<d.length;j++){
 							if(d[j] == result[i].mod_name){
 							$("#doption"+i).attr("selected","selected");
@@ -524,13 +498,13 @@ function qryModToModal(mesSource,mesDestination){
 					}
 				}	
 			
-			$("#emesSource").multiselect("destroy").multiselect({  
+			$("#imesSource").multiselect("destroy").multiselect({  
 				buttonWidth: "200px",
 				numberDisplayed:4
 	          }); 
 			
 			
-		    $("#emesDestination").multiselect("destroy").multiselect({  
+		    $("#imesDestination").multiselect("destroy").multiselect({  
 				buttonWidth: "200px",
 				numberDisplayed:4
 	          }); 
@@ -545,16 +519,16 @@ function qryModToModal(mesSource,mesDestination){
 
 //编辑报文保存
 function editMesSave(){
-	var modalmesId =$("#emesId").val();
-	var modalmesName=$("#emesName").val();
-	var modalmesDesc=$("#emesDesc").val();
-	var modalmesRemark=$("#emesRemark").val();
-	var modalmesFunNum=$("#emesFunNum").val();
-	var modalmesIDNum=$("#emesIDNum").val();
-	var modalmesTyp=$("#emesTyp").val();
-	var modalmesSource=$("#emesSource").val().toString();
-	var modalmesDestination=$("#emesDestination").val().toString();	 
-	
+	var modalmesId =$("#imesId").val();
+	var modalmesName=$("#imesName").val();
+	var modalmesDesc=$("#imesDesc").val();
+	var modalmesRemark=$("#imesRemark").val();
+	var modalmesFunNum=$("#imesFunId").val();
+	var modalmesIDNum=$("#imesID").val();
+	var modalmesTyp=$("#imesTyp").val();
+	var modalmesSource=$("#imesSource").val().toString();
+	var modalmesDestination=$("#imesDestination").val().toString();	 
+
 	 $.ajax({
 			url:"/UpdateMes",
 			type:"POST",
@@ -572,10 +546,11 @@ function editMesSave(){
 			},
 			success:function(result){
 				if(result==1){
+					$("#modal").modal('hide'); 
 					var oldTable = $('#example1').dataTable();
 				    oldTable.fnClearTable(); 
 				    oldTable.fnDestroy();
-				    QryMessage();
+				    QryAllMessage();
 				    
 				}else{
 					toastr.error('报文修改失败!');
@@ -594,7 +569,7 @@ function editMesSave(){
 
 function deleteClick(e){
 	var mesId=$(e).parent().parent().find("td").eq(0).text();
-	
+	var mesType=$(e).parent().parent().find("td").eq(4).text();		
 	$.ajax({
 		url:"/deleteMes",
 		type:"POST",
@@ -631,7 +606,7 @@ function deleteMesData(mesId){
 			var oldTable = $('#example1').dataTable();
 		    oldTable.fnClearTable(); 
 		    oldTable.fnDestroy();
-		    QryMessage();
+		    QryAllMessage();
 			
 		},	
 		error:function(result){

@@ -113,6 +113,30 @@ public class MessageController {
 				modalmesTyp, modalmesSource, modalmesDestination);
 		return result;
 	};
+	//单独新增报文
+	@RequestMapping("/InsertMessage")		
+	@ResponseBody
+	public int addMes(String mesMap)throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper mapper = new ObjectMapper();   
+		List<Map<String, Object>> map = mapper.readValue(mesMap, new TypeReference<List<Map<String, Object>>>(){});
+		String mesId = map.get(0).get("imesId").toString(); 
+		String mesName = map.get(0).get("imesName").toString();
+		String mesDesc = map.get(0).get("imesDesc").toString();
+		String mesRemark = map.get(0).get("imesRemark").toString();
+		String mesSource = map.get(0).get("imesSource").toString();
+		String mesDestination = map.get(0).get("imesDestination").toString();
+		String mesID = map.get(0).get("imesID").toString();
+		String mesFunId = map.get(0).get("imesFunId").toString();
+		String mesTyp = map.get(0).get("imesTyp").toString();
+		Map<String, Object> result = messageService.qryMesDetail(mesId,mesTyp);
+		if(result==null) {
+			return messageService.InsertMes(mesId, mesName, mesDesc, mesRemark, mesSource, mesDestination, mesID, mesFunId, mesTyp);
+		}else {
+			return 2;
+		}
+		
+	}
+	
 	
 	//新增报文
 	@RequestMapping("/InsertMes")		
@@ -131,7 +155,7 @@ public class MessageController {
 	}
 
 
-	//删除接口参数
+	//删除报文数据
 	@RequestMapping("/deleteMesData")		
 	@ResponseBody
 	int deleteInterfacePara(String mesId){
