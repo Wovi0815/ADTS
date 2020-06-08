@@ -245,7 +245,7 @@ public interface MessageDao {
 	 /**
 	  * 单个删除报文数据
 	  */
-	 @Update("UPDATE t_mes_data d SET d.is_delete ='1'WHERE d.mes_data_name=#{dataName} AND d.mes_id=#{mesId}")
+	 @Update("UPDATE t_mes_data d SET d.is_delete ='1' WHERE d.mes_data_name=#{dataName} AND d.mes_id=#{mesId}")
 	 int deleteOneData(String mesId, String dataName);
 	 
 	 

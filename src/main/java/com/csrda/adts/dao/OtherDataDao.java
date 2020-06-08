@@ -34,11 +34,11 @@ public interface OtherDataDao {
 			"typ_id=#{typId}")
 	public int updateBasicDataType(Map<String,String> typeData);
 	
-	@Delete("DELETE \r\n" + 
-			"FROM\r\n" + 
-			"	t_data_type \r\n" + 
+	@Update("UPDATE \r\n" + 
+			"	t_data_type t \r\n" + 
+			"SET t.is_delete = '1' " +
 			"WHERE\r\n" + 
-			"	typ_id = #{typId};")
+			"	t.typ_id = #{typId};")
 	public int delBasicDataType(String typId);
 	
 	@Select("SELECT\r\n" + 
@@ -80,11 +80,11 @@ public interface OtherDataDao {
 			"	);")
 	public int addStructMem(Map<String, Object> memData);
 	
-	@Delete("DELETE \r\n" + 
-			"FROM\r\n" + 
-			"	t_struct_member \r\n" + 
+	@Update("UPDATE \r\n" + 
+			"	t_struct_member m \r\n" + 
+			"SET m.is_delete = '1' " +
 			"WHERE\r\n" + 
-			"	mem_struct = #{typId};")
+			"	m.mem_struct = #{typId};")
 	public int delStructMem(String typId);
 	
 	@Select("SELECT\r\n" + 
