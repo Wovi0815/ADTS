@@ -42,7 +42,6 @@ public class IndexController {
             session.setAttribute("userName", userName);
 			
 			//登录成功
-           System.out.println("!!!!!!!!!!!");
 			return "redirect:/index"; 
 		} catch (UnknownAccountException e) {
 			//e.printStackTrace();
@@ -73,6 +72,16 @@ public class IndexController {
 	public String unAuth() {
 		return "unAuth";
 	}
+	
+	//获取当前用户
+	@RequestMapping("/getUser")
+	@ResponseBody
+	public String getUser() {
+		
+			return session.getAttribute("userName").toString();
+
+	}
+	
 	
 	
 	//用户退出，返回登录页

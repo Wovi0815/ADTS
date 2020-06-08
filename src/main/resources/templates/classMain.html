@@ -95,7 +95,8 @@
 
 	
 		<!-- 表格相关 -->   
-            <div class="card-body">     
+            <div class="card-body">  
+             <span id='userName' th:text="${session.userName}" onclick="showUser();"></span>    
       <button id='addBtn'type='button' style="margin-right:2% ;width: 5%;float: right;"class='btn btn-block btn-outline-info btn-sm' data-toggle="modal" data-target="#modal-default" onclick="addClick();">新增类</button> 
         
         <!-- 下拉搜索框开始 -->   
@@ -506,6 +507,25 @@ function toInterface(e){
 	window.parent.zhu.location.href="/interfaceMain?classId="+cId;	
 }
 
+function getUser(){
+	$.ajax({
+		url:"/getUser",
+		type:"POST",
+		async:true,
+		success:function(result){
+			if(result == "refresh"){
+				location.reload() ;
+			}else {
+				var userName =result;
+				alert(userName);
+			}
+		
+		},
+		error:function(result){
+			toastr.warning('未知错误,请联系管理员!');
+		}
+	});
+}
 
 
 
@@ -534,9 +554,9 @@ function toInterface(e){
 			  "showMethod": "fadeIn",
 			  "hideMethod": "fadeOut"
 			} 
+	getUser();
 	QryMidCls();
 	QryMidClsFather();
-	
 	
 </script>    
 </body>

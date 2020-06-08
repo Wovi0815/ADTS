@@ -39,7 +39,7 @@
 					<div class="image" style="margin: auto;">
 						
 							 <span>欢迎您,</span>
-							 <a th:text="${session.userName}" onclick="showUser();"></a> 
+							 <a id='userName' th:text="${session.userName}" onclick="showUser();"></a> 
 							 <a href='/loginOut'>退出 </a>
 					   
 						<img src="dist/img/csic-logo.png" class="img-circle elevation-2" alt="User Image"
@@ -363,7 +363,14 @@
 	<!-- AdminLTE App -->
 	<script th:src="@{/dist/js/adminlte.js}"></script>
 	<script>
+	
+	
+	
+	
+	
+	
 		$(function () {
+			
 			$.ajax({
 				url: "/QueryMidware",
 				type: "post",
