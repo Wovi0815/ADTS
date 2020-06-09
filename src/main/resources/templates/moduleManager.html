@@ -21,7 +21,7 @@
 		<!-- toastr -->
 		<link rel="stylesheet" th:href="@{/plugins/toastr/toastr.min.css}">
 
-		<title>中间件管理页面</title>
+		<title>设备管理</title>
 		<style type="text/css">
 		input::-webkit-input-placeholder {
 			/* WebKit browsers */
@@ -60,18 +60,34 @@
               
               	<!-- 模态框内容 -->
 			<div class="form-group" >
-			 <label for="imidId">中间件标识</label>
-			 <input class="form-control" placeholder="中间件标识" id="imidId" readonly="readonly" >
+			 <label for="modId">标识</label>
+			 <input class="form-control" placeholder="标识" id="modId" readonly="readonly" >
+			</div>
+			<div class="form-group">
+			 <label for="modName">名称</label>
+			 <input class="form-control" placeholder="名称" id="modName" >
+			</div>
+			<div class="form-group">
+			 <label for="modDesc">描述</label>
+			 <input class="form-control" placeholder="描述" id="modDesc">
+			</div>
+			<div class="form-group">
+			 <label for="modPid">设备号</label>
+			 <input class="form-control" placeholder="设备号" id="modPid">
+			</div>
+			<div class="form-group">
+			 <label for="modVid">厂商号</label>
+			 <input class="form-control" placeholder="厂商号" id="modVid">
+			</div>
+			<div class="form-group">
+			 <label for="modNod">节点号</label>
+			 <input class="form-control" placeholder="节点号" id="modNod" readonly="readonly">
+			</div>
+			<div class="form-group">
+			 <label for="modRank">层级</label>
+			 <input class="form-control" placeholder="层级" id="modRank">
 			</div>
 			
-			<div class="form-group">
-			 <label for="imidName">中间件名称</label>
-			 <input class="form-control" placeholder="中间件名称" id="imidName" >
-			</div>
-			<div class="form-group">
-			 <label for="imidDesc">中间件描述</label>
-			 <input class="form-control" placeholder="中间件描述" id="imidDesc">
-			</div>
             </div>
             <div class="modal-footer justify-content-between">
               <button id='closeModal' type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
@@ -91,9 +107,10 @@
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                  <th>中间件标识</th>
-                  <th>中间件名称</th>
-                  <th>中间件描述</th>
+                  <th>标识</th>
+                  <th>名称</th>
+                  <th>节点号</th>
+                  <th>层级</th>
                   <th>操作</th>
                 </tr>
                 </thead>
@@ -163,6 +180,7 @@ function QryMid(){//查中间件
 		        body    += "<td >" + result[i].mid_name + "</td>";
 		        body    += "<td >" + result[i].mid_desc + "</td>";  
 		        body    += "<td>"+
+		        
 		        "<button id='editBtn' type='button' style='width: 48%;float: left;'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick='editClick(this);'>修改</button> "+
 		        "<button id='deleteBtn' type='button' style='margin-left: 4%; width: 48%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
 		        "</td>";
