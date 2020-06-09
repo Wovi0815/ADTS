@@ -101,7 +101,7 @@
 	
 		<!-- 表格相关 -->   
             <div class="card-body">     
-      <button id='addBtn'type='button' style="margin-right:2% ;width: 8%;float: right;"class='btn btn-block btn-outline-info btn-sm' data-toggle="modal" data-target="#modal-default" onclick="addClick();">新增中间件</button> 
+      <button id='addBtn'type='button' style="margin-right:2% ;width: 8%;float: right;"class='btn btn-block btn-outline-info btn-sm' data-toggle="modal" data-target="#modal-default" onclick="addClick();">新增硬件</button> 
 
        
               <table id="example1" class="table table-bordered table-striped">
@@ -166,23 +166,24 @@ var clickKey;
 //------全局变量-------
 
 
-function QryMid(){//查中间件
+function QryModule(){//查所有节点的设备
 	$("#example1 tbody" ).empty();
 	$.ajax({
-		url:"/QueryMidware",
+		url:"/QryModule",
 		type:"POST",
 		async:true,
 		success:function(result){
 			var body="";
 			for(var i=0;i<result.length;i++){
 				body = "<tr>";
-		        body    += "<td >" + result[i].mid_id + "</td>";
-		        body    += "<td >" + result[i].mid_name + "</td>";
-		        body    += "<td >" + result[i].mid_desc + "</td>";  
+		        body    += "<td >" + result[i].mod_id + "</td>";
+		        body    += "<td >" + result[i].mod_name + "</td>";
+		        body    += "<td >" + result[i].mod_nod + "</td>";  
+		        body    += "<td >" + result[i].mod_rank + "</td>";  
 		        body    += "<td>"+
-		        
-		        "<button id='editBtn' type='button' style='width: 48%;float: left;'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick='editClick(this);'>修改</button> "+
-		        "<button id='deleteBtn' type='button' style='margin-left: 4%; width: 48%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
+		        "<button id='editBtn' type='button' style='width: 30%;float: left;'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick='detailClick(this);'>硬件详情</button> "+
+		        "<button id='editBtn' type='button' style='margin-left: 4%;width: 30%;float: left;'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick='editClick(this);'>修改</button> "+
+		        "<button id='deleteBtn' type='button' style='margin-left: 4%; width: 30%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
 		        "</td>";
 		        body    += "</tr>";
 			    $("#example1 tbody" ).append(body); 
@@ -399,7 +400,7 @@ function deleteClick(e){
 			  "showMethod": "fadeIn",
 			  "hideMethod": "fadeOut"
 			} 
-	QryMid();
+	
 	
 	
 </script>    

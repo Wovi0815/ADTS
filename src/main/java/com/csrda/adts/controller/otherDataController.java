@@ -145,8 +145,14 @@ public class otherDataController {
 	};	
 	
 	//跳转到中间件页面
-		@RequestMapping("/messageManager")
-		public String toMessageManager() {		
+	@RequestMapping("/messageManager")
+	public String toMessageManager() {		
 		return "messageManager";
-		}
+	}
+	//跳转到硬件设备页面
+	@RequestMapping("/moduleManager")
+	public String toModuleManager() {		
+		return "moduleManager";
+	}
+	
 }
