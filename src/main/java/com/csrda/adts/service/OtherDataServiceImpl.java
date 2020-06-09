@@ -154,6 +154,11 @@ public class OtherDataServiceImpl implements OtherDataService{
 	public int deleteMid(String midId) {
 		return otherDataDao.deleteMid(midId);
 	}
+
+	@Override
+	public List<Map<String, Object>> qryAllModule() {
+		return otherDataDao.qryAllModule();
+	}
 	
 	
 	

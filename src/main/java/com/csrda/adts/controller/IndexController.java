@@ -77,7 +77,12 @@ public class IndexController {
 	@RequestMapping("/getUser")
 	@ResponseBody
 	public String getUser() {
-		return session.getAttribute("userName").toString();
+		if(session.getId()!=null) {
+			return session.getAttribute("userName").toString();
+		}else {
+			return "sessionNull";
+		}
+		
 	}
 	
 	

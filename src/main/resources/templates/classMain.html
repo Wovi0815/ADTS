@@ -96,7 +96,7 @@
 	
 		<!-- 表格相关 -->   
             <div class="card-body">  
-             <span id='userName' th:text="${session.userName}" onclick="showUser();"></span>    
+           
       <button id='addBtn'type='button' style="margin-right:2% ;width: 5%;float: right;"class='btn btn-block btn-outline-info btn-sm' data-toggle="modal" data-target="#modal-default" onclick="addClick();">新增类</button> 
         
         <!-- 下拉搜索框开始 -->   
@@ -513,6 +513,9 @@ function getUser(){
 		type:"POST",
 		async:true,
 		success:function(result){
+			if(result=="sessionNull"){
+				location.reload();
+			}
 			var userName =result;
 		},
 		error:function(result){

@@ -149,10 +149,17 @@ public class otherDataController {
 	public String toMessageManager() {		
 		return "messageManager";
 	}
+	
+	
 	//跳转到硬件设备页面
 	@RequestMapping("/moduleManager")
 	public String toModuleManager() {		
 		return "moduleManager";
 	}
-	
+	//查询所有节点下的设备
+	@RequestMapping("/QryAllModule")
+	@ResponseBody
+	public List<Map<String, Object>> qryAllModule() {		
+		return otherDataService.qryAllModule();
+	}
 }

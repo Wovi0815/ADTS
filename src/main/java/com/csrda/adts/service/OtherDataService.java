@@ -55,7 +55,9 @@ public interface OtherDataService{
 	 * 删除中间件
 	 */
 	public int deleteMid(String midId);
-
-	
+	/**
+	 * 查询所有节点下的设备
+	 */
+	public List<Map<String, Object>> qryAllModule();	
 	
 }

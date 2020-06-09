@@ -145,6 +145,11 @@ public interface OtherDataDao {
 	@Update("UPDATE t_midware m SET m.is_delete ='1' WHERE m.mid_id=#{midId}")
 	int deleteMid(String midId);
 	
-	
+	/**
+	 * 查询所有节点下的设备
+	 */
+	 @Select("SELECT  * " + 
+		 	"FROM t_module " )
+	  List<Map<String, Object>> qryAllModule();
 	
 }
