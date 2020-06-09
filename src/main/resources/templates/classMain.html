@@ -513,13 +513,7 @@ function getUser(){
 		type:"POST",
 		async:true,
 		success:function(result){
-			if(result == "refresh"){
-				location.reload() ;
-			}else {
-				var userName =result;
-				alert(userName);
-			}
-		
+			var userName =result;
 		},
 		error:function(result){
 			toastr.warning('未知错误,请联系管理员!');
