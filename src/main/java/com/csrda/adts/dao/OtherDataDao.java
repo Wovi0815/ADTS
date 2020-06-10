@@ -2,11 +2,8 @@ package com.csrda.adts.dao;
 
 import java.util.List;
 import java.util.Map;
-
-import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.SelectKey;
 import org.apache.ibatis.annotations.Update;
 
 public interface OtherDataDao {
@@ -21,7 +18,7 @@ public interface OtherDataDao {
 			"	`t_data_type`;")
 	public List<Map<String, Object>> qryTypeData();
 
-	@Insert("INSERT INTO `csrda_adts_test`.`t_data_type` ( `typ_id`, `typ_name`, `typ_size`, `typ_attr`, `typ_desc`, `modify_user` )\r\n" + 
+	@Insert("INSERT INTO `t_data_type` ( `typ_id`, `typ_name`, `typ_size`, `typ_attr`, `typ_desc`, `modify_user` )\r\n" + 
 			"VALUES\r\n" + 
 			"	(#{typId}, #{typName}, #{typSize}, #{typAttr}, #{typDesc}, 'admin');")
 	public int saveBasicDataType(Map<String,String> typeData);
@@ -63,7 +60,7 @@ public interface OtherDataDao {
 			"	( SELECT * FROM `t_struct_member` WHERE mem_struct = #{struct} AND mem_id = #{memId} ) a")
 	public List<Map<String, Object>> qryStructMemRep(String struct,String memId);
 	
-	@Insert("INSERT INTO `csrda_adts_test`.`t_struct_member` ( `mem_id`, `mem_name`, `mem_type`, `mem_struct`, `mem_no`, `mem_desc`, `mem_phy_dim`, `mem_max`, `mem_min`, `mem_default`, `modify_user` )\r\n" + 
+	@Insert("INSERT INTO `t_struct_member` ( `mem_id`, `mem_name`, `mem_type`, `mem_struct`, `mem_no`, `mem_desc`, `mem_phy_dim`, `mem_max`, `mem_min`, `mem_default`, `modify_user` )\r\n" + 
 			"VALUES\r\n" + 
 			"	(\r\n" + 
 			"		#{memId},\r\n" + 

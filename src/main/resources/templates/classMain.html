@@ -514,7 +514,8 @@ function getUser(){
 		async:true,
 		success:function(result){
 			if(result=="sessionNull"){
-				location.reload();
+				toastr.warning('连接断开!');
+				window.parent.zhu.location.href="/tologin";	
 			}
 			var userName =result;
 		},
@@ -522,6 +523,7 @@ function getUser(){
 			toastr.warning('未知错误,请联系管理员!');
 		}
 	});
+	
 }
 
 

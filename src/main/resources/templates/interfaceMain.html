@@ -503,7 +503,7 @@ function addClick(){
 		if(iparaCount==0){$("#iparalist").val("无");}
 		for(var i=1;i<=iparaCount;i++){
 			var ibody="";
-			ibody += "<div class='input-group' >";
+			ibody += "<div class='input-group' id ='inputGroup"+i+"' >";
 			ibody += "<select class='form-control select2bs4' id='paraAttr"+i+"'><option>输入</option><option>输出</option></select> ";
 			ibody += "<input style='width:3%;' readonly='readonly' placeholder='参数次序' value='"+i+"' id='paraNo"+i+"'/>";
 			ibody += "<input class='form-control' placeholder='参数标识'id='paraId"+i+"'>";
@@ -514,6 +514,8 @@ function addClick(){
 			ibody += "<input class='form-control' type='number' placeholder='最大值'id='paraMax"+i+"'>";
 			ibody += "<input class='form-control' type='number' placeholder='最小值'id='paraMin"+i+"'>";
 			ibody += "<input class='form-control' type='number' placeholder='默认值'id='paraDefault"+i+"'>";
+			ibody += "<button id='buttonUp"+i+"'onclick='goUp(this);' >⏫</button>";
+			ibody += "<button id='buttonDown"+i+"'onclick='goDown(this);' >⏬</button>";
 			ibody += "</div>";
 			$("#addArea").append(ibody);
 		
@@ -542,6 +544,153 @@ function addClick(){
 				}
 			})
 }
+
+
+//参数上移
+function goUp(e){
+	//第一行点击up按钮;
+	var p = $(e).parent().find("input").eq(0).val();
+	
+	if(p==1){
+		toastr.error('非法操作!');
+		return;
+	}else{
+		var q =p-1;
+		console.log(q);
+		var temp ;
+		temp = $("#paraAttr"+p).val();
+		$("#paraAttr"+p).val($("#paraAttr"+q).val());
+		$("#paraAttr"+q).val(temp);
+		
+		temp = $("#paraId"+p).val();
+		$("#paraId"+p).val($("#paraId"+q).val());
+		$("#paraId"+q).val(temp);
+		
+		temp = $("#paraName"+p).val();
+		$("#paraName"+p).val($("#paraName"+q).val());
+		$("#paraName"+q).val(temp);
+		
+		temp = $("#paraType"+p).val();
+		$("#paraType"+p).val($("#paraType"+q).val());
+		$("#paraType"+q).val(temp);
+		
+		temp = $("#paraDesc"+p).val();
+		$("#paraDesc"+p).val($("#paraDesc"+q).val());
+		$("#paraDesc"+q).val(temp);
+		
+		temp = $("#paraPhy"+p).val();
+		$("#paraPhy"+p).val($("#paraPhy"+q).val());
+		$("#paraPhy"+q).val(temp);
+		
+		temp = $("#paraMax"+p).val();
+		$("#paraMax"+p).val($("#paraMax"+q).val());
+		$("#paraMax"+q).val(temp);
+		
+		temp = $("#paraMin"+p).val();
+		$("#paraMin"+p).val($("#paraMin"+q).val());
+		$("#paraMin"+q).val(temp);
+		
+		temp = $("#paraDefault"+p).val();
+		$("#paraDefault"+p).val($("#paraDefault"+q).val());
+		$("#paraDefault"+q).val(temp);
+		
+		var iparaCount=$("#iparaCount").val();
+		var body="";
+		for(var i=1;i<=iparaCount;i++){
+			var paraType = $("#paraType"+i).val();
+			if(iparaCount==1){
+				body += paraType;
+				$("#iparalist").val(body);
+				break;
+			}else{
+				if(paraType==""){
+					$("#iparalist").val(body);
+					continue;}
+				if(i==iparaCount){
+					body += paraType;
+					$("#iparalist").val(body);
+					continue;}
+				body += paraType+",";
+			}
+			$("#iparalist").val(body);
+		}
+	}
+}
+
+
+//参数下移
+function goDown(e){
+	//最后一行点击down按钮;
+	var p = $(e).parent().find("input").eq(0).val();
+	var iparaCount=$("#iparaCount").val();
+	
+	if(p==iparaCount){
+		toastr.error('非法操作!');
+		return;
+	}else{
+		var q = p-0+1;
+		var temp ;	
+		temp = $("#paraAttr"+p).val();
+		$("#paraAttr"+p).val($("#paraAttr"+q).val());
+		$("#paraAttr"+q).val(temp);
+		
+		temp = $("#paraId"+p).val();
+		$("#paraId"+p).val($("#paraId"+q).val());
+		$("#paraId"+q).val(temp);
+		
+		temp = $("#paraName"+p).val();
+		$("#paraName"+p).val($("#paraName"+q).val());
+		$("#paraName"+q).val(temp);
+		
+		temp = $("#paraType"+p).val();
+		$("#paraType"+p).val($("#paraType"+q).val());
+		$("#paraType"+q).val(temp);
+		
+		temp = $("#paraDesc"+p).val();
+		$("#paraDesc"+p).val($("#paraDesc"+q).val());
+		$("#paraDesc"+q).val(temp);
+		
+		temp = $("#paraPhy"+p).val();
+		$("#paraPhy"+p).val($("#paraPhy"+q).val());
+		$("#paraPhy"+q).val(temp);
+		
+		temp = $("#paraMax"+p).val();
+		$("#paraMax"+p).val($("#paraMax"+q).val());
+		$("#paraMax"+q).val(temp);
+		
+		temp = $("#paraMin"+p).val();
+		$("#paraMin"+p).val($("#paraMin"+q).val());
+		$("#paraMin"+q).val(temp);
+		
+		temp = $("#paraDefault"+p).val();
+		$("#paraDefault"+p).val($("#paraDefault"+q).val());
+		$("#paraDefault"+q).val(temp);
+		
+		var body="";
+		for(var i=1;i<=iparaCount;i++){
+			var paraType = $("#paraType"+i).val();
+			if(iparaCount==1){
+				body += paraType;
+				$("#iparalist").val(body);
+				break;
+			}else{
+				if(paraType==""){
+					$("#iparalist").val(body);
+					continue;}
+				if(i==iparaCount){
+					body += paraType;
+					$("#iparalist").val(body);
+					continue;}
+				body += paraType+",";
+			}
+			$("#iparalist").val(body);
+		}
+	}
+}
+
+
+
+
 //展示接口参数的详情	
 function qryInterfaceParaDetail(interfaceId,interfaceParaCount,interfaceParaList){
 	$("#paraArea").empty();	 
