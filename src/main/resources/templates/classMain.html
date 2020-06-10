@@ -47,6 +47,29 @@
 	</head>
 	<body>
 
+
+
+
+<!-- 详情模态框 -->
+	<div class="modal fade" id="modal-detail">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="modalTitle"></h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              	<!-- 模态框内容 -->
+			<div class="form-group" id="descArea">
+			
+			</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 新增编辑模态框 -->
 	<div class="modal fade" id="modal-default">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -196,12 +219,13 @@ function QryMidCls(){//查中间件下属类
 				body = "<tr>";
 		        body    += "<td id='tclsId'>" + result[i].c_id + "</td>";
 		        body    += "<td id='tclsName'>" + result[i].c_name + "</td>";
-		        body    += "<td id='tclsDesc'>" + result[i].c_desc + "</td>";  
+		        //body    += "<td id='tclsDesc'>" + result[i].c_desc + "</td>";  
 		        body    += "<td id='tclsFather'>" + result[i].c_father + "</td>";
 		        body    += "<td>"+
-		        "<button id='editBtn' type='button' style='width: 25%;float: left;'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick='editClick(this);'>修改</button> "+
-		        "<button id='deleteBtn' type='button' style='margin-left: 3%; width: 25%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
-		        "<button id='infBtn'type='button' style='margin-left: 3%; width: 30%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-success btn-sm' onclick='toInterface(this);''>下属接口</button> "+
+		        "<button id='detailBtn' type='button' style='margin-left: 2%;width: 22%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-success btn-sm' data-toggle='modal' data-target='#modal-detail'onclick='detailClick(this);'>类详情</button> "+
+		        "<button id='editBtn' type='button' style='margin-left: 2%;width: 22%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick='editClick(this);'>修改</button> "+
+		        "<button id='deleteBtn' type='button' style='margin-left: 2%; width: 22%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
+		        "<button id='infBtn'type='button' style='margin-left: 2%; width: 22%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-warning btn-sm' onclick='toInterface(this);''>下属接口</button> "+
 		        "</td>";
 		        body    += "</tr>";
 			    $("#example1 tbody" ).append(body); 
@@ -268,12 +292,13 @@ $("#selectClass").change(function(){
 					body = "<tr>";
 			        body    += "<td id='tclsId'>" + result[i].c_id + "</td>";
 			        body    += "<td id='tclsName'>" + result[i].c_name + "</td>";
-			        body    += "<td id='tclsDesc'>" + result[i].c_desc + "</td>";  
+			       // body    += "<td id='tclsDesc'>" + result[i].c_desc + "</td>";  
 			        body    += "<td id='tclsFather'>" + result[i].c_father + "</td>";
 			        body    += "<td>"+
-			        "<button id='editBtn' type='button' style='width: 25%;float: left;'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick='editClick(this);'>修改</button> "+
-			        "<button id='deleteBtn' type='button' style='margin-left: 3%; width: 25%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
-			        "<button id='infBtn'type='button' style='margin-left: 3%; width: 30%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-success btn-sm' onclick='toInterface(this);''>下属接口</button> "+
+			        "<button id='detailBtn' type='button' style='margin-left: 2%;width: 22%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-success btn-sm' data-toggle='modal' data-target='#modal-detail'onclick='detailClick(this);'>类详情</button> "+
+			        "<button id='editBtn' type='button' style='margin-left: 2%;width: 22%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick='editClick(this);'>修改</button> "+
+			        "<button id='deleteBtn' type='button' style='margin-left: 2%; width: 22%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
+			        "<button id='infBtn'type='button' style='margin-left: 2%; width: 22%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-warning btn-sm' onclick='toInterface(this);''>下属接口</button> "+
 			        "</td>";
 			        body    += "</tr>";  
 			        $("#example1 tbody" ).append(body); 
@@ -323,6 +348,77 @@ function qryClsBeFather(iclsFather){
 		}
 	});
 }
+
+
+//点击报文详情
+function showDetail(e){
+	$("#descArea").empty();
+	 var cId=$(e).parent().parent().find("td").eq(0).text();		
+	 $.ajax({
+			url:"/qryMesDetail",
+			type:"POST",
+			async:true,
+			data:{
+				"mesId":mesId,
+				"mesTyp":mesType
+			},
+			success:function(result){
+				var mesDesc = result.mes_desc;
+				var mesIDNum = result.mes_id_num;
+				var mesFunId =result.mes_fun_id;
+				var mesRemark = result.mes_remark;
+				var ibody="";
+			   	ibody +="<div class='input-group'>";
+				ibody += 	"<div class='input-group-prepend'>";
+				ibody +=		 "<span class='input-group-text' >报文描述</span>";
+				ibody +=	 "</div>" ;
+				ibody +=	 "<input type='text'   class='form-control' value='"+mesDesc+"'readonly='readonly'/>";
+				ibody +="</div>";
+				ibody +="<div class='input-group'>";
+				ibody += 	"<div class='input-group-prepend'>";
+				ibody +=		 "<span class='input-group-text' >报文ID</span>";
+				ibody +=	 "</div>" ;
+				ibody +=	 "<input type='text'   class='form-control' value='"+mesIDNum+"'readonly='readonly'/>";
+				ibody +="</div>";
+				ibody +="<div class='input-group'>";
+				ibody += 	"<div class='input-group-prepend'>";
+				ibody +=	 	"<span class='input-group-text' >功能码 </span>";
+				ibody +=   "</div>";
+				ibody += 	"<input type='text'    class='form-control' value='"+mesFunId+"'readonly='readonly'/>";
+				ibody +="<div class='input-group'>";
+				ibody += 	"<div class='input-group-prepend'>";
+				ibody +=	 	"<span class='input-group-text' >报文备注</span>";
+				ibody +=   "</div>";
+				ibody += 	"<input type='text'    class='form-control' value='"+mesRemark+"'readonly='readonly'/>";
+				ibody +="</div>";
+				
+				$("#descArea").append(ibody);
+				//查报文的数据详情
+				qryMesDataDetail(mesId);
+				
+			},	
+			error:function(result){
+				toastr.warning('未知错误,请联系管理员!');
+			}
+		});	
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
