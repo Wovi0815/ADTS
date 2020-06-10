@@ -117,7 +117,26 @@
           </div>
         </div>
       </div>
-
+<!-- 详情模态框 -->
+	<div class="modal fade" id="modal-detail">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="modalTitle"></h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              	<!-- 模态框内容 -->
+			<div class="form-group" id="descArea">
+			
+			</div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
 
 
 	<!-- 表格相关 -->   
@@ -130,7 +149,6 @@
                 <tr>
                   <th>参数标识</th>
                   <th>参数名称</th>
-                  <th>参数描述</th>
                   <th>参数次序</th>
                   <th>返回值类型</th>
                   <th>操作</th>
@@ -222,13 +240,13 @@ function QryParaInterface(){//查接口下属参数
 			for(var i=0;i<result.length;i++){
 				body = "<tr>";
 				body    += "<td id='tparaId'>" + result[i].para_id + "</td>";
-		        body    += "<td id='tparaName'>" + result[i].para_name + "</td>";
-		        body    += "<td id='tparaDesc'>" + result[i].para_desc + "</td>";  
+		        body    += "<td id='tparaName'>" + result[i].para_name + "</td>"; 
 		        body    += "<td id='tparaNo'>" + result[i].para_eq  + "</td>";
 		        body    += "<td id='tparaReturn'>" + result[i].para_type + "</td>";
 		        body    += "<td>"+		        
-		        "<button id='editBtn' type='button' style='margin-left:4%;margin-top:6px;width:45%;float: left;'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick='editClick(this);'>修改</button> "+
-		        "<button id='deleteBtn' type='button' style='margin-left:4%;width:45%;float:left'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
+		        "<button id='detailBtn' type='button' style='margin-left: 2%;width: 30%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-success btn-sm' data-toggle='modal' data-target='#modal-detail'onclick='showDetail(this)'>接口详情</button> "+
+		        "<button id='editIBtn' type='button' style='margin-left: 3%;width: 30%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick='editInterfaceClick(this);'>修改</button> "+
+		        "<button id='deleteBtn' type='button' style='margin-left: 3%;width: 30%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
 		        "</td>";
 		        body    += "</tr>";
 			    $("#example1 tbody" ).append(body); 
@@ -253,6 +271,63 @@ function QryParaInterface(){//查接口下属参数
 	});
 
 }
+
+
+function showDetail(e){
+	$("#descArea").empty();
+	var paraNo=$(e).parent().parent().find("td").eq(2).text();
+	var paraId =$(e).parent().parent().find("td").eq(0).text();
+	 $.ajax({
+			url:"/QryParaIsExist",
+			type:"POST",
+			async:true,
+			data:{
+				"paraNo":paraNo,
+				"paraId":paraId,
+				"uniqueInterid":uniqueInterid
+			},
+			success:function(result){
+				var paraDesc = result.i_desc;
+				var modifyUser = result.modify_user;
+				var updateTime = result.update_time;
+				var createTime = result.create_time;
+				var ibody="";
+			   	ibody +="<div class='input-group'>";
+				ibody += 	"<div class='input-group-prepend'>";
+				ibody +=		 "<span class='input-group-text' >参数描述</span>";
+				ibody +=	 "</div>" ;
+				ibody +=	 "<input type='text'   class='form-control' value='"+paraDesc+"'readonly='readonly'/>";
+				ibody +="</div>";
+				ibody +="<div class='input-group'>";
+				ibody += 	"<div class='input-group-prepend'>";
+				ibody +=	 	"<span class='input-group-text' >维护人</span>";
+				ibody +=   "</div>";
+				ibody += 	"<input type='text'    class='form-control' value='"+modifyUser+"'readonly='readonly'/>";
+				ibody +="</div>";
+				ibody +="<div class='input-group'>";
+				ibody += 	"<div class='input-group-prepend'>";
+				ibody +=	 	"<span class='input-group-text' >创建时间</span>";
+				ibody +=   "</div>";
+				ibody += 	"<input type='text'    class='form-control' value='"+createTime+"'readonly='readonly'/>";
+				ibody +="</div>";
+				ibody +="<div class='input-group'>";
+				ibody += 	"<div class='input-group-prepend'>";
+				ibody +=	 	"<span class='input-group-text' >修改时间</span>";
+				ibody +=   "</div>";
+				ibody += 	"<input type='text'    class='form-control' value='"+updateTime+"'readonly='readonly'/>";
+				ibody +="</div>";
+
+				$("#descArea").append(ibody);
+				
+			},	
+			error:function(result){
+				toastr.warning('未知错误,请联系管理员!');
+			}
+		});	
+	 
+		
+}
+
 
 //新增     ###模态框内容####
 function addClick(){
@@ -350,7 +425,7 @@ function changeDataByKey(paraMap) {
 		var paraNo =paraMap[0].modalParaNo;
 		var paraId =paraMap[0].modalParaId;
 		 $.ajax({
-				url:"/QryParaIsExit",
+				url:"/QryParaIsExist",
 				type:"POST",
 				async:true,
 				data:{
@@ -374,7 +449,7 @@ function changeDataByKey(paraMap) {
 		//修改之前检查是否唯一
 		var nowparaNo =paraMap[0].modalParaNo;
 		 $.ajax({
-				url:"/QryParaIsExit",
+				url:"/QryParaIsExist",
 				type:"POST",
 				async:true,
 				data:{
