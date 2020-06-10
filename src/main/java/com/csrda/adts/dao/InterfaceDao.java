@@ -49,7 +49,7 @@ public interface InterfaceDao {
 	/**
 	 * 根据类标识查类信息
 	 */
-	@Select("SELECT c.c_id,c.c_name,c.c_desc,c.c_father,c.c_midware FROM t_class c "+
+	@Select("SELECT * FROM t_class c "+
 			"WHERE c.c_id= #{cId}  AND c.is_delete='0'" )
 	Map<String,Object> qryMidClsByCId(String cId);
 

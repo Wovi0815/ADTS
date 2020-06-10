@@ -47,6 +47,29 @@
 	</head>
 	<body>
 
+
+
+
+<!-- 详情模态框 -->
+	<div class="modal fade" id="modal-detail">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="modalTitle"></h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              	<!-- 模态框内容 -->
+			<div class="form-group" id="descArea">
+			
+			</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 新增编辑模态框 -->
 	<div class="modal fade" id="modal-default">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -112,7 +135,7 @@
                 <tr>
                   <th>类标识</th>
                   <th>类名称</th>
-                  <th>类描述</th>
+                  
                   <th>父类</th>
                   <th>操作</th>
                 </tr>
@@ -196,12 +219,13 @@ function QryMidCls(){//查中间件下属类
 				body = "<tr>";
 		        body    += "<td id='tclsId'>" + result[i].c_id + "</td>";
 		        body    += "<td id='tclsName'>" + result[i].c_name + "</td>";
-		        body    += "<td id='tclsDesc'>" + result[i].c_desc + "</td>";  
+		        //body    += "<td id='tclsDesc'>" + result[i].c_desc + "</td>";  
 		        body    += "<td id='tclsFather'>" + result[i].c_father + "</td>";
 		        body    += "<td>"+
-		        "<button id='editBtn' type='button' style='width: 25%;float: left;'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick='editClick(this);'>修改</button> "+
-		        "<button id='deleteBtn' type='button' style='margin-left: 3%; width: 25%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
-		        "<button id='infBtn'type='button' style='margin-left: 3%; width: 30%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-success btn-sm' onclick='toInterface(this);''>下属接口</button> "+
+		        "<button id='detailBtn' type='button' style='margin-left: 4%;width: 20%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-success btn-sm' data-toggle='modal' data-target='#modal-detail'onclick='detailClick(this);'>类详情</button> "+
+		        "<button id='editBtn' type='button' style='margin-left: 4%;width: 20%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick='editClick(this);'>修改</button> "+
+		        "<button id='deleteBtn' type='button' style='margin-left: 4%; width: 20%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
+		        "<button id='infBtn'type='button' style='margin-left: 4%;width: 20%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-warning btn-sm' onclick='toInterface(this);'>下属接口</button> "+
 		        "</td>";
 		        body    += "</tr>";
 			    $("#example1 tbody" ).append(body); 
@@ -268,12 +292,13 @@ $("#selectClass").change(function(){
 					body = "<tr>";
 			        body    += "<td id='tclsId'>" + result[i].c_id + "</td>";
 			        body    += "<td id='tclsName'>" + result[i].c_name + "</td>";
-			        body    += "<td id='tclsDesc'>" + result[i].c_desc + "</td>";  
+			       // body    += "<td id='tclsDesc'>" + result[i].c_desc + "</td>";  
 			        body    += "<td id='tclsFather'>" + result[i].c_father + "</td>";
 			        body    += "<td>"+
-			        "<button id='editBtn' type='button' style='width: 25%;float: left;'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick='editClick(this);'>修改</button> "+
-			        "<button id='deleteBtn' type='button' style='margin-left: 3%; width: 25%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
-			        "<button id='infBtn'type='button' style='margin-left: 3%; width: 30%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-success btn-sm' onclick='toInterface(this);''>下属接口</button> "+
+			        "<button id='detailBtn' type='button' style='margin-left: 4%;width: 20%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-success btn-sm' data-toggle='modal' data-target='#modal-detail'onclick='detailClick(this);'>类详情</button> "+
+			        "<button id='editBtn' type='button' style='margin-left: 4%;width: 20%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick='editClick(this);'>修改</button> "+
+			        "<button id='deleteBtn' type='button' style='margin-left: 4%; width: 20%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
+			        "<button id='infBtn'type='button' style='margin-left: 4%;width: 20%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-warning btn-sm' onclick='toInterface(this);''>下属接口</button> "+
 			        "</td>";
 			        body    += "</tr>";  
 			        $("#example1 tbody" ).append(body); 
@@ -323,6 +348,57 @@ function qryClsBeFather(iclsFather){
 		}
 	});
 }
+
+
+//点击详情
+function detailClick(e){
+	$("#descArea").empty();
+	 var cId=$(e).parent().parent().find("td").eq(0).text();		
+	 $.ajax({
+			url:"/QryMidClsByCId",
+			type:"POST",
+			async:true,
+			data:{"cId":cId},
+			success:function(result){
+				var clsDesc = result.c_desc;
+				var modifyUser = result.modify_user;
+				var updateTime =result.update_time;
+				var createTime = result.create_time;;
+				var ibody="";
+			   	ibody +="<div class='input-group'>";
+				ibody += 	"<div class='input-group-prepend'>";
+				ibody +=		 "<span class='input-group-text' >类描述</span>";
+				ibody +=	 "</div>" ;
+				ibody +=	 "<input type='text'   class='form-control' value='"+clsDesc+"'readonly='readonly'/>";
+				ibody +="</div>";
+				ibody +="<div class='input-group'>";
+				ibody += 	"<div class='input-group-prepend'>";
+				ibody +=		 "<span class='input-group-text' >维护人</span>";
+				ibody +=	 "</div>" ;
+				ibody +=	 "<input type='text'   class='form-control' value='"+modifyUser+"'readonly='readonly'/>";
+				ibody +="</div>";
+				ibody +="<div class='input-group'>";
+				ibody += 	"<div class='input-group-prepend'>";
+				ibody +=	 	"<span class='input-group-text' >创建时间 </span>";
+				ibody +=   "</div>";
+				ibody += 	"<input type='text'    class='form-control' value='"+createTime+"'readonly='readonly'/>";
+				ibody +="<div class='input-group'>";
+				ibody += 	"<div class='input-group-prepend'>";
+				ibody +=	 	"<span class='input-group-text' >修改时间</span>";
+				ibody +=   "</div>";
+				ibody += 	"<input type='text'    class='form-control' value='"+updateTime+"'readonly='readonly'/>";
+				ibody +="</div>";
+				
+				$("#descArea").append(ibody);
+				
+			},	
+			error:function(result){
+				toastr.warning('未知错误,请联系管理员!');
+			}
+		});	
+	
+}
+
 
 
 
