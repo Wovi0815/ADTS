@@ -74,40 +74,35 @@
                         <span aria-hidden="true">&times;</span></button>
                     <h4 id="title" class="modal-title"></h4>
                 </div>
-                <div class="modal-body">
-                    <div id="add">
-                        <div class="input-group">
-                            <div class="input-group-btn">
-                                <button type="button" class="btn btn-default">类型标识</button>
-                            </div>
-                            <!-- /btn-group -->
-                            <input id="typId" type="text" class="form-control">
-                        </div>
-                        <div class="input-group">
-                            <div class="input-group-btn">
-                                <button type="button" class="btn btn-default">类型名称</button>
-                            </div>
-                            <input id="typName" type="text" class="form-control">
-                        </div>
-                        <div class="input-group">
-                            <div class="input-group-btn">
-                                <button type="button" class="btn btn-default">长度</button>
-                            </div>
-                            <input id="typSize" type="text" class="form-control">
-                        </div>
-                        <div class="input-group" style="">
-                            <div class="input-group-btn">
-                                <button type="button" class="btn btn-default">类型描述</button>
-                            </div>
-                            <input id="typDesc" type="text" class="form-control">
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal" style="float: right;margin-left: 2%;">取消</button>
-                    <button type="button" onclick="save();" class="btn btn-primary">保存</button>
-                </div>
-            </div>
+				<div class="modal-body">
+					<!-- 模态框内容 -->
+					<div class="form-group">
+						<label for="typId">类型标识</label> <input class="form-control"
+							placeholder="类型标识" id="typId">
+					</div>
+
+					<div class="form-group">
+						<label for="typName">类型名称</label> <input class="form-control"
+							placeholder="类型名称" id="typName">
+					</div>
+					<div class="form-group">
+						<label for="typSize">长度</label> <input class="form-control"
+							placeholder="长度" id="typSize">
+					</div>
+					<div class="form-group">
+						<label for="typDesc">类型描述</label> <input class="form-control"
+							placeholder="类型描述" id="typDesc">
+					</div>
+
+				</div>
+				<div class="modal-footer justify-content-between">
+					<button id='closeModal' type="button" class="btn btn-default"
+						data-dismiss="modal" style="float: right; margin-left: 2%;">取消</button>
+					<button id='saveModal' type="button" class="btn btn-primary"
+						onclick="save();">保存</button>
+				</div>
+
+			</div>
             <!-- /.modal-content -->
         </div>
         <!-- /.modal-dialog -->
@@ -115,10 +110,8 @@
     <!-- /.modal -->
 
     <div class="card-body">
-        <button id='addBtn' type='button' style='margin-right:3% ;width: 10%;float: right;' class='btn btn-block btn-outline-info btn-sm' data-toggle='modal' data-target='#modal-add-basic' onclick='add();'>新增基本类型</button>
-        <button id='addBtn' type='button' style='margin-right:3% ;width: 10%;float: right;margin-top: 0px;margin-bottom: 20px;' class='btn btn-block btn-outline-info btn-sm' onclick='addStruct();'>新增结构体类型</button>
-
-
+       <button id='addBtn1'type='button' class='btn btn-block btn-outline-info btn-sm' data-toggle="modal" data-target="#modal-add-basic" onclick="add();"style="margin-right:2% ;width: 10%;float: right;margin-top:0px;">新增数据类型</button>    
+       <button id='addBtn2'type='button' class='btn btn-block btn-outline-info btn-sm' data-toggle="modal" data-target="#modal-add-struct" onclick="addStruct();"style="margin-right:2% ;width: 10%;float: right;margin-top:0px;">新增结构体</button>  
         <table id="typeData" class="table table-bordered table-striped">
             <thead>
                 <tr>
@@ -261,7 +254,7 @@
     }
 
     function search() {
-        $("#typeData tbody tr").remove();
+        $("#typeData tbody").empty();
         $.ajax({
             type: "POST",
             url: "/qryDataType",
@@ -297,6 +290,19 @@
                     }
 
                 }
+                
+            	$("#typeData").DataTable({
+        			
+   				 "autoWidth": false,
+   			      "paging": true,
+   			      "lengthChange": true,
+   			      "searching": false,
+   			      "ordering": true,
+   			      "info": true,
+   			    });
+                
+                
+                
             },
             error: function() {
                 console.log("初始化查询错误！请联系管理员！！")
