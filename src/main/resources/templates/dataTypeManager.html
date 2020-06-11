@@ -21,13 +21,29 @@
     <link rel="stylesheet" th:href="@{/plugins/overlayScrollbars/css/OverlayScrollbars.min.css}">
     <!-- bootstrap-multiselect -->
     <link rel="stylesheet" th:href="@{/plugins/bootstrap-multiselect/css/bootstrap-multiselect.css}">
+    
+	
     <style>
-        #add .input-group {
-            float: left;
-            width: 40%;
-            margin-left: 5%;
-            margin-bottom: 10px;
-        }
+	
+		input::-webkit-input-placeholder {
+			/* WebKit browsers */
+			font-size: 10px;
+		}
+
+		input:-moz-placeholder {
+			/* Mozilla Firefox 4 to 18 */
+			font-size: 10px;
+		}
+
+		input::-moz-placeholder {
+			/* Mozilla Firefox 19+ */
+			font-size: 10px;
+		}
+
+		input:-ms-input-placeholder {
+			/* Internet Explorer 10+ */
+			font-size: 10px;
+		}
         
         .m-toast-pop {
             display: none;
@@ -108,6 +124,52 @@
         <!-- /.modal-dialog -->
     </div>
     <!-- /.modal -->
+			<!-- 结构体模态框 -->
+	<div class="modal fade" id="modal-add-struct">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+		
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="false">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body" >
+              	<!-- 模态框内容 -->
+			  <div  id="addAreaX">
+				<div class="form-group" >
+					 <label for="structId">结构体标识</label>
+					 <input class="form-control" placeholder="结构体标识" id="structId">
+				</div>
+				<div class="form-group">
+					 <label for="structName">结构体名称</label>
+					 <input class="form-control" placeholder="结构体名称" id="structName">
+				</div>
+				<div class="form-group">
+					 <label for="structSize">结构体长度</label>
+					 <input class="form-control" placeholder="结构体长度" id="structSize">
+				</div>
+				<div class="form-group">
+					 <label for="structDesc">结构体描述</label>
+					 <input class="form-control" placeholder="结构体描述" id="structDesc">
+				</div>
+			  </div>
+				
+			  <div id="addArea">
+				
+				
+			  </div>
+            </div>
+            
+            <div class="modal-footer justify-content-between" >
+              <button id='structModalClose' type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+              <button id='structModalAddDate' type="button" class="btn btn-default" onclick="addRow();">➕</button>
+              <button id='structModalSave' type="button"  class="btn btn-primary" onclick="structSave();">保存</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
 
     <div class="card-body">
        <button id='addBtn1'type='button' class='btn btn-block btn-outline-info btn-sm' data-toggle="modal" data-target="#modal-add-basic" onclick="add();"style="margin-right:2% ;width: 10%;float: right;margin-top:0px;">新增数据类型</button>    
@@ -174,18 +236,95 @@
 <script th:src="@{/dist/js/adminlte.js}"></script>
 
 <script>
-    var mod = " ";
 
-    $(function() {
-        search();
+
+
+//------全局变量-------
+var i;
+var clickKey;
+//------全局变量-------
+//##################普通数据类型##########################
+function qryDataType() {
+     $("#typeData tbody").empty();
+     $.ajax({
+         type: "POST",
+         url: "/qryDataType",
+         async: true,
+         success: function(result) {
+              for (var i = 0; i < result.length; i++) {
+            	  body = "<tr>";
+  				  body    += "<td id='tinterfaceId'>" + result[i].i_id + "</td>";
+  		          body    += "<td id='tinterfaceName'>" + result[i].i_name + "</td>";
+  		          body    += "<td id='tinterfaceReturn'>" + result[i].i_return + "</td>";  
+  		          body    += "<td id='tinterfaceParaCount'>" + result[i].i_para_count + "</td>";
+  		          body    += "<td id='tinterfaceParaType'>" + result[i].i_para_list + "</td>";
+  		          body    += "<td>"+
+  		          "<button id='detailBtn' type='button' style='margin-left: 2%;width: 30%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-success btn-sm' data-toggle='modal' data-target='#modal-detail'onclick='showDetail(this)'>数据类型详情</button> "+
+		          "<button id='editIBtn' type='button' style='margin-left: 3%;width: 30%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick='editClick(this);'>修改</button> "+
+		          "<button id='deleteBtn' type='button' style='margin-left: 3%;width: 30%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
+		          "</td>";
+  		          body    += "</tr>";
+  			      $("#example1 tbody" ).append(body); 
+              }
+              var oldTable = $('#typeData').dataTable();
+	   		  oldTable.fnClearTable(); 
+	  		  oldTable.fnDestroy();
+           $("#typeData").DataTable({
+   				"autoWidth": false,
+   			    "paging": true,
+   			    "lengthChange": true,
+   			    "searching": false,
+   			    "ordering": true,
+   			    "info": true,
+   			  });
+   
+            },
+            error: function() {
+            	toastr.warning('未知错误,请联系管理员!');
+            }
+        });
+    }
+function add() {
+	clickKey = "add";
+        $("#typId").val("");
+        $("#typName").val("");
+        $("#typSize").val("");
+        $("#typDesc").val("");
+ }
+function editClick(e) {
+    clickKey = "edit";
+    var typId = $(e).parent().parent().children().eq(0).text();
+    $.ajax({
+        url: "/detailBasicDataType",
+        data: {
+            "typId": typId
+        },
+        type: "POST",
+        async: true,
+        success: function(result) {
+         
+            $("#typId").attr("readOnly","true");
+            $("#typId").val(result[0].typId);
+            $("#typDesc").val(result[0].typDesc);
+            $("#typName").val(result[0].typName);
+            $("#typSize").val(result[0].typSize);
+        }
     });
+}
 
-    function save() {
-        var typId = $("#typId").val();
-        var typDesc = $("#typDesc").val();
-        var typName = $("#typName").val();
-        var typSize = $("#typSize").val();
-        if (mod == "add") {
+
+
+
+
+
+
+
+function save() {
+      var typId = $("#typId").val();
+      var typDesc = $("#typDesc").val();
+      var typName = $("#typName").val();
+      var typSize = $("#typSize").val();
+      if (clickKey == "add") {
             $.ajax({
                 type: "POST",
                 url: "/saveBasicDataType",
@@ -202,21 +341,19 @@
                         alert("该类型已存在！");
                         return;
                     }
+                    $("#modal-add-basic").modal('hide');
                     search();
                     $('#m-toast-inner-text').text('保存成功');
                     $('#m-toast-pop').fadeIn();
-                    setTimeout(function() {
-                        $('#m-toast-pop').fadeOut();
+                    $('#m-toast-pop').fadeOut();
 
-                    }, 200);
-                    $("#modal-add-basic").modal('hide');
 
                 },
                 error: function() {
                     console.log("保存错误！请联系管理员！！")
                 }
             });
-        } else if (mod == "edit") {
+        } else if (clickKey == "edit") {
             $.ajax({
                 type: "POST",
                 url: "/updateBasicDataType",
@@ -246,93 +383,10 @@
         }
     }
 
-    function clear() {
-        $("#typId").val("");
-        $("#typDesc").val("");
-        $("#typName").val("");
-        $("#typSize").val("");
-    }
 
-    function search() {
-        $("#typeData tbody").empty();
-        $.ajax({
-            type: "POST",
-            url: "/qryDataType",
-            async: true,
-            success: function(result) {
-                for (var i = 0; i < result.length; i++) {
-                    if (result[i].typAttr == "basic") {
-                        $("#typeData tbody").append(
-                            "<tr>" +
-                            "<td>" + result[i].typId + "</td>" +
-                            "<td>" + result[i].typName + "</td>" +
-                            "<td>" + result[i].typSize + "</td>" +
-                            "<td>" + result[i].typAttr + "</td>" +
-                            "<td>" + result[i].typDesc + "</td>" +
-                            "<td>" +
-                            "<button id='editBtn' type='button' style='margin-left:3%;width: 20%;margin-top:6px;float:left'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-add-basic'onclick='edit(this);'>修改</button> " +
-                            "<button id='deleteBtn' type='button' style='margin-left:3%;width: 20%;margin-top:6px;float:left'class='btn btn-block btn-outline-danger btn-sm'   onclick='del(this);'>删除</button> " +
-                            "</td>"
-                        );
-                    } else {
-                        $("#typeData tbody").append(
-                            "<tr>" +
-                            "<td>" + result[i].typId + "</td>" +
-                            "<td>" + result[i].typName + "</td>" +
-                            "<td>" + result[i].typSize + "</td>" +
-                            "<td>" + result[i].typAttr + "</td>" +
-                            "<td>" + result[i].typDesc + "</td>" +
-                            "<td>" +
-                            "<button id='editBtn' type='button' style='margin-left:3%;width: 25%;margin-top:6px;float:left'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' onclick='detailStruct(this);'>结构体详情</button> " +
-                            "<button id='editBtn' type='button' style='margin-left:3%;width: 20%;margin-top:6px;float:left'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' onclick='editStruct(this);'>修改</button> " +
-                            "<button id='deleteBtn' type='button' style='margin-left:3%;width: 20%;margin-top:6px;float:left'class='btn btn-block btn-outline-danger btn-sm'   onclick='delStruct(this);'>删除</button> " +
-                            "</td>");
-                    }
 
-                }
-                
-            	$("#typeData").DataTable({
-        			
-   				 "autoWidth": false,
-   			      "paging": true,
-   			      "lengthChange": true,
-   			      "searching": false,
-   			      "ordering": true,
-   			      "info": true,
-   			    });
-                
-                
-                
-            },
-            error: function() {
-                console.log("初始化查询错误！请联系管理员！！")
-            }
-        });
-    }
 
-    function edit(e) {
-        mod = "edit";
-        var typId = $(e).parent().parent().children().eq(0).text();
-        $.ajax({
-            url: "/detailBasicDataType",
-            data: {
-                "typId": typId
-            },
-            type: "POST",
-            async: true,
-            success: function(result) {
-                console.log(result[0].typId);
-                $("#typId").attr("disabled", "disabled");
-                $("#typName").removeAttr("disabled");
-                $("#typSize").removeAttr("disabled");
-                $("#typDesc").removeAttr("disabled");
-                $("#typId").val(result[0].typId);
-                $("#typDesc").val(result[0].typDesc);
-                $("#typName").val(result[0].typName);
-                $("#typSize").val(result[0].typSize);
-            }
-        });
-    }
+   
 
     function del(e) {
         var typId = $(e).parent().parent().children().eq(0).text();
@@ -354,18 +408,37 @@
         });
     }
 
-    function add() {
-        mod = "add";
-        $("#typId").removeAttr("disabled");
-        $("#typName").removeAttr("disabled");
-        $("#typSize").removeAttr("disabled");
-        $("#typDesc").removeAttr("disabled");
-        clear();
-    }
 
-    function addStruct() {
-        window.parent.zhu.location.href = "/addStruct?mod=add";
+
+    function addStruct(){
+    	$("#structModalClose").attr({"disabled":"true"});
+    	$("#structModalSave").attr({"disabled":"true"});
+    	i=1;
+
     }
+    function addRow(){
+    	var ibody="";
+		ibody += "<div class='input-group' id ='inputGroup"+i+"' >";
+		ibody += "<input style='width:3%;font-size:12px;' readonly='readonly' placeholder='次序' value='"+i+"' id='memNo"+i+"'/>";
+		ibody += "<input class='form-control' placeholder='成员标识'id='memId"+i+"'>";
+		ibody += "<input class='form-control' placeholder='成员名称'id='memName"+i+"'>";
+		ibody += "<input class='form-control' placeholder='成员类型'id='memType"+i+"'>";
+		ibody += "<input class='form-control' placeholder='成员描述'id='memDesc"+i+"'>";
+		ibody += "<input class='form-control' placeholder='物理量纲'id='memPhy"+i+"'>";
+		ibody += "<input class='form-control' type='number' placeholder='最大值'id='memMax"+i+"'>";
+		ibody += "<input class='form-control' type='number' placeholder='最小值'id='memMin"+i+"'>";
+		ibody += "<input class='form-control' type='number' placeholder='默认值'id='memDefault"+i+"'>";
+		ibody += "<button id='buttonUp"+i+"'onclick='goUp(this);' >⏫</button>";
+		ibody += "<button id='buttonDown"+i+"'onclick='goDown(this);' >⏬</button>";
+		ibody += "</div>";
+		$("#addArea").append(ibody);
+    	
+    	$("#structModalClose").removeAttr("disabled");
+    	$("#structModalSave").removeAttr("disabled");
+			i++;
+    }
+    
+    
 
     function editStruct(e) {
 
