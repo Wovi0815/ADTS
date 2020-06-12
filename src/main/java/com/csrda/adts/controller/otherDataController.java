@@ -28,13 +28,13 @@ public class otherDataController {
 	@RequestMapping("/qryDataType")
 	@ResponseBody
 	public List<Map<String, Object>> qryDataType(){
-		return otherDataService.qryTypeData();
+		return otherDataService.qryDataType();
 	}
 	
 	@RequestMapping("/saveBasicDataType")
 	@ResponseBody
 	public int saveBasicDataType(String typId,String typName,String typAttr,String typSize,String typDesc) {
-		if(Integer.valueOf(otherDataService.qryRep(typId).get(0).get("num").toString())>0) {
+		if(Integer.valueOf(otherDataService.qryTypeRepeat(typId).get(0).get("num").toString())>0) {
 			return 0;
 		}
 		Map<String, String> typeData=new HashMap<String, String>();
@@ -58,10 +58,10 @@ public class otherDataController {
 		return otherDataService.updateBasicDataType(typeData);
 	}
 	
-	@RequestMapping("/detailBasicDataType")
+	@RequestMapping("/qryDetailBasicDataType")
 	@ResponseBody
-	public List<Map<String,Object>> detailBasicDataType(String typId){
-		return otherDataService.detailBasicDataType(typId);
+	public Map<String,Object> qryDetailBasicDataType(String typId){
+		return otherDataService.qryDetailBasicDataType(typId);
 	}
 	
 	@RequestMapping("/delBasicDataType")

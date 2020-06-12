@@ -25,7 +25,7 @@ public class OtherDataServiceImpl implements OtherDataService{
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			List<Map<String, Object>> memData = mapper.readValue(memList, new TypeReference<List<Map<String, Object>>>(){});
-			if(Integer.valueOf(otherDataDao.qryRep(typId).get(0).get("num").toString())>0) {
+			if(Integer.valueOf(otherDataDao.qryTypeRepeat(typId).get(0).get("num").toString())>0) {
 				//TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 				return "TypRep";
 			}
@@ -86,8 +86,8 @@ public class OtherDataServiceImpl implements OtherDataService{
 	}
 
 	@Override
-	public List<Map<String, Object>> qryTypeData() {
-		return otherDataDao.qryTypeData();
+	public List<Map<String, Object>> qryDataType() {
+		return otherDataDao.qryDataType();
 	}
 
 	@Override
@@ -106,13 +106,13 @@ public class OtherDataServiceImpl implements OtherDataService{
 	}
 
 	@Override
-	public List<Map<String, Object>> detailBasicDataType(String typId) {
-		return otherDataDao.detailBasicDataType(typId);
+	public Map<String, Object> qryDetailBasicDataType(String typId) {
+		return otherDataDao.qryDetailBasicDataType(typId);
 	}
 
 	@Override
-	public List<Map<String, Object>> qryRep(String typId) {
-		return otherDataDao.qryRep(typId);
+	public List<Map<String, Object>> qryTypeRepeat(String typId) {
+		return otherDataDao.qryTypeRepeat(typId);
 	}
 
 	@Override

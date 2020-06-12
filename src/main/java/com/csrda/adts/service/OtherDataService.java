@@ -11,7 +11,7 @@ public interface OtherDataService{
 	
 	
 	
-	public List<Map<String, Object>> qryTypeData();
+	public List<Map<String, Object>> qryDataType();
 	
 	public int saveBasicDataType(Map<String,String> typeData);
 	
@@ -19,9 +19,9 @@ public interface OtherDataService{
 	
 	public int delBasicDataType(String typId);
 	
-	public List<Map<String, Object>> detailBasicDataType(String typId);
+	public Map<String, Object> qryDetailBasicDataType(String typId);
 	
-	public List<Map<String, Object>> qryRep(String typId);
+	public List<Map<String, Object>> qryTypeRepeat(String typId);
 	
 	public List<Map<String, Object>> qryStructMemRep(String struct,String memId);
 	

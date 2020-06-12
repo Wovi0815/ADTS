@@ -21,7 +21,9 @@
     <link rel="stylesheet" th:href="@{/plugins/overlayScrollbars/css/OverlayScrollbars.min.css}">
     <!-- bootstrap-multiselect -->
     <link rel="stylesheet" th:href="@{/plugins/bootstrap-multiselect/css/bootstrap-multiselect.css}">
-    
+    <!-- toastr -->
+	<link rel="stylesheet" th:href="@{/plugins/toastr/toastr.min.css}">
+		
 	
     <style>
 	
@@ -174,14 +176,13 @@
     <div class="card-body">
        <button id='addBtn1'type='button' class='btn btn-block btn-outline-info btn-sm' data-toggle="modal" data-target="#modal-add-basic" onclick="add();"style="margin-right:2% ;width: 10%;float: right;margin-top:0px;">新增数据类型</button>    
        <button id='addBtn2'type='button' class='btn btn-block btn-outline-info btn-sm' data-toggle="modal" data-target="#modal-add-struct" onclick="addStruct();"style="margin-right:2% ;width: 10%;float: right;margin-top:0px;">新增结构体</button>  
-        <table id="typeData" class="table table-bordered table-striped">
+        <table id="example1" class="table table-bordered table-striped">
             <thead>
                 <tr>
                     <th>类型标识</th>
                     <th>类型名称</th>
                     <th>长度</th>
                     <th>属性</th>
-                    <th>类型描述</th>
                     <th>操作</th>
                 </tr>
             </thead>
@@ -234,7 +235,8 @@
 <script th:src="@{/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js}"></script>
 <!-- AdminLTE App -->
 <script th:src="@{/dist/js/adminlte.js}"></script>
-
+<!-- toastr -->
+<script th:src="@{/plugins/toastr/toastr.min.js}"></script>
 <script>
 
 
@@ -245,31 +247,40 @@ var clickKey;
 //------全局变量-------
 //##################普通数据类型##########################
 function qryDataType() {
-     $("#typeData tbody").empty();
+     $("#example1 tbody").empty();
      $.ajax({
          type: "POST",
          url: "/qryDataType",
          async: true,
          success: function(result) {
+        	var body="";
               for (var i = 0; i < result.length; i++) {
             	  body = "<tr>";
-  				  body    += "<td id='tinterfaceId'>" + result[i].i_id + "</td>";
-  		          body    += "<td id='tinterfaceName'>" + result[i].i_name + "</td>";
-  		          body    += "<td id='tinterfaceReturn'>" + result[i].i_return + "</td>";  
-  		          body    += "<td id='tinterfaceParaCount'>" + result[i].i_para_count + "</td>";
-  		          body    += "<td id='tinterfaceParaType'>" + result[i].i_para_list + "</td>";
-  		          body    += "<td>"+
-  		          "<button id='detailBtn' type='button' style='margin-left: 2%;width: 30%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-success btn-sm' data-toggle='modal' data-target='#modal-detail'onclick='showDetail(this)'>数据类型详情</button> "+
-		          "<button id='editIBtn' type='button' style='margin-left: 3%;width: 30%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick='editClick(this);'>修改</button> "+
-		          "<button id='deleteBtn' type='button' style='margin-left: 3%;width: 30%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
-		          "</td>";
+  				  body    += "<td id='typeId'>" + result[i].typId + "</td>";
+  		          body    += "<td id='typeName'>" + result[i].typName + "</td>";
+  		          body    += "<td id='typeSize'>" + result[i].typSize + "</td>";  
+  		          body    += "<td id='typeAttr'>" + result[i].typAttr + "</td>";
+  		         if(result[i].typAttr=="struct"){
+  		        	body    += "<td>"+
+  		        	"<button id='detailBtn' type='button' style='margin-left: 1%;width: 24%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-success btn-sm' data-toggle='modal' data-target='#modal-detail'onclick='showDetail(this)'>数据类型详情</button> "+
+  			        "<button id='editIBtn' type='button' style='margin-left: 3%;width: 20%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-add-struct'onclick='editClick(this);'>修改</button> "+
+  			        "<button id='deleteBtn' type='button' style='margin-left: 3%;width: 20%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
+  			        "<button id='structBtn' type='button' style='margin-left: 3%;width: 24%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-warning btn-sm' onclick='toStruct(this);'>结构体操作</button> "+
+  			        "</td>"; 	 
+  		         }else{
+  		        	 
+  		        	  body    += "<td>"+
+  	  		          "<button id='detailBtn' type='button' style='margin-left: 2%;width: 30%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-success btn-sm' data-toggle='modal' data-target='#modal-detail'onclick='showDetail(this)'>数据类型详情</button> "+
+  			          "<button id='editIBtn' type='button' style='margin-left: 3%;width: 30%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-add-basic'onclick='editClick(this);'>修改</button> "+
+  			          "<button id='deleteBtn' type='button' style='margin-left: 3%;width: 30%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
+  			          "</td>";
+  		        	 
+  		         }
   		          body    += "</tr>";
-  			      $("#example1 tbody" ).append(body); 
+  		          $("#example1 tbody" ).append(body); 
               }
-              var oldTable = $('#typeData').dataTable();
-	   		  oldTable.fnClearTable(); 
-	  		  oldTable.fnDestroy();
-           $("#typeData").DataTable({
+            
+           $("#example1").DataTable({
    				"autoWidth": false,
    			    "paging": true,
    			    "lengthChange": true,
@@ -284,18 +295,22 @@ function qryDataType() {
             }
         });
     }
+    
 function add() {
 	clickKey = "add";
+	 $("#typId").removeAttr("readOnly");
         $("#typId").val("");
         $("#typName").val("");
         $("#typSize").val("");
         $("#typDesc").val("");
  }
+ 
+ 
 function editClick(e) {
     clickKey = "edit";
     var typId = $(e).parent().parent().children().eq(0).text();
-    $.ajax({
-        url: "/detailBasicDataType",
+    $.ajax({//先回填
+        url: "/qryDetailBasicDataType",
         data: {
             "typId": typId
         },
@@ -304,19 +319,13 @@ function editClick(e) {
         success: function(result) {
          
             $("#typId").attr("readOnly","true");
-            $("#typId").val(result[0].typId);
-            $("#typDesc").val(result[0].typDesc);
-            $("#typName").val(result[0].typName);
-            $("#typSize").val(result[0].typSize);
+            $("#typId").val(result.typId);
+            $("#typDesc").val(result.typDesc);
+            $("#typName").val(result.typName);
+            $("#typSize").val(result.typSize);
         }
     });
 }
-
-
-
-
-
-
 
 
 function save() {
@@ -324,6 +333,12 @@ function save() {
       var typDesc = $("#typDesc").val();
       var typName = $("#typName").val();
       var typSize = $("#typSize").val();
+      
+      if(typId==""||typDesc==""||typName==""||typSize==""){
+			toastr.info('数据类型中必填项未填写充分!');
+			return ;
+		}
+
       if (clickKey == "add") {
             $.ajax({
                 type: "POST",
@@ -338,19 +353,22 @@ function save() {
                 },
                 success: function(result) {
                     if (result == 0) {
-                        alert("该类型已存在！");
+                    	toastr.error('数据类型已存在!重复!');
                         return;
                     }
                     $("#modal-add-basic").modal('hide');
-                    search();
+                    var oldTable = $('#example1').dataTable();
+		   		    oldTable.fnClearTable(); 
+		  		    oldTable.fnDestroy();
+                    qryDataType();
                     $('#m-toast-inner-text').text('保存成功');
                     $('#m-toast-pop').fadeIn();
-                    $('#m-toast-pop').fadeOut();
-
-
+                    setTimeout(function() {
+                        $('#m-toast-pop').fadeOut();
+                    }, 200);
                 },
                 error: function() {
-                    console.log("保存错误！请联系管理员！！")
+                	toastr.warning('未知错误,请联系管理员!');
                 }
             });
         } else if (clickKey == "edit") {
@@ -366,27 +384,24 @@ function save() {
                     "typDesc": typDesc
                 },
                 success: function(result) {
-                    search();
                     $("#modal-add-basic").modal('hide');
-
+                    var oldTable = $('#example1').dataTable();
+		   		    oldTable.fnClearTable(); 
+		   		 	oldTable.fnDestroy();
+                	qryDataType();
                     $('#m-toast-inner-text').text('保存成功');
                     $('#m-toast-pop').fadeIn();
                     setTimeout(function() {
                         $('#m-toast-pop').fadeOut();
-
                     }, 200);
                 },
                 error: function() {
-                    console.log("保存错误！请联系管理员！！")
+                	toastr.warning('未知错误,请联系管理员!');
                 }
             });
         }
     }
 
-
-
-
-   
 
     function del(e) {
         var typId = $(e).parent().parent().children().eq(0).text();
@@ -457,5 +472,26 @@ function save() {
         window.parent.zhu.location.href = "/detailStruct?typId=" + typId;
     }
 </script>
+<script type="text/javascript">
+toastr.options = {
+		  "closeButton": true,
+		  "debug": false,
+		  "newestOnTop": true,
+		  "progressBar": true,
+		  "positionClass": "toast-top-full-width",
+		  "preventDuplicates": false,
+		  "onclick": null,
+		  "showDuration": "300",
+		  "hideDuration": "800",
+		  "timeOut": "2500",
+		  "extendedTimeOut": "1000",
+		  "showEasing": "swing",
+		  "hideEasing": "linear",
+		  "showMethod": "fadeIn",
+		  "hideMethod": "fadeOut"
+		}
+	qryDataType();
 
+	
+</script>
 </html>

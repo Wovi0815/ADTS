@@ -16,7 +16,7 @@ public interface OtherDataDao {
 			"	typ_desc as typDesc\r\n" + 
 			"FROM\r\n" + 
 			"	`t_data_type`;")
-	public List<Map<String, Object>> qryTypeData();
+	public List<Map<String, Object>> qryDataType();
 
 	@Insert("INSERT INTO `t_data_type` ( `typ_id`, `typ_name`, `typ_size`, `typ_attr`, `typ_desc`, `modify_user` )\r\n" + 
 			"VALUES\r\n" + 
@@ -46,13 +46,13 @@ public interface OtherDataDao {
 			"	typ_desc as typDesc\r\n" + 
 			"FROM\r\n" + 
 			"	`t_data_type` where typ_id=#{typId};")
-	public List<Map<String, Object>> detailBasicDataType(String typId);
+	public Map<String, Object> qryDetailBasicDataType(String typId);
 	
 	@Select("SELECT\r\n" + 
 			"	count( * ) as num\r\n" + 
 			"FROM\r\n" + 
 			"	( SELECT * FROM `t_data_type` WHERE typ_id = #{typId} ) a")
-	public List<Map<String, Object>> qryRep(String typId);
+	public List<Map<String, Object>> qryTypeRepeat(String typId);
 	
 	@Select("SELECT\r\n" + 
 			"	count( * ) AS num \r\n" + 
