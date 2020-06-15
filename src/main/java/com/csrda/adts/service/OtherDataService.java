@@ -5,27 +5,45 @@ import java.util.Map;
 
 public interface OtherDataService{
 
-	public String addStruct(String typId,String typName,String typSize,String typDesc,String memList);
+	/**
+	 * 新增结构体,系列操作
+	 */
+	public String addStruct(String structId,String structName,String structSize,String structDesc,String memList);
 	
-	public String updateStruct(String typId, String typName, String typSize, String typDesc, String memList);
-	
-	
-	
+
+	/**
+	 * 查数据类型
+	 */
 	public List<Map<String, Object>> qryDataType();
+	/**
+	 * 保存数据类型
+	 */
+	public int saveDataType(Map<String,String> typeData);
+	/**
+	 * 修改数据类型
+	 */
+	public int updateDataType(Map<String,String> typeData);
+	/**
+	 * 删除数据类型
+	 */
+	public int delDataType(String typId);
 	
-	public int saveBasicDataType(Map<String,String> typeData);
-	
-	public int updateBasicDataType(Map<String,String> typeData);
-	
-	public int delBasicDataType(String typId);
-	
-	public Map<String, Object> qryDetailBasicDataType(String typId);
-	
+	/**
+	 * 数据类型详情
+	 */
+	public Map<String, Object> qryDetailDataType(String typId);
+	/**
+	 * 查数据类型是否重复
+	 */
 	public List<Map<String, Object>> qryTypeRepeat(String typId);
-	
+	/**
+	 * 查结构体类型是否重复
+	 */
 	public List<Map<String, Object>> qryStructMemRep(String struct,String memId);
 	
+	
 	public int addStructMem(Map<String, Object> memData);
+	
 	
 	public int delStructMem(String typId);
 	

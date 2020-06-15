@@ -21,28 +21,28 @@ public class OtherDataServiceImpl implements OtherDataService{
 	
 	@Override
 	@Transactional
-	public String addStruct(String typId, String typName, String typSize, String typDesc, String memList) {
+	public String addStruct(String structId,String structName,String structSize,String structDesc,String memList){
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			List<Map<String, Object>> memData = mapper.readValue(memList, new TypeReference<List<Map<String, Object>>>(){});
-			if(Integer.valueOf(otherDataDao.qryTypeRepeat(typId).get(0).get("num").toString())>0) {
+			if(Integer.valueOf(otherDataDao.qryTypeRepeat(structId).get(0).get("num").toString())>0) {
 				//TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-				return "TypRep";
+				return "TypeRepeat";
 			}
 			Map<String, String> typeData=new HashMap<String, String>();
-			typeData.put("typId", typId);
-			typeData.put("typName", typName);
+			typeData.put("typId", structId);
+			typeData.put("typName", structName);
 			typeData.put("typAttr", "struct");
-			typeData.put("typSize", typSize);
-			typeData.put("typDesc", typDesc);
+			typeData.put("typSize", structSize);
+			typeData.put("typDesc", structDesc);
 			otherDataDao.saveBasicDataType(typeData);
 
 			for (int i = 0; i < memData.size(); i++) {
-				if(Integer.valueOf(otherDataDao.qryStructMemRep(typId, memData.get(i).get("memId").toString()).get(0).get("num").toString())>0) {
+				if(Integer.valueOf(otherDataDao.qryStructMemRep(structId, memData.get(i).get("memId").toString()).get(0).get("num").toString())>0) {
 					TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-					return "structRep";
+					return "structMemberRepeat";
 				}
-				memData.get(i).put("memStruct", typId);
+				memData.get(i).put("memStruct", structId);
 				otherDataDao.addStructMem(memData.get(i));
 			}
 			return "success";
@@ -54,36 +54,7 @@ public class OtherDataServiceImpl implements OtherDataService{
 		}
 	}
 
-	@Transactional
-	@Override
-	public String updateStruct(String typId, String typName, String typSize, String typDesc, String memList) {
-		ObjectMapper mapper = new ObjectMapper();
-		try {
-			List<Map<String, Object>> memData = mapper.readValue(memList, new TypeReference<List<Map<String, Object>>>(){});
-			Map<String, String> typeData=new HashMap<String, String>();
-			typeData.put("typId", typId);
-			typeData.put("typName", typName);
-			typeData.put("typAttr", "struct");
-			typeData.put("typSize", typSize);
-			typeData.put("typDesc", typDesc);
-			otherDataDao.updateBasicDataType(typeData);
-			otherDataDao.delStructMem(typId);
-			for (int i = 0; i < memData.size(); i++) {
-				if(Integer.valueOf(otherDataDao.qryStructMemRep(typId, memData.get(i).get("memId").toString()).get(0).get("num").toString())>0) {
-					TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-					return "structRep";
-				}
-				memData.get(i).put("memStruct", typId);
-				otherDataDao.addStructMem(memData.get(i));
-			}
-			return "success";
-		}
-		catch(Exception e){
-			e.printStackTrace();
-			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-			return "fault";
-		}
-	}
+
 
 	@Override
 	public List<Map<String, Object>> qryDataType() {
@@ -91,23 +62,23 @@ public class OtherDataServiceImpl implements OtherDataService{
 	}
 
 	@Override
-	public int saveBasicDataType(Map<String, String> typeData) {
+	public int saveDataType(Map<String, String> typeData) {
 		return otherDataDao.saveBasicDataType(typeData);
 	}
 
 	@Override
-	public int updateBasicDataType(Map<String, String> typeData) {
+	public int updateDataType(Map<String, String> typeData) {
 		return otherDataDao.updateBasicDataType(typeData);
 	}
 
 	@Override
-	public int delBasicDataType(String typId) {
+	public int delDataType(String typId) {
 		return otherDataDao.delBasicDataType(typId);
 	}
 
 	@Override
-	public Map<String, Object> qryDetailBasicDataType(String typId) {
-		return otherDataDao.qryDetailBasicDataType(typId);
+	public Map<String, Object> qryDetailDataType(String typId) {
+		return otherDataDao.qryDetailDataType(typId);
 	}
 
 	@Override

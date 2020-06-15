@@ -24,16 +24,20 @@ public class otherDataController {
 	public String dataTypeManager() {
 		return "dataTypeManager";
 	}
-	
+	/**
+	 * 查数据类型
+	 */
 	@RequestMapping("/qryDataType")
 	@ResponseBody
 	public List<Map<String, Object>> qryDataType(){
 		return otherDataService.qryDataType();
 	}
-	
-	@RequestMapping("/saveBasicDataType")
+	/**
+	 * 保存数据类型
+	 */
+	@RequestMapping("/saveDataType")
 	@ResponseBody
-	public int saveBasicDataType(String typId,String typName,String typAttr,String typSize,String typDesc) {
+	public int saveDataType(String typId,String typName,String typAttr,String typSize,String typDesc) {
 		if(Integer.valueOf(otherDataService.qryTypeRepeat(typId).get(0).get("num").toString())>0) {
 			return 0;
 		}
@@ -43,68 +47,76 @@ public class otherDataController {
 		typeData.put("typAttr", typAttr);
 		typeData.put("typSize", typSize);
 		typeData.put("typDesc", typDesc);
-		return otherDataService.saveBasicDataType(typeData);
+		return otherDataService.saveDataType(typeData);
 	}
-	
-	@RequestMapping("/updateBasicDataType")
+	/**
+	 * 修改数据类型
+	 */
+	@RequestMapping("/updateDataType")
 	@ResponseBody
-	public int updateBasicDataType(String typId,String typName,String typAttr,String typSize,String typDesc) {
+	public int updateDataType(String typId,String typName,String typAttr,String typSize,String typDesc) {
 		Map<String, String> typeData=new HashMap<String, String>();
 		typeData.put("typId", typId);
 		typeData.put("typName", typName);
 		typeData.put("typAttr", typAttr);
 		typeData.put("typSize", typSize);
 		typeData.put("typDesc", typDesc);
-		return otherDataService.updateBasicDataType(typeData);
+		return otherDataService.updateDataType(typeData);
 	}
 	
-	@RequestMapping("/qryDetailBasicDataType")
-	@ResponseBody
-	public Map<String,Object> qryDetailBasicDataType(String typId){
-		return otherDataService.qryDetailBasicDataType(typId);
-	}
-	
-	@RequestMapping("/delBasicDataType")
-	@ResponseBody
-	public int delBasicDataType(String typId) {
-		return otherDataService.delBasicDataType(typId);
-	}
+	/**
+	 * 保存结构体数据类型系列操作
+	 */
 	
 	@RequestMapping("/addStruct")
-	public String addStruct() {
-		return "addStruct";
+	@ResponseBody
+	public String addStruct(String structId,String structName,String structSize,String structDesc,String memList){
+		return otherDataService.addStruct(structId, structName, structSize, structDesc, memList);
 	}
 	
-	@RequestMapping("/addStructData")
-	@ResponseBody
-	public String addStructData(String typId,String typName,String typSize,String typDesc,String memList){
-		return otherDataService.addStruct(typId, typName, typSize, typDesc, memList);
-	}
 
+	
+	/**
+	 * 根据typId 查信息，可用于回填模态框
+	 */
+	@RequestMapping("/qryDetailDataType")
+	@ResponseBody
+	public Map<String,Object> qryDetailBasicDataType(String typId){
+		return otherDataService.qryDetailDataType(typId);
+	}
+	/**
+	 * 删除数据类型
+	 */
+
+	@RequestMapping("/delDataType")
+	@ResponseBody
+	public int delDataType(String typId) {
+		return otherDataService.delDataType(typId);
+	}
+	
+	/**
+	 * 删除结构体成员
+	 */
+	@RequestMapping("/delStructMem")
+	@ResponseBody
+	public int delStructMem(String structId){
+		return otherDataService.delStructMem(structId);
+	}
+	
+	
+	
+	
 	@RequestMapping("/detailStructMem")
 	@ResponseBody
 	public List<Map<String, Object>> detailStructMem(String typId){
 		return otherDataService.qryStructMem(typId);
 	}
 	
-	@RequestMapping("/detailStruct")
-	public String detailStruct(String typId){
-		return "detailStruct";
-	}
-	
-	@RequestMapping("/editStructData")
-	@ResponseBody
-	public String editStructData(String typId,String typName,String typSize,String typDesc,String memList){
-		return otherDataService.updateStruct(typId, typName, typSize, typDesc, memList);
-	}
 	
 	
 	
 	
-	
-	
-	
-	
+
 	
 	//跳转到中间件页面
 	@RequestMapping("/midwareManager")

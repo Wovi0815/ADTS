@@ -15,7 +15,8 @@ public interface OtherDataDao {
 			"	typ_attr as typAttr,\r\n" + 
 			"	typ_desc as typDesc\r\n" + 
 			"FROM\r\n" + 
-			"	`t_data_type`;")
+			"	`t_data_type`"
+			+ "WHERE is_delete = '0' ;")
 	public List<Map<String, Object>> qryDataType();
 
 	@Insert("INSERT INTO `t_data_type` ( `typ_id`, `typ_name`, `typ_size`, `typ_attr`, `typ_desc`, `modify_user` )\r\n" + 
@@ -38,15 +39,19 @@ public interface OtherDataDao {
 			"	t.typ_id = #{typId};")
 	public int delBasicDataType(String typId);
 	
-	@Select("SELECT\r\n" + 
+	@Select("SELECT  " + 
 			"	typ_id as typId,\r\n" + 
 			"	typ_name as typName,\r\n" + 
 			"	typ_size as typSize,\r\n" + 
 			"	typ_attr as typAttr,\r\n" + 
-			"	typ_desc as typDesc\r\n" + 
+			"	typ_desc as typDesc,\r\n" + 
+			"	stru_para_count as stru_para_count,\r\n" + 
+			"	create_time as create_time,\r\n" + 
+			"	update_time as update_time,\r\n" + 
+			"	modify_user as modify_user\r\n" + 
 			"FROM\r\n" + 
-			"	`t_data_type` where typ_id=#{typId};")
-	public Map<String, Object> qryDetailBasicDataType(String typId);
+			"	`t_data_type` where typ_id=#{typId} AND is_delete = '0';")
+	public Map<String, Object> qryDetailDataType(String typId);
 	
 	@Select("SELECT\r\n" + 
 			"	count( * ) as num\r\n" + 
