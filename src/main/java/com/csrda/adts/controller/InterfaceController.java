@@ -258,7 +258,10 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 		@RequestMapping("/QryParaFillback")		
 		@ResponseBody
 		Map<String, Object> qryParaFillback(String uniqueInterid,String paraNo){
+			System.out.println("!!!"+uniqueInterid);
+			System.out.println("!!!"+paraNo);
 			Map<String, Object> result = interfaceService.qryParaFillback(uniqueInterid, paraNo);
+			System.out.println("!!!"+result);
 			return result;
 		
 		}

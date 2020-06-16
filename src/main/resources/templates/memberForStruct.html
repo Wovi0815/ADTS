@@ -21,7 +21,7 @@
 		<!-- toastr -->
 		<link rel="stylesheet" th:href="@{/plugins/toastr/toastr.min.css}">
 		
-		<title>接口参数页面</title>
+		<title>结构体成员页面</title>
 		<style type="text/css">
 		input::-webkit-input-placeholder {
 			/* WebKit browsers */
@@ -58,54 +58,47 @@
               
               	<!-- 模态框内容 -->
 			<div class="form-group" >
-			 <label for="iparaId">参数标识</label>
-			 <input class="form-control" placeholder="参数标识" id="iparaId" >
+			 <label for="imemId">参数标识</label>
+			 <input class="form-control" placeholder="参数标识" id="imemId" >
 			</div>
 			
 			<div class="form-group">
-			 <label for="iparaName">参数名称</label>
-			 <input class="form-control" placeholder="参数名称" id="iparaName" >
+			 <label for="imemName">参数名称</label>
+			 <input class="form-control" placeholder="参数名称" id="imemName" >
 			</div>
 			<div class="form-group">
-			 <label for="iparaDesc">参数描述</label>
-			 <input class="form-control" placeholder="参数描述" id="iparaDesc">
+			 <label for="imemDesc">参数描述</label>
+			 <input class="form-control" placeholder="参数描述" id="imemDesc">
 			</div>
 			<div class="form-group">
-			 <label for="iparaReturn">返回值类型</label>
-			 <input class="form-control" placeholder="返回值类型" id="iparaReturn">
+			 <label for="imemReturn">返回值类型</label>
+			 <input class="form-control" placeholder="返回值类型" id="imemReturn">
 			</div>
 			<div class="form-group">
-			 <label for="iparaNo">参数次序</label>
-			 <input class="form-control" oninput='value=value.replace(/[^\d]/g,"")'placeholder="参数次序" id="iparaNo">
+			 <label for="imemNo">参数次序</label>
+			 <input class="form-control" oninput='value=value.replace(/[^\d]/g,"")'placeholder="参数次序" id="imemNo">
+			</div>
+	
+			<div class="form-group">
+			 <label for="imemPhy">物理量纲</label>
+			 <input class="form-control"  placeholder="物理量纲" id="imemPhy">
 			</div>
 			<div class="form-group">
-			 <label for="iparaAttr">参数属性</label>
-			 <select class="form-control select2bs4" id="iparaAttr" >
-			<option value='' disabled selected style='display:none;'>请选择参数属性</option>
-			 	<option id="attr1">输入参数</option>
-			 	<option id="attr2">输出参数</option>
-		     </select>
+			 <label for="imemMax">最大值</label>
+			 <input class="form-control" type="number" placeholder="最大值" id="imemMax">
 			</div>
 			<div class="form-group">
-			 <label for="iparaPhy">物理量纲</label>
-			 <input class="form-control"  placeholder="物理量纲" id="iparaPhy">
+			 <label for="imemMin">最小值</label>
+			 <input class="form-control" type='number' placeholder="最小值" id="imemMin">
 			</div>
 			<div class="form-group">
-			 <label for="iparaMax">最大值</label>
-			 <input class="form-control" type="number" placeholder="最大值" id="iparaMax">
-			</div>
-			<div class="form-group">
-			 <label for="iparaMin">最小值</label>
-			 <input class="form-control" type='number' placeholder="最小值" id="iparaMin">
-			</div>
-			<div class="form-group">
-			 <label for="iparaDef">默认值</label>
-			 <input class="form-control" type='number' placeholder="默认值" id="iparaDef">
+			 <label for="imemDef">默认值</label>
+			 <input class="form-control" type='number' placeholder="默认值" id="imemDef">
 			</div>
 			
 			<div class="form-group">
-			 <label for="iinterface">所属接口</label>
-			 <input class="form-control" placeholder="所属接口" id="iinterface" readonly="readonly">
+			 <label for="imemStruct">所属接口</label>
+			 <input class="form-control" placeholder="所属结构体" id="imemStruct" readonly="readonly">
 			</div>
 
             </div>
@@ -141,16 +134,16 @@
 
 	<!-- 表格相关 -->   
             <div class="card-body">     
-      <button id='addBtn'type='button' style="margin-right:2% ;width: 8%;float: right;"class='btn btn-block btn-outline-info btn-sm' data-toggle="modal" data-target="#modal-default" onclick="addClick();">新增参数</button> 
+      <button id='addBtn'type='button' style="margin-right:2% ;width: 8%;float: right;"class='btn btn-block btn-outline-info btn-sm' data-toggle="modal" data-target="#modal-default" onclick="addClick();">新增成员</button> 
       
 
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                  <th>参数标识</th>
-                  <th>参数名称</th>
-                  <th>参数次序</th>
+                  <th>成员标识</th>
+                  <th>成员名称</th>
                   <th>返回值类型</th>
+                  <th>成员次序</th>
                   <th>操作</th>
                 </tr>
                 </thead>
@@ -215,39 +208,30 @@ var theRequest = new Object();
 
 //------全局变量-------
 var a=GetRequest();//中间件菜单传值
-var uniqueInterid=a['uniqueInterid'];
+var structId=a['structId'];
 var clickKey;
-var interfaceId;
-var oldParaNo;//编辑时，获取初始参数次序用于比对
+var oldMemNo;//编辑时，获取初始成员参数次序用于比对
 //------全局变量-------
 
-function QryParaInterface(){//查接口下属参数
+function QryStructMember(){//查结构体成员
 	$("#example1 tbody" ).empty();
 	$.ajax({
-		url:"/QryParaInterface",
+		url:"/qryStructMem",
 		type:"POST",
 		async:true,
-		data:{"uniqueInterid":uniqueInterid},
+		data:{"structId":structId},
 		success:function(result){
-			
-			if(result){
-				interfaceId=result[0].i_id;
-				
-			}else{
-				interfaceId=null;
-				
-			}
-			
+
 			var body="";
 			for(var i=0;i<result.length;i++){
 				body = "<tr>";
-				body    += "<td id='tparaId'>" + result[i].para_id + "</td>";
-		        body    += "<td id='tparaName'>" + result[i].para_name + "</td>"; 
-		        body    += "<td id='tparaNo'>" + result[i].para_eq  + "</td>";
-		        body    += "<td id='tparaReturn'>" + result[i].para_type + "</td>";
+				body    += "<td id='memId'>" + result[i].memId + "</td>";
+		        body    += "<td id='memName'>" + result[i].memName + "</td>"; 
+		        body    += "<td id='memType'>" + result[i].memType  + "</td>";
+		        body    += "<td id='memNo'>" + result[i].memNo + "</td>";
 		        body    += "<td>"+		        
-		        "<button id='detailBtn' type='button' style='margin-left: 2%;width: 30%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-success btn-sm' data-toggle='modal' data-target='#modal-detail'onclick='showDetail(this)'>参数详情</button> "+
-		        "<button id='editIBtn' type='button' style='margin-left: 3%;width: 30%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick='editClick(this);'>修改</button> "+
+		        "<button id='detailBtn' type='button' style='margin-left: 2%;width: 30%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-success btn-sm' data-toggle='modal' data-target='#modal-detail'onclick='showDetail(this)'>成员详情</button> "+
+		        "<button id='editBtn' type='button' style='margin-left: 3%;width: 30%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick='editClick(this);'>修改</button> "+
 		        "<button id='deleteBtn' type='button' style='margin-left: 3%;width: 30%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
 		        "</td>";
 		        body    += "</tr>";
@@ -277,50 +261,57 @@ function QryParaInterface(){//查接口下属参数
 
 function showDetail(e){
 	$("#descArea").empty();
-	var paraNo=$(e).parent().parent().find("td").eq(2).text();
-	var paraId =$(e).parent().parent().find("td").eq(0).text();
+	var memId=$(e).parent().parent().find("td").eq(0).text();
 	 $.ajax({
-			url:"/QryParaIsExist",
+			url:"/qryMemDetail",
 			type:"POST",
 			async:true,
 			data:{
-				"paraNo":paraNo,
-				"paraId":paraId,
-				"uniqueInterid":uniqueInterid
+				"structId":structId,
+				"memId":memId
 			},
 			success:function(result){
-				var paraDesc = result.para_desc;
+				var memDesc = result.memDesc;
+				var memPhy =result.memPhyDim;
+				var memDefault =result.memDefault;
+				var memMax = result.memMax;
+				var memMin = result.memMin;
 				var modifyUser = result.modify_user;
 				var updateTime = result.update_time;
 				var createTime = result.create_time;
-				var ibody="";
-			   	ibody +="<div class='input-group'>";
-				ibody += 	"<div class='input-group-prepend'>";
-				ibody +=		 "<span class='input-group-text' >参数描述</span>";
-				ibody +=	 "</div>" ;
-				ibody +=	 "<input type='text'   class='form-control' value='"+paraDesc+"'readonly='readonly'/>";
-				ibody +="</div>";
-				ibody +="<div class='input-group'>";
-				ibody += 	"<div class='input-group-prepend'>";
-				ibody +=	 	"<span class='input-group-text' >维护人</span>";
-				ibody +=   "</div>";
-				ibody += 	"<input type='text'    class='form-control' value='"+modifyUser+"'readonly='readonly'/>";
-				ibody +="</div>";
-				ibody +="<div class='input-group'>";
-				ibody += 	"<div class='input-group-prepend'>";
-				ibody +=	 	"<span class='input-group-text' >创建时间</span>";
-				ibody +=   "</div>";
-				ibody += 	"<input type='text'    class='form-control' value='"+createTime+"'readonly='readonly'/>";
-				ibody +="</div>";
-				ibody +="<div class='input-group'>";
-				ibody += 	"<div class='input-group-prepend'>";
-				ibody +=	 	"<span class='input-group-text' >修改时间</span>";
-				ibody +=   "</div>";
-				ibody += 	"<input type='text'    class='form-control' value='"+updateTime+"'readonly='readonly'/>";
-				ibody +="</div>";
-
-				$("#descArea").append(ibody);
-				
+				var body="";
+				   	body +="<div class='input-group'>";
+					body +=    "<div class='input-group-prepend'>";
+					body +=        "<span class='input-group-text'>描述</span>";
+					body +=    "</div>" ;
+					
+					if((memPhy!="")&&(memPhy!=null)){
+						memDesc +="【物理量纲:"+memPhy+"】";}
+					if((memMax!="" && memMin!="")&&(memMax!=null && memMin!=null)){
+						memDesc +="【取值范围:("+memMin+","+memMax+")】";}
+					if((memDefault!="")&&(memDefault!=null)){
+						memDesc +="【默认值:"+memDefault+"】";}	
+					body +=	"<input type='text'  readonly='readonly'  class='form-control' value='"+memDesc+"'/>";
+					body +="</div>";
+					body +="<div class='input-group'>";
+					body += 	"<div class='input-group-prepend'>";
+					body +=		 "<span class='input-group-text' >维护人</span>";
+					body +=	 "</div>" ;
+					body +=	 "<input type='text'   class='form-control' value='"+modifyUser+"'readonly='readonly'/>";
+					body +="</div>";
+					body +="<div class='input-group'>";
+					body += 	"<div class='input-group-prepend'>";
+					body +=	 	"<span class='input-group-text' >创建时间 </span>";
+					body +=   "</div>";
+					body += 	"<input type='text'    class='form-control' value='"+createTime+"'readonly='readonly'/>";
+					body +="<div class='input-group'>";
+					body += 	"<div class='input-group-prepend'>";
+					body +=	 	"<span class='input-group-text' >修改时间</span>";
+					body +=   "</div>";
+					body += 	"<input type='text'    class='form-control' value='"+updateTime+"'readonly='readonly'/>";
+					body +="</div>";
+					$("#descArea").append(body);
+					
 			},	
 			error:function(result){
 				toastr.warning('未知错误,请联系管理员!');
@@ -334,18 +325,20 @@ function showDetail(e){
 //新增     ###模态框内容####
 function addClick(){
 	clickKey="add";
-	$("#iparaId").removeAttr("readonly");
-	$("#iparaId").val("");
-	$("#iparaName").val("");
-	$("#iparaDesc").val("");
-	$("#iparaAttr").val("");
+
+	$("#imemId").removeAttr("readonly");
+	$("#imemId").val("");
+	$("#imemName").val("");
+	$("#imemDesc").val("");
+	$("#imemReturn").val("");
+	$("#imemNo").val("");
 	$("#iparaReturn").val("");
 	$("#iparaNo").val("");
-	$("#iparaPhy").val("");
-	$("#iparaMax").val("");
-	$("#iparaMin").val("");
-	$("#iparaDef").val("");
-	$("#iinterface").val(uniqueInterid);
+	$("#imemPhy").val("");
+	$("#imemMax").val("");
+	$("#imemMin").val("");
+	$("#imemDef").val("");
+	$("#imemStruct").val(structId);
 	
 	
 }
@@ -353,34 +346,28 @@ function addClick(){
 //编辑     ###模态框内容####
 function editClick(e){	
 	clickKey="edit";
-	    var paraNo=$(e).parent().parent().find("td").eq(2).text();
-	    oldParaNo =$(e).parent().parent().find("td").eq(2).text();
+	    var memNo=$(e).parent().parent().find("td").eq(3).text();
+	    oldMemNo =$(e).parent().parent().find("td").eq(3).text();
 	    $.ajax({
-			url:"/QryParaFillback",
+			url:"/qryMemFillback",
 			type:"POST",
 			async:true,
 			data:{
-				"uniqueInterid":uniqueInterid,
-				"paraNo":paraNo
+				"structId":structId,
+				"memNo":memNo
 			},
 			success:function(result){
-				$("#iparaId").val(result.para_id);
-				$("#iparaId").attr("readonly","readonly");
-				$("#iparaName").val(result.para_name);
-				$("#iparaDesc").val(result.para_desc);
-				$("#iparaReturn").val(result.para_type);
-				$("#iparaNo").val(result.para_eq);
-				$("#iparaPhy").val(result.para_phy_dim);
-				$("#iparaMax").val(result.para_max);
-				$("#iparaMin").val(result.para_min);
-				$("#iparaDef").val(result.para_default);
-				$("#iinterface").val(interfaceId);
-				if(result.para_attr == "输入参数"){
-					$("#attr1").attr("selected","selected");
-				}else if(result.para_attr == "输出参数"){
-					$("#attr1").removeAttr("selected");
-					$("#attr2").attr("selected","selected");
-				}
+				$("#imemId").val(result.memId);
+				$("#imemId").attr("readonly","readonly");
+				$("#imemName").val(result.memName);
+				$("#imemDesc").val(result.memDesc);
+				$("#imemReturn").val(result.memType);
+				$("#imemNo").val(result.memNo);
+				$("#imemPhy").val(result.memPhyDim);
+				$("#imemMax").val(result.memMax);
+				$("#imemMin").val(result.memMin);
+				$("#imemDef").val(result.memDefault);
+				$("#imemStruct").val(structId);		
 				
 			},
 			error:function(result){
@@ -390,57 +377,56 @@ function editClick(e){
 }
 
 function save(){
-	var modalParaId=$("#iparaId").val();
-	var modalParaName=$("#iparaName").val();
-	var modalParaDesc=$("#iparaDesc").val();
-	var modalParaNo=$("#iparaNo").val();
-	var modalParaType=$("#iparaReturn").val();
-	var modalParaPhy=$("#iparaPhy").val();
-	var modalParaMax=$("#iparaMax").val();
-	var modalParaMin=$("#iparaMin").val();
-	var modalParaDef=$("#iparaDef").val();
-	var modalParaAttr=$("#iparaAttr").val();
-	var modalInterface= uniqueInterid;
-	var paraMap = new Array();
-	paraMap.push({
-		modalParaId :modalParaId,
-		modalParaName :modalParaName,
-		modalParaDesc :modalParaDesc,
-		modalParaNo :modalParaNo,
-		modalParaType :modalParaType,
-		modalParaPhy :modalParaPhy,
-		modalParaMax :modalParaMax,
-		modalParaMin :modalParaMin,
-		modalParaDef :modalParaDef,
-		modalParaAttr :modalParaAttr,
-		modalInterface:modalInterface});
-	if(modalParaId==""||modalParaName==""||modalParaDesc==""||modalParaNo==""||modalParaAttr==null||modalInterface==""){
-		toastr.info('接口参数中必填项未填写充分!');
+	var modalMemId=$("#imemId").val();
+	var modalMemName=$("#imemName").val();
+	var modalMemDesc=$("#imemDesc").val();
+	var modalMemNo=$("#imemNo").val();
+	var modalMemType=$("#imemReturn").val();
+	var modalMemPhy=$("#imemPhy").val();
+	var modalMemMax=$("#imemMax").val();
+	var modalMemMin=$("#imemMin").val();
+	var modalMemDef=$("#imemDef").val();
+	var modalStruct= structId;
+	var memMap = new Array();
+	memMap.push({
+		modalMemId :modalMemId,
+		modalMemName :modalMemName,
+		modalMemDesc :modalMemDesc,
+		modalMemNo :modalMemNo,
+		modalMemType :modalMemType,
+		modalMemPhy :modalMemPhy,
+		modalMemMax :modalMemMax,
+		modalMemMin :modalMemMin,
+		modalMemDef :modalMemDef,
+		modalStruct:modalStruct});
+	if(modalMemId==""||modalMemName==""||modalMemDesc==""||modalMemNo==""||modalMemType==null||modalStruct==""){
+		toastr.info('成员参数中必填项未填写充分!');
 	}else{
-		changeDataByKey(paraMap);
+		changeDataByKey(memMap);
 	}
 }
 
-function changeDataByKey(paraMap) {
+function changeDataByKey(memMap) {
 	if(clickKey=="add"){
 		//新增之前先进行查询类标识和参数次序是否唯一   
-		var paraNo =paraMap[0].modalParaNo;
-		var paraId =paraMap[0].modalParaId;
+		var memNo =memMap[0].modalMemNo;
+		var memId =memMap[0].modalMemId;
 		 $.ajax({
-				url:"/QryParaIsExist",
+				url:"/qryMemIsExist",
 				type:"POST",
 				async:true,
 				data:{
-					"paraNo":paraNo,
-					"paraId":paraId,
-					"uniqueInterid":uniqueInterid
+					"memNo":memNo,
+					"memId":memId,
+					"structId":structId
 				},
 				success:function(result){
-					if(result.para_id){	
-						toastr.error('参数标识或次序已存在!请检查!');
+					if(result.mem_id){	
+						toastr.error('成员标识或次序已存在!请检查!');
 
 					}else{
-						InsertData(paraMap);//插入
+						//InsertData(memMap);//插入
+						alert("success");
 					}
 				},
 				error:function(result){
@@ -449,21 +435,22 @@ function changeDataByKey(paraMap) {
 			}); 
 	}else if(clickKey=="edit"){
 		//修改之前检查是否唯一
-		var nowparaNo =paraMap[0].modalParaNo;
+		var nowmemNo =memMap[0].modalMemNo;
 		 $.ajax({
-				url:"/QryParaIsExist",
+				url:"/qryMemIsExist",
 				type:"POST",
 				async:true,
 				data:{
-					"paraNo":nowparaNo,
-					"paraId":paraId,
-					"uniqueInterid":uniqueInterid
+					"memNo":memNo,
+					"memId":memId,
+					"structId":structId
 				},
 				success:function(result){
-					if((result.para_eq)&&(nowparaNo!=oldParaNo)){	
+					if((result.mem_no)&&(nowmemNo!=oldMemNo)){	
 						toastr.error('参数次序已存在!请检查!');
 					}else{
-						UpdateData(paraMap);
+						//UpdateData(paraMap);
+						alert("success");
 					}
 				},
 				error:function(result){
@@ -629,7 +616,7 @@ toastr.options = {
 		}
 
 
-	QryParaInterface();
+QryStructMember();
 	
 </script>
 </body>

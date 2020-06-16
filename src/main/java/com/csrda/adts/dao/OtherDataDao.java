@@ -19,10 +19,10 @@ public interface OtherDataDao {
 			+ "WHERE is_delete = '0' ;")
 	public List<Map<String, Object>> qryDataType();
 
-	@Insert("INSERT INTO `t_data_type` ( `typ_id`, `typ_name`, `typ_size`, `typ_attr`, `typ_desc`, `modify_user` )\r\n" + 
+	@Insert("INSERT INTO `t_data_type` ( `typ_id`, `typ_name`, `typ_size`, `typ_attr`, `typ_desc`, `stru_para_count`,`modify_user` )\r\n" + 
 			"VALUES\r\n" + 
-			"	(#{typId}, #{typName}, #{typSize}, #{typAttr}, #{typDesc}, 'admin');")
-	public int saveBasicDataType(Map<String,String> typeData);
+			"	(#{typId}, #{typName}, #{typSize}, #{typAttr}, #{typDesc},#{structMemCount}, 'admin');")
+	public int insertDataType(Map<String,String> typeData);
 	
 	@Update("UPDATE t_data_type set\r\n" + 
 			"typ_name=#{typName},\r\n" + 
@@ -30,14 +30,14 @@ public interface OtherDataDao {
 			"typ_desc=#{typDesc}\r\n" + 
 			"WHERE\r\n" + 
 			"typ_id=#{typId}")
-	public int updateBasicDataType(Map<String,String> typeData);
+	public int updateDataType(Map<String,String> typeData);
 	
 	@Update("UPDATE \r\n" + 
 			"	t_data_type t \r\n" + 
 			"SET t.is_delete = '1' " +
 			"WHERE\r\n" + 
 			"	t.typ_id = #{typId};")
-	public int delBasicDataType(String typId);
+	public int delDataType(String typId);
 	
 	@Select("SELECT  " + 
 			"	typ_id as typId,\r\n" + 
@@ -90,10 +90,6 @@ public interface OtherDataDao {
 	public int delStructMem(String typId);
 	
 	@Select("SELECT\r\n" + 
-			"	tdt.typ_id AS typId,\r\n" + 
-			"	tdt.typ_name AS typName,\r\n" + 
-			"	tdt.typ_size AS typSize,\r\n" + 
-			"	tdt.typ_desc AS typDesc,\r\n" + 
 			"	tsm.mem_no AS memNo,\r\n" + 
 			"	tsm.mem_id AS memId,\r\n" + 
 			"	tsm.mem_name AS memName,\r\n" + 
@@ -104,11 +100,62 @@ public interface OtherDataDao {
 			"	tsm.mem_default AS memDefault,\r\n" + 
 			"	tsm.mem_desc AS memDesc \r\n" + 
 			"FROM\r\n" + 
-			"	t_data_type tdt\r\n" + 
-			"	LEFT JOIN t_struct_member tsm ON tdt.typ_id = tsm.mem_struct \r\n" + 
+			"	 t_struct_member tsm " +
 			"WHERE\r\n" + 
-			"	tdt.typ_id = #{typId} order by tsm.mem_no ASC;")
-	public List<Map<String, Object>> qryStructMem(String typId);
+			"	tsm.mem_struct = #{structId} order by tsm.mem_no ASC;")
+	public List<Map<String, Object>> qryStructMem(String structId);
+	
+	
+	
+	@Select("SELECT\r\n" + 
+			"	tsm.mem_no AS memNo,\r\n" + 
+			"	tsm.mem_name AS memName,\r\n" + 
+			"	tsm.mem_type AS memType,\r\n" + 
+			"	tsm.mem_phy_dim AS memPhyDim,\r\n" + 
+			"	tsm.mem_max AS memMax,\r\n" + 
+			"	tsm.mem_min AS memMin,\r\n" + 
+			"	tsm.mem_default AS memDefault,\r\n" + 
+			"	tsm.mem_desc AS memDesc, \r\n" + 
+			"	tsm.modify_user AS modify_user, \r\n" + 
+			"	tsm.create_time AS create_time ,\r\n" + 
+			"	tsm.update_time AS update_time \r\n" + 
+			"FROM\r\n" + 
+			"	 t_struct_member tsm " +
+			"WHERE\r\n" + 
+			"	tsm.mem_struct = #{structId} AND tsm.mem_id =  #{memId} order by tsm.mem_no ASC;")
+	public Map<String, Object> qryMemDetail(String structId,String memId);
+	
+	
+	@Select("SELECT\r\n" + 
+			"	tsm.mem_id AS memId,\r\n" + 
+			"	tsm.mem_name AS memName,\r\n" + 
+			"	tsm.mem_type AS memType,\r\n" + 
+			"	tsm.mem_no AS memNo,\r\n" + 
+			"	tsm.mem_phy_dim AS memPhyDim,\r\n" + 
+			"	tsm.mem_max AS memMax,\r\n" + 
+			"	tsm.mem_min AS memMin,\r\n" + 
+			"	tsm.mem_default AS memDefault,\r\n" + 
+			"	tsm.mem_desc AS memDesc \r\n" + 
+			"FROM\r\n" + 
+			"	 t_struct_member tsm " +
+			"WHERE\r\n" + 
+			"	tsm.mem_struct = #{structId} AND tsm.mem_no = #{memNo}  ")
+
+	public Map<String, Object> qryMemFillback(String structId,String memNo);
+	
+	
+	
+	
+	@Select("SELECT * FROM( " + 
+			"SELECT * FROM t_struct_member m " + 
+			"WHERE m.mem_struct=#{structId} AND m.is_delete='0' ) a " + 
+			"WHERE a.mem_no=#{memNo} OR a.mem_id=#{memId} ")
+
+	public Map<String, Object> qryMemIsExist(String memNo,String memId,String structId);
+	
+	
+	
+	
 	
 	
 	/**

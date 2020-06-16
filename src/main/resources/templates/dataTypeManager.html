@@ -292,7 +292,7 @@ function qryDataType() {
   		        	"<button id='detailBtn' type='button' style='margin-left: 1%;width: 24%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-success btn-sm' data-toggle='modal' data-target='#modal-detail'onclick='showDetail(this)'>数据类型详情</button> "+
   			        "<button id='editBtn' type='button' style='margin-left: 3%;width: 20%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-add-struct'onclick='editStructClick(this);'>修改</button> "+
   			        "<button id='deleteBtn' type='button' style='margin-left: 3%;width: 20%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-danger btn-sm'   onclick='delStruct(this);'>删除</button> "+
-  			        "<button id='structBtn' type='button' style='margin-left: 3%;width: 24%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-warning btn-sm' onclick='toStruct(this);'>结构体操作</button> "+
+  			        "<button id='structBtn' type='button' style='margin-left: 3%;width: 24%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-warning btn-sm' onclick='toMember(this);'>结构体操作</button> "+
   			        "</td>"; 	 
   		         }else{
   		        	 
@@ -369,7 +369,7 @@ function save() {
       if (clickKey == "add") {
             $.ajax({
                 type: "POST",
-                url: "/saveDataType",
+                url: "/insertDataType",
                 async: true,
                 data: {
                     "typId": typId,
@@ -575,6 +575,7 @@ function structSave(){
                  "structName": structName,
                  "structSize": structSize,
                  "structDesc": structDesc,
+                 "structMemCount":i-1,
                  "memList": JSON.stringify(memList)
              },
              url: "/addStruct",
@@ -700,12 +701,28 @@ function  showDetail(e){
 				"typId":typId
 			},
 			success:function(result){
-				
+				var typDesc = result.typDesc;
 				var modifyUser = result.modify_user;
 				var updateTime = result.update_time;
 				var createTime = result.create_time;
+				var stru_para_count =result.stru_para_count;
+				var typAttr = result.typAttr;
 				var ibody="";
-			   
+				
+				if(typAttr=="struct"){
+					ibody +="<div class='input-group'>";
+					ibody += 	"<div class='input-group-prepend'>";
+					ibody +=	 	"<span class='input-group-text' >结构体成员数量</span>";
+					ibody +=   "</div>";
+					ibody += 	"<input type='text'    class='form-control' value='"+stru_para_count+"'readonly='readonly'/>";
+					ibody +="</div>";
+				}
+				ibody +="<div class='input-group'>";
+				ibody += 	"<div class='input-group-prepend'>";
+				ibody +=	 	"<span class='input-group-text' >数据类型描述</span>";
+				ibody +=   "</div>";
+				ibody += 	"<input type='text'    class='form-control' value='"+typDesc+"'readonly='readonly'/>";
+				ibody +="</div>";
 				ibody +="<div class='input-group'>";
 				ibody += 	"<div class='input-group-prepend'>";
 				ibody +=	 	"<span class='input-group-text' >维护人</span>";
@@ -737,6 +754,11 @@ function  showDetail(e){
     	
     	
     	
+}
+
+function toMember(e){
+	var typId = $(e).parent().parent().children().eq(0).text();
+	window.parent.zhu.location.href="/memberForStruct?structId="+typId;	
 }
         
 </script>

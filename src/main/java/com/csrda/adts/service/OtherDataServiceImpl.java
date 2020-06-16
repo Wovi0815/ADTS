@@ -21,7 +21,7 @@ public class OtherDataServiceImpl implements OtherDataService{
 	
 	@Override
 	@Transactional
-	public String addStruct(String structId,String structName,String structSize,String structDesc,String memList){
+	public String addStruct(String structId,String structName,String structSize,String structDesc,String structMemCount,String memList){
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			List<Map<String, Object>> memData = mapper.readValue(memList, new TypeReference<List<Map<String, Object>>>(){});
@@ -35,7 +35,8 @@ public class OtherDataServiceImpl implements OtherDataService{
 			typeData.put("typAttr", "struct");
 			typeData.put("typSize", structSize);
 			typeData.put("typDesc", structDesc);
-			otherDataDao.saveBasicDataType(typeData);
+			typeData.put("structMemCount", structMemCount);
+			otherDataDao.insertDataType(typeData);
 
 			for (int i = 0; i < memData.size(); i++) {
 				if(Integer.valueOf(otherDataDao.qryStructMemRep(structId, memData.get(i).get("memId").toString()).get(0).get("num").toString())>0) {
@@ -62,18 +63,18 @@ public class OtherDataServiceImpl implements OtherDataService{
 	}
 
 	@Override
-	public int saveDataType(Map<String, String> typeData) {
-		return otherDataDao.saveBasicDataType(typeData);
+	public int insertDataType(Map<String, String> typeData) {
+		return otherDataDao.insertDataType(typeData);
 	}
 
 	@Override
 	public int updateDataType(Map<String, String> typeData) {
-		return otherDataDao.updateBasicDataType(typeData);
+		return otherDataDao.updateDataType(typeData);
 	}
 
 	@Override
 	public int delDataType(String typId) {
-		return otherDataDao.delBasicDataType(typId);
+		return otherDataDao.delDataType(typId);
 	}
 
 	@Override
@@ -102,10 +103,28 @@ public class OtherDataServiceImpl implements OtherDataService{
 	}
 
 	@Override
-	public List<Map<String, Object>> qryStructMem(String typId) {
-		return otherDataDao.qryStructMem(typId);
+	public List<Map<String, Object>> qryStructMem(String structId) {
+		return otherDataDao.qryStructMem(structId);
 	}
 
+	@Override
+	public Map<String, Object> qryMemDetail(String structId, String memId) {
+		return otherDataDao.qryMemDetail(structId, memId);
+	}
+	
+	@Override
+	public Map<String, Object> qryMemFillback(String structId, String memNo) {
+		return otherDataDao.qryMemFillback(structId,memNo);
+	}
+	
+	@Override
+	public Map<String, Object> qryMemIsExist(String memNo, String memId, String structId) {
+		
+		return otherDataDao.qryMemIsExist(memNo,memId,structId);
+	}
+	
+	
+	
 	@Override
 	public int InsertMid(String modMidId, String modMidName, String modMidDesc) {
 		return otherDataDao.InsertMid(modMidId, modMidName, modMidDesc);
@@ -130,6 +149,17 @@ public class OtherDataServiceImpl implements OtherDataService{
 	public List<Map<String, Object>> qryAllModule() {
 		return otherDataDao.qryAllModule();
 	}
+
+
+
+	
+
+
+
+
+
+
+
 	
 	
 	
