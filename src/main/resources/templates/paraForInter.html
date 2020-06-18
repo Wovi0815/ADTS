@@ -436,7 +436,7 @@ function changeDataByKey(paraMap) {
 					"uniqueInterid":uniqueInterid
 				},
 				success:function(result){
-					if(result.para_id){	
+					if(result.length>0){	
 						toastr.error('参数标识或次序已存在!请检查!');
 
 					}else{
@@ -450,6 +450,7 @@ function changeDataByKey(paraMap) {
 	}else if(clickKey=="edit"){
 		//修改之前检查是否唯一
 		var nowparaNo =paraMap[0].modalParaNo;
+		var paraId =paraMap[0].modalParaId;
 		 $.ajax({
 				url:"/QryParaIsExist",
 				type:"POST",
@@ -460,7 +461,7 @@ function changeDataByKey(paraMap) {
 					"uniqueInterid":uniqueInterid
 				},
 				success:function(result){
-					if((result.para_eq)&&(nowparaNo!=oldParaNo)){	
+					if((result.length>0)&&(nowparaNo!=oldParaNo)){	
 						toastr.error('参数次序已存在!请检查!');
 					}else{
 						UpdateData(paraMap);

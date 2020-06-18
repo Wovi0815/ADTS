@@ -97,9 +97,26 @@ public class OtherDataServiceImpl implements OtherDataService{
 		return otherDataDao.addStructMem(memData);
 	}
 
+	
+
+	@Override
+	public int updateStructMem(Map<String, Object> memData) {
+		return otherDataDao.updateStructMem(memData);
+	}
+
+	
+	
 	@Override
 	public int delStructMem(String typId) {
 		return otherDataDao.delStructMem(typId);
+	}
+
+
+
+	@Override
+	public int delStructOneMem(String structId, String memId) {
+		
+		return otherDataDao.delStructOneMem(structId, memId);
 	}
 
 	@Override
@@ -118,8 +135,7 @@ public class OtherDataServiceImpl implements OtherDataService{
 	}
 	
 	@Override
-	public Map<String, Object> qryMemIsExist(String memNo, String memId, String structId) {
-		
+	public List<Map<String, Object>> qryMemIsExist(String memNo, String memId, String structId) {	
 		return otherDataDao.qryMemIsExist(memNo,memId,structId);
 	}
 	
@@ -149,6 +165,9 @@ public class OtherDataServiceImpl implements OtherDataService{
 	public List<Map<String, Object>> qryAllModule() {
 		return otherDataDao.qryAllModule();
 	}
+
+
+
 
 
 

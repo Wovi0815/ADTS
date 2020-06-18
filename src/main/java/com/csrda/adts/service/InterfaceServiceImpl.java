@@ -151,7 +151,7 @@ public class InterfaceServiceImpl implements InterfaceService{
 	}
 
 	@Override
-	public Map<String, Object> qryParaIsExist(String paraNo, String paraId, String uniqueInterid) {
+	public List<Map<String,Object>> qryParaIsExist(String paraNo, String paraId, String uniqueInterid) {
 		return interfaceDao.qryParaIsExist(paraNo, paraId, uniqueInterid);
 	}
 
@@ -218,9 +218,9 @@ public class InterfaceServiceImpl implements InterfaceService{
 					String  paraMin = paraList.get(i).get("paraMin").toString();
 					String  paraDefault =  paraList.get(i).get("paraDefault").toString(); 
 					//先查询参数是否重名
-					map = interfaceDao.qryParaIsExist(paraNo, paraId, id);
+					List<Map<String, Object>> list = interfaceDao.qryParaIsExist(paraNo, paraId, id);
 							
-					if(map!=null) {//重复
+					if(list!=null) {//重复
 						TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 						System.out.println("!!!!!!!!!!!!ParaExist");
 						return "ParaExist";

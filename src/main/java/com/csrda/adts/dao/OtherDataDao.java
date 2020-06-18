@@ -82,12 +82,26 @@ public interface OtherDataDao {
 			"	);")
 	public int addStructMem(Map<String, Object> memData);
 	
+
+	@Update("UPDATE `t_struct_member` SET  `mem_name` = #{memName} , `mem_type` = #{memType}, "
+			+ "`mem_no` = #{memNo}, `mem_desc` = #{memDesc}, `mem_phy_dim` = #{memPhyDim}, "
+			+ "`mem_max` = #{memMax}, `mem_min` = #{memMin}, `mem_default` = #{memDefault}  " + 
+			"WHERE `mem_struct` =  #{memStruct} AND `mem_id` = #{memId} ")
+	public int updateStructMem(Map<String, Object> memData);
+	
 	@Update("UPDATE \r\n" + 
 			"	t_struct_member m \r\n" + 
 			"SET m.is_delete = '1' " +
 			"WHERE\r\n" + 
 			"	m.mem_struct = #{typId};")
 	public int delStructMem(String typId);
+	
+	@Update("UPDATE \r\n" + 
+			"	t_struct_member m \r\n" + 
+			"SET m.is_delete = '1' " +
+			"WHERE\r\n" + 
+			"	m.mem_struct = #{structId} AND m.mem_id = #{memId};")
+	public int delStructOneMem(String structId,String memId);
 	
 	@Select("SELECT\r\n" + 
 			"	tsm.mem_no AS memNo,\r\n" + 
@@ -102,7 +116,7 @@ public interface OtherDataDao {
 			"FROM\r\n" + 
 			"	 t_struct_member tsm " +
 			"WHERE\r\n" + 
-			"	tsm.mem_struct = #{structId} order by tsm.mem_no ASC;")
+			"	tsm.mem_struct = #{structId} AND tsm.is_delete = '0' order by tsm.mem_no ASC;")
 	public List<Map<String, Object>> qryStructMem(String structId);
 	
 	
@@ -151,7 +165,7 @@ public interface OtherDataDao {
 			"WHERE m.mem_struct=#{structId} AND m.is_delete='0' ) a " + 
 			"WHERE a.mem_no=#{memNo} OR a.mem_id=#{memId} ")
 
-	public Map<String, Object> qryMemIsExist(String memNo,String memId,String structId);
+	public List<Map<String, Object>> qryMemIsExist(String memNo,String memId,String structId);
 	
 	
 	

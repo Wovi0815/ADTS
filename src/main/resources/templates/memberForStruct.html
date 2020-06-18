@@ -376,30 +376,30 @@ function editClick(e){
 }
 
 function save(){
-	var modalMemId=$("#imemId").val();
-	var modalMemName=$("#imemName").val();
-	var modalMemDesc=$("#imemDesc").val();
-	var modalMemNo=$("#imemNo").val();
-	var modalMemType=$("#imemReturn").val();
-	var modalMemPhy=$("#imemPhy").val();
-	var modalMemMax=$("#imemMax").val();
-	var modalMemMin=$("#imemMin").val();
-	var modalMemDef=$("#imemDef").val();
-	var modalStruct= structId;
+	var memId=$("#imemId").val();
+	var memName=$("#imemName").val();
+	var memDesc=$("#imemDesc").val();
+	var memNo=$("#imemNo").val();
+	var memType=$("#imemReturn").val();
+	var memPhyDim=$("#imemPhy").val();
+	var memMax=$("#imemMax").val();
+	var memMin=$("#imemMin").val();
+	var memDefault=$("#imemDef").val();
+	var memStruct= structId;
 	var memMap = new Array();
 	memMap.push({
-		modalMemId :modalMemId,
-		modalMemName :modalMemName,
-		modalMemDesc :modalMemDesc,
-		modalMemNo :modalMemNo,
-		modalMemType :modalMemType,
-		modalMemPhy :modalMemPhy,
-		modalMemMax :modalMemMax,
-		modalMemMin :modalMemMin,
-		modalMemDef :modalMemDef,
-		modalStruct:modalStruct});
-	if(modalMemId==""||modalMemName==""||modalMemDesc==""||modalMemNo==""||modalMemType==null||modalStruct==""){
-		toastr.info('成员参数中必填项未填写充分!');
+		memId :memId,
+		memName :memName,
+		memDesc :memDesc,
+		memNo :memNo,
+		memType :memType,
+		memPhyDim :memPhyDim,
+		memMax :memMax,
+		memMin :memMin,
+		memDefault :memDefault,
+		memStruct: memStruct});
+	if(memId==""||memName==""||memDesc==""||memNo==""||memType==null||memStruct==""){
+		toastr.info('成员中必填项未填写充分!');
 	}else{
 		changeDataByKey(memMap);
 	}
@@ -408,8 +408,8 @@ function save(){
 function changeDataByKey(memMap) {
 	if(clickKey=="add"){
 		//新增之前先进行查询类标识和参数次序是否唯一   
-		var memNo =memMap[0].modalMemNo;
-		var memId =memMap[0].modalMemId;
+		var memNo =memMap[0].memNo;
+		var memId =memMap[0].memId;
 		 $.ajax({
 				url:"/qryMemIsExist",
 				type:"POST",
@@ -420,12 +420,11 @@ function changeDataByKey(memMap) {
 					"structId":structId
 				},
 				success:function(result){
-					if(result.mem_id){	
-						toastr.error('成员标识或次序已存在!请检查!');
-
+					if(result.length>0){	
+						toastr.error('成员参数标识或次序已存在!请检查!');
 					}else{
-						//InsertData(memMap);//插入
-						alert("success");
+						InsertData(memMap);//插入
+						
 					}
 				},
 				error:function(result){
@@ -434,22 +433,22 @@ function changeDataByKey(memMap) {
 			}); 
 	}else if(clickKey=="edit"){
 		//修改之前检查是否唯一
-		var nowmemNo =memMap[0].modalMemNo;
+		var nowmemNo =memMap[0].memNo;
+		var memId =memMap[0].memId;
 		 $.ajax({
 				url:"/qryMemIsExist",
 				type:"POST",
 				async:true,
 				data:{
-					"memNo":memNo,
+					"memNo":nowmemNo,
 					"memId":memId,
 					"structId":structId
 				},
 				success:function(result){
-					if((result.mem_no)&&(nowmemNo!=oldMemNo)){	
-						toastr.error('参数次序已存在!请检查!');
+					if((result.length>0)&&(nowmemNo!=oldMemNo)){	
+						toastr.error('成员参数次序已存在!请检查!');
 					}else{
-						//UpdateData(paraMap);
-						alert("success");
+						UpdateData(memMap);
 					}
 				},
 				error:function(result){
@@ -458,27 +457,25 @@ function changeDataByKey(memMap) {
 			}); 
 		
 	}
-
+ 
 }	
 //新增参数
-function InsertData(paraMap){
+function InsertData(memMap){
 	$.ajax({
-		url:"/InsertParaData",
+		url:"/InsertMemData",
 		type:"POST",
 		async:true,
 		data:{
-			"paraMap":JSON.stringify(paraMap)
+			"memMap":JSON.stringify(memMap)
 		},
 		success:function(result){
 		if(result>0){
 			var oldTable = $('#example1').dataTable();
    		    oldTable.fnClearTable(); 
   		    oldTable.fnDestroy();
-  			QryParaInterface();
-  		  	//修改接口表中的参数列表以及参数个数
-  		  	updateinfo();
+  		  	QryStructMember();
 		}else{
-			toastr.error('接口参数新增失败!');
+			toastr.error('成员参数新增失败!');
 		} 
 	},
 		error:function(result){
@@ -488,71 +485,24 @@ function InsertData(paraMap){
 	
 	
 }
-//新增后进行接口表更新 1.先获取信息
-function updateinfo(){
-	$.ajax({
-		url:"/QryParaInterface",
-		type:"POST",
-		async:true,
-		data:{"uniqueInterid":uniqueInterid},
-		success:function(result){
-			var paraList="";
-			if(result.length==1){
-				paraList += result[i].para_type;
-			}else{
-				for(var i=0;i<result.length;i++){	
-					if(i==result.length-1){
-						paraList +=result[i].para_type;
-						continue;
-					}
-					paraList += result[i].para_type + ",";
-				}
-			}
-			var pCount =result.length;
-			//更新
-			updateIinfo(pCount,paraList);
-		},
-		error:function(result){
-			toastr.warning('未知错误,请联系管理员!');
-		}
-	});
-}
-//新增后进行接口表更新 2.更新信息
-function updateIinfo(pCount,paraList){
-	$.ajax({
-		url:"/UpdateIinfo",
-		type:"POST",
-		async:true,
-		data:{
-			"pCount":pCount,
-			"paraList":paraList,
-			"uniqueInterid":uniqueInterid
-	},
-		success:function(result){
-			
-		},
-		error:function(result){
-			toastr.warning('未知错误,请联系管理员!');
-		}
-	});
-}
+
 
 //编辑参数
-function UpdateData(paraMap){
+function UpdateData(memMap){
 	$.ajax({
-		url:"/UpdateParaData",
+		url:"/UpdateMemData",
 		type:"POST",
 		async:true,
 		data:{
-			"paraMap":JSON.stringify(paraMap)
+			"memMap":JSON.stringify(memMap)
 		},
 		success:function(result){
 			if(result>0){
 				var oldTable = $('#example1').dataTable();
 	   		    oldTable.fnClearTable(); 
 	  		    oldTable.fnDestroy();
-	  		  	QryParaInterface();
-	  			updateinfo();
+	  		 	QryStructMember();
+	  			
 			}
 	
 		},
@@ -565,24 +515,24 @@ function UpdateData(paraMap){
 
 //单个删除参数
 function deleteClick(e){
-	var paraNo=$(e).parent().parent().find("td").eq(3).text();
+	var memId=$(e).parent().parent().find("td").eq(0).text();
 	$.ajax({
-		url:"/deleteOnePara",
+		url:"/deleteOneMem",
 		type:"POST",
 		async:true,
 		data:{
-			"uniqueInterid":uniqueInterid,
-			"paraNo":paraNo
+			"memId":memId,
+			"structId":structId
 		},
 		success:function(result){
 			if(result>0){
 				var oldTable = $('#example1').dataTable();
 	   		    oldTable.fnClearTable(); 
 	  		    oldTable.fnDestroy();
-	  		  	QryParaInterface();
-	  			updateinfo();
+	  			QryStructMember();
+	  			
 			}else{
-				toastr.error('接口参数删除失败!');
+				toastr.error('成员删除失败!');
 			}
 		},	
 		error:function(result){

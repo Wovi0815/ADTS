@@ -1,4 +1,5 @@
 package com.csrda.adts.controller;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 import com.csrda.adts.service.OtherDataService;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 
@@ -95,7 +100,7 @@ public class otherDataController {
 	}
 	
 	/**
-	 * 删除结构体成员
+	 * 删除结构体所有成员
 	 */
 	@RequestMapping("/delStructMem")
 	@ResponseBody
@@ -145,14 +150,51 @@ public class otherDataController {
 
 	@RequestMapping("/qryMemIsExist")		
 	@ResponseBody
-	Map<String, Object> qryMemIsExist(String memNo,String memId,String structId){
-		Map<String, Object> result = otherDataService.qryMemIsExist(memNo, memId, structId);
+	List<Map<String, Object>> qryMemIsExist(String memNo,String memId,String structId){
+		List<Map<String, Object>> result = otherDataService.qryMemIsExist(memNo, memId, structId);
 		return result;
    }
 	
-	
-	
 
+	/**
+	 * 新增成员
+	 */
+	@RequestMapping("/InsertMemData")		
+	@ResponseBody
+	public int InsertMemData(String memMap) throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper mapper = new ObjectMapper();   
+		int result =0;
+		List<Map<String, Object>> mem = mapper.readValue(memMap, new TypeReference<List<Map<String, Object>>>(){});	
+		Map<String, Object> memData =mem.get(0);
+		result = otherDataService.addStructMem(memData);
+		return result;	
+	}
+	
+	/**
+	 * 编辑成员
+	 */
+	@RequestMapping("/UpdateMemData")		
+	@ResponseBody
+	public int UpdateMemData(String memMap) throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper mapper = new ObjectMapper();   
+		int result =0;
+		List<Map<String, Object>> mem = mapper.readValue(memMap, new TypeReference<List<Map<String, Object>>>(){});	
+		Map<String, Object> memData =mem.get(0);
+		result = otherDataService.updateStructMem(memData);
+		return result;	
+	}
+	
+	/**
+	 * 删除结构体单一成员
+	 */
+	@RequestMapping("/deleteOneMem")
+	@ResponseBody
+	public int deleteOneMem(String structId,String memId){
+		return otherDataService.delStructOneMem(structId,memId);
+	}
+	
+	
+	
 	/**
 	 * 跳转到中间件页面
 	 */

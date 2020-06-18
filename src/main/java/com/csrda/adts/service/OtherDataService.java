@@ -56,13 +56,23 @@ public interface OtherDataService{
 	/**
 	 * 改变成员之前判断唯一性
 	 */
-	public Map<String, Object> qryMemIsExist(String memNo,String memId,String structId);
-	
-	
-	public int addStructMem(Map<String, Object> memData);
-	
-	
+	public List<Map<String, Object>> qryMemIsExist(String memNo,String memId,String structId);
+	/**
+	 * 删除结构体所有成员
+	 */
 	public int delStructMem(String typId);
+	/**
+	 * 新增成员
+	 */
+	public int addStructMem(Map<String, Object> memData);
+	/**
+	 * 编辑成员
+	 */
+	public int updateStructMem(Map<String, Object> memData);
+	/**
+	 * 删除单一成员
+	 */
+	public int delStructOneMem(String structId,String memId);
 	
 
 	
