@@ -207,11 +207,24 @@ public interface OtherDataDao {
 	@Update("UPDATE t_midware m SET m.is_delete ='1' WHERE m.mid_id=#{midId}")
 	int deleteMid(String midId);
 	
+	
+	
 	/**
 	 * 查询所有节点下的设备
 	 */
 	 @Select("SELECT  * " + 
 		 	"FROM t_module " )
-	  List<Map<String, Object>> qryAllModule();
+	 public List<Map<String, Object>> qryAllModule();
 	
+	 
+	 
+	 /**
+	  * 根据硬件模组的id查信息
+	  */
+	 @Select("SELECT  * " + 
+			 "FROM  " + 
+			 "	 t_module m " +
+			 "WHERE " + 
+			 "	m.mod_id = #{modId} AND m.is_delete = '1' ")
+		public Map<String, Object> qryModByModId(String modId);
 }

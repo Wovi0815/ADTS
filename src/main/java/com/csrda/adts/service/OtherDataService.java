@@ -104,5 +104,8 @@ public interface OtherDataService{
 	 * 查询所有节点下的设备
 	 */
 	public List<Map<String, Object>> qryAllModule();	
-	
+	/**
+	 * 根据设备id查信息
+	 */
+	public Map<String, Object> qryModByModId(String modId);
 }

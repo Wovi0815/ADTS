@@ -167,6 +167,12 @@ public class OtherDataServiceImpl implements OtherDataService{
 	}
 
 
+	@Override
+	public Map<String, Object> qryModByModId(String modId) {
+		return otherDataDao.qryModByModId(modId);
+	}
+
+
 
 
 

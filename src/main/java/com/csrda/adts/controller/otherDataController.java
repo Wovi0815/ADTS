@@ -262,9 +262,19 @@ public class otherDataController {
 	/**
 	 * 查询所有节点下的设备
 	 */
-	@RequestMapping("/QryAllModule")
+	@RequestMapping("/qryAllModule")
 	@ResponseBody
 	public List<Map<String, Object>> qryAllModule() {		
 		return otherDataService.qryAllModule();
 	}
+	/**
+	 * 根据设备id查设备信息
+	 */
+	@RequestMapping("/qryModByModId")
+	@ResponseBody
+	public Map<String, Object> qryModByModId(String modId) {		
+		return otherDataService.qryModByModId(modId);
+	}
+	
+	
 }

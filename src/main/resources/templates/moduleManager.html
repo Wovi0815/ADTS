@@ -47,6 +47,36 @@
 	</head>
 	<body>
 
+ <!-- 详情模态框 -->
+	<div class="modal fade" id="modal-detail">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="modalTitle"></h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              	<!-- 模态框内容 -->
+			<div class="form-group" id="descArea">
+			
+			</div>
+			
+			<div class="form-group" id="dataArea">
+			
+			</div>
+			
+            </div>
+            
+          </div>
+        </div>
+      </div>
+
+
+
+
+
 	<div class="modal fade" id="modal-default">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -169,7 +199,7 @@ var clickKey;
 function QryAllModule(){//查所有节点的设备
 	$("#example1 tbody" ).empty();
 	$.ajax({
-		url:"/QryAllModule",
+		url:"/qryAllModule",
 		type:"POST",
 		async:true,
 		success:function(result){
@@ -181,9 +211,9 @@ function QryAllModule(){//查所有节点的设备
 		        body    += "<td >" + result[i].mod_nod + "</td>";  
 		        body    += "<td >" + result[i].mod_rank + "</td>";  
 		        body    += "<td>"+
-		        "<button id='detailBtn' type='button' style='width: 30%;float: left;'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick='detailClick(this);'>硬件详情</button> "+
-		        "<button id='editBtn' type='button' style='margin-left: 4%;width: 30%;float: left;'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick='editClick(this);'>修改</button> "+
-		        "<button id='deleteBtn' type='button' style='margin-left: 4%; width: 30%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
+		        "<button id='detailBtn' type='button' style='margin-left: 2%;width: 30%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-success btn-sm' data-toggle='modal' data-target='#modal-detail'onclick='showDetail(this)'>硬件详情</button> "+
+		        "<button id='editBtn' type='button' style='margin-left: 3%;width: 30%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick='editClick(this);'>修改</button> "+
+		        "<button id='deleteBtn' type='button' style='margin-left: 3%;width: 30%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
 		        "</td>";
 		        body    += "</tr>";
 			    $("#example1 tbody" ).append(body); 
@@ -206,63 +236,142 @@ function QryAllModule(){//查所有节点的设备
 
 }
 
+
+
 //新增     ###模态框内容####
 function addClick(){
 	clickKey="add";
-	$("#imidId").val("");
-	$("#imidId").removeAttr("readonly");
-	$("#imidName").val("");
-	$("#imidDesc").val("");
-    
+	$("#modId").val("");
+	$("#modId").removeAttr("readonly");
+	$("#modName").val("");
+	$("#modDesc").val("");
+	$("#modPid").val("");
+	$("#modVid").val("");
+	$("#modNod").val("");
+	$("#modRank").val("");
+	  
 }
 //编辑     ###模态框内容####
 function editClick(e){	
 	clickKey="edit";
-	    var midId=$(e).parent().parent().find("td").eq(0).text();
+	    var modId=$(e).parent().parent().find("td").eq(0).text();
 	    $.ajax({
-			url:"/QryMidByMidId",
+			url:"/qryModByModId",
 			type:"POST",
 			async:true,
 			data:{
-				"midId":midId
+				"modId":modId
 			},
 			success:function(result){
 				
-				$("#imidId").val(result.mid_id);
-				$("#imidId").attr("readOnly","true");
-				$("#imidName").val(result.mid_name);
-				$("#imidDesc").val(result.mid_desc);
-				
+				$("#modId").val(result.mod_id);
+				$("#modId").attr("readOnly","true");
+				$("#modName").val(result.mod_name);
+				$("#modDesc").val(result.mod_desc);
+				$("#modPid").val(result.mod_pid);
+				$("#modVid").val(result.mod_vid);
+				$("#modNod").val(result.mod_nod);
+				$("#modRank").val(result.mod_rank); 
 			},
 			error:function(result){
 				toastr.warning('未知错误,请联系管理员!');
 			}
 		}); 	 
 }
- 
+
+//点击详情
+function showDetail(e){
+	$("#descArea").empty();
+	 var modId=$(e).parent().parent().find("td").eq(0).text();		
+	 $.ajax({
+			url:"/qryModByModId",
+			type:"POST",
+			async:true,
+			data:{"midId":midId},
+			success:function(result){
+				var modDesc = result.mod_desc;
+				var modifyUser = result.modify_user;
+				var updateTime =result.update_time;
+				var createTime = result.create_time;;
+				var ibody="";
+			   	ibody +="<div class='input-group'>";
+				ibody += 	"<div class='input-group-prepend'>";
+				ibody +=		 "<span class='input-group-text' >硬件描述</span>";
+				ibody +=	 "</div>" ;
+				ibody +=	 "<input type='text'   class='form-control' value='"+modDesc+"'readonly='readonly'/>";
+				ibody +="</div>";
+				ibody +="<div class='input-group'>";
+				ibody += 	"<div class='input-group-prepend'>";
+				ibody +=		 "<span class='input-group-text' >维护人</span>";
+				ibody +=	 "</div>" ;
+				ibody +=	 "<input type='text'   class='form-control' value='"+modifyUser+"'readonly='readonly'/>";
+				ibody +="</div>";
+				ibody +="<div class='input-group'>";
+				ibody += 	"<div class='input-group-prepend'>";
+				ibody +=	 	"<span class='input-group-text' >创建时间 </span>";
+				ibody +=   "</div>";
+				ibody += 	"<input type='text'    class='form-control' value='"+createTime+"'readonly='readonly'/>";
+				ibody +="<div class='input-group'>";
+				ibody += 	"<div class='input-group-prepend'>";
+				ibody +=	 	"<span class='input-group-text' >修改时间</span>";
+				ibody +=   "</div>";
+				ibody += 	"<input type='text'    class='form-control' value='"+updateTime+"'readonly='readonly'/>";
+				ibody +="</div>";
+				
+				$("#descArea").append(ibody);
+				
+			},	
+			error:function(result){
+				toastr.warning('未知错误,请联系管理员!');
+			}
+		});	
+	
+}
+
+
+
+
 //保存
 function save(){
-	var modMidId=$("#imidId").val();
-	var modMidName=$("#imidName").val();
-	var modMidDesc=$("#imidDesc").val();
+	var modId=$("#modId").val();
+	var modName=$("#modName").val();
+	var modDesc=$("#modDesc").val();
+	var modPid=$("#modPid").val();
+	var modVid=$("#modVid").val();
+	var modNod=$("#modNod").val();
+	var modRank=$("#modRank").val();
+	var moduleMap = new Array();
 	
-	if(modMidId==""||modMidName==""||modMidDesc==""){
-		toastr.info('中间件中必填项未填写充分!');
+	moduleMap.push({
+		modId :modId,
+		modName :modName,
+		modDesc :modDesc,
+		modPid :modPid,
+		modVid :modVid,
+		modNod :modNod,
+		modRank :modRank});
+	if(modId==""||modName==""||modDesc==""||modPid==""||modVid==""||modNod==""||modRank==""){
+		toastr.info('设备模组中必填项未填写充分!');
 	}else{
-		changeDataByKey(modMidId,modMidName,modMidDesc);
+		changeDataByKey(moduleMap);
 	}
 }
 
-function changeDataByKey(modMidId,modMidName,modMidDesc) {
 
+function changeDataByKey(moduleMap) {
+	
 	if(clickKey=="add"){
 		//新增之前先进行查询是否唯一   
-		 $.ajax({
-				url:"/QryMidByMidId",
+		// var modId =
+		// var modNod = 
+		// var modRank =
+		
+		$.ajax({
+				url:"/QryModIsExist",
 				type:"POST",
 				async:true,
 				data:{
-					"midId":modMidId
+					"modId":modId
 				},
 				success:function(result){
 				
