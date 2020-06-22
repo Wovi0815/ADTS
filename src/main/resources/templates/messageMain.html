@@ -328,10 +328,10 @@ function QryMessage(){//根据报文类型查所有报文
 		        body    += "<td id='tmesSource'>" + result[i].mesSource + "</td>";  
 		        body    += "<td id='tmesDestination'>" + result[i].mesDestination + "</td>";
 		        body    += "<td>"+
-		        "<button id='detailBtn' type='button' style='width:23%;margin-top:6px;float:left;'class='btn btn-block btn-outline-success btn-sm' data-toggle='modal' data-target='#modal-detail'onclick='showDetail(this)'>报文详情</button> "+
-		        "<button id='editBtn' type='button' style='margin-left:2%;width: 23%;float:left'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-edit'onclick='editMesClick(this);'>修改</button> "+
-		        "<button id='deleteBtn' type='button' style='margin-left:2%;width: 23%;float:left'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
-		        "<button id='dataBtn' type='button' style='margin-left:1%;width: 25%;float:left'class='btn btn-block btn-outline-warning btn-sm' onclick='toMesData(this);'>报文数据</button> "+
+		        "<button id='detailBtn' type='button' style='margin-left: 4%;width: 20%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-success btn-sm' data-toggle='modal' data-target='#modal-detail'onclick='showDetail(this)'>报文详情</button> "+
+		        "<button id='editBtn' type='button' style='margin-left: 4%;width: 20%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-edit'onclick='editMesClick(this);'>修改</button> "+
+		        "<button id='deleteBtn' type='button' style='margin-left: 4%; width: 20%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
+		        "<button id='dataBtn' type='button' style='margin-left: 4%;width: 20%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-warning btn-sm' onclick='toMesData(this);'>报文数据</button> "+
 		        "</td>";
 		        body    += "</tr>";
 			    $("#example1 tbody" ).append(body); 
@@ -419,10 +419,10 @@ function refreshDataBySelect(source,destination){
 		        body    += "<td id='tmesSource'>" + result[i].mesSource + "</td>";  
 		        body    += "<td id='tmesDestination'>" + result[i].mesDestination + "</td>";
 		        body    += "<td>"+
-		        "<button id='detailBtn' type='button' style='width:23%;margin-top:6px;float:left;'class='btn btn-block btn-outline-success btn-sm' data-toggle='modal' data-target='#modal-detail'onclick='showDetail(this)'>报文详情</button> "+
-		        "<button id='editBtn' type='button' style='margin-left:2%;width: 22%;float:left'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-edit'onclick='editMesClick(this);'>修改</button> "+
-		        "<button id='deleteBtn' type='button' style='margin-left:2%;width: 22%;float:left'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
-		        "<button id='dataBtn' type='button' style='margin-left:1%;width: 25%;float:left'class='btn btn-block btn-outline-warning btn-sm' onclick='toMesData(this);'>报文数据</button> "+
+		        "<button id='detailBtn' type='button' style='margin-left: 4%;width: 20%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-success btn-sm' data-toggle='modal' data-target='#modal-detail'onclick='showDetail(this)'>报文详情</button> "+
+		        "<button id='editBtn' type='button' style='margin-left: 4%;width: 20%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-edit'onclick='editMesClick(this);'>修改</button> "+
+		        "<button id='deleteBtn' type='button' style='margin-left: 4%; width: 20%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
+		        "<button id='dataBtn' type='button' style='margin-left: 4%;width: 20%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-warning btn-sm' onclick='toMesData(this);'>报文数据</button> "+
 		        "</td>";
 		        body    += "</tr>";
 			    $("#example1 tbody" ).append(body); 

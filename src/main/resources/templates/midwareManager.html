@@ -47,6 +47,29 @@
 	</head>
 	<body>
 
+<!-- 详情模态框 -->
+	<div class="modal fade" id="modal-detail">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="modalTitle"></h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              	<!-- 模态框内容 -->
+			<div class="form-group" id="descArea">
+			
+			</div>
+			
+            </div>   
+          </div>
+        </div>
+      </div>
+
+
+
 	<div class="modal fade" id="modal-default">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -162,9 +185,13 @@ function QryMid(){//查中间件
 		        body    += "<td >" + result[i].mid_id + "</td>";
 		        body    += "<td >" + result[i].mid_name + "</td>";
 		        body    += "<td >" + result[i].mid_desc + "</td>";  
-		        body    += "<td>"+
-		        "<button id='editBtn' type='button' style='width: 48%;float: left;'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick='editClick(this);'>修改</button> "+
-		        "<button id='deleteBtn' type='button' style='margin-left: 4%; width: 48%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
+		        body    += "<td>"+	        
+		        "<button id='detailBtn' type='button' style='margin-left: 2%;width: 30%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-success btn-sm' data-toggle='modal' data-target='#modal-detail'onclick='showDetail(this)'>中间件详情</button> "+
+		        "<button id='editBtn' type='button' style='margin-left: 3%;width: 30%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal'onclick='editClick(this);'>修改</button> "+
+		        "<button id='deleteBtn' type='button' style='margin-left: 3%;width: 30%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
+		        "</td>";
+		        
+		        
 		        "</td>";
 		        body    += "</tr>";
 			    $("#example1 tbody" ).append(body); 
@@ -351,6 +378,54 @@ function deleteClick(e){
 	
 }
 
+//点击详情
+function showDetail(e){
+	$("#descArea").empty();
+	 var midId=$(e).parent().parent().find("td").eq(0).text();		
+	 $.ajax({
+			url:"/QryMidByMidId",
+			type:"POST",
+			async:true,
+			data:{"midId":midId},
+			success:function(result){
+				var midDesc = result.c_desc;
+				var modifyUser = result.modify_user;
+				var updateTime =result.update_time;
+				var createTime = result.create_time;;
+				var ibody="";
+			   	ibody +="<div class='input-group'>";
+				ibody += 	"<div class='input-group-prepend'>";
+				ibody +=		 "<span class='input-group-text' >中间件描述</span>";
+				ibody +=	 "</div>" ;
+				ibody +=	 "<input type='text'   class='form-control' value='"+midDesc+"'readonly='readonly'/>";
+				ibody +="</div>";
+				ibody +="<div class='input-group'>";
+				ibody += 	"<div class='input-group-prepend'>";
+				ibody +=		 "<span class='input-group-text' >维护人</span>";
+				ibody +=	 "</div>" ;
+				ibody +=	 "<input type='text'   class='form-control' value='"+modifyUser+"'readonly='readonly'/>";
+				ibody +="</div>";
+				ibody +="<div class='input-group'>";
+				ibody += 	"<div class='input-group-prepend'>";
+				ibody +=	 	"<span class='input-group-text' >创建时间 </span>";
+				ibody +=   "</div>";
+				ibody += 	"<input type='text'    class='form-control' value='"+createTime+"'readonly='readonly'/>";
+				ibody +="<div class='input-group'>";
+				ibody += 	"<div class='input-group-prepend'>";
+				ibody +=	 	"<span class='input-group-text' >修改时间</span>";
+				ibody +=   "</div>";
+				ibody += 	"<input type='text'    class='form-control' value='"+updateTime+"'readonly='readonly'/>";
+				ibody +="</div>";
+				
+				$("#descArea").append(ibody);
+				
+			},	
+			error:function(result){
+				toastr.warning('未知错误,请联系管理员!');
+			}
+		});	
+	
+}
 
 
 

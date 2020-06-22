@@ -202,7 +202,8 @@ public class otherDataController {
 	public String toMidwareManager() {		
 	return "midwareManager";
 	}
-
+	
+	
 	/**
 	 * 中间件编辑模态框数据回填
 	 */

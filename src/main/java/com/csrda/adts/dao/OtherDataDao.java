@@ -176,8 +176,7 @@ public interface OtherDataDao {
 	 * 根据中间件Id查找中间件
 	 */
 	
-	@Select("SELECT " + 
-	 		"mid_id,mid_name,mid_desc "+ 
+	@Select("SELECT *" + 
 	 		"FROM t_midware  " + 
 	 		"WHERE	mid_id = #{midId} AND is_delete ='0' ")
 	public Map<String, Object>qryMidByMidId(String midId);
