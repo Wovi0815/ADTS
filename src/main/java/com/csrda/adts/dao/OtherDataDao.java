@@ -225,6 +225,6 @@ public interface OtherDataDao {
 			 "FROM  " + 
 			 "	 t_module m " +
 			 "WHERE " + 
-			 "	m.mod_id = #{modId} AND m.is_delete = '1' ")
+			 "	m.mod_id = #{modId} AND m.is_delete = '0' ")
 		public Map<String, Object> qryModByModId(String modId);
 }
