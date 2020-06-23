@@ -271,6 +271,7 @@
 //------全局变量-------
 var i;//结构体成员计数器
 var clickKey;
+
 //------全局变量-------
 //##################普通数据类型##########################
 function qryDataType() {
@@ -281,13 +282,13 @@ function qryDataType() {
          async: true,
          success: function(result) {
         	var body="";
-              for (var i = 0; i < result.length; i++) {
+              for (var j = 0; j < result.length; j++) {
             	  body = "<tr>";
-  				  body    += "<td id='typeId'>" + result[i].typId + "</td>";
-  		          body    += "<td id='typeName'>" + result[i].typName + "</td>";
-  		          body    += "<td id='typeSize'>" + result[i].typSize + "</td>";  
-  		          body    += "<td id='typeAttr'>" + result[i].typAttr + "</td>";
-  		         if(result[i].typAttr=="struct"){
+  				  body    += "<td id='typeId'>" + result[j].typId + "</td>";
+  		          body    += "<td id='typeName'>" + result[j].typName + "</td>";
+  		          body    += "<td id='typeSize'>" + result[j].typSize + "</td>";  
+  		          body    += "<td id='typeAttr'>" + result[j].typAttr + "</td>";
+  		         if(result[j].typAttr=="struct"){
   		        	body    += "<td>"+
   		        	"<button id='detailBtn' type='button' style='margin-left: 1%;width: 24%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-success btn-sm' data-toggle='modal' data-target='#modal-detail'onclick='showDetail(this)'>数据类型详情</button> "+
   			        "<button id='editBtn' type='button' style='margin-left: 3%;width: 20%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-add-struct'onclick='editStructClick(this);'>修改</button> "+
@@ -501,7 +502,103 @@ function lessRow(){
 	}
 	
 }  
-    
+  
+
+
+//上移
+function goUp(e){
+	//第一行点击up按钮;
+	var p = $(e).parent().find("input").eq(0).val();
+	
+	if(p==1){
+		toastr.error('非法操作!');
+		return;
+	}else{
+		var q =p-1;
+		var temp ;
+		temp = $("#memId"+p).val();
+		$("#memId"+p).val($("#memId"+q).val());
+		$("#memId"+q).val(temp);
+		
+		temp = $("#memName"+p).val();
+		$("#memName"+p).val($("#memName"+q).val());
+		$("#memName"+q).val(temp);
+
+		temp = $("#memType"+p).val();
+		$("#memType"+p).val($("#memType"+q).val());
+		$("#memType"+q).val(temp);
+		
+		temp = $("#memDesc"+p).val();
+		$("#memDesc"+p).val($("#memDesc"+q).val());
+		$("#memDesc"+q).val(temp);
+		
+		temp = $("#memPhy"+p).val();
+		$("#memPhy"+p).val($("#memPhy"+q).val());
+		$("#memPhy"+q).val(temp);
+		
+		temp = $("#memMax"+p).val();
+		$("#memMax"+p).val($("#memMax"+q).val());
+		$("#memMax"+q).val(temp);
+		
+		temp = $("#memMin"+p).val();
+		$("#memMin"+p).val($("#memMin"+q).val());
+		$("#memMin"+q).val(temp);
+		
+		temp = $("#memDefault"+p).val();
+		$("#memDefault"+p).val($("#memDefault"+q).val());
+		$("#memDefault"+q).val(temp);
+		
+	}
+}
+
+
+//下移
+function goDown(e){
+	//最后一行点击down按钮;
+	var p = $(e).parent().find("input").eq(0).val();
+	if(p==i-1){
+		toastr.error('非法操作!');
+		return;
+	}else{
+		var q = p-0+1;
+		var temp ;	
+		temp = $("#memId"+p).val();
+		$("#memId"+p).val($("#memId"+q).val());
+		$("#memId"+q).val(temp);
+		
+		temp = $("#memName"+p).val();
+		$("#memName"+p).val($("#memName"+q).val());
+		$("#memName"+q).val(temp);
+
+		temp = $("#memType"+p).val();
+		$("#memType"+p).val($("#memType"+q).val());
+		$("#memType"+q).val(temp);
+		
+		temp = $("#memDesc"+p).val();
+		$("#memDesc"+p).val($("#memDesc"+q).val());
+		$("#memDesc"+q).val(temp);
+		
+		temp = $("#memPhy"+p).val();
+		$("#memPhy"+p).val($("#memPhy"+q).val());
+		$("#memPhy"+q).val(temp);
+		
+		temp = $("#memMax"+p).val();
+		$("#memMax"+p).val($("#memMax"+q).val());
+		$("#memMax"+q).val(temp);
+		
+		temp = $("#memMin"+p).val();
+		$("#memMin"+p).val($("#memMin"+q).val());
+		$("#memMin"+q).val(temp);
+		
+		temp = $("#memDefault"+p).val();
+		$("#memDefault"+p).val($("#memDefault"+q).val());
+		$("#memDefault"+q).val(temp);
+	}
+}
+
+
+
+
 
 //修改结构体
 function editStructClick(e){
