@@ -363,21 +363,23 @@ function changeDataByKey(moduleMap) {
 	
 	if(clickKey=="add"){
 		//新增之前先进行查询是否唯一   
-		// var modId =
-		// var modNod = 
-		// var modRank =
+		 var modId = moduleMap[0].modId;
+		 var modNod = moduleMap[0].modNod;
+		 var modRank = moduleMap[0].modRank;
 		
 		$.ajax({
 				url:"/QryModIsExist",
 				type:"POST",
 				async:true,
 				data:{
-					"modId":modId
+					"modId":modId,
+					"modNod":modNod,
+					"modRank":modRank
 				},
 				success:function(result){
 				
 					if(result.mid_id == modMidId){	
-						toastr.error('中间件已存在!重复!');
+						toastr.error('数据已存在!重复!');
 					}else{
 						InsertData(modMidId,modMidName,modMidDesc);//插入
 					}
