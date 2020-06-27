@@ -32,7 +32,7 @@ public class otherDataController {
 	/**
 	 * 查数据类型
 	 */
-	@RequestMapping("/qryDataType")
+	@RequestMapping("/QryDataType")
 	@ResponseBody
 	public List<Map<String, Object>> qryDataType(){
 		return otherDataService.qryDataType();
@@ -40,7 +40,7 @@ public class otherDataController {
 	/**
 	 * 保存数据类型
 	 */
-	@RequestMapping("/insertDataType")
+	@RequestMapping("/InsertDataType")
 	@ResponseBody
 	public int saveDataType(String typId,String typName,String typAttr,String typSize,String typDesc) {
 		if(Integer.valueOf(otherDataService.qryTypeRepeat(typId).get(0).get("num").toString())>0) {
@@ -57,7 +57,7 @@ public class otherDataController {
 	/**
 	 * 修改数据类型
 	 */
-	@RequestMapping("/updateDataType")
+	@RequestMapping("/UpdateDataType")
 	@ResponseBody
 	public int updateDataType(String typId,String typName,String typAttr,String typSize,String typDesc) {
 		Map<String, String> typeData=new HashMap<String, String>();
@@ -73,7 +73,7 @@ public class otherDataController {
 	 * 保存结构体数据类型系列操作
 	 */
 	
-	@RequestMapping("/addStruct")
+	@RequestMapping("/AddStruct")
 	@ResponseBody
 	public String addStruct(String structId,String structName,String structSize,String structDesc,String structMemCount,String memList){
 		return otherDataService.addStruct(structId, structName, structSize, structDesc,structMemCount, memList);
@@ -84,7 +84,7 @@ public class otherDataController {
 	/**
 	 * 根据typId 查信息，可用于回填模态框
 	 */
-	@RequestMapping("/qryDetailDataType")
+	@RequestMapping("/QryDetailDataType")
 	@ResponseBody
 	public Map<String,Object> qryDetailBasicDataType(String typId){
 		return otherDataService.qryDetailDataType(typId);
@@ -93,7 +93,7 @@ public class otherDataController {
 	 * 删除数据类型
 	 */
 
-	@RequestMapping("/delDataType")
+	@RequestMapping("/DelDataType")
 	@ResponseBody
 	public int delDataType(String typId) {
 		return otherDataService.delDataType(typId);
@@ -102,7 +102,7 @@ public class otherDataController {
 	/**
 	 * 删除结构体所有成员
 	 */
-	@RequestMapping("/delStructMem")
+	@RequestMapping("/DelStructMem")
 	@ResponseBody
 	public int delStructMem(String structId){
 		return otherDataService.delStructMem(structId);
@@ -119,7 +119,7 @@ public class otherDataController {
 	/**
 	 * 查结构体的所有成员
 	 */
-	@RequestMapping("/qryStructMem")
+	@RequestMapping("/QryStructMem")
 	@ResponseBody
 	public List<Map<String, Object>> qryStructMem(String structId){
 		return otherDataService.qryStructMem(structId);
@@ -129,7 +129,7 @@ public class otherDataController {
 	/**
 	 * 查结构体的成员详情
 	 */
-	@RequestMapping("/qryMemDetail")
+	@RequestMapping("/QryMemDetail")
 	@ResponseBody
 	public Map<String, Object> qryMemDetail(String structId,String memId){
 		return otherDataService.qryMemDetail(structId,memId);
@@ -138,7 +138,7 @@ public class otherDataController {
 	/**
 	 * 编辑结构体的成员，回填
 	 */
-	@RequestMapping("/qryMemFillback")
+	@RequestMapping("/QryMemFillback")
 	@ResponseBody
 	public Map<String, Object> qryMemFillback(String structId,String memNo){
 		return otherDataService.qryMemFillback(structId,memNo);
@@ -148,7 +148,7 @@ public class otherDataController {
 	 * 改变参数之前判断是否唯一
 	 */
 
-	@RequestMapping("/qryMemIsExist")		
+	@RequestMapping("/QryMemIsExist")		
 	@ResponseBody
 	List<Map<String, Object>> qryMemIsExist(String memNo,String memId,String structId){
 		List<Map<String, Object>> result = otherDataService.qryMemIsExist(memNo, memId, structId);
@@ -187,7 +187,7 @@ public class otherDataController {
 	/**
 	 * 删除结构体单一成员
 	 */
-	@RequestMapping("/deleteOneMem")
+	@RequestMapping("/DeleteOneMem")
 	@ResponseBody
 	public int deleteOneMem(String structId,String memId){
 		return otherDataService.delStructOneMem(structId,memId);
@@ -262,7 +262,7 @@ public class otherDataController {
 	/**
 	 * 查询所有节点下的设备
 	 */
-	@RequestMapping("/qryAllModule")
+	@RequestMapping("/QryAllModule")
 	@ResponseBody
 	public List<Map<String, Object>> qryAllModule() {		
 		return otherDataService.qryAllModule();
@@ -270,11 +270,38 @@ public class otherDataController {
 	/**
 	 * 根据设备id查设备信息
 	 */
-	@RequestMapping("/qryModByModId")
+	@RequestMapping("/QryModByModId")
 	@ResponseBody
 	public Map<String, Object> qryModByModId(String modId) {		
 		return otherDataService.qryModByModId(modId);
 	}
 	
+	/**
+	 * 新增之前查重
+	 */
+	@RequestMapping("/QryModIsExist")
+	@ResponseBody
+	public Map<String, Object> qryModIsExist(String modId,String modNod) {		
+		return otherDataService.qryModIsExist(modId,modNod);
+	}
 	
+	/**
+	 * 新增设备
+	 */
+	@RequestMapping("/InsertModule")		
+	@ResponseBody
+	public int InsertModule(String moduleMap) throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper mapper = new ObjectMapper();   
+		int result =0;
+		List<Map<String, Object>> map = mapper.readValue(moduleMap, new TypeReference<List<Map<String, Object>>>(){});
+			String  modId = map.get(0).get("modId").toString();
+			String  modName = map.get(0).get("modName").toString();
+			String  modDesc = map.get(0).get("modDesc").toString();
+			String  modPid = map.get(0).get("modPid").toString();
+			String  modVid = map.get(0).get("modVid").toString();
+			String  modNod = map.get(0).get("modNod").toString();
+			String  modRank = map.get(0).get("modRank").toString();
+		    result = otherDataService.InsertMesData(modId, modName, modDesc, modPid, modVid, modNod,modRank);
+		    return result;	
+		}
 }

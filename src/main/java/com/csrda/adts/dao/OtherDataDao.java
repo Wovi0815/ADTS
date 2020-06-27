@@ -227,4 +227,12 @@ public interface OtherDataDao {
 			 "WHERE " + 
 			 "	m.mod_id = #{modId} AND m.is_delete = '0' ")
 		public Map<String, Object> qryModByModId(String modId);
+	 
+	 
+	 /**
+	  * 新增设备之前进行查重
+	  */
+	 @Select("SELECT * FROM  t_module m " + 
+		"WHERE m.mod_id = #{modId} AND  m.mod_nod=#{modNod} AND  m.is_delete='0' " )
+	 public Map<String, Object> qryModIsExist(String modId,String modNod);
 }

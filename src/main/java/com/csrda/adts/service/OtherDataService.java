@@ -108,4 +108,9 @@ public interface OtherDataService{
 	 * 根据设备id查信息
 	 */
 	public Map<String, Object> qryModByModId(String modId);
+	
+	/**
+	 * 新增之前进行查重
+	 */
+	public Map<String, Object> qryModIsExist(String modId,String modNod);
 }

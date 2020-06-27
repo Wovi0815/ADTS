@@ -174,6 +174,13 @@ public class OtherDataServiceImpl implements OtherDataService{
 
 
 
+	@Override
+	public Map<String, Object> qryModIsExist(String modId, String modNod) {
+		return otherDataDao.qryModIsExist(modId, modNod);
+	}
+
+
+
 
 
 

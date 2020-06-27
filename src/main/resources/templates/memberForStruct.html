@@ -216,7 +216,7 @@ var oldMemNo;//编辑时，获取初始成员参数次序用于比对
 function QryStructMember(){//查结构体成员
 	$("#example1 tbody" ).empty();
 	$.ajax({
-		url:"/qryStructMem",
+		url:"/QryStructMem",
 		type:"POST",
 		async:true,
 		data:{"structId":structId},
@@ -263,7 +263,7 @@ function showDetail(e){
 	$("#descArea").empty();
 	var memId=$(e).parent().parent().find("td").eq(0).text();
 	 $.ajax({
-			url:"/qryMemDetail",
+			url:"/QryMemDetail",
 			type:"POST",
 			async:true,
 			data:{
@@ -348,7 +348,7 @@ function editClick(e){
 	    var memNo=$(e).parent().parent().find("td").eq(3).text();
 	    oldMemNo =$(e).parent().parent().find("td").eq(3).text();
 	    $.ajax({
-			url:"/qryMemFillback",
+			url:"/QryMemFillback",
 			type:"POST",
 			async:true,
 			data:{
@@ -411,7 +411,7 @@ function changeDataByKey(memMap) {
 		var memNo =memMap[0].memNo;
 		var memId =memMap[0].memId;
 		 $.ajax({
-				url:"/qryMemIsExist",
+				url:"/QryMemIsExist",
 				type:"POST",
 				async:true,
 				data:{
@@ -436,7 +436,7 @@ function changeDataByKey(memMap) {
 		var nowmemNo =memMap[0].memNo;
 		var memId =memMap[0].memId;
 		 $.ajax({
-				url:"/qryMemIsExist",
+				url:"/QryMemIsExist",
 				type:"POST",
 				async:true,
 				data:{
@@ -517,7 +517,7 @@ function UpdateData(memMap){
 function deleteClick(e){
 	var memId=$(e).parent().parent().find("td").eq(0).text();
 	$.ajax({
-		url:"/deleteOneMem",
+		url:"/DeleteOneMem",
 		type:"POST",
 		async:true,
 		data:{

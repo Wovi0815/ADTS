@@ -278,7 +278,7 @@ function qryDataType() {
      $("#example1 tbody").empty();
      $.ajax({
          type: "POST",
-         url: "/qryDataType",
+         url: "/QryDataType",
          async: true,
          success: function(result) {
         	var body="";
@@ -338,7 +338,7 @@ function editClick(e) {
     clickKey = "edit";
     var typId = $(e).parent().parent().children().eq(0).text();
     $.ajax({//先回填
-        url: "/qryDetailDataType",
+        url: "/QryDetailDataType",
         data: {
             "typId": typId
         },
@@ -370,7 +370,7 @@ function save() {
       if (clickKey == "add") {
             $.ajax({
                 type: "POST",
-                url: "/insertDataType",
+                url: "/InsertDataType",
                 async: true,
                 data: {
                     "typId": typId,
@@ -402,7 +402,7 @@ function save() {
         } else if (clickKey == "edit") {
             $.ajax({
                 type: "POST",
-                url: "/updateDataType",
+                url: "/UpdateDataType",
                 async: true,
                 data: {
                     "typId": typId,
@@ -434,7 +434,7 @@ function save() {
     function deleteClick(e) {
         var typId = $(e).parent().parent().children().eq(0).text();
         $.ajax({
-            url: "/delDataType",
+            url: "/DelDataType",
             data: {
                 "typId": typId
             },
@@ -608,7 +608,7 @@ function editStructClick(e){
 	$("#structModalLessData").hide();
     var typId = $(e).parent().parent().children().eq(0).text();
     $.ajax({//先回填数据类型
-        url: "/qryDetailDataType",
+        url: "/QryDetailDataType",
         data: {
             "typId": typId
         },
@@ -675,7 +675,7 @@ function structSave(){
                  "structMemCount":i-1,
                  "memList": JSON.stringify(memList)
              },
-             url: "/addStruct",
+             url: "/AddStruct",
              type: "POST",
              async: true,
              success: function (result) {
@@ -715,7 +715,7 @@ function structSave(){
                  "typDesc": structDesc
    
              },
-             url: "/updateDataType",//复用普通类型的请求.本页面仅对数据类型进行修改，不对成员进行操作
+             url: "/UpdateDataType",//复用普通类型的请求.本页面仅对数据类型进行修改，不对成员进行操作
              type: "POST",
              async: true,
              success: function(result) {
@@ -761,7 +761,7 @@ function delStruct(e) {
 //删除结构体成员
 function  delStructMember(structId){
 	  $.ajax({
-	        url: "/delStructMem",
+	        url: "/DelStructMem",
 	        data: {
 	            "structId": structId
 	        },
@@ -791,7 +791,7 @@ function  showDetail(e){
 	$("#descArea").empty();
 	var typId = $(e).parent().parent().children().eq(0).text();
 	 $.ajax({
-			url:"/qryDetailDataType",
+			url:"/QryDetailDataType",
 			type:"POST",
 			async:true,
 			data:{

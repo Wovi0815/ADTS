@@ -199,7 +199,7 @@ var clickKey;
 function QryAllModule(){//查所有节点的设备
 	$("#example1 tbody" ).empty();
 	$.ajax({
-		url:"/qryAllModule",
+		url:"/QryAllModule",
 		type:"POST",
 		async:true,
 		success:function(result){
@@ -257,7 +257,7 @@ function editClick(e){
 	clickKey="edit";
 	    var modId=$(e).parent().parent().find("td").eq(0).text();
 	    $.ajax({
-			url:"/qryModByModId",
+			url:"/QryModByModId",
 			type:"POST",
 			async:true,
 			data:{
@@ -285,7 +285,7 @@ function showDetail(e){
 	$("#descArea").empty();
 	 var modId=$(e).parent().parent().find("td").eq(0).text();		
 	 $.ajax({
-			url:"/qryModByModId",
+			url:"/QryModByModId",
 			type:"POST",
 			async:true,
 			data:{"modId":modId},
@@ -365,23 +365,19 @@ function changeDataByKey(moduleMap) {
 		//新增之前先进行查询是否唯一   
 		 var modId = moduleMap[0].modId;
 		 var modNod = moduleMap[0].modNod;
-		 var modRank = moduleMap[0].modRank;
-		
 		$.ajax({
 				url:"/QryModIsExist",
 				type:"POST",
 				async:true,
 				data:{
 					"modId":modId,
-					"modNod":modNod,
-					"modRank":modRank
+					"modNod":modNod
 				},
 				success:function(result){
-				
-					if(result.mid_id == modMidId){	
+					if(result){	
 						toastr.error('数据已存在!重复!');
 					}else{
-						InsertData(modMidId,modMidName,modMidDesc);//插入
+						InsertData(moduleMap);//插入
 					}
 				},
 				error:function(result){
@@ -390,21 +386,19 @@ function changeDataByKey(moduleMap) {
 			}); 
 					
 	}else if(clickKey=="edit"){
-		UpdateData(modMidId,modMidName,modMidDesc);
+		UpdateData(moduleMap);
 	}
 
 }	
 //插入数据
-function InsertData(modMidId,modMidName,modMidDesc){
+function InsertData(moduleMap){
 
 		$.ajax({
-			url:"/InsertMid",
+			url:"/InsertModule",
 			type:"POST",
 			async:true,
 			data:{
-				"modMidId":modMidId,
-				"modMidName":modMidName,
-				"modMidDesc":modMidDesc
+				"moduleMap":JSON.stringify(moduleMap),
 			},
 			success:function(result){
 				if(result=1){
