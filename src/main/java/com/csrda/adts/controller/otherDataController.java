@@ -268,21 +268,21 @@ public class otherDataController {
 		return otherDataService.qryAllModule();
 	}
 	/**
-	 * 根据设备id查设备信息
+	 * 查设备详细信息
 	 */
-	@RequestMapping("/QryModByModId")
+	@RequestMapping("/QryModDetail")
 	@ResponseBody
-	public Map<String, Object> qryModByModId(String modId) {		
-		return otherDataService.qryModByModId(modId);
+	public Map<String, Object> qryModDetail(String modId,String modNod) {		
+		return otherDataService.qryModDetail(modId,modNod);
 	}
 	
 	/**
-	 * 新增之前查重
+	 * 保存之前查重
 	 */
 	@RequestMapping("/QryModIsExist")
 	@ResponseBody
 	public Map<String, Object> qryModIsExist(String modId,String modNod) {		
-		return otherDataService.qryModIsExist(modId,modNod);
+		return otherDataService.qryModDetail(modId,modNod);
 	}
 	
 	/**
@@ -294,14 +294,33 @@ public class otherDataController {
 		ObjectMapper mapper = new ObjectMapper();   
 		int result =0;
 		List<Map<String, Object>> map = mapper.readValue(moduleMap, new TypeReference<List<Map<String, Object>>>(){});
-			String  modId = map.get(0).get("modId").toString();
-			String  modName = map.get(0).get("modName").toString();
-			String  modDesc = map.get(0).get("modDesc").toString();
-			String  modPid = map.get(0).get("modPid").toString();
-			String  modVid = map.get(0).get("modVid").toString();
-			String  modNod = map.get(0).get("modNod").toString();
-			String  modRank = map.get(0).get("modRank").toString();
-		    result = otherDataService.InsertMesData(modId, modName, modDesc, modPid, modVid, modNod,modRank);
-		    return result;	
-		}
+		Map<String, Object> data = map.get(0);
+		    result = otherDataService.InsertModule(data);
+		return result;	
+	}
+	
+	
+	/**
+	 * 修改设备
+	 */
+	@RequestMapping("/UpdateModule")		
+	@ResponseBody
+	public int UpdateModule(String moduleMap) throws JsonParseException, JsonMappingException, IOException {
+		ObjectMapper mapper = new ObjectMapper();   
+		int result =0;
+		List<Map<String, Object>> map = mapper.readValue(moduleMap, new TypeReference<List<Map<String, Object>>>(){});
+		Map<String, Object> data = map.get(0);
+		   result = otherDataService.UpdateModule(data);
+		return result;	
+	}
+	
+	
+	@RequestMapping("/DeleteModule")
+	@ResponseBody
+	public int deleteModule(String modId,String modNod) {
+		System.out.println(modId);
+		System.out.println(modNod);
+		int result = otherDataService.deleteModule(modId,modNod);
+		return result;
+	};	
 }

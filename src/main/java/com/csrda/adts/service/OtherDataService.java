@@ -105,12 +105,24 @@ public interface OtherDataService{
 	 */
 	public List<Map<String, Object>> qryAllModule();	
 	/**
-	 * 根据设备id查信息
+	 * 查设备详细信息
 	 */
-	public Map<String, Object> qryModByModId(String modId);
-	
+	public Map<String, Object> qryModDetail(String modId,String modNod);
+
 	/**
-	 * 新增之前进行查重
+	 * 新增设备
 	 */
-	public Map<String, Object> qryModIsExist(String modId,String modNod);
+	public int InsertModule(Map<String, Object> data);
+
+
+	/**
+	 * 修改设备
+	 */
+	public int UpdateModule(Map<String, Object> data);
+
+
+	/**
+	 * 删除设备
+	 */
+	public int deleteModule(String modId, String modNod);
 }

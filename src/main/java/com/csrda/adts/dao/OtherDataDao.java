@@ -213,26 +213,44 @@ public interface OtherDataDao {
 	 * 查询所有节点下的设备
 	 */
 	 @Select("SELECT  * " + 
-		 	"FROM t_module " )
+		 	"FROM t_module m "+
+		 	"WHERE m.is_delete = '0' " )
 	 public List<Map<String, Object>> qryAllModule();
 	
 	 
 	 
 	 /**
-	  * 根据硬件模组的id查信息
+	  * 硬件模组详细信息
 	  */
 	 @Select("SELECT  * " + 
 			 "FROM  " + 
 			 "	 t_module m " +
 			 "WHERE " + 
-			 "	m.mod_id = #{modId} AND m.is_delete = '0' ")
-		public Map<String, Object> qryModByModId(String modId);
+			 "	m.mod_id = #{modId}  AND m.mod_nod = #{modNod} AND m.is_delete = '0' ")
+		public Map<String, Object> qryModDetail(String modId,String modNod);
+	 
+	
+	 
+	 /**
+	  * 新增设备
+	  */
+	 @Insert("INSERT INTO `t_module` ( `mod_id`, `mod_name`, `mod_desc`, `mod_pid`, `mod_vid`, `mod_nod`,`mod_rank`,`modify_user` )\r\n" + 
+				"VALUES\r\n" + 
+				"	(#{modId}, #{modName}, #{modDesc}, #{modPid}, #{modVid},#{modNod},#{modRank}, 'admin');")
+	public int InsertModule(Map<String, Object> data);
 	 
 	 
 	 /**
-	  * 新增设备之前进行查重
+	  * 修改设备
 	  */
-	 @Select("SELECT * FROM  t_module m " + 
-		"WHERE m.mod_id = #{modId} AND  m.mod_nod=#{modNod} AND  m.is_delete='0' " )
-	 public Map<String, Object> qryModIsExist(String modId,String modNod);
+	 @Update("UPDATE t_module SET mod_name = #{modName},mod_desc =#{modDesc} , mod_pid =#{modVid} , mod_vid = #{modPid}, mod_rank =#{modRank} " + 
+				"WHERE 	t_module.mod_id = #{modId} AND t_module.mod_nod = #{modNod}")
+	public int UpdateModule(Map<String, Object> data);
+	 /**
+	  * 删除设备
+	  */
+	 @Update("UPDATE t_module m SET m.is_delete ='1' " + 
+		"WHERE 	m.mod_id = #{modId} AND m.mod_nod = #{modNod}")
+	public int DeleteModule(String modId,String modNod);
+	 
 }

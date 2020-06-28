@@ -168,15 +168,28 @@ public class OtherDataServiceImpl implements OtherDataService{
 
 
 	@Override
-	public Map<String, Object> qryModByModId(String modId) {
-		return otherDataDao.qryModByModId(modId);
+	public Map<String, Object> qryModDetail(String modId, String modNod) {
+		return otherDataDao.qryModDetail(modId,modNod);
+	}
+
+
+	@Override
+	public int InsertModule(Map<String, Object> data) {
+		return otherDataDao.InsertModule(data);
 	}
 
 
 
 	@Override
-	public Map<String, Object> qryModIsExist(String modId, String modNod) {
-		return otherDataDao.qryModIsExist(modId, modNod);
+	public int UpdateModule(Map<String, Object> data) {
+		return otherDataDao.UpdateModule(data);
+	}
+
+
+
+	@Override
+	public int deleteModule(String modId, String modNod) {
+		return otherDataDao.DeleteModule(modId, modNod);
 	}
 
 

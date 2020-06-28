@@ -256,12 +256,14 @@ function addClick(){
 function editClick(e){	
 	clickKey="edit";
 	    var modId=$(e).parent().parent().find("td").eq(0).text();
+	    var modNod=$(e).parent().parent().find("td").eq(2).text();		
 	    $.ajax({
-			url:"/QryModByModId",
+			url:"/QryModDetail",
 			type:"POST",
 			async:true,
 			data:{
-				"modId":modId
+				"modId":modId,
+				"modNod":modNod
 			},
 			success:function(result){
 				
@@ -272,6 +274,7 @@ function editClick(e){
 				$("#modPid").val(result.mod_pid);
 				$("#modVid").val(result.mod_vid);
 				$("#modNod").val(result.mod_nod);
+				$("#modNod").attr("readOnly","true");
 				$("#modRank").val(result.mod_rank); 
 			},
 			error:function(result){
@@ -284,11 +287,15 @@ function editClick(e){
 function showDetail(e){
 	$("#descArea").empty();
 	 var modId=$(e).parent().parent().find("td").eq(0).text();		
+	 var modNod=$(e).parent().parent().find("td").eq(2).text();		
 	 $.ajax({
-			url:"/QryModByModId",
+			url:"/QryModDetail",
 			type:"POST",
 			async:true,
-			data:{"modId":modId},
+			data:{
+				"modId":modId,
+				"modNod":modNod
+			},
 			success:function(result){
 				var modDesc = result.mod_desc;
 				var modifyUser = result.modify_user;
@@ -362,7 +369,7 @@ function save(){
 function changeDataByKey(moduleMap) {
 	
 	if(clickKey=="add"){
-		//新增之前先进行查询是否唯一   
+		//保存之前先进行查询是否唯一   
 		 var modId = moduleMap[0].modId;
 		 var modNod = moduleMap[0].modNod;
 		$.ajax({
@@ -385,7 +392,7 @@ function changeDataByKey(moduleMap) {
 				}
 			}); 
 					
-	}else if(clickKey=="edit"){
+	}else if(clickKey=="edit"){	
 		UpdateData(moduleMap);
 	}
 
@@ -398,7 +405,7 @@ function InsertData(moduleMap){
 			type:"POST",
 			async:true,
 			data:{
-				"moduleMap":JSON.stringify(moduleMap),
+				"moduleMap":JSON.stringify(moduleMap)
 			},
 			success:function(result){
 				if(result=1){
@@ -406,9 +413,9 @@ function InsertData(moduleMap){
 					var oldTable = $('#example1').dataTable();
 				    oldTable.fnClearTable(); 
 				    oldTable.fnDestroy();
-				    QryMid();
+					QryAllModule();
 				}else{
-					toastr.error('中间件新增失败!');
+					toastr.error('数据新增失败!');
 				}
 				
 			},
@@ -420,15 +427,13 @@ function InsertData(moduleMap){
 	
 }
 //更新数据
-function UpdateData(modMidId,modMidName,modMidDesc){
+function UpdateData(moduleMap){
 	$.ajax({
-		url:"/UpdateMid",
+		url:"/UpdateModule",
 		type:"POST",
 		async:true,
 		data:{
-			"modMidId":modMidId,
-			"modMidName":modMidName,
-			"modMidDesc":modMidDesc
+			"moduleMap":JSON.stringify(moduleMap)
 		},
 		success:function(result){
 			if(result=1){
@@ -436,9 +441,9 @@ function UpdateData(modMidId,modMidName,modMidDesc){
 				var oldTable = $('#example1').dataTable();
 			    oldTable.fnClearTable(); 
 			    oldTable.fnDestroy();
-			    QryMid();
+				QryAllModule();
 			}else{
-				toastr.error('中间件修改失败!');
+				toastr.error('数据修改失败!');
 			}
 			
 		},
@@ -450,22 +455,24 @@ function UpdateData(modMidId,modMidName,modMidDesc){
 }	
 // 删除
 function deleteClick(e){
-	var midId=$(e).parent().parent().find("td").eq(0).text();
+	 var modId=$(e).parent().parent().find("td").eq(0).text();		
+	 var modNod=$(e).parent().parent().find("td").eq(2).text();		
 	$.ajax({
-		url:"/DeleteMid",
+		url:"/DeleteModule",
 		type:"POST",
 		async:true,
 		data:{
-			"midId":midId	
+			"modId":modId,
+			"modNod":modNod
 		},
 		success:function(result){
 			if(result==1){
 				var oldTable = $('#example1').dataTable();
 			    oldTable.fnClearTable(); 
 			    oldTable.fnDestroy();
-			    QryMid();
+				QryAllModule();
 			}else{
-				toastr.error('类删除失败!');
+				toastr.error('数据删除失败!');
 			}
 			
 		},
