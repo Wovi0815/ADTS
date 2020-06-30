@@ -73,7 +73,7 @@ public class otherDataController {
 	 * 保存结构体数据类型系列操作
 	 */
 	
-	@RequestMapping("/AddStruct")
+	@RequestMapping("/InsertStruct")
 	@ResponseBody
 	public String addStruct(String structId,String structName,String structSize,String structDesc,String structMemCount,String memList){
 		return otherDataService.addStruct(structId, structName, structSize, structDesc,structMemCount, memList);
@@ -93,7 +93,7 @@ public class otherDataController {
 	 * 删除数据类型
 	 */
 
-	@RequestMapping("/DelDataType")
+	@RequestMapping("/DeleteDataType")
 	@ResponseBody
 	public int delDataType(String typId) {
 		return otherDataService.delDataType(typId);
@@ -102,7 +102,7 @@ public class otherDataController {
 	/**
 	 * 删除结构体所有成员
 	 */
-	@RequestMapping("/DelStructMem")
+	@RequestMapping("/DeleteStructMem")
 	@ResponseBody
 	public int delStructMem(String structId){
 		return otherDataService.delStructMem(structId);
@@ -314,7 +314,9 @@ public class otherDataController {
 		return result;	
 	}
 	
-	
+	/**
+	 * 删除设备
+	 */
 	@RequestMapping("/DeleteModule")
 	@ResponseBody
 	public int deleteModule(String modId,String modNod) {

@@ -675,7 +675,7 @@ function structSave(){
                  "structMemCount":i-1,
                  "memList": JSON.stringify(memList)
              },
-             url: "/AddStruct",
+             url: "/InsertStruct",
              type: "POST",
              async: true,
              success: function (result) {
@@ -742,7 +742,7 @@ function structSave(){
 function delStruct(e) {
     var typId = $(e).parent().parent().children().eq(0).text();
     $.ajax({
-        url: "/delDataType",
+        url: "/DeleteDataType",
         data: {
             "typId": typId
         },
@@ -761,7 +761,7 @@ function delStruct(e) {
 //删除结构体成员
 function  delStructMember(structId){
 	  $.ajax({
-	        url: "/DelStructMem",
+	        url: "/DeleteStructMem",
 	        data: {
 	            "structId": structId
 	        },

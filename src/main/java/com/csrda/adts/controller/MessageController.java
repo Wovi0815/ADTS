@@ -36,7 +36,7 @@ public class MessageController {
 	}
 	//根据报文类型查询所有报文
 	@ResponseBody
-	@RequestMapping("/qryMessage")
+	@RequestMapping("/QryMessage")
 	public List<Map<String, Object>> qryMessage(String mesType){
 		List<Map<String, Object>> result = messageService.qryMessage(mesType);
 		return result;
@@ -44,7 +44,7 @@ public class MessageController {
 	
 	// 查询硬件模块 ,构建 信源信宿的下拉框
 	@ResponseBody
-	@RequestMapping("/qryModSelect")
+	@RequestMapping("/QryModSelect")
 	public List<Map<String, Object>> qryModSelect(){
 		List<Map<String, Object>> result = messageService.qryModuleKind();
 	return result;
@@ -53,7 +53,7 @@ public class MessageController {
 	
 	//根据下拉框刷新表格
 	@ResponseBody
-	@RequestMapping("/qryMesBySelect")
+	@RequestMapping("/QryMesBySelect")
 	public List<Map<String, Object>> qryMesBySelect(String mesType,String source,String destination){
 
 		List<Map<String,Object>>  destinationList = new ArrayList<Map<String, Object>>() ;
@@ -88,7 +88,7 @@ public class MessageController {
 	
 	// 查询报文的进一步信息
 	@ResponseBody
-	@RequestMapping("/qryMesDetail")
+	@RequestMapping("/QryMesDetail")
 	public Map<String, Object> qryMesDetail(String mesId,String mesTyp){
 		Map<String, Object> result = messageService.qryMesDetail(mesId,mesTyp);
 		return result;
@@ -96,7 +96,7 @@ public class MessageController {
 
 	//查询报文数据详情
 	@ResponseBody
-	@RequestMapping("/qryMesDataDetail")
+	@RequestMapping("/QryMesDataDetail")
 	public List<Map<String, Object>> qryMesDataDetail(String mesId){
 		List<Map<String, Object>> result = messageService.qryMesDataDetail(mesId);
 		return result;
@@ -147,7 +147,7 @@ public class MessageController {
 	
 	
 	//删除接口
-	@RequestMapping("/deleteMes")		
+	@RequestMapping("/DeleteMes")		
 	@ResponseBody
 	int deleteInterface(String mesId,String mesTyp){
 		int delresult = messageService.deleteMes(mesId,mesTyp);
@@ -156,7 +156,7 @@ public class MessageController {
 
 
 	//删除报文数据
-	@RequestMapping("/deleteMesData")		
+	@RequestMapping("/DeleteMesData")		
 	@ResponseBody
 	int deleteInterfacePara(String mesId){
 		int result = messageService.deleteMesData(mesId);
@@ -266,7 +266,7 @@ public class MessageController {
 	
 	
 	//单个删除接口参数
-	@RequestMapping("/deleteOneData")
+	@RequestMapping("/DeleteOneData")
 	@ResponseBody
 	  int deleteOnePara(String dataName,String mesId){
 			int result = messageService.deleteOneData(mesId,dataName);
@@ -278,7 +278,7 @@ public class MessageController {
 	//单独报文页面 查所有报文
 	
 	@ResponseBody
-	@RequestMapping("/qryAllMessage")
+	@RequestMapping("/QryAllMessage")
 	public List<Map<String, Object>> qryAllMessage(){
 		List<Map<String, Object>> result = messageService.qryAllMessage();
 		return result;

@@ -175,10 +175,10 @@ var mesId=a['mesId'];
 var clickKey;
 //------全局变量-------
 
-function QryDataMes(){//查接口下属参数
+function qryDataMes(){//查接口下属参数
 	$("#example1 tbody" ).empty();
 	$.ajax({
-		url:"/qryMesDataDetail",
+		url:"/QryMesDataDetail",
 		type:"POST",
 		async:true,
 		data:{"mesId":mesId},
@@ -335,7 +335,7 @@ function InsertData(dataMap){
 			var oldTable = $('#example1').dataTable();
    		    oldTable.fnClearTable(); 
   		    oldTable.fnDestroy();
-  			QryDataMes();
+  			qryDataMes();
   			
 		}else{
 			toastr.error('报文数据新增失败!');
@@ -365,7 +365,7 @@ function UpdateData(dataMap){
 				var oldTable = $('#example1').dataTable();
 	   		    oldTable.fnClearTable(); 
 	  		    oldTable.fnDestroy();
-	  			QryDataMes();
+	  			qryDataMes();
 	  		  	
 			}else{
 				toastr.error('报文数据修改失败!');
@@ -383,7 +383,7 @@ function UpdateData(dataMap){
 function deleteClick(e){
 	var dataName=$(e).parent().parent().find("td").eq(2).text();
 	$.ajax({
-		url:"/deleteOneData",
+		url:"/DeleteOneData",
 		type:"POST",
 		async:true,
 		data:{
@@ -395,7 +395,7 @@ function deleteClick(e){
 				var oldTable = $('#example1').dataTable();
 	   		    oldTable.fnClearTable(); 
 	  		    oldTable.fnDestroy();
-	  			QryDataMes();
+	  			qryDataMes();
 	  		
 			}else{
 				toastr.error('报文数据删除失败!');
@@ -434,7 +434,7 @@ toastr.options = {
 		  "showMethod": "fadeIn",
 		  "hideMethod": "fadeOut"
 		}
-	QryDataMes();
+	qryDataMes();
 	
 </script>
 </body>

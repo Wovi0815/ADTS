@@ -312,10 +312,10 @@ var mesId;
 
 //------全局变量-------
 
-function QryMessage(){//根据报文类型查所有报文
+function qryMessage(){//根据报文类型查所有报文
 	$("#example1 tbody" ).empty();
 	$.ajax({
-		url:"/qryMessage",
+		url:"/QryMessage",
 		type:"POST",
 		async:true,
 		data:{"mesType":mesType},
@@ -356,9 +356,9 @@ function QryMessage(){//根据报文类型查所有报文
 }
 
 //查询硬件模块，构建下拉框
-function QryModSelect(){
+function qryModSelect(){
 	$.ajax({
-		url:"/qryModSelect",
+		url:"/QryModSelect",
 		type:"POST",
 		async:true,
 		success:function(result){
@@ -401,7 +401,7 @@ function QryModSelect(){
 //根据下拉框更新当前页面内容
 function refreshDataBySelect(source,destination){
 	$.ajax({
-		url:"/qryMesBySelect",
+		url:"/QryMesBySelect",
 		type:"POST",
 		async:true,
 		data:{"mesType":mesType,
@@ -555,7 +555,7 @@ function addSave(){
 									 var oldTable = $('#example1').dataTable();
 							   		    oldTable.fnClearTable(); 
 							  		    oldTable.fnDestroy();
-							  			QryMessage();
+							  			qryMessage();
 							  			
 								}							
 							},	
@@ -574,7 +574,7 @@ function showDetail(e){
 	$("#descArea").empty();
 	 mesId=$(e).parent().parent().find("td").eq(0).text();		
 	 $.ajax({
-			url:"/qryMesDetail",
+			url:"/QryMesDetail",
 			type:"POST",
 			async:true,
 			data:{
@@ -626,7 +626,7 @@ function showDetail(e){
 function  qryMesDataDetail(mesId){
 	$("#dataArea").empty();	 
 	$.ajax({
-				url:"/qryMesDataDetail",
+				url:"/QryMesDataDetail",
 				type:"POST",
 				async:true,
 				data:{
@@ -674,7 +674,7 @@ function editMesClick(e){
 	 mesId=$(e).parent().parent().find("td").eq(0).text();
 	 //先回填
 	 $.ajax({
-			url:"/qryMesDetail",
+			url:"/QryMesDetail",
 			type:"POST",
 			async:true,
 			data:{
@@ -706,7 +706,7 @@ function qryModToAModal(){
 	$("#imesSource").empty();
 	$("#imesDestination").empty();
 	$.ajax({
-		url:"/qryModSelect",
+		url:"/QryModSelect",
 		type:"POST",
 		async:true,
 		success:function(result){
@@ -761,7 +761,7 @@ function qryModToEModal(mesSource,mesDestination){
 		var s =mesSource.split(",")
 		var d=mesDestination.split(",")
 		$.ajax({
-			url:"/qryModSelect",
+			url:"/QryModSelect",
 			type:"POST",
 			async:true,
 			success:function(result){
@@ -843,7 +843,7 @@ function editMesSave(){
 					var oldTable = $('#example1').dataTable();
 				    oldTable.fnClearTable(); 
 				    oldTable.fnDestroy();
-				    QryMessage();
+				    qryMessage();
 				    
 				}else{
 					toastr.error('报文修改失败!');
@@ -864,7 +864,7 @@ function deleteClick(e){
 	var mesId=$(e).parent().parent().find("td").eq(0).text();
 	
 	$.ajax({
-		url:"/deleteMes",
+		url:"/DeleteMes",
 		type:"POST",
 		async:true,
 		data:{
@@ -889,7 +889,7 @@ function deleteClick(e){
 
 function deleteMesData(mesId){
 	$.ajax({
-		url:"/deleteMesData",
+		url:"/DeleteMesData",
 		type:"POST",
 		async:true,
 		data:{
@@ -899,7 +899,7 @@ function deleteMesData(mesId){
 			var oldTable = $('#example1').dataTable();
 		    oldTable.fnClearTable(); 
 		    oldTable.fnDestroy();
-		    QryMessage();
+		    qryMessage();
 			
 		},	
 		error:function(result){
@@ -965,8 +965,8 @@ function toMesData(e){
 		 
 		 
 		 
-		 QryMessage();
-		 QryModSelect();
+		 qryMessage();
+		 qryModSelect();
 		 
 	})
 </script>

@@ -221,10 +221,10 @@ function save(){
 }
 
 
-function QryAllMessage(){//查所有报文
+function qryAllMessage(){//查所有报文
 	$("#example1 tbody" ).empty();
 	$.ajax({
-		url:"/qryAllMessage",
+		url:"/QryAllMessage",
 		type:"POST",
 		async:true,
 		
@@ -270,7 +270,7 @@ function qryModToAModal(){
 	$("#imesSource").empty();
 	$("#imesDestination").empty();
 	$.ajax({
-		url:"/qryModSelect",
+		url:"/QryModSelect",
 		type:"POST",
 		async:true,
 		success:function(result){
@@ -365,7 +365,7 @@ function addSave(){
 									 var oldTable = $('#example1').dataTable();
 							   		    oldTable.fnClearTable(); 
 							  		    oldTable.fnDestroy();
-							  		    QryAllMessage()
+							  		    qryAllMessage()
 							  			
 								}							
 							},	
@@ -381,7 +381,7 @@ function showDetail(e){
 	 var mesId=$(e).parent().parent().find("td").eq(0).text();		
 	 var mesType=$(e).parent().parent().find("td").eq(4).text();		
 	 $.ajax({
-			url:"/qryMesDetail",
+			url:"/QryMesDetail",
 			type:"POST",
 			async:true,
 			data:{
@@ -436,7 +436,7 @@ function editMesClick(e){
     clickKey="edit";
 	 //先回填
 	 $.ajax({
-			url:"/qryMesDetail",
+			url:"/QryMesDetail",
 			type:"POST",
 			async:true,
 			data:{
@@ -471,7 +471,7 @@ function qryModToModal(mesSource,mesDestination){
 	var s =mesSource.split(",")
 	var d=mesDestination.split(",")
 	$.ajax({
-		url:"/qryModSelect",
+		url:"/QryModSelect",
 		type:"POST",
 		async:true,
 		success:function(result){
@@ -550,7 +550,7 @@ function editMesSave(){
 					var oldTable = $('#example1').dataTable();
 				    oldTable.fnClearTable(); 
 				    oldTable.fnDestroy();
-				    QryAllMessage();
+				    qryAllMessage();
 				    
 				}else{
 					toastr.error('报文修改失败!');
@@ -606,7 +606,7 @@ function deleteMesData(mesId){
 			var oldTable = $('#example1').dataTable();
 		    oldTable.fnClearTable(); 
 		    oldTable.fnDestroy();
-		    QryAllMessage();
+		    qryAllMessage();
 			
 		},	
 		error:function(result){
@@ -650,7 +650,7 @@ function deleteMesData(mesId){
 				  "hideMethod": "fadeOut"
 				}
 		
-		QryAllMessage();
+		qryAllMessage();
 		
 	
 		 
