@@ -42,6 +42,7 @@
 			/* Internet Explorer 10+ */
 			font-size: 10px;
 		}
+		
 	</style>
 		
 	</head>
@@ -206,7 +207,7 @@ var clickKey;
 //------全局变量-------
 
 
-function QryMidCls(){//查中间件下属类
+function qryMidCls(){//查中间件下属类
 	$("#example1 tbody" ).empty();
 	$.ajax({
 		url:"/QueryMidwareClass",
@@ -248,7 +249,7 @@ function QryMidCls(){//查中间件下属类
 
 }
 //查询中间件的当前类页面的所有父类
-function QryMidClsFather(){
+function qryMidClsFather(){
 	$("#selectClass" ).empty();
 	$.ajax({
 		url:"/QryMidClsFather",
@@ -470,7 +471,7 @@ function changeDataByKey(modalCId,modalCName,modalCDesc,modalCFather,modalCMidwa
 					if(result.c_id == modalCId){	
 						toastr.error('类已存在!重复!');
 					}else{
-						InsertData(modalCId,modalCName,modalCDesc,modalCFather,modalCMidware);//插入
+						insertData(modalCId,modalCName,modalCDesc,modalCFather,modalCMidware);//插入
 					}
 				},
 				error:function(result){
@@ -479,12 +480,12 @@ function changeDataByKey(modalCId,modalCName,modalCDesc,modalCFather,modalCMidwa
 			}); 
 					
 	}else if(clickKey=="edit"){
-		UpdateData(modalCId,modalCName,modalCDesc,modalCFather,modalCMidware);
+		updateData(modalCId,modalCName,modalCDesc,modalCFather,modalCMidware);
 	}
 
 }	
 //插入数据
-function InsertData(modalCId,modalCName,modalCDesc,modalCFather,modalCMidware){
+function insertData(modalCId,modalCName,modalCDesc,modalCFather,modalCMidware){
 
 		$.ajax({
 			url:"/InsertCls",
@@ -498,13 +499,13 @@ function InsertData(modalCId,modalCName,modalCDesc,modalCFather,modalCMidware){
 				"modalCMidware":modalCMidware
 			},
 			success:function(result){
-				if(result=1){
+				if(result==1){
 					$("#modal-default").modal('hide'); 
 					var oldTable = $('#example1').dataTable();
 				    oldTable.fnClearTable(); 
 				    oldTable.fnDestroy();
-					QryMidCls();
-					QryMidClsFather();
+					qryMidCls();
+					qryMidClsFather();
 				}else{
 					toastr.error('类新增失败!');
 				}
@@ -518,7 +519,7 @@ function InsertData(modalCId,modalCName,modalCDesc,modalCFather,modalCMidware){
 	
 }
 //更新数据
-function UpdateData(modalCId,modalCName,modalCDesc,modalCFather,modalCMidware){
+function updateData(modalCId,modalCName,modalCDesc,modalCFather,modalCMidware){
 	$.ajax({
 		url:"/UpdateCls",
 		type:"POST",
@@ -531,13 +532,13 @@ function UpdateData(modalCId,modalCName,modalCDesc,modalCFather,modalCMidware){
 			"modalCMidware":modalCMidware
 		},
 		success:function(result){
-			if(result=1){
+			if(result==1){
 				$("#modal-default").modal('hide'); 
 				var oldTable = $('#example1').dataTable();
 			    oldTable.fnClearTable(); 
 			    oldTable.fnDestroy();
-				QryMidCls();
-				QryMidClsFather();
+				qryMidCls();
+				qryMidClsFather();
 			}else{
 				toastr.error('类修改失败!');
 			}
@@ -564,8 +565,8 @@ function deleteClick(e){
 				var oldTable = $('#example1').dataTable();
 			    oldTable.fnClearTable(); 
 			    oldTable.fnDestroy();
-				QryMidCls();
-				QryMidClsFather();
+				qryMidCls();
+				qryMidClsFather();
 			}else{
 				toastr.error('类删除失败!');
 			}
@@ -630,8 +631,8 @@ function getUser(){
 			  "hideMethod": "fadeOut"
 			} 
 	getUser();
-	QryMidCls();
-	QryMidClsFather();
+	qryMidCls();
+	qryMidClsFather();
 	
 </script>    
 </body>

@@ -47,38 +47,6 @@
 			font-size: 10px;
 		}
         
-        .m-toast-pop {
-            display: none;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            bottom: 0;
-            right: 0;
-            overflow: auto;
-            text-align: center;
-        }
-        
-        .m-toast-inner {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            width: 100%;
-            transform: translate(-50%, -50%);
-            -webkit-transform: translate(-50%, -50%);
-            text-align: center;
-        }
-        
-        .m-toast-inner-text {
-            display: inline-block;
-            margin: 0 22px;
-            padding: 19px 21px;
-            font-size: 16px;
-            color: #FFFFFF;
-            letter-spacing: 0;
-            line-height: 22px;
-            background: rgba(0, 0, 0, 0.72);
-            border-radius: 10px;
-        }
     </style>
 </head>
 
@@ -389,11 +357,7 @@ function save() {
 		   		    oldTable.fnClearTable(); 
 		  		    oldTable.fnDestroy();
                     qryDataType();
-                    $('#m-toast-inner-text').text('保存成功');
-                    $('#m-toast-pop').fadeIn();
-                    setTimeout(function() {
-                        $('#m-toast-pop').fadeOut();
-                    }, 200);
+                   
                 },
                 error: function() {
                 	toastr.warning('未知错误,请联系管理员!');
@@ -417,11 +381,7 @@ function save() {
 		   		    oldTable.fnClearTable(); 
 		   		 	oldTable.fnDestroy();
                 	qryDataType();
-                    $('#m-toast-inner-text').text('保存成功');
-                    $('#m-toast-pop').fadeIn();
-                    setTimeout(function() {
-                        $('#m-toast-pop').fadeOut();
-                    }, 200);
+                   
                 },
                 error: function() {
                 	toastr.warning('未知错误,请联系管理员!');
@@ -857,7 +817,24 @@ function toMember(e){
 	var typId = $(e).parent().parent().children().eq(0).text();
 	window.parent.zhu.location.href="/memberForStruct?structId="+typId;	
 }
-        
+function getUser(){
+	$.ajax({
+		url:"/getUser",
+		type:"POST",
+		async:true,
+		success:function(result){
+			if(result=="sessionNull"){
+				toastr.warning('连接断开!');
+				window.parent.zhu.location.href="/tologin";	
+			}
+			var userName =result;
+		},
+		error:function(result){
+			toastr.warning('未知错误,请联系管理员!');
+		}
+	});
+	
+}
 </script>
 <script type="text/javascript">
 toastr.options = {
@@ -878,7 +855,7 @@ toastr.options = {
 		  "hideMethod": "fadeOut"
 		}
 	qryDataType();
-
+	getUser();
 	
 </script>
 </html>

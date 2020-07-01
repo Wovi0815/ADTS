@@ -4,6 +4,8 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>主页</title>
+	<!-- toastr -->
+	<link rel="stylesheet" th:href="@{/plugins/toastr/toastr.min.css}">
 	<!-- Font Awesome -->
 	<link rel="stylesheet" th:href="@{/plugins/fontawesome-free/css/all.min.css}">
 	<!-- Ionicons -->
@@ -39,7 +41,7 @@
 					<div class="image" style="margin: auto;">
 						
 							 <span>欢迎您,</span>
-							 <a id='userName' th:text="${session.userName}" onclick="showUser();"></a> 
+							 <a id='userName' th:text="${session.userName}"></a> 
 							 <a href='/loginOut'>退出 </a>
 					   
 						<img src="dist/img/csic-logo.png" class="img-circle elevation-2" alt="User Image"
@@ -269,29 +271,20 @@
 
 </nav>
 
-		<!-- /.sidebar-menu -->
 	</div>
 
-		<!-- /.sidebar -->
+
 	</aside>
 
-		<!-- Content Wrapper. Contains page content -->
 		<div class="content-wrapper">
 
 			<iframe scrolling="" id="main" name="zhu" frameborder="0" src="" style="width:100%;height:100%;"></iframe>
 
 		</div>
-		<!-- /.content-wrapper -->
-
-
-		<!-- Control Sidebar -->
+	
 		<aside class="control-sidebar control-sidebar-dark">
-			<!-- Control sidebar content goes here -->
+			
 		</aside>
-		<!-- /.control-sidebar -->
-
-		<!-- Small modal -->
-
 
 		<div id="myModal" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog"
 			aria-labelledby="mySmallModalLabel" aria-hidden="true">
@@ -362,12 +355,10 @@
 	<script th:src="@{/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js}"></script>
 	<!-- AdminLTE App -->
 	<script th:src="@{/dist/js/adminlte.js}"></script>
+	<!-- toastr -->
+	<script th:src="@{/plugins/toastr/toastr.min.js}"></script>	
 	<script>
-	
-	
-	
-	
-	
+
 	
 		$(function () {
 			
@@ -387,7 +378,7 @@
 					}
 				},
 				error: function (result) {
-					alert("未知错误联系管理员！"); 
+					toastr.warning('未知错误,请联系管理员!');
 				}
 			});
 
@@ -407,19 +398,14 @@
 					}
 				},
 				error: function (result) {
-					alert("未知错误联系管理员！");
+					toastr.warning('未知错误,请联系管理员!');
 				}
 			});
 
 
 		});
 	
-	
-function showUser(){
-		
-}
-  
-	
+
 
 	
 		
@@ -468,7 +454,7 @@ function showUser(){
 				}
 			},
 			error: function (result) {
-				alert("未知错误联系管理员！");
+				toastr.warning('未知错误,请联系管理员!');
 			}
 		});
 	});
@@ -494,7 +480,7 @@ function showUser(){
 				}
 			},
 			error: function (result) {
-				alert("未知错误联系管理员！");
+				toastr.warning('未知错误,请联系管理员!');
 			}
 		});
 	});
@@ -520,7 +506,7 @@ function showUser(){
 				}
 			},
 			error: function (result) {
-				alert("未知错误联系管理员！");
+				toastr.warning('未知错误,请联系管理员!');
 			}
 		});
 	});
@@ -546,7 +532,7 @@ function showUser(){
 				}
 			},
 			error: function (result) {
-				alert("未知错误联系管理员！");
+				toastr.warning('未知错误,请联系管理员!');
 			}
 		});
 	});
@@ -580,6 +566,26 @@ function showUser(){
 			}
 		});
 	}
+	
+	toastr.options = {
+			  "closeButton": true,
+			  "debug": false,
+			  "newestOnTop": true,
+			  "progressBar": true,
+			  "positionClass": "toast-top-full-width",
+			  "preventDuplicates": false,
+			  "onclick": null,
+			  "showDuration": "300",
+			  "hideDuration": "800",
+			  "timeOut": "2500",
+			  "extendedTimeOut": "1000",
+			  "showEasing": "swing",
+			  "hideEasing": "linear",
+			  "showMethod": "fadeIn",
+			  "hideMethod": "fadeOut"
+			}
+	
+	
 </script>
 
 </html>

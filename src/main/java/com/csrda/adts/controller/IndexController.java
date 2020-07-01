@@ -94,13 +94,7 @@ public class IndexController {
 			return "login"; 
 		}
 	
-		@RequestMapping("/test")
-		public String test(){
-			session.removeAttribute("userName");
-			return "test"; 
-		} 
-	
- 
+		
 
 }
 		

@@ -1030,7 +1030,24 @@ function toPara(e){
 	
 
 }
-
+function getUser(){
+	$.ajax({
+		url:"/getUser",
+		type:"POST",
+		async:true,
+		success:function(result){
+			if(result=="sessionNull"){
+				toastr.warning('连接断开!');
+				window.parent.zhu.location.href="/tologin";	
+			}
+			var userName =result;
+		},
+		error:function(result){
+			toastr.warning('未知错误,请联系管理员!');
+		}
+	});
+	
+}
 
 </script>    
 
@@ -1055,7 +1072,7 @@ toastr.options = {
 	QryClsInterface();
 	QryInterParaCount();
 	QryInterReturnType();
-	
+	getUser();
 </script>
 
 </body>
