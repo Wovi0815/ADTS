@@ -88,13 +88,13 @@ public class IndexController {
 	
 	
 	//用户退出，返回登录页
-		@RequestMapping("/loginOut")
-		public String loginOut(){
-			session.removeAttribute("userName");
-			return "login"; 
-		}
+	@RequestMapping("/loginOut")
+	public String loginOut(){
+		session.removeAttribute("userName");
+		return "login"; 
+	}
 	
-		
+	
 
 }
 		

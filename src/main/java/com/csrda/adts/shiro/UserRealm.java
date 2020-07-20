@@ -70,7 +70,7 @@ public class UserRealm extends AuthorizingRealm{
 				
 				
 				//2.判断密码
-				return new SimpleAuthenticationInfo(user,user.getPassWord(),"");
+				return new SimpleAuthenticationInfo(user,user.getPassWord(),this.getName());
 		
 		
 		
