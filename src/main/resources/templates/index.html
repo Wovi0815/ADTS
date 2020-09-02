@@ -117,26 +117,26 @@
 
 					<ul class="nav nav-treeview" >
 						<li class="nav-item">
-							<a href="/midwareManager"  target="zhu" class="nav-link"> 
+							<a href="/midwareManager"  target="openInside" class="nav-link"> 
 							<i class="nav-icon far fa-circle text-info"></i>
 							<p >中间件</p>
 							</a>
 						</li>	
 						<li class="nav-item">
-							<a href="/messageManager"  target="zhu" class="nav-link"> 
+							<a href="/messageManager"  target="openInside" class="nav-link"> 
 							<i class="nav-icon far fa-circle text-info"></i>
 							<p >报文</p>
 							</a>
 						</li>		
 								
 						<li class="nav-item">
-							<a href="/dataTypeManager"  target="zhu" class="nav-link"> 
+							<a href="/dataTypeManager"  target="openInside" class="nav-link"> 
 							<i class="nav-icon far fa-circle text-info"></i>
 							<p >数据类型</p>
 							</a>
 						</li>							
 						<li class="nav-item">
-							<a href="/moduleManager"  target="zhu" class="nav-link"> 
+							<a href="/moduleManager"  target="openInside" class="nav-link"> 
 							<i class="nav-icon far fa-circle text-info"></i>
 							<p >设备模组</p>
 							</a>
@@ -212,13 +212,13 @@
 		
 					<ul class="nav nav-treeview"  id="">
 						<li class="nav-item">
-							<a href="/XXX"  target="zhu" class="nav-link"> 
+							<a href="/XXX"  target="openInside" class="nav-link"> 
 							<i class="nav-icon far fa-circle text-info"></i>
 							<p >测试1</p>
 							</a>
 						</li>							
 						<li class="nav-item">
-							<a href="/XX"  target="zhu" class="nav-link"> 
+							<a href="/XX"  target="openInside" class="nav-link"> 
 							<i class="nav-icon far fa-circle text-info"></i>
 							<p >测试2</p>
 							</a>
@@ -280,7 +280,7 @@
 		
 				
 				<li class="nav-item has-treeview menu-close">
-					<a href="/userManager" target='zhu' class="nav-link ">
+					<a href="/userManager" target='openInside' class="nav-link ">
 					<i class="fas fa-circle nav-icon"></i>
 					<p>人员管理</p>
 					
@@ -307,7 +307,7 @@
 
 		<div class="content-wrapper">
 
-			<iframe scrolling="" id="main" name="zhu" frameborder="0" src="" style="width:100%;height:100%;"></iframe>
+			<iframe scrolling="" id="main" name="openInside" frameborder="0" src="" style="width:100%;height:100%;"></iframe>
 
 		</div>
 	
@@ -399,7 +399,7 @@
 					for (var i = 0; i < result.length; i++) {
 						$("#qryMidware").append(
 							"<li class='nav-item'>" +
-							"<a href='/classMain?midwareId=" + result[i].mid_id + "' target='zhu' class='nav-link avtive'>" +
+							"<a href='/classMain?midwareId=" + result[i].mid_id + "' target='openInside' class='nav-link avtive'>" +
 							"<i class='nav-icon far fa-circle text-info'></i>" +
 							"<p>" + result[i].mid_name +
 							"</p>" + "</a>" + "</li>"
@@ -419,7 +419,7 @@
 					for (var i = 0; i < result.length; i++) {
 						$("#qryMessage").append(
 							"<li class='nav-item'>" +
-							"<a href='/messageMain?mesType=" + result[i].mes_type + "' target='zhu' class='nav-link avtive'>" +
+							"<a href='/messageMain?mesType=" + result[i].mes_type + "' target='openInside' class='nav-link avtive'>" +
 							"<i class='nav-icon far fa-circle text-info'></i>" +
 							"<p>" + result[i].mes_type +
 							"</p>" + "</a>" + "</li>"
@@ -474,7 +474,7 @@
 					$("#item").text("生成成功！！！");
 					$("#loading").hide();
 					$("#success").show();
-					window.parent.zhu.location.href = "/downloadA";
+					window.parent.openInside.location.href = "/downloadA";
 
 				} else {
 					$("#item").text("生成失败！！！");
@@ -501,7 +501,7 @@
 					$("#item").text("生成成功！！！");
 					$("#loading").hide();
 					$("#success").show();
-					window.parent.zhu.location.href = "/downloadT";
+					window.parent.openInside.location.href = "/downloadT";
 				} else {
 					$("#item").text("生成失败！！！");
 					$("#loading").hide();
@@ -527,7 +527,7 @@
 					$("#item").text("生成成功！！！");
 					$("#loading").hide();
 					$("#success").show();
-					window.parent.zhu.location.href = "/downloadM";
+					window.parent.openInside.location.href = "/downloadM";
 				} else {
 					$("#item").text("生成失败！！！");
 					$("#loading").hide();
@@ -553,7 +553,7 @@
 					$("#item").text("生成成功！！！");
 					$("#loading").hide();
 					$("#success").show();
-					window.parent.zhu.location.href = "/downloadS";
+					window.parent.openInside.location.href = "/downloadS";
 				} else {
 					$("#item").text("生成失败！！！");
 					$("#loading").hide();

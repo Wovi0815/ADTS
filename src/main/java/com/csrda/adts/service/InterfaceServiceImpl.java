@@ -161,6 +161,13 @@ public class InterfaceServiceImpl implements InterfaceService{
 	}
 
 	@Override
+	public Map<String, Object> qryParaDetail(String paraNo, String paraId, String uniqueInterid) {
+		
+		return interfaceDao.qryParaDetail(paraNo, paraId, uniqueInterid);
+	}
+	
+	
+	@Override
 	public int UpdateParaData(String paraId, String paraName, String paraDesc, 
 			String paraType, String paraAttr,String paraNo, String id, String paraPhy, 
 			String paraMax, String paraMin, String paraDefault) {
@@ -248,6 +255,8 @@ public class InterfaceServiceImpl implements InterfaceService{
 			return "SUCCESS";
 		
 	}
+
+
 
 
 }

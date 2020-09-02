@@ -1,9 +1,11 @@
 package com.csrda.adts.service;
 
+import java.util.List;
+import java.util.Map;
 
 import com.csrda.adts.pojo.User;
 
-public interface LoginService {
+public interface IndexService {
 	
 
 	/**
@@ -22,4 +24,11 @@ public interface LoginService {
 	 * 退出登录
 	 */
 	String logout();
+
+	/**
+	 * 查询所有用户
+	 */
+	List<Map<String, Object>> qryAllUser();
+	
+	
 }

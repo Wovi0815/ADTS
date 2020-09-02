@@ -265,7 +265,16 @@ Logger logger= LoggerFactory.getLogger(this.getClass());
 			return result;
 		
 		}
-	  	
+	 
+	//查询参数详情
+		@RequestMapping("/QryParaDetail")		
+		@ResponseBody
+		Map<String, Object> qryParaDetail(String paraNo,String paraId,String uniqueInterid){
+			Map<String, Object>  result = interfaceService.qryParaDetail(paraNo, paraId, uniqueInterid);
+			return result;
+		}
+		
+		
 	//新增参数之前判断是否唯一
 		@RequestMapping("/QryParaIsExist")		
 		@ResponseBody

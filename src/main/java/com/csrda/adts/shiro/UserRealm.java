@@ -13,7 +13,8 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.csrda.adts.pojo.User;
-import com.csrda.adts.service.LoginService;
+import com.csrda.adts.service.IndexService;
+
 
  /** 
  * @ClassName: UserRealm 
@@ -23,7 +24,7 @@ import com.csrda.adts.service.LoginService;
  */
 public class UserRealm extends AuthorizingRealm{
 	@Autowired
-	LoginService loginService;
+	IndexService indexService;
 	
 	
 	//执行授权逻辑
@@ -64,7 +65,7 @@ public class UserRealm extends AuthorizingRealm{
 				//1.判断用户名
 				UsernamePasswordToken token = (UsernamePasswordToken) arg0;
 				String username = (String) token.getPrincipal();
-				User user=loginService.getUser(username);
+				User user=indexService.getUser(username);
 				if( user == null)
 				return null;//
 				

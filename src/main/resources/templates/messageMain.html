@@ -911,7 +911,7 @@ function deleteMesData(mesId){
 
 function toMesData(e){
 	var mesId=$(e).parent().parent().find("td").eq(0).text();
-	window.parent.zhu.location.href="/dataForMes?mesId="+mesId;
+	window.parent.openInside.location.href="/dataForMes?mesId="+mesId;
 }
 
 function getUser(){
@@ -921,8 +921,11 @@ function getUser(){
 		async:true,
 		success:function(result){
 			if(result=="sessionNull"){
-				toastr.warning('连接断开!');
-				window.parent.zhu.location.href="/tologin";	
+				toastr.options.onclick = function(){
+					window.parent.openInside.location.href="/tologin";	
+				}
+				toastr.options.timeOut=60000;
+				toastr.warning('连接断开!点击重新登录.');
 			}
 			var userName =result;
 		},

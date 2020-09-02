@@ -577,7 +577,7 @@ function goUp(e){
 		return;
 	}else{
 		var q =p-1;
-		console.log(q);
+		
 		var temp ;
 		temp = $("#paraAttr"+p).val();
 		$("#paraAttr"+p).val($("#paraAttr"+q).val());
@@ -1021,7 +1021,7 @@ function toPara(e){
 		},
 		success:function(result){
 			uniqueInterid=result.id;
-			window.parent.zhu.location.href="/paraForInter?uniqueInterid="+uniqueInterid;
+			window.parent.openInside.location.href="/paraForInter?uniqueInterid="+uniqueInterid;
 		},	
 		error:function(result){
 			toastr.warning('未知错误,请联系管理员!');
@@ -1037,8 +1037,11 @@ function getUser(){
 		async:true,
 		success:function(result){
 			if(result=="sessionNull"){
-				toastr.warning('连接断开!');
-				window.parent.zhu.location.href="/tologin";	
+				toastr.options.onclick = function(){
+					window.parent.openInside.location.href="/tologin";	
+				}
+				toastr.options.timeOut=60000;
+				toastr.warning('连接断开!点击重新登录.');
 			}
 			var userName =result;
 		},

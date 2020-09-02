@@ -50,42 +50,14 @@
 	</style>
 	</head>
 	<body>
-   <!-- 详情模态框 -->
-	<div class="modal fade" id="modal-detail">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title" id="modalTitle"></h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              	<!-- 模态框内容 -->
-			<div class="form-group" id="descArea">
-			
-			</div>
-			
-			<div class="form-group" id="dataArea">
-			
-			</div>
-			
-            </div>
-            
-          </div>
-        </div>
-      </div>
+  
 
       <!-- 新增页面模态框 -->
 	<div class="modal fade" id="modal-add">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
             <div class="modal-header">
-             <div class='form-group' > 
-				 	<div class='input-group-prepend' style="float:left;">
-				 		<span class='input-group-text' >报文分段数</span>
-				 	 <input class='form-control'oninput='value=value.replace(/[^\d]/g,"")' placeholder='请输入报文的分段数量' id='imesGroupCount'/>
-	            	</div>     	
+             <div class='form-group' > 	    	
 	             </div>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="false">&times;</span>
@@ -93,47 +65,27 @@
             </div>
             <div class="modal-body" >
               	<!-- 模态框内容 -->
-				<div id="addArea">
-				</div>
-				<div  id="addAreaX">
+				
+				<div  id="addArea">
 				<div class="form-group" >
-					 <label for="imesId">报文标识</label>
-					 <input class="form-control" placeholder="报文标识" id="imesId">
+					 <label for="iuserId">用户名</label>
+					 <input class="form-control" placeholder="用户名" id="iuserId">
 				</div>
 				<div class="form-group">
-					 <label for="imesName">报文名称</label>
-					 <input class="form-control" placeholder="报文名称" id="imesName">
+					 <label for="ipassword">密码</label>
+					 <input class="form-control" placeholder="密码" id="ipassword">
 				</div>
 				<div class="form-group">
-					 <label for="imesDesc">报文描述</label>
-					 <input class="form-control" placeholder="报文描述" id="imesDesc">
+					 <label for="iphone">手机号码</label>
+					 <input class="form-control" placeholder="手机号码" id="iphone">
 				</div>
+			
 				<div class="form-group">
-					 <label for="imesRemark">报文备注</label>
-					 <input class="form-control" placeholder="报文备注" id="imesRemark">
-				</div>
-				<div class="form-group">
-					 <label for="imesSource">信源</label>
-					 <select id="imesSource" multiple="multiple" >
+					 <label for="irole">角色</label>
+					 <select id="irole" multiple="multiple" >
 					 </select>
 				</div>
-				<div class="form-group">
-					 <label for="imesDestination">信宿</label>
-					 <select id="imesDestination" multiple="multiple" >
-					 </select>
-				</div>
-				<div class="form-group">
-					 <label for="imesID">报文ID</label>
-					 <input class="form-control" placeholder="报文ID" id="imesID" >
-				</div>
-				<div class="form-group">
-					 <label for="imesFunId">功能码</label>
-					 <input class="form-control" placeholder="功能码" id="imesFunId">
-				</div>
-				<div class="form-group">
-					 <label for="imesTyp">报文类型</label>
-					 <input class="form-control" placeholder="报文类型" id="imesTyp"  readonly='readonly'>
-				</div>
+			
 				</div>
             </div>
             
@@ -146,7 +98,7 @@
       </div>
 	
 	
-  <!-- 修改报文页面模态框 -->
+  <!-- 修改页面模态框 -->
 	<div class="modal fade" id="modal-edit">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
@@ -161,53 +113,23 @@
 			<div class="form-group" >
 				
 				<div class="form-group" >
-					 <label for="emesId">报文标识</label>
-					 <input class="form-control" placeholder="报文标识" id="emesId" readonly='readonly'>
+					 <label for="euserId">用户名</label>
+					 <input class="form-control" placeholder="用户名" id="euserId">
 				</div>
 				<div class="form-group">
-					 <label for="emesName">报文名称</label>
-					 <input class="form-control" placeholder="报文名称" id="emesName">
+					 <label for="ephone">手机号码</label>
+					 <input class="form-control" placeholder="手机号码" id="ephone">
 				</div>
 				<div class="form-group">
-					 <label for="emesDesc">报文描述</label>
-					 <input class="form-control" placeholder="报文描述" id="emesDesc">
-				</div>
-				<div class="form-group">
-					 <label for="emesSource">信源</label>
-					 <select id="emesSource" multiple="multiple" >
+					 <label for="erole">角色</label>
+					 <select id="erole" multiple="multiple" >
 					 </select>
 				</div>
-				<div class="form-group">
-					 <label for="emesDestination">信宿</label>
-					 <select id="emesDestination" multiple="multiple" >
-					 </select>
-				</div>
-				
-				<div class="form-group">
-					 <label for="emesFunNum">功能码</label>
-					 <input class="form-control" placeholder="功能码" id="emesFunNum" >
-				</div>
-				
-				<div class="form-group">
-					 <label for="emesIDNum">报文ID</label>
-					 <input class="form-control" placeholder="报文ID" id="emesIDNum" >
-				</div>
-				<div class="form-group">
-					 <label for="emesRemark">报文备注</label>
-					 <input class="form-control" placeholder="报文备注" id="emesRemark">
-				</div>
-				<div class="form-group">
-					 <label for="emesTyp">报文类型</label>
-					 <input class="form-control" placeholder="报文类型" id="emesTyp"  readonly='readonly'>
-				</div>
-				
-				
 				
             </div>
 
 			</div>
 			
-            
 			<div class="modal-footer justify-content-between" id="editModalBtnArea">
 			   <button id='closeEditModal' type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
 			   <button id='saveEditModal' type="button"  class="btn btn-primary"  onclick="editMesSave();">保存</button>
@@ -218,19 +140,50 @@
         </div>
       </div>
 	
+  <!-- 角色权限模态框 -->
+	<div class="modal fade" id="modal-role">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header" >
+              
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              	<!-- 模态框内容 -->
+			<div class="form-group" >
+				
+				<div class="form-group" >
+					
+				</div>
+				
+            </div>
 
+			</div>
+			
+			<div class="modal-footer justify-content-between" id="editModalBtnArea">
+			   <button id='closeEditModal' type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+			   <button id='saveEditModal' type="button"  class="btn btn-primary"  onclick="editMesSave();">保存</button>
+			</div>
+			
+			
+          </div>
+        </div>
+      </div>
 
 		<!-- 表格相关 -->
 		<div class="card-body">
-			<button id='addBtn' type='button' style='float: right; margin-left:2%;width: 8%;'
+			<button id='addBtn' type='button' style='margin-right:2% ;width: 10%;float: right;margin-top:0px;'
 				class='btn btn-block btn-outline-info btn-sm' data-toggle='modal'
-				data-target='#modal-add' onclick='addClick();'>新增报文
+				data-target='#modal-add' onclick='addClick();'>新增用户
 			</button>
-			<div style='float: right;'> 
-				<select id="selectDestination" multiple="multiple" >
-				</select>
-			</div>  
-			<div style='float: right;'> 
+
+			<button id='rolePerms' type='button' style='margin-right:2% ;width: 10%;float: right;margin-top:0px;'
+				class='btn btn-block btn-outline-info btn-sm' data-toggle='modal'
+				data-target='#modal-role' onclick=''>角色权限
+			</button>
+			<div style='float: right;margin-right:2% ;'> 
 				<select id="selectSource" multiple="multiple" >
 				</select>
 			</div>
@@ -238,9 +191,9 @@
 			<table id="example1" class="table table-bordered table-striped">
 				<thead>
 					<tr>
-						<th>用户名（以报文为模板进行页面修改，尚未完成）</th>
+						<th>用户名</th>
+						<th>手机号码</th>
 						<th>角色</th>
-						<th>权限</th>
 						<th>操作</th>
 					</tr>
 				</thead>
@@ -291,46 +244,30 @@
 	<!-- page script -->
 <script type="text/javascript">
 
-function GetRequest() {
-var url = location.search; //获取url中"?"符后的字串
-var theRequest = new Object();
- if (url.indexOf("?") != -1) {
-       var str = url.substr(1);
-       strs = str.split("&");
-       for (var i = 0; i < strs.length; i++) {
-           theRequest[strs[i].split("=")[0]] = decodeURIComponent(strs[i].split("=")[1]);
-       }
-   }
-   return theRequest;
-}
 
-//------全局变量-------
-var a=GetRequest();//菜单传值
-var mesType=a['mesType'];
-var mesId;
 
 //------全局变量-------
 
-function qryMessage(){//根据报文类型查所有报文
+
+//------全局变量-------
+
+function qryAllUser(){//根据报文类型查所有报文
 	$("#example1 tbody" ).empty();
 	$.ajax({
-		url:"/QryMessage",
+		url:"/QryAllUser",
 		type:"POST",
 		async:true,
-		data:{"mesType":mesType},
 		success:function(result){
 			var body="";
 			for(var i=0;i<result.length;i++){
 				body = "<tr>";
-				body    += "<td id='timesId'>" + result[i].mesId + "</td>";
-		        body    += "<td id='tmesName'>" + result[i].mesName + "</td>";
-		        body    += "<td id='tmesSource'>" + result[i].mesSource + "</td>";  
-		        body    += "<td id='tmesDestination'>" + result[i].mesDestination + "</td>";
+				body    += "<td id='tuserId'>" + result[i].username + "</td>";
+				body    += "<td id='tphone'>" + result[i].phone + "</td>";
+				body    += "<td id='tuserRole'>" + result[i].role_name + "</td>";
 		        body    += "<td>"+
-		        "<button id='detailBtn' type='button' style='margin-left: 4%;width: 20%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-success btn-sm' data-toggle='modal' data-target='#modal-detail'onclick='showDetail(this)'>报文详情</button> "+
-		        "<button id='editBtn' type='button' style='margin-left: 4%;width: 20%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-edit'onclick='editMesClick(this);'>修改</button> "+
-		        "<button id='deleteBtn' type='button' style='margin-left: 4%; width: 20%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
-		        "<button id='dataBtn' type='button' style='margin-left: 4%;width: 20%;float: left; margin-top: 0px;'class='btn btn-block btn-outline-warning btn-sm' onclick='toMesData(this);'>报文数据</button> "+
+		        "<button id='rePwdBtn' type='button' style='margin-left: 2%;width: 30%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-success btn-sm' onclick=' '>重置密码</button> "+
+		        "<button id='editIBtn' type='button' style='margin-left: 3%;width: 30%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-primary btn-sm' data-toggle='modal' data-target='#modal-default'onclick=''>修改</button> "+
+		        "<button id='deleteBtn' type='button' style='margin-left: 3%;width: 30%;float: left;margin-top: 0px;'class='btn btn-block btn-outline-danger btn-sm'   onclick='deleteClick(this);'>删除</button> "+
 		        "</td>";
 		        body    += "</tr>";
 			    $("#example1 tbody" ).append(body); 
@@ -354,41 +291,31 @@ function qryMessage(){//根据报文类型查所有报文
 
 }
 
-//查询硬件模块，构建下拉框
-function qryModSelect(){
+
+//查询角色，构建下拉框
+function qryRoleSelect(){
 	$.ajax({
-		url:"/QryModSelect",
+		url:"/QryRole",
 		type:"POST",
 		async:true,
 		success:function(result){
 			var obody="";
 			for(var i=0;i<result.length;i++){
-				obody +=  "<option value='"+result[i].mod_name+"'>"+result[i].mod_name +"</option>";
+				obody +=  "<option value='"+result[i].role_name+"'>"+result[i].role_name +"</option>";
 			}	
-			$("#selectSource").append(obody);
-			$("#selectSource").multiselect("destroy").multiselect({  
-		    	nonSelectedText:"筛选条件/信源",
+			$("#selectRole").append(obody);
+			$("#selectRole").multiselect("destroy").multiselect({  
+		    	nonSelectedText:"筛选条件/角色",
 				buttonWidth: "200px",
 				numberDisplayed:4,
 				onDropdownHidden: function(event) {
-					var source=$("#selectSource ").val();
-					var destination=$("#selectDestination ").val();
-					refreshDataBySelect(source,destination);
+					var role=$("#selectRole ").val();
+					refreshDataBySelect(role);
 					
 	            }
 	          }); 
 			
-			$("#selectDestination").append(obody);
-		    $("#selectDestination").multiselect("destroy").multiselect({  
-		    	nonSelectedText:"筛选条件/信宿",
-				buttonWidth: "200px",
-				numberDisplayed:4,
-				onDropdownHidden: function(event) {
-					var source=$("#selectSource").val();
-					var destination=$("#selectDestination").val();
-					refreshDataBySelect(source,destination);
-	            }
-	          }); 
+	 
 		    $('.dropdown-toggle').dropdown();
 		},
 		error:function(result){
@@ -398,14 +325,13 @@ function qryModSelect(){
 }
 
 //根据下拉框更新当前页面内容
-function refreshDataBySelect(source,destination){
+function refreshDataBySelect(role){
 	$.ajax({
-		url:"/QryMesBySelect",
+		url:"/QryUserBySelect",
 		type:"POST",
 		async:true,
-		data:{"mesType":mesType,
-			"source":source.toString(),
-			"destination":destination.toString()},
+		data:{
+			"role":role.toString()},
 		success:function(result){
 			var oldTable = $('#example1').dataTable();
 		    oldTable.fnClearTable(); 
@@ -444,43 +370,16 @@ function refreshDataBySelect(source,destination){
 	});
 	
 }
-//新增报文
+//新增用户
 function  addClick(){
 	qryModToAModal();
-	var imesGroupCount;
-	$("#imesGroupCount").val("");
-	$("#addArea").empty();
-	$("#addAreaX input").each(function() {
+	$("#addArea input").each(function() {
 		$(this).val("");
 	})
-	$("#imesTyp").val("");
-	$("#imesTyp").val(mesType);
 	
-	
-	$("#imesGroupCount").change(function(){	
-		imesGroupCount=$("#imesGroupCount").val();
-		$("#addArea").empty();
-			for(var i=1;i<=imesGroupCount;i++){
-				var ibody=" ";
-				ibody += "<div class='input-group' >";
-				ibody += "<input class='form-control' oninput='onlyPositiveNum(this);' placeholder='起始字节'id='mesDataStart"+i+"' >";
-				ibody += "<input class='form-control'oninput='onlyPositiveNum(this);' placeholder='字节长度'id='mesDataLength"+i+"'>";
-				ibody += "<input class='form-control' style='margin-left:2%;' placeholder='数据名称'id='mesDataName"+i+"'>";
-				ibody += "<input class='form-control' placeholder='数据描述'id='mesDataDesc"+i+"'>";
-				ibody += "<input class='form-control' placeholder='数据类型'id='mesDataTyp"+i+"'>";
-				ibody += "</div>";
-				$("#addArea").append(ibody);		
-			}
-			$("#mesDataStart1").val("1");
-	})
-	
-
 }
-function onlyPositiveNum(e){
-	$(e).val($(e).val().replace(/[^\d]/g,""));
 
-}
-//新增报文系列操作
+//新增保存
 function addSave(){
 	//报文信息
 	var imesId = $("#imesId").val();
@@ -496,43 +395,7 @@ function addSave(){
 		toastr.info('报文必填项未填写充分!');
 		return;
 	}
-    var imesGroupCount = $("#imesGroupCount").val();
-	if(imesGroupCount != "" ){
-			var mesMap = new Array();
-			mesMap.push({
-				imesId :imesId,
-				imesName :imesName,
-				imesDesc :imesDesc,
-				imesRemark :imesRemark,
-				imesSource :imesSource,
-				imesDestination :imesDestination,
-				imesID :imesID,
-				imesFunId :imesFunId,
-				imesTyp :imesTyp});
-			var mesDataMap = new Array();
-			for(var i=1;i<=imesGroupCount;i++){
-				var start =$("#mesDataStart"+i).val();
-				var length = $("#mesDataLength"+i).val();
-				var dataName = $("#mesDataName"+i).val();
-				var dataDesc = $("#mesDataDesc"+i).val();
-				var dataType = $("#mesDataTyp"+i).val();
-				if(start==""||length==""||dataName==""||dataDesc==""||dataType==""){
-					toastr.info('报文数据必填项未填写充分!');
-					 	return;
-				}
-				var end = (start-0) + (length-0) - 1 ;
-				if(end==start){
-					var dataRange = start;
-				}else if(end > start){
-					var dataRange = start+"~"+end;
-				}
-				mesDataMap.push({
-					dataRange :dataRange,
-					dataLong :length,
-					dataName :dataName,
-					dataDesc :dataDesc,
-					dataType :dataType});	
-		}	
+   
 		//新增
 					 $.ajax({
 							url:"/InsertMes",
@@ -562,112 +425,11 @@ function addSave(){
 								toastr.warning('未知错误,请联系管理员!');
 							}
 						});	
-			
-	}else{
-		toastr.info('请输入报文分段数量!');
-	}
-			
+		
 }
-//点击报文详情
-function showDetail(e){
-	$("#descArea").empty();
-	 mesId=$(e).parent().parent().find("td").eq(0).text();		
-	 $.ajax({
-			url:"/QryMesDetail",
-			type:"POST",
-			async:true,
-			data:{
-				"mesId":mesId,
-				"mesTyp":mesType
-			},
-			success:function(result){
-				var mesDesc = result.mes_desc;
-				var mesIDNum = result.mes_id_num;
-				var mesFunId =result.mes_fun_id;
-				var mesRemark = result.mes_remark;
-				var ibody="";
-			   	ibody +="<div class='input-group'>";
-				ibody += 	"<div class='input-group-prepend'>";
-				ibody +=		 "<span class='input-group-text' >报文描述</span>";
-				ibody +=	 "</div>" ;
-				ibody +=	 "<input type='text'   class='form-control' value='"+mesDesc+"'readonly='readonly'/>";
-				ibody +="</div>";
-				ibody +="<div class='input-group'>";
-				ibody += 	"<div class='input-group-prepend'>";
-				ibody +=		 "<span class='input-group-text' >报文ID</span>";
-				ibody +=	 "</div>" ;
-				ibody +=	 "<input type='text'   class='form-control' value='"+mesIDNum+"'readonly='readonly'/>";
-				ibody +="</div>";
-				ibody +="<div class='input-group'>";
-				ibody += 	"<div class='input-group-prepend'>";
-				ibody +=	 	"<span class='input-group-text' >功能码 </span>";
-				ibody +=   "</div>";
-				ibody += 	"<input type='text'    class='form-control' value='"+mesFunId+"'readonly='readonly'/>";
-				ibody +="<div class='input-group'>";
-				ibody += 	"<div class='input-group-prepend'>";
-				ibody +=	 	"<span class='input-group-text' >报文备注</span>";
-				ibody +=   "</div>";
-				ibody += 	"<input type='text'    class='form-control' value='"+mesRemark+"'readonly='readonly'/>";
-				ibody +="</div>";
-				
-				$("#descArea").append(ibody);
-				//查报文的数据详情
-				qryMesDataDetail(mesId);
-				
-			},	
-			error:function(result){
-				toastr.warning('未知错误,请联系管理员!');
-			}
-		});	
+
 	
-}
-// 报文的数据详情
-function  qryMesDataDetail(mesId){
-	$("#dataArea").empty();	 
-	$.ajax({
-				url:"/QryMesDataDetail",
-				type:"POST",
-				async:true,
-				data:{
-					"mesId":mesId
-				},
-				success:function(result){
-				for(var i=0;i<result.length;i++){
-					var mesDRange = result[i].mes_data_range;
-					var mesDName = result[i].mes_data_name;
-					var mesDDesc = result[i].mes_data_desc;
-					var mesDTyp = result[i].mes_data_type;
-					var body="";
-					   	body +="<div class='input-group'>";
-						body += "<div class='input-group-prepend'>";
-						body +="<span class='input-group-text'>字节序号</span>";
-						body +=	"<span class='input-group-text'style='width:90px;' >"+mesDRange+"</span>";
-						body +=	"</div>" ;
-						body +=	"<div class='input-group-prepend'>";
-						body +="<span class='input-group-text'style='margin-left:5px;'>名称</span>";
-						body +=	"<span class='input-group-text'  style='width:120px'>"+mesDName+"</span>";
-						body +=	 "</div>";
-						body +=	 "<div class='input-group-prepend'>";
-						body +="<span class='input-group-text'style='margin-left:5px;'>类型</span>";
-						body +=	 	"<span class='input-group-text' style='width:85px;'>"+mesDTyp+"</span>";
-						body +=	 "</div>" ;
-						body +=    "<div class='input-group-prepend'>";
-						body +=        "<span class='input-group-text'style='margin-left:5px;'>描述</span>";
-						body +=    "</div>" ;
-						body +=	"<input type='text'  readonly='readonly'  class='form-control' value='"+mesDDesc+"'/>";
-						body +="</div>";
-						$("#dataArea").append(body);
-						
-				 }
-				},	
-				error:function(result){
-					toastr.warning('未知错误,请联系管理员!');
-				}
-			});	
-	 }
-	
-	
-//编辑报文
+//编辑用户
 function editMesClick(e){
 	
 	 mesId=$(e).parent().parent().find("td").eq(0).text();
@@ -688,10 +450,10 @@ function editMesClick(e){
 				$("#emesIDNum").val(result.mes_id_num);	
 				$("#emesRemark").val(result.mes_remark);		 
 				$("#emesTyp").val(mesType);		
-				var mesSource = result.mes_source;
-				var mesDestination = result.mes_destination;
+				var role = result.mes_source;
+				
 				//模态框信源信宿下拉框
-				qryModToEModal(mesSource,mesDestination);
+				qryModToEModal(role);
 			},	
 			error:function(result){
 				toastr.warning('未知错误,请联系管理员!');
@@ -700,10 +462,10 @@ function editMesClick(e){
 	 
 }
 
-//查询 模组 用于新增的模态框 
+//查询角色用于新增的模态框 
 function qryModToAModal(){
 	$("#imesSource").empty();
-	$("#imesDestination").empty();
+	
 	$.ajax({
 		url:"/QryModSelect",
 		type:"POST",
@@ -717,12 +479,7 @@ function qryModToAModal(){
 					$("#imesSource").append(sbody);
 					
 				}	
-				for(var i=0;i<result.length;i++){
-					dbody ="";
-					dbody +=  "<option id ='doption"+i+"' value='"+ result[i].mod_name+"'>"+result[i].mod_name +"</option>";
-					$("#imesDestination").append(dbody);
 				
-				}	
 			
 			$("#imesSource").multiselect("destroy").multiselect({  
 				buttonWidth: "200px",
@@ -730,10 +487,7 @@ function qryModToAModal(){
 	          }); 
 			
 			
-		    $("#imesDestination").multiselect("destroy").multiselect({  
-				buttonWidth: "200px",
-				numberDisplayed:4
-	          }); 
+		   
 		    $('.dropdown-toggle').dropdown();
 		},
 		error:function(result){
@@ -776,16 +530,7 @@ function qryModToEModal(mesSource,mesDestination){
 							}
 						}
 					}	
-					for(var i=0;i<result.length;i++){
-						dbody ="";
-						dbody +=  "<option id ='doption"+i+"' value='"+ result[i].mod_name+"'>"+result[i].mod_name +"</option>";
-						$("#emesDestination").append(dbody);
-						for(var j=0;j<d.length;j++){
-								if(d[j] == result[i].mod_name){
-								$("#doption"+i).attr("selected","selected");
-							}
-						}
-					}	
+					
 				
 				$("#emesSource").multiselect("destroy").multiselect({  
 					buttonWidth: "200px",
@@ -793,10 +538,7 @@ function qryModToEModal(mesSource,mesDestination){
 		          }); 
 				
 				
-			    $("#emesDestination").multiselect("destroy").multiselect({  
-					buttonWidth: "200px",
-					numberDisplayed:4
-		          }); 
+			   
 			    $('.dropdown-toggle').dropdown();
 			},
 			error:function(result){
@@ -886,32 +628,8 @@ function deleteClick(e){
 
 }
 
-function deleteMesData(mesId){
-	$.ajax({
-		url:"/DeleteMesData",
-		type:"POST",
-		async:true,
-		data:{
-			"mesId":mesId
-		},
-		success:function(result){
-			var oldTable = $('#example1').dataTable();
-		    oldTable.fnClearTable(); 
-		    oldTable.fnDestroy();
-		    qryMessage();
-			
-		},	
-		error:function(result){
-			toastr.warning('未知错误,请联系管理员!');
-		}
-	});	
 
-}
 
-function toMesData(e){
-	var mesId=$(e).parent().parent().find("td").eq(0).text();
-	window.parent.zhu.location.href="/dataForMes?mesId="+mesId;
-}
 
 function getUser(){
 	$.ajax({
@@ -920,8 +638,11 @@ function getUser(){
 		async:true,
 		success:function(result){
 			if(result=="sessionNull"){
-				toastr.warning('连接断开!');
-				window.parent.zhu.location.href="/tologin";	
+				toastr.options.onclick = function(){
+					window.parent.openInside.location.href="/tologin";	
+				}
+				toastr.options.timeOut=60000;
+				toastr.warning('连接断开!点击重新登录.');
 			}
 			var userName =result;
 		},
@@ -966,23 +687,18 @@ function getUser(){
 
 		
 		$('#selectSource').multiselect({
-			nonSelectedText:"筛选条件/信源",
+			nonSelectedText:"筛选条件/角色",
 			buttonWidth: "200px",
 			numberDisplayed:4,	
 			
 	}); 
-		$('#selectDestination').multiselect({
-			nonSelectedText:"筛选条件/信宿",
-			buttonWidth: "200px",
-			numberDisplayed:4,
-			
-		}); 
+		
 		 $('.dropdown-toggle').dropdown();
 		 
 		 
 		 
-		 qryMessage();
-		 qryModSelect();
+		 qryAllUser();
+		
 		 getUser();
 	})
 </script>

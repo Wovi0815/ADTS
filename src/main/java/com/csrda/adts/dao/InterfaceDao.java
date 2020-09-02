@@ -164,7 +164,11 @@ public interface InterfaceDao {
 			"WHERE a.para_eq=#{paraNo} OR a.para_id=#{paraId} ")
 	List<Map<String,Object>>  qryParaIsExist(String paraNo,String paraId,String uniqueInterid);
 	
-	
+	@Select("SELECT * FROM( " + 
+			"SELECT * FROM t_parameter p " + 
+			"WHERE p.para_interface=#{uniqueInterid} AND p.is_delete='0' ) a " + 
+			"WHERE a.para_eq=#{paraNo} OR a.para_id=#{paraId} ")
+	Map<String,Object>  qryParaDetail(String paraNo,String paraId,String uniqueInterid);
 	
 
 	

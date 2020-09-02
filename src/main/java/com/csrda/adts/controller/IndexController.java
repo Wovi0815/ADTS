@@ -1,5 +1,8 @@
 package com.csrda.adts.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
@@ -14,11 +17,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.csrda.adts.service.IndexService;
+
+
+
 
 @Controller
 
 public class IndexController {
-	
+	@Autowired
+	private IndexService indexService;
 	Session session;
 	
 	
@@ -94,6 +102,20 @@ public class IndexController {
 		return "login"; 
 	}
 	
+	
+	//跳转到人员管理
+	@RequestMapping("/userManager")
+	public String userManager(){
+		return "userManager";
+	}
+		
+	//查询所有用户
+	@RequestMapping("/QryAllUser")
+	@ResponseBody
+	public List<Map<String,Object>> QryAllUser() {
+		List<Map<String, Object>> result = indexService.qryAllUser();
+		return result;
+	}	
 	
 
 }

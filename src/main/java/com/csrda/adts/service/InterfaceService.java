@@ -133,7 +133,7 @@ public interface InterfaceService {
 	 * 删除接口所有参数
 	 */
 	int deleteInterfacePara(String id);
-	
+	   
 	/**
 	 * 修改接口
 	 */
@@ -145,6 +145,12 @@ public interface InterfaceService {
 	 * 编辑参数之前根据所属接口和参数次序进行回填
 	 */
 	Map<String,Object> qryParaFillback(String uniqueInterid,String paraNo);
+
+	/**
+	 * 查询参数详情
+	 */
+	
+	Map<String, Object> qryParaDetail(String paraNo, String paraId, String uniqueInterid);
 	
 	
 	
@@ -170,5 +176,7 @@ public interface InterfaceService {
 	 */
 	
 	String addInterfaceAndPara(String interfaceMap,String paraListMap) ;
+
+	
 	
 }

@@ -5,21 +5,19 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.shiro.SecurityUtils;
-
-import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.csrda.adts.dao.LoginDao;
+import com.csrda.adts.dao.IndexDao;
 import com.csrda.adts.pojo.User;
 
 
 @Service
-public class LoginServiceImpl implements LoginService {
+public class IndexServiceImpl implements IndexService {
 
 	@Autowired
-	private LoginDao loginDao;
+	private IndexDao indexDao;
 	//@Autowired
 	//private PermissionService permissionService;
 
@@ -30,7 +28,7 @@ public class LoginServiceImpl implements LoginService {
 	 */
 	@Override
 	public  User getUser(String username) {
-		return loginDao.getUser(username);
+		return indexDao.getUser(username);
 	}
 
 	/**
@@ -58,6 +56,15 @@ public class LoginServiceImpl implements LoginService {
 		} catch (Exception e) {
 		}
 		return "success";
+	}
+
+	/**
+	 * 查询所有用户
+	 */
+	@Override
+	public List<Map<String, Object>> qryAllUser() {
+		
+		return indexDao.qryAllUser();
 	}
 
 	
