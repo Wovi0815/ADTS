@@ -19,7 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 @Controller
-public class otherDataController {
+public class OtherDataController {
 
 
 	@Autowired

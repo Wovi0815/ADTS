@@ -186,12 +186,6 @@
         </table>
     </div>
 
-
-    <div id="m-toast-pop" class="m-toast-pop">
-        <div class="m-toast-inner">
-            <div class="m-toast-inner-text" id="m-toast-inner-text">复制成功</div>
-        </div>
-    </div>
 </body>
 
 <script th:src="@{/plugins/jquery/jquery.js}"></script>
@@ -319,7 +313,10 @@ function editClick(e) {
             $("#typDesc").val(result.typDesc);
             $("#typName").val(result.typName);
             $("#typSize").val(result.typSize);
-        }
+        },
+		error:function(result){
+			toastr.warning('未知错误,请联系管理员!');
+		}
     });
 }
 
@@ -394,18 +391,13 @@ function save() {
     function deleteClick(e) {
         var typId = $(e).parent().parent().children().eq(0).text();
         $.ajax({
-            url: "/DelDataType",
+            url: "/DeleteDataType",
             data: {
                 "typId": typId
             },
             type: "POST",
             async: true,
             success: function(result) {
-                $('#m-toast-inner-text').text('删除成功');
-                $('#m-toast-pop').fadeIn();
-                setTimeout(function() {
-                    $('#m-toast-pop').fadeOut();
-                }, 200);
                 var oldTable = $('#example1').dataTable();
 	   		    oldTable.fnClearTable(); 
 	   		 	oldTable.fnDestroy();
@@ -580,7 +572,10 @@ function editStructClick(e){
             $("#structDesc").val(result.typDesc);
             $("#structName").val(result.typName);
             $("#structSize").val(result.typSize);
-        }
+        },
+		error:function(result){
+			toastr.warning('未知错误,请联系管理员!');
+		}
     });
   
    
@@ -644,21 +639,14 @@ function structSave(){
                  } else if (result == "structMemberRepeat") {
                 	 toastr.error('结构体成员已存在!重复!');
                  } else if (result == "success") {
-                     
                 	 $("#modal-add-struct").modal('hide');
                      var oldTable = $('#example1').dataTable();
  		   		    oldTable.fnClearTable(); 
  		   		 	oldTable.fnDestroy();
                  	qryDataType();
-                     $('#m-toast-inner-text').text('保存成功');
-                     $('#m-toast-pop').fadeIn();
-                     setTimeout(function() {
-                         $('#m-toast-pop').fadeOut();
-                     }, 200);
-                	 
                 	 
                  } else if (result == "fault") {
-                	 toastr.warning('未知错误,请联系管理员!');
+                	 toastr.warning('结构体新增失败!');
                  }
              },
              error: function () {
@@ -684,11 +672,7 @@ function structSave(){
 		   		    oldTable.fnClearTable(); 
 		   		 	oldTable.fnDestroy();
              	qryDataType();
-                 $('#m-toast-inner-text').text('保存成功');
-                 $('#m-toast-pop').fadeIn();
-                 setTimeout(function() {
-                     $('#m-toast-pop').fadeOut();
-                 }, 200);
+                 
              },
              error: function() {
              	toastr.warning('未知错误,请联系管理员!');
@@ -728,11 +712,7 @@ function  delStructMember(structId){
 	        type: "POST",
 	        async: true,
 	        success: function(result) {
-	        	$('#m-toast-inner-text').text('删除成功');
-	        	$('#m-toast-pop').fadeIn();
-	        	setTimeout(function() {
-	        	    $('#m-toast-pop').fadeOut();
-	        	}, 200);
+	        	
 	        	var oldTable = $('#example1').dataTable();
 	        	   oldTable.fnClearTable(); 
 	        	oldTable.fnDestroy();

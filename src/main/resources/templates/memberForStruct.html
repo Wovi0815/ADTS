@@ -503,7 +503,9 @@ function UpdateData(memMap){
 	  		    oldTable.fnDestroy();
 	  		 	QryStructMember();
 	  			
-			}
+			}else{
+				toastr.error('成员参数修改失败!');
+			} 
 	
 		},
 		error:function(result){
@@ -532,7 +534,7 @@ function deleteClick(e){
 	  			QryStructMember();
 	  			
 			}else{
-				toastr.error('成员删除失败!');
+				toastr.error('成员参数删除失败!');
 			}
 		},	
 		error:function(result){

@@ -107,13 +107,16 @@ public interface MessageDao {
 	 		   "(mes_source like '%${sourceMap.source}%' "+
 	 		   "</foreach>"+
 	 		   "</if>"+
-	 		  "<if test='destinationList.size > 1'>"+
+	 		  "<if test ='destinationList.size > 1'>"+
 	 		  "<foreach collection='destinationList' item='destinationMap' index='index' separator='OR'>"+
 	 		  "<if test='index == 0'>"+
 	 		  ")AND (mes_destination like '%${destinationMap.destination}%'" +
 	 		  "</if>"+
-	 		  "<if test='index != 0'>"+
-	 		  "mes_destination like '%${destinationMap.destination}%') "+
+	 		  "<if test='index != 0 and index != destinationList.size -1' >"+
+	 		  "mes_destination like '%${destinationMap.destination}%'  "+
+	 		  "</if>"+
+	 		  "<if test='index == destinationList.size -1 '>"+
+	 		  "mes_destination like '%${destinationMap.destination}%' )"+
 	 		  "</if>"+
 	 		  "</foreach>"+
 	 		  "</if>"+

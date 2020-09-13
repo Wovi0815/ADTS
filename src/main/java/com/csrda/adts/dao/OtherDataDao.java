@@ -19,7 +19,7 @@ public interface OtherDataDao {
 			+ "WHERE is_delete = '0' ;")
 	public List<Map<String, Object>> qryDataType();
 
-	@Insert("INSERT INTO `t_data_type` ( `typ_id`, `typ_name`, `typ_size`, `typ_attr`, `typ_desc`, `stru_para_count`,`modify_user` )\r\n" + 
+	@Insert("INSERT INTO t_data_type ( `typ_id`, `typ_name`, `typ_size`, `typ_attr`, `typ_desc`, `stru_para_count`,`modify_user` )\r\n" + 
 			"VALUES\r\n" + 
 			"	(#{typId}, #{typName}, #{typSize}, #{typAttr}, #{typDesc},#{structMemCount}, 'admin');")
 	public int insertDataType(Map<String,String> typeData);
@@ -56,16 +56,16 @@ public interface OtherDataDao {
 	@Select("SELECT\r\n" + 
 			"	count( * ) as num\r\n" + 
 			"FROM\r\n" + 
-			"	( SELECT * FROM `t_data_type` WHERE typ_id = #{typId} ) a")
+			"	( SELECT * FROM t_data_type WHERE typ_id = #{typId} ) a")
 	public List<Map<String, Object>> qryTypeRepeat(String typId);
 	
 	@Select("SELECT\r\n" + 
 			"	count( * ) AS num \r\n" + 
 			"FROM\r\n" + 
-			"	( SELECT * FROM `t_struct_member` WHERE mem_struct = #{struct} AND mem_id = #{memId} ) a")
+			"	( SELECT * FROM t_struct_member WHERE mem_struct = #{struct} AND mem_id = #{memId} ) a")
 	public List<Map<String, Object>> qryStructMemRep(String struct,String memId);
 	
-	@Insert("INSERT INTO `t_struct_member` ( `mem_id`, `mem_name`, `mem_type`, `mem_struct`, `mem_no`, `mem_desc`, `mem_phy_dim`, `mem_max`, `mem_min`, `mem_default`, `modify_user` )\r\n" + 
+	@Insert("INSERT INTO t_struct_member ( `mem_id`, `mem_name`, `mem_type`, `mem_struct`, `mem_no`, `mem_desc`, `mem_phy_dim`, `mem_max`, `mem_min`, `mem_default`, `modify_user` )\r\n" + 
 			"VALUES\r\n" + 
 			"	(\r\n" + 
 			"		#{memId},\r\n" + 
@@ -83,7 +83,7 @@ public interface OtherDataDao {
 	public int addStructMem(Map<String, Object> memData);
 	
 
-	@Update("UPDATE `t_struct_member` SET  `mem_name` = #{memName} , `mem_type` = #{memType}, "
+	@Update("UPDATE t_struct_member SET  `mem_name` = #{memName} , `mem_type` = #{memType}, "
 			+ "`mem_no` = #{memNo}, `mem_desc` = #{memDesc}, `mem_phy_dim` = #{memPhyDim}, "
 			+ "`mem_max` = #{memMax}, `mem_min` = #{memMin}, `mem_default` = #{memDefault}  " + 
 			"WHERE `mem_struct` =  #{memStruct} AND `mem_id` = #{memId} ")
@@ -234,7 +234,7 @@ public interface OtherDataDao {
 	 /**
 	  * 新增设备
 	  */
-	 @Insert("INSERT INTO `t_module` ( `mod_id`, `mod_name`, `mod_desc`, `mod_pid`, `mod_vid`, `mod_nod`,`mod_rank`,`modify_user` )\r\n" + 
+	 @Insert("INSERT INTO t_module ( `mod_id`, `mod_name`, `mod_desc`, `mod_pid`, `mod_vid`, `mod_nod`,`mod_rank`,`modify_user` )\r\n" + 
 				"VALUES\r\n" + 
 				"	(#{modId}, #{modName}, #{modDesc}, #{modPid}, #{modVid},#{modNod},#{modRank}, 'admin');")
 	public int InsertModule(Map<String, Object> data);

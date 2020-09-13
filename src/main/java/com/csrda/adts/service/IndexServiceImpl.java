@@ -58,14 +58,6 @@ public class IndexServiceImpl implements IndexService {
 		return "success";
 	}
 
-	/**
-	 * 查询所有用户
-	 */
-	@Override
-	public List<Map<String, Object>> qryAllUser() {
-		
-		return indexDao.qryAllUser();
-	}
-
+	
 	
 }

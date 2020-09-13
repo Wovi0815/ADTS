@@ -102,21 +102,7 @@ public class IndexController {
 		return "login"; 
 	}
 	
-	
-	//跳转到人员管理
-	@RequestMapping("/userManager")
-	public String userManager(){
-		return "userManager";
-	}
-		
-	//查询所有用户
-	@RequestMapping("/QryAllUser")
-	@ResponseBody
-	public List<Map<String,Object>> QryAllUser() {
-		List<Map<String, Object>> result = indexService.qryAllUser();
-		return result;
-	}	
-	
+
 
 }
 		
