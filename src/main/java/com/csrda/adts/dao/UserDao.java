@@ -48,7 +48,7 @@ public interface UserDao {
 			"SELECT  t.username,t.phone,ur.role_id  " + 
 			"FROM t_user t  " + 
 			"LEFT JOIN t_user_role ur  ON t.username = ur.username " + 	
-	 	    "WHERE is_delete ='0' AND "+
+	 	    "WHERE t.is_delete ='0' AND "+
 	 	   "<if test='roleList.size > 1'>"+
 	 	   "<foreach collection='roleList' item='roleMap' index='index' separator='OR'>"+
 	 	   "ur.role_id like '%${roleMap.role_id}%' "+

@@ -22,8 +22,10 @@
 		<link rel="stylesheet" th:href="@{/plugins/bootstrap-multiselect/css/bootstrap-multiselect.css}" >
 		<!-- toastr -->
 		<link rel="stylesheet" th:href="@{/plugins/toastr/toastr.min.css}">
+		
+		
 	<style>
-	
+		
 		input::-webkit-input-placeholder {
 			/* WebKit browsers */
 			font-size: 10px;
@@ -47,9 +49,24 @@
 	.multiselect-container{ /*下拉框的样式*/
            width:200px;
        }
+    .nav-pills>li>a {
+    position: relative;
+    display: block;
+    padding: 5px 8px;
+    border-radius: 4px;
+}
+	.nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover {
+    color: #fff;
+    background-color: #337ab7;
+    
+	}
+	
 	</style>
 	</head>
 	<body>
+	
+	
+	
       <!-- 新增页面模态框 -->
 	<div class="modal fade" id="modal-add">
         <div class="modal-dialog modal-lg">
@@ -133,15 +150,48 @@
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
             <div class="modal-header" >
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <ul class="nav nav-pills" id="pillTab">
+				<li role="presentation" class="active"id="coderTab" ><a id='coder' onclick='tabClick(this);'>开发者</a></li>
+				<li role="presentation"id="testerTab"><a id='tester'onclick='tabClick(this);'>测试者</a></li>
+				<li role="presentation"id="adminTab"><a id='administrator'onclick='tabClick(this);'>管理员</a></li>
+			</ul>
+            
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body">
               	<!-- 模态框内容 -->
-					
-			</div>
-			<div class="modal-footer justify-content-between" id="editModalBtnArea">
+					<div class="form-check form-check-inline">
+						<label class="form-check-label"> <input type="checkbox"
+							class="form-check-input" value="">数据增加
+						</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<label class="form-check-label"> <input type="checkbox"
+							class="form-check-input" value="">数据修改
+						</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<label class="form-check-label"> <input type="checkbox"
+							class="form-check-input" value="">数据删除
+						</label>
+					</div>
+					<div class="form-check form-check-inline disabled">
+						<label class="form-check-label"> <input type="checkbox"
+							class="form-check-input" value="" onclick="return false;" checked="checked">数据查阅
+						</label>
+					</div>
+					<div class="form-check form-check-inline">
+						<label class="form-check-label"> <input type="checkbox"
+							class="form-check-input" value="">文档输出
+						</label>
+					</div>
+
+
+
+				</div>
+			<div class="modal-footer justify-content-between" >
 			   <button id='closeEditModal' type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
 			   <button id='saveEditModal' type="button"  class="btn btn-primary"  onclick="roleSave();">保存</button>
 			</div>
@@ -178,8 +228,6 @@
 				</tbody>
 			</table>
 		</div>
-
-	
 	<script th:src="@{/plugins/jquery/jquery.js}" ></script>
 	<script type="module"th:src="@{/plugins/bootstrap/js/bootstrap.min.js}"></script>
 	<script type="module"th:src="@{/plugins/popper/esm/popper.js}"></script>
@@ -545,12 +593,26 @@ function rePassword(e){
 		error:function(result){
 			toastr.warning('未知错误,请联系管理员!');
 		}
-	});	
+	});		
+}
+function tabClick(e){
+	 $("#pillTab li").removeClass("active");
+	 var role=$(e).attr("id");
+	 if(role=="coder"){
+		 $("#coderTab").addClass("active");
+	 }else if(role=="tester"){
+		 $("#testerTab").addClass("active");
+	 }else if(role=="administrator"){
+		 $("#adminTab").addClass("active");
+	 }
+	
+	
 	
 	
 	
 	
 }
+
 function getUser(){
 	$.ajax({
 		url:"/getUser",
