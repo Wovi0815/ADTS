@@ -148,10 +148,12 @@ public interface MessageDao {
 	  */
 
 	 @Select("SELECT " + 
+			 	" SUBSTRING_INDEX(mes_data_range, '~', 1) ,"+
 		 		"id, mes_id ,mes_data_range, mes_data_long,mes_data_name ,"+ 
 		 		"mes_data_desc ,mes_data_type " + 
 		 		"FROM t_mes_data " + 
-		 		"WHERE	mes_id = #{mesId} AND is_delete ='0' ")
+		 		"WHERE	mes_id = #{mesId} AND is_delete ='0' "+
+		 		"ORDER BY (SUBSTRING_INDEX(mes_data_range, '~', 1) +0) ")
 	  List<Map<String, Object>> qryMesDataDetail(String mesId);
 	 
 	 /**

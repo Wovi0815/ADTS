@@ -4,12 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>CSRDA TES | Log in</title>
-  <!-- Tell the browser to be responsive to screen width -->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
   <!-- Font Awesome -->
   <link rel="stylesheet" th:href="@{/plugins/fontawesome-free/css/all.min.css}">
-
   <!-- icheck bootstrap -->
   <link rel="stylesheet" th:href="@{/plugins/icheck-bootstrap/icheck-bootstrap.min.css}">
   <!-- Theme style -->
@@ -18,10 +14,6 @@
   <script th:src="@{/plugins/jquery/jquery.min.js}"></script>
   <!-- Bootstrap 4 -->
   <script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
-  <!-- AdminLTE App -->
-  <script th:src="@{/dist/js/adminlte.min.js}"></script>
-  <script th:src="@{/plugins/jquery/jquery.js}" ></script>
-
   <script type="text/javascript">
 if(window!=top){
 	top.location.href=location.href;
@@ -38,7 +30,7 @@ if(window!=top){
     <div class="card-body login-card-body">
 		<div class="user-panel mt-3 pb-3 mb-3 d-flex">
 		  <div class="image" style="margin: auto;">
-		    <img style="width: 67.2px;height: 67.2px;" th:src="@{/dist/img/csic.png}" class="img-circle elevation-2" alt="User Image">
+		    <img style="width: 67.2px;height: 67.2px;" th:src="@{/dist/img/csic.png}" class="img-circle elevation-2" >
 		  </div>
 		</div>
 		<p id="error" class="login-box-msg"   th:text="${msg}" style="color: red"></p>

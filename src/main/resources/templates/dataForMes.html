@@ -201,12 +201,19 @@ function qryDataMes(){//查接口下属参数
 			}
 			
 			$("#example1").DataTable({
+				 "columnDefs": [
+	                    { "type": "num", "targets": [0] ,
+	                    	"orderable":false,"targets":[0,2,3,4,5] 
+	                    } 
+	                ],
+	              "order": [],
 			      "autoWidth": true,
 			      "paging": true,
 			      "lengthChange": true,
 			      "searching": false,
-			      "ordering": true,
 			      "info": true,
+			     "ordering":true ,
+
 			    });
 
 		},
@@ -455,6 +462,10 @@ toastr.options = {
 		  "showMethod": "fadeIn",
 		  "hideMethod": "fadeOut"
 		}
+		
+		
+		
+  
 	qryDataMes();
 	getUser();
 	
