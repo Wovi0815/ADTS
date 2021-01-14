@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.csrda.adts.dao.IndexDao;
+import com.csrda.adts.dao.UserDao;
 import com.csrda.adts.pojo.User;
 
 
@@ -18,8 +19,7 @@ public class IndexServiceImpl implements IndexService {
 
 	@Autowired
 	private IndexDao indexDao;
-	//@Autowired
-	//private PermissionService permissionService;
+
 
 
 
@@ -27,23 +27,10 @@ public class IndexServiceImpl implements IndexService {
 	 * 根据用户名查询对应的用户
 	 */
 	@Override
-	public  User getUser(String username) {
-		return indexDao.getUser(username);
+	public  User getUser(String userName) {
+		return indexDao.getUser(userName);
 	}
 
-	/**
-	 * 查询当前登录用户的权限等信息
-	 */
-//	@Override
-//	public List<Map<String,Object>> getInfo() {
-//		//从session获取用户信息
-//		Session session = SecurityUtils.getSubject().getSession();
-//		String username = (String) session.getAttribute("username");
-//		List<Map<String,Object>> userPermission = permissionService.getUserPermission(username);
-//		session.setAttribute("userPermission", userPermission);
-//		
-//		return userPermission;
-//	}
 
 	/**
 	 * 退出登录
@@ -56,6 +43,17 @@ public class IndexServiceImpl implements IndexService {
 		} catch (Exception e) {
 		}
 		return "success";
+	}
+
+	/**
+	 * 根据用户名查询角色及权限
+	 * @param userName
+	 * @return
+	 */
+	@Override
+	public List<Map<String, Object>> qryRoleAndPermsByUserName(User userName) {
+		
+		return null;
 	}
 
 	

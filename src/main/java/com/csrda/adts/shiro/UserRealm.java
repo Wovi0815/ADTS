@@ -1,4 +1,9 @@
 package com.csrda.adts.shiro;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -29,28 +34,31 @@ public class UserRealm extends AuthorizingRealm{
 	
 	//执行授权逻辑
 	@Override
-	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection arg0) {
+	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
 		System.out.println("执行授权逻辑");
 		//给资源进行授权
 				SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-				//info.addStringPermission("0");
-				
-				//到数据库查询当前登录用户的授权字符串
-				//获取当前登录用户
+				   
 				Subject subject = SecurityUtils.getSubject();
-				//User user = (User)subject.getPrincipal();//认证对象的传递
-				//User dbUser = userService.findByUserName(user.getUserName());
-				
-				//在此进行简化设计,未来需将角色、权限单独建表
-				//if("0".equals(dbUser.getRole())) {
-				//	System.out.println("0000,管理员");
-				//	info.addStringPermission("add");
-				//}else if("1".equals(dbUser.getRole())) {
-				//	System.out.println("1111,普通");
-				//	info.addStringPermission("update");
-				//}
-				
-				return null;
+			    //获取用户信息
+			    User userName = (User) subject.getPrincipal();
+		        //根据用户查询角色及其权限
+			    List<Map<String, Object>> permsList = indexService.qryRoleAndPermsByUserName(userName);
+			    
+			   
+		        //User user = us.querybyname(phone);
+		        //记录用户的所有角色和权限
+		     
+		       // for(Role r:user.getRoles()){
+		            //将所有的角色信息添加进来。
+		          //  simpleAuthorizationInfo.addRole(r.getRname());
+		         //   for(Permission p:r.getPermissions()){
+		                //将此次遍历到的角色的所有权限拿到，添加·进来
+		         //       simpleAuthorizationInfo.addStringPermission(p.getPname());
+		         //   }
+		     //   }
+		        return info;
+
 
 	}
 	//执行认证逻辑
@@ -58,12 +66,12 @@ public class UserRealm extends AuthorizingRealm{
 	
 	
 	@Override
-	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken arg0) throws AuthenticationException {
+	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
 		System.out.println("执行认证逻辑");
 		
 		//编写shiro判断逻辑，判断用户名和密码  
 				//1.判断用户名
-				UsernamePasswordToken token = (UsernamePasswordToken) arg0;
+				UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
 				String username = (String) token.getPrincipal();
 				User user=indexService.getUser(username);
 				if( user == null)

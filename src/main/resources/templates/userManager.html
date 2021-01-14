@@ -155,8 +155,8 @@
 				<li role="presentation"id="testerTab"><a id='tester'onclick='tabClick(this);'>测试者</a></li>
 				<li role="presentation"id="adminTab"><a id='administrator'onclick='tabClick(this);'>管理员</a></li>
 			</ul>
-            
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        
+			 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
@@ -595,6 +595,8 @@ function rePassword(e){
 		}
 	});		
 }
+
+
 function tabClick(e){
 	 $("#pillTab li").removeClass("active");
 	 var role=$(e).attr("id");

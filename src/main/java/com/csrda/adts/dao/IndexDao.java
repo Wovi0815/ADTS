@@ -16,5 +16,10 @@ public interface IndexDao {
 	@Select("SELECT id,username,password FROM t_user WHERE username = #{username}")
 	User getUser(@Param("username") String username);
 	
-
+	/**
+	 * 根据用户名查询对应的角色及权限
+	 */
+	@Select("")
+	
+	List<Map<String,Object>> qryRoleAndPermsByUserName(User userName);
 }

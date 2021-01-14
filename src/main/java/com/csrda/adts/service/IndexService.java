@@ -1,6 +1,9 @@
 package com.csrda.adts.service;
 
 
+import java.util.List;
+import java.util.Map;
+
 import com.csrda.adts.pojo.User;
 
 public interface IndexService {
@@ -11,17 +14,22 @@ public interface IndexService {
 	 *
 	 * @param username 用户名
 	 */
-	User getUser(String username);
+	User getUser(String userName);
 
-	/**
-	 * 查询当前登录用户的权限等信息
-	 */
-	//List<Map<String,Object>> getInfo();
 
 	/**
 	 * 退出登录
 	 */
 	String logout();
+
+	/**
+	 * 根据用户名查询角色及权限
+	 * @param userName
+	 * @return
+	 */
+	List<Map<String, Object>> qryRoleAndPermsByUserName(User userName);
+
+
 
 	
 	
