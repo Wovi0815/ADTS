@@ -33,6 +33,8 @@ public class UserController {
 	@ResponseBody
 	public List<Map<String, Object>> QryAllUser() {
 		List<Map<String, Object>> result = userService.qryAllUser();
+		
+		
 		for(int i=0;i<result.size();i++) {
 			String[]  r=  result.get(i).get("role_id").toString().split(",");
 			String role= "";
@@ -46,6 +48,7 @@ public class UserController {
 				result.get(i).put("role_name", role);
 			}	
 		}
+	
 		return result;
 	}	
 	//查询所有角色构建下拉框
@@ -84,6 +87,7 @@ public class UserController {
 			}
 			return result;
 		}
+		  
 		
 		//新增角色
 		@RequestMapping("/InsertUser")

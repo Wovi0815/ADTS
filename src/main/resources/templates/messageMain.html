@@ -914,13 +914,13 @@ function getUser(){
 		async:true,
 		success:function(result){
 			if(result=="sessionNull"){
-				toastr.options.onclick = function(){
-					window.parent.openInside.location.href="/tologin";	
-				}
-				toastr.options.timeOut=60000;
-				toastr.warning('连接断开!点击重新登录.');
+				window.parent.openInside.location.href="/tologin";			  
+			}else{
+				var userName =result;
+				 qryMessage();
+				 qryModSelect();
 			}
-			var userName =result;
+			
 		},
 		error:function(result){
 			toastr.warning('未知错误,请联系管理员!');
@@ -978,8 +978,7 @@ function getUser(){
 		 
 		 
 		 
-		 qryMessage();
-		 qryModSelect();
+		
 		 getUser();
 	})
 </script>
