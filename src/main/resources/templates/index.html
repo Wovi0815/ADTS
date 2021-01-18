@@ -2,7 +2,7 @@
 <html lang="en" xmlns="http://www.thymeleaf.org">
 <head>
 	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title>主页</title>
 	<!-- toastr -->
 	<link rel="stylesheet" th:href="@{/plugins/toastr/toastr.min.css}">
@@ -361,31 +361,30 @@
 		</div>
 	</div>
 	<!-- ./wrapper -->
-
 	<!-- jQuery -->
 	<script th:src="@{/plugins/jquery/jquery.min.js}"></script>
-	<!-- jQuery UI 1.11.4 -->
-	<script th:src="@{/plugins/jquery-ui/jquery-ui.min.js}"></script>
-	<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-	<script>
-		$.widget.bridge('uibutton', $.ui.button)
-	</script>
+	<!-- 多选start-->
+	<!-- popper -->
 	<script type="module"th:src="@{/plugins/popper/esm/popper.js}"></script>
 	<script type="module"th:src="@{/plugins/popper/popper.js}"></script>
 	<script th:src="@{/plugins/popper/umd/popper.js}"></script>
-	<script type="module"th:src="@{/plugins/bootstrap/js/bootstrap.min.js}"></script>
-	<!-- ChartJS -->
-	<script th:src="@{/plugins/chart.js/Chart.min.js}"></script>
-	<!-- Sparkline -->
-	<script th:src="@{/plugins/sparklines/sparkline.js}"></script>
-	<!-- jQuery Knob Chart -->
-	<script th:src="@{/plugins/jquery-knob/jquery.knob.min.js}"></script>
+	<!-- Bootstrap 4 适应popper-->
+	<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+	<!-- bootstrap-multiselect -->
+	<script  th:src="@{/plugins/bootstrap-multiselect/js/bootstrap-multiselect.js}"></script>
+	<!-- 多选end-->
+	<!-- DataTables -->
+	<script th:src="@{/plugins/datatables/jquery.dataTables.min.js}"></script>
+	<script th:src="@{/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js}"></script>
+	<script th:src="@{/plugins/datatables-responsive/js/dataTables.responsive.min.js}"></script>
 	<!-- overlayScrollbars -->
 	<script th:src="@{/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js}"></script>
 	<!-- AdminLTE App -->
 	<script th:src="@{/dist/js/adminlte.js}"></script>
 	<!-- toastr -->
-	<script th:src="@{/plugins/toastr/toastr.min.js}"></script>	
+	<script th:src="@{/plugins/toastr/toastr.min.js}"></script>
+	 
+	<!-- page script -->
 	<script>
 
 	

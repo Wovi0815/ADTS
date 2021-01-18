@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.thymeleaf.org">
 	<head>
+		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<!-- Font Awesome -->
 	 	<link rel="stylesheet" th:href="@{/plugins/fontawesome-free/css/all.min.css}"> 
 		<!-- Ionicons -->
 		<link rel="stylesheet" th:href="@{/dist/css/ionicons.css}">
-		<!-- Tempusdominus Bbootstrap 4 -->
-		<link rel="stylesheet" th:href="@{/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css}">
 		<!-- iCheck -->
 		<link rel="stylesheet" th:href="@{/plugins/icheck-bootstrap/icheck-bootstrap.min.css}">
 		<!-- DataTables -->
@@ -49,23 +47,19 @@
 	.multiselect-container{ /*下拉框的样式*/
            width:200px;
        }
-    .nav-pills>li>a {
-    position: relative;
-    display: block;
-    padding: 5px 8px;
-    border-radius: 4px;
-}
-	.nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover {
-    color: #fff;
-    background-color: #337ab7;
-    
-	}
+	 
 	
 	</style>
+	
+	
+	
+	
+	
 	</head>
 	<body>
 	
 	
+  
 	
       <!-- 新增页面模态框 -->
 	<div class="modal fade" id="modal-add">
@@ -149,47 +143,36 @@
 	<div class="modal fade" id="modal-role">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
-            <div class="modal-header" >
-            <ul class="nav nav-pills" id="pillTab">
-				<li role="presentation" class="active"id="coderTab" ><a id='coder' onclick='tabClick(this);'>开发者</a></li>
-				<li role="presentation"id="testerTab"><a id='tester'onclick='tabClick(this);'>测试者</a></li>
-				<li role="presentation"id="adminTab"><a id='administrator'onclick='tabClick(this);'>管理员</a></li>
-			</ul>
-        
-			 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              	<!-- 模态框内容 -->
-					<div class="form-check form-check-inline">
-						<label class="form-check-label"> <input type="checkbox"
-							class="form-check-input" value="">数据增加
-						</label>
-					</div>
-					<div class="form-check form-check-inline">
-						<label class="form-check-label"> <input type="checkbox"
-							class="form-check-input" value="">数据修改
-						</label>
-					</div>
-					<div class="form-check form-check-inline">
-						<label class="form-check-label"> <input type="checkbox"
-							class="form-check-input" value="">数据删除
-						</label>
-					</div>
-					<div class="form-check form-check-inline disabled">
-						<label class="form-check-label"> <input type="checkbox"
-							class="form-check-input" value="" onclick="return false;" checked="checked">数据查阅
-						</label>
-					</div>
-					<div class="form-check form-check-inline">
-						<label class="form-check-label"> <input type="checkbox"
-							class="form-check-input" value="">文档输出
-						</label>
-					</div>
+				<div class="modal-header">
+					<ul id="pillTab" class="nav nav-pills ml-auto p-2">
+						<li class="nav-item" id="coderTab"><a id='coder'
+							class="nav-link active" href="#coder" data-toggle="pill">开发者
+						</a></li>
+						<li class="nav-item" id="testerTab"><a id='tester'
+							class="nav-link " href="#tester" data-toggle="pill">测试者 </a></li>
+						<li class="nav-item" id="adminTab"><a id='administrator'
+							class="nav-link " href="#administrator" data-toggle="pill">管理员
+						</a></li>
+					</ul>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body"><!-- 模态框内容 -->
 
+					<div id="myTabContent" class="tab-content">
+						<div class="tab-pane  active" id="coderTabContent">
+						</div>
+						<div class="tab-pane " id="tester">
+							
+						</div>
+						<div class="tab-pane " id="administrator">
+							
 
+						</div>
 
+					</div>
 				</div>
 			<div class="modal-footer justify-content-between" >
 			   <button id='closeEditModal' type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
@@ -228,37 +211,22 @@
 				</tbody>
 			</table>
 		</div>
-	<script th:src="@{/plugins/jquery/jquery.js}" ></script>
-	<script type="module"th:src="@{/plugins/bootstrap/js/bootstrap.min.js}"></script>
+	<!-- jQuery -->
+	<script th:src="@{/plugins/jquery/jquery.min.js}"></script>
+	<!-- 多选start-->
+	<!-- popper -->
 	<script type="module"th:src="@{/plugins/popper/esm/popper.js}"></script>
 	<script type="module"th:src="@{/plugins/popper/popper.js}"></script>
 	<script th:src="@{/plugins/popper/umd/popper.js}"></script>
-	
-	
-	<!-- jQuery -->
-	<script th:src="@{/plugins/jquery/jquery.min.js}"></script>
-	<!-- jQuery UI 1.11.4 -->
-	<script th:src="@{/plugins/jquery-ui/jquery-ui.min.js}"></script>
-	<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-	 <script>
-	  $.widget.bridge('uibutton', $.ui.button)
-	</script> 
-	<!-- Bootstrap 4 -->
-	<script th:src="@{/plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js}"></script>
-	<script th:src="@{/plugins/bootstrap-switch/js/bootstrap-switch.min.js}"></script>
+	<!-- Bootstrap 4 适应popper-->
 	<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+	<!-- bootstrap-multiselect -->
+	<script  th:src="@{/plugins/bootstrap-multiselect/js/bootstrap-multiselect.js}"></script>
+	<!-- 多选end-->
 	<!-- DataTables -->
 	<script th:src="@{/plugins/datatables/jquery.dataTables.min.js}"></script>
 	<script th:src="@{/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js}"></script>
 	<script th:src="@{/plugins/datatables-responsive/js/dataTables.responsive.min.js}"></script>
-	<script th:src="@{/plugins/datatables-responsive/js/responsive.bootstrap4.min.js}"></script>
-
-	<!-- Sparkline -->
-	<script th:src="@{/plugins/chart.js/Chart.min.js}"></script><script th:src="@{/plugins/sparklines/sparkline.js}"></script>
-	<!-- bootstrap-multiselect -->
-	<script  th:src="@{/plugins/bootstrap-multiselect/js/bootstrap-multiselect.js}"></script>
-	<!-- jQuery Knob Chart -->
-	<script th:src="@{/plugins/jquery-knob/jquery.knob.min.js}"></script>
 	<!-- overlayScrollbars -->
 	<script th:src="@{/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js}"></script>
 	<!-- AdminLTE App -->
@@ -597,24 +565,6 @@ function rePassword(e){
 }
 
 
-function tabClick(e){
-	 $("#pillTab li").removeClass("active");
-	 var role=$(e).attr("id");
-	 if(role=="coder"){
-		 $("#coderTab").addClass("active");
-	 }else if(role=="tester"){
-		 $("#testerTab").addClass("active");
-	 }else if(role=="administrator"){
-		 $("#adminTab").addClass("active");
-	 }
-	
-	
-	
-	
-	
-	
-}
-
 function getUser(){
 	$.ajax({
 		url:"/getUser",
@@ -670,12 +620,30 @@ function getUser(){
 	}); 
 		
 		 $('.dropdown-toggle').dropdown();
-		 
+		  
 		 
 		 getUser();
-		
+		 
+	
 		
 	})
 </script>
+  <script type="text/javascript">
+	
+    $(function () {
+    	var $tr=$("<tr></tr>");
+    	var $td=$("<td></td>");
+    	//var $label=$("<label class=\"form-check-label\"></label>")
+    	//var $input =$("<input type=\"checkbox\" class=\"form-check-input\" >gg</input>");
+    	//$input.appendTo($label);
+    	//$label.appendTo($td);
+    	
+    	var $a =$("<input type=\"checkbox\" class=\"form-check-input\" >gg</input>");
+    	$a.appendTo($td);
+    	$td.appendTo($tr)
+    	$tr.appendTo($("#coderTabContent"))
+    });     
+	
+	</script>
 </body>
 </html>
